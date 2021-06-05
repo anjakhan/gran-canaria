@@ -1,0 +1,74 @@
+<!Doctype html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Fuerteventura</title>
+
+  <link rel="icon" href="./assets/favicon.ico" />
+  <link rel="apple-touch-icon" href="./assets/logo192.png" />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <script src="https://www.gstatic.com/firebasejs/8.6.2/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.2/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.2/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.2/firebase-storage.js"></script>
+  <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.7.1/firebase-ui-auth.css" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body style="margin: 0; padding: 0; box-sizing: border-box;overflow: auto;">
+
+  <div id="userAccount" style="display: none;">
+  </div>
+
+  <div id="loginPage" style="display: none;">
+    <div id="loginContainer">
+      <div class="login">
+        <h1>Fuerteventura</h1>
+        <span class="text">Einloggen & Fotos genießen</span>
+
+        <div id="errorContainer" style="display: none;">
+          <p id="errorWrapper"></p>
+        </div>
+
+        <div id="signinContainer">
+          <input type="email" id="emailCtrl" placeholder="email address">
+          <div class="password">
+            <input type="password" id="passwordCtrl" placeholder="password">
+            <i class="fa fa-eye-slash" id="eye"></i>
+          </div>
+          <button id="createAccountCtrl">Einloggen</button>
+        </div>
+
+        <div style="display: flex; flex-direction:row; align-items: center;">
+          <div style="border-bottom: 1px solid #ccc; min-width: 78px;"></div>
+          <span class="text" style="margin: 19px 15px;width: 100%;">oder</span>
+          <div style="border-bottom: 1px solid #ccc; min-width: 78px;"></div>
+        </div>
+
+        <div id="googleContainer" style="margin-bottom: 20px;">
+          <button id="google-signin">
+            Einloggen mit Google
+          </button>
+        </div>
+      </div>
+
+      <div class="welcome" style="border-bottom-right-radius: 4px; border-top-right-radius: 4px;">
+        <h1 style="font-size: 32px;">Der Strand der Kanaren</h1>
+        <img src="../assets/island_scene.svg" alt="island" style="height: 300px;">
+        <!-- <lottie-player src="../assets/island_welcome.json" background="transparent" speed="1"
+          style="width: 370px; height: 370px;" loop autoplay></lottie-player> -->
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="adminIndex.js"></script>
+
+</body>
+
+</html>

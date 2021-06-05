@@ -1,0 +1,153 @@
+:root {
+  --fuerte-background-color: #43ACF0;
+  --fuerte-blue: #82B8E0;
+  --fuerte-aqua: #00D3E0;
+  --fuerte-brown: #FFD370;
+  --fuerte-light: #fff3d6;
+  --fuerte-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Ubuntu, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+#loginPage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-color: #fff3d6;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  padding-bottom: 100px;
+}
+
+@media screen and (max-width: 950px) {
+  #loginPage {
+    padding: 20px;
+    justify-content: flex-start;
+  }
+}
+
+#loginContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  background-color: white;
+  border-radius: 4px;
+  box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 20%), 0 1px 5px 0 rgb(0 0 0 / 12%);
+}
+
+.welcome {
+  font-family: Ubuntu, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-size: 22px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 30px 60px;
+  background-color: #43A8FE;
+  color: white;
+  height: 100%;
+}
+
+@media (max-width: 950px) {
+  .welcome {
+    display: none;
+  }
+}
+
+.login {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 30px 50px;
+}
+
+.text {
+  color: #555;
+  font-family: Ubuntu, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+#errorContainer {
+  margin-top: 10px;
+}
+
+#errorWrapper {
+  font-family: Ubuntu, 'Open Sans', 'Helvetica Neue', sans-serif;
+  color: #d20064;
+  font-size: 10px;
+  font-weight: bold;
+  margin: 0;
+  text-align: center;
+}
+
+#signinContainer {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}
+
+input {
+  color: #555;
+  width: 220px;
+  height: 40px;
+  padding: 8px 16px;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  margin-bottom: 10px;
+}
+
+.password {
+  position: relative;
+}
+
+#passwordCtrl {
+  padding-right: 35px;
+}
+
+.fa {
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  color: #777;
+  cursor: pointer;
+}
+
+button {
+  width: 220px;
+  height: 40px;
+  padding: 8px 16px;
+  border: none;
+  outline: none;
+  border-radius: 2px;
+  font-family: Ubuntu, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-weight: 500;
+  color: white;
+  background-color: #555;
+  box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 20%), 0 1px 5px 0 rgb(0 0 0 / 12%);
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #444;
+}
+
+#google-signin {
+  background-color: #43A8FE;
+  color: white;
+}
+
+#google-signin:hover {
+  background-color: #39a1fc;
+}

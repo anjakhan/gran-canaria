@@ -1,0 +1,34 @@
+{
+  "compileOnSave": true,
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "module": "ES6",
+    "target": "ES6",
+    "jsx": "preserve",
+    "strictNullChecks": true,
+    "skipLibCheck": true,
+    "strictPropertyInitialization": false,
+    "allowSyntheticDefaultImports": true,
+    "declaration": false,
+    "strictFunctionTypes": true,
+    "sourceMap": true,
+    "removeComments": true,
+    "alwaysStrict": true,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "forceConsistentCasingInFileNames": true,
+    "noUnusedLocals": true,
+    "moduleResolution": "Node"
+  },
+  "plugins": [
+    {
+      "name": "ts-lit-plugin",
+      "strict": true
+    }
+  ],
+  "exclude": [
+    "node_modules",
+    "**/node_modules/*"
+  ]
+}

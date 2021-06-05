@@ -1,0 +1,11 @@
+{
+  "dependencies": {
+    "date-fns": "^2.21.2",
+    "lit": "^2.0.0-rc.1",
+    "lit-element-router": "^2.0.3"
+  },
+  "devDependencies": {
+    "@web/dev-server": "^0.1.17",
+    "ts-lit-plugin": "^1.2.1"
+  }
+}

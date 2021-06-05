@@ -1,0 +1,365 @@
+<!Doctype html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Printess</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-auth.js"></script>
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+  <!-- <script src="https://www.gstatic.com/firebasejs/ui/4.7.1/firebase-ui-auth.js"></script>
+  <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.7.1/firebase-ui-auth.css" /> -->
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      background-color: rgba(208, 4, 155, 0.04);
+      height: 100%;
+      padding-bottom: 100px;
+      overflow: auto;
+    }
+
+    @media screen and (max-width: 950px) {
+      body {
+        padding: 20px;
+        justify-content: flex-start;
+      }
+    }
+
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: row;
+      background-color: white;
+      border-radius: 4px;
+      box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 20%), 0 1px 5px 0 rgb(0 0 0 / 12%);
+      min-height: 640px;
+    }
+
+    .welcome {
+      font-family: Ubuntu, 'Open Sans', 'Helvetica Neue', sans-serif;
+      font-size: 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      align-content: flex-end;
+      padding: 30px 50px;
+      background-color: #e35fbc;
+      color: white;
+      height: 100%;
+      min-width: 636px;
+      border-bottom-right-radius: 4px;
+      border-top-right-radius: 4px;
+    }
+
+    @media (max-width: 950px) {
+      .welcome {
+        display: none;
+      }
+    }
+
+    .register {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 30px 50px;
+    }
+
+    .text {
+      color: #555;
+      font-family: Ubuntu, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
+
+    #errorContainer {
+      margin-top: 10px;
+    }
+
+    #errorWrapper {
+      font-family: Ubuntu, 'Open Sans', 'Helvetica Neue', sans-serif;
+      color: #d20064;
+      font-size: 10px;
+      font-weight: bold;
+      margin: 0;
+      text-align: center;
+    }
+
+    #createContainer {
+      display: flex;
+      flex-direction: column;
+      margin-top: 20px;
+    }
+
+    input {
+      color: #555;
+      width: 220px;
+      height: 40px;
+      padding: 8px 16px;
+      border: 1px solid #ccc;
+      border-radius: 2px;
+      margin-bottom: 10px;
+    }
+
+    textarea {
+      font-family: Ubuntu, 'Open Sans', 'Helvetica Neue', sans-serif;
+      color: #555;
+      min-width: 220px;
+      max-width: 220px;
+      min-height: 118px;
+      max-height: 118px;
+      padding: 8px 16px;
+      border: 1px solid #ccc;
+      border-radius: 2px;
+      margin-bottom: 10px;
+    }
+
+    .password {
+      position: relative;
+    }
+
+    #passwordCtrl {
+      padding-right: 35px;
+    }
+
+    .fa {
+      position: absolute;
+      top: 12px;
+      right: 15px;
+      color: #777;
+      cursor: pointer;
+    }
+
+    button {
+      width: 220px;
+      height: 40px;
+      padding: 8px 16px;
+      border: none;
+      outline: none;
+      border-radius: 2px;
+      font-family: Ubuntu, 'Open Sans', 'Helvetica Neue', sans-serif;
+      font-weight: 500;
+      color: white;
+      background-color: #555;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #444;
+    }
+
+    #loginContainer {
+      display: flex;
+      flex-direction: column;
+    }
+
+    #google-signin {
+      background-color: #e35fbc;
+      color: white;
+      margin-bottom: 10px;
+    }
+
+    #google-signin:hover {
+      background-color: #e447b6;
+    }
+
+    #request-demo {
+      background-color: white;
+      border: 1px solid #555;
+      color: #555;
+    }
+
+    #request-demo:hover {
+      background-color: #555;
+      color: white;
+    }
+
+    .fade {
+      -webkit-animation-name: fade;
+      -webkit-animation-duration: 1.5s;
+      animation-name: fade;
+      animation-duration: 1.5s;
+    }
+
+    @-webkit-keyframes fade {
+      from {
+        opacity: .4
+      }
+
+      to {
+        opacity: 1
+      }
+    }
+
+    @keyframes fade {
+      from {
+        opacity: .4
+      }
+
+      to {
+        opacity: 1
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Sign up Container -->
+  <div class="container" id="signupContainer">
+    <div class="register">
+      <img src="https://printess.com/images/Printess_2.svg" height="70" alt="printess">
+
+      <span class="text" style="margin-top: 30px;">Sign up for free</span>
+      <span class="text" style="font-size: 10px; margin-top: 10px; margin-bottom: 10px;">
+        Already have an account? Sign in <a href="https://editor.printess.com/">here.</a>
+      </span>
+
+      <div id="errorContainer" style="display: none;">
+        <p id="errorWrapper"></p>
+      </div>
+
+      <div id="createContainer">
+        <input type="text" id="nameCtrl" placeholder="username">
+        <input type="email" id="emailCtrl" placeholder="email address">
+        <div class="password">
+          <input type="password" id="passwordCtrl" placeholder="password">
+          <i class="fa fa-eye-slash" id="eye"></i>
+        </div>
+        <button id="createAccountCtrl">Create Account</button>
+      </div>
+
+      <div style="display: flex; flex-direction:row; align-items: center;">
+        <div style="border-bottom: 1px solid #ccc; min-width: 88px;"></div>
+        <span class="text" style="margin: 19px 15px;width: 100%;">or</span>
+        <div style="border-bottom: 1px solid #ccc; min-width: 88px;"></div>
+      </div>
+
+      <div id="loginContainer">
+        <button id="google-signin">
+          Sign up with Google
+        </button>
+        <button id="request-demo">
+          Request Printess Demo &nbsp; <i class="fas fa-chevron-right"></i><i class="fas fa-chevron-right"></i>
+        </button>
+        <!-- <div id="firebaseui-auth-container"></div> -->
+      </div>
+      <span class="text" style="font-size: 10px; margin-top: 30px; margin-bottom: 10px; text-align: center;">
+        By continuing, you are indicating that you <br>accept our
+        <a href="https://printess.com/legal/EN_Printess_AGB_20210401.html">Terms of Use</a> and
+        <a href="https://printess.com/legal/EN_PrivacyPolicy_20210401.html">Privacy Policy</a>.
+      </span>
+    </div>
+
+    <div class="welcome">
+      <h1 style="margin-bottom: 55px; font-weight: 500;">Personalize Your Products</h1>
+
+      <div class="slideshow-container">
+
+        <div class="mySlides fade">
+          <div style="height: 370px">
+            <lottie-player src="signUp.json" background="transparent" speed="1" style="width: 370px; height: 370px;"
+              loop autoplay></lottie-player>
+          </div>
+          <div style="min-height: 71px;"></div>
+        </div>
+
+        <div class="mySlides fade">
+          <img src="./assets/TextWarps.png" style="height: 370px">
+          <p style="text-align: center;">Stunning Customizable Product Templates</p>
+        </div>
+
+        <div class="mySlides fade">
+          <img src="./assets/PhotorealMesh.png" style="height: 370px">
+          <p style="text-align: center;">Photorealistic Product Previews</p>
+        </div>
+
+        <div class="mySlides fade">
+          <img src="./assets/Mask2-p-500.png" style="height: 370px">
+          <p style="text-align: center;">Graphical, Configurable Snippets</p>
+        </div>
+
+        <div class="mySlides fade">
+          <img src="./assets/Mug.png" style="height: 370px">
+          <p style="text-align: center;">Output Files for every Production Process</p>
+        </div>
+
+        <div class="mySlides fade">
+          <img src="./assets/Glitter.png" style="height: 370px; width: 530px;">
+          <p style="text-align: center;">Automations For Each Step in Your Workflow</p>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- Demo Container -->
+  <div class="container" id="demoContainer" style="display: none;">
+    <div class="register">
+      <img src="https://printess.com/images/Printess_2.svg" height="70" alt="printess">
+
+      <span class="text" style="margin-top: 30px;">Request Demo</span>
+
+      <div id="errorContainer" style="display: none;">
+        <p id="errorWrapper"></p>
+      </div>
+
+      <div id="createContainer">
+        <input type="text" id="demoCompanyCtrl" placeholder="company">
+        <input type="text" id="demoNameCtrl" placeholder="name">
+        <input type="email" id="demoEmailCtrl" placeholder="email address">
+        <input type="text" id="demoPhoneCtrl" placeholder="phone number">
+
+        <textarea placeholder="message"></textarea>
+
+        <button id="send-request">Send Demo Request</button>
+      </div>
+      <span class="text" style="font-size: 10px; margin-top: 30px; margin-bottom: 10px; text-align: center;">
+        By continuing, you are indicating that you <br>accept our
+        <a href="https://printess.com/legal/EN_Printess_AGB_20210401.html">Terms of Use</a> and
+        <a href="https://printess.com/legal/EN_PrivacyPolicy_20210401.html">Privacy Policy</a>.
+      </span>
+    </div>
+
+    <div class="welcome">
+      <h1 style="margin-bottom: 55px; font-weight: 500;">Welcome to our Editor</h1>
+      <div style="min-height: 441px;"><img src="https://printess.com/images/FrogT-shirt.png" alt="welcome"></div>
+    </div>
+
+  </div>
+
+  <!-- <div id="errorContainer">
+  </div> -->
+
+  <script type="module" src="createUser.js"></script>
+  <script>
+    var slideIndex = 0;
+    showSlides();
+
+    function showSlides() {
+      var i;
+      var slides = document.getElementsByClassName("mySlides");
+      for (i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+      }
+      slideIndex++;
+      if (slideIndex > slides.length) { slideIndex = 1 }
+
+      slides[slideIndex - 1].style.display = "block";
+      setTimeout(showSlides, 5000); // Change image every 2 seconds
+    }
+  </script>
+
+</body>
+
+</html>

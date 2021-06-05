@@ -82,7 +82,7 @@ export const navbarStyles = css `
     right: 0px;
     bottom: 0px;
     left: 0px;
-    background-image: url("assets/fuerteventura_1.jpeg");
+    background-image: url("https://firebasestorage.googleapis.com/v0/b/fuerteventura-d4e75.appspot.com/o/fuerteventura_551.jpeg?alt=media&token=5660bdc4-9f90-4a28-9898-f2865ef4ac60");
     opacity: 0.2;
     background-repeat: no-repeat;
     background-size: cover;

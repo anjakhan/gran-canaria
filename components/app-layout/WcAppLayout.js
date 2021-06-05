@@ -17,7 +17,7 @@ import { WcTraveldetailsPage } from "../../pages/traveldetails-page/WcTraveldeta
 let WcAppLayout = class WcAppLayout extends LitElement {
     constructor() {
         super(...arguments);
-        this.selectedDrawer = 'trip-details';
+        this.selectedDrawer = 'foto-preview';
     }
     static get styles() {
         return [layoutStyles, navbarStyles];

@@ -14,7 +14,7 @@ import { WcTraveldetailsPage } from "../../pages/traveldetails-page/WcTraveldeta
 
 @customElement("wc-app-layout")
 export class WcAppLayout extends LitElement {
-    @property({ type: String }) selectedDrawer: string = 'trip-details';
+    @property({ type: String }) selectedDrawer: string = 'foto-preview';
 
     static get styles() {
         return [layoutStyles, navbarStyles];

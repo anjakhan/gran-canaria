@@ -1,4 +1,5 @@
 import { css } from 'lit';
+import { config } from '../../config';
 export const fotoPreviewStyles = css `
   .welcome-page {
     display: flex;
@@ -30,6 +31,12 @@ export const fotoPreviewStyles = css `
     width: 640px;
     padding-bottom: 20px;
     background-color: #fff7e6;
+  }
+
+  img {
+    height: 415px;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
   }
 
   .calendar-month {
@@ -113,6 +120,65 @@ export const fotoPreviewStyles = css `
     align-items: center;
     justify-content: center;
     cursor: pointer;
+  }
+
+  @media (max-width: ${config.mobileDeviceWidth}px) {
+    .foto-calendar {
+      width: 100%;
+    }
+
+    img {
+      width: 100%;
+      height: auto;
+    }
+
+    .calendar-day {
+      font-size: 3vmin;
+    }
+
+    .calendar-month {
+      font-size: 4vmin;
+      padding: 20px 10% 10px;
+    }
+
+    .calendar-month wc-icon {
+      height: 5vmin;
+    }
+
+    .table-header {
+      display: grid;
+      grid-template-columns: repeat(7, 13%);
+      grid-template-rows: repeat(1, 7vmin);
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    .calendar-day {
+      padding: 0px;
+      align-self: center;
+    }
+  
+    .month {
+      display: grid;
+      grid-template-columns: repeat(7, 13%);
+      grid-template-rows: repeat(5, 7vmin);
+      justify-content: center;
+      align-items: center;
+      align-content: center;
+    }
+
+    .date-box {
+      width: 100%;
+      font-size: 3vmin;
+      height: 7vmin;
+    }
+
+    .date-text {
+      padding: 0.5vmin;
+      line-height: 7vmin;
+      min-width: 7vmin;
+    }
   }
 
   .hidden {

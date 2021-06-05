@@ -2117,6 +2117,12 @@ const fotoPreviewStyles = r$1 `
     background-color: #fff7e6;
   }
 
+  img {
+    height: 415px;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+  }
+
   .calendar-month {
     display: flex;
     flex-direction: row;
@@ -2198,6 +2204,65 @@ const fotoPreviewStyles = r$1 `
     align-items: center;
     justify-content: center;
     cursor: pointer;
+  }
+
+  @media (max-width: ${config.mobileDeviceWidth}px) {
+    .foto-calendar {
+      width: 100%;
+    }
+
+    img {
+      width: 100%;
+      height: auto;
+    }
+
+    .calendar-day {
+      font-size: 3vmin;
+    }
+
+    .calendar-month {
+      font-size: 4vmin;
+      padding: 20px 10% 10px;
+    }
+
+    .calendar-month wc-icon {
+      height: 5vmin;
+    }
+
+    .table-header {
+      display: grid;
+      grid-template-columns: repeat(7, 13%);
+      grid-template-rows: repeat(1, 7vmin);
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    .calendar-day {
+      padding: 0px;
+      align-self: center;
+    }
+  
+    .month {
+      display: grid;
+      grid-template-columns: repeat(7, 13%);
+      grid-template-rows: repeat(5, 7vmin);
+      justify-content: center;
+      align-items: center;
+      align-content: center;
+    }
+
+    .date-box {
+      width: 100%;
+      font-size: 3vmin;
+      height: 7vmin;
+    }
+
+    .date-text {
+      padding: 0.5vmin;
+      line-height: 7vmin;
+      min-width: 7vmin;
+    }
   }
 
   .hidden {
@@ -2311,7 +2376,7 @@ let WcFotoPreview = class WcFotoPreview extends h {
           </div>
         </div>
         <div class="foto-calendar ${this.showStory ? 'hidden' : ''}">
-          <img src=${this.month === 'Juni' ? "https://firebasestorage.googleapis.com/v0/b/fuerteventura-d4e75.appspot.com/o/fuerteventura_551.jpeg?alt=media&token=5660bdc4-9f90-4a28-9898-f2865ef4ac60" : "https://firebasestorage.googleapis.com/v0/b/fuerteventura-d4e75.appspot.com/o/fuerteventura-3-playa-cofete.jpeg?alt=media&token=ee0a5768-73b6-4b92-9a79-cb2ccd7a9a5f"} alt="fuerte" style="height: 415px; border-top-right-radius: 10px; border-top-left-radius: 10px;">
+          <img src=${this.month === 'Juni' ? "https://firebasestorage.googleapis.com/v0/b/fuerteventura-d4e75.appspot.com/o/fuerteventura_551.jpeg?alt=media&token=5660bdc4-9f90-4a28-9898-f2865ef4ac60" : "https://firebasestorage.googleapis.com/v0/b/fuerteventura-d4e75.appspot.com/o/fuerteventura-3-playa-cofete.jpeg?alt=media&token=ee0a5768-73b6-4b92-9a79-cb2ccd7a9a5f"} alt="fuerte">
           <div class="calendar-month">
             <wc-icon primaryColor=${this.month === 'Juli' ? "warning" : "ocher"} icon="angle-left" style=${this.month === 'Juli' && 'cursor: pointer'} @click=${() => this.month = 'Juni'}></wc-icon>
             ${this.month} 2021

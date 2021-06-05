@@ -253,7 +253,7 @@ svg.color-head-toolbar:hover {
     right: 0px;
     bottom: 0px;
     left: 0px;
-    background-image: url("assets/fuerteventura_1.jpeg");
+    background-image: url("https://firebasestorage.googleapis.com/v0/b/fuerteventura-d4e75.appspot.com/o/fuerteventura_551.jpeg?alt=media&token=5660bdc4-9f90-4a28-9898-f2865ef4ac60");
     opacity: 0.2;
     background-repeat: no-repeat;
     background-size: cover;
@@ -706,7 +706,7 @@ svg.color-head-toolbar:hover {
           </div>
         </div>
         <div class="foto-calendar ${this.showStory?"hidden":""}">
-          <img src=${"Juni"===this.month?"assets/fuerteventura_1.jpeg":"assets/fuerteventura_2.jpeg"} alt="fuerte" style="height: 415px; border-top-right-radius: 10px; border-top-left-radius: 10px;">
+          <img src=${"Juni"===this.month?"https://firebasestorage.googleapis.com/v0/b/fuerteventura-d4e75.appspot.com/o/fuerteventura_551.jpeg?alt=media&token=5660bdc4-9f90-4a28-9898-f2865ef4ac60":"https://firebasestorage.googleapis.com/v0/b/fuerteventura-d4e75.appspot.com/o/fuerteventura-3-playa-cofete.jpeg?alt=media&token=ee0a5768-73b6-4b92-9a79-cb2ccd7a9a5f"} alt="fuerte" style="height: 415px; border-top-right-radius: 10px; border-top-left-radius: 10px;">
           <div class="calendar-month">
             <wc-icon primaryColor=${"Juli"===this.month?"warning":"ocher"} icon="angle-left" style=${"Juli"===this.month&&"cursor: pointer"} @click=${()=>this.month="Juni"}></wc-icon>
             ${this.month} 2021
@@ -805,7 +805,7 @@ svg.color-head-toolbar:hover {
           <p class="flex"><wc-icon primaryColor="gray" icon="clock-light"></wc-icon>11:30 (12:30 DE) - 17:15</p>
         </div>
         <div class="apartment">
-          <img src="assets/CallePuntaPesebre.png" alt="apartment">
+          <img src="https://firebasestorage.googleapis.com/v0/b/fuerteventura-d4e75.appspot.com/o/CallePuntaPesebre.png?alt=media&token=12872362-5c82-436d-af72-d83ec671ae74" alt="apartment">
           <div class="apartment-info">
             <h3 class="flex">Casa Luciano</h3>
             <p class="flex">Calle Punta Pesebre, 8, Jardin del Sol</p>
@@ -814,7 +814,7 @@ svg.color-head-toolbar:hover {
           </div>
         </div>
       </div>
-    `}};WcTraveldetailsPage=__decorate$1([n$1("wc-traveldetails-page")],WcTraveldetailsPage);var __decorate=function(t,e,r,s){var o,a=arguments.length,i=a<3?e:null===s?s=Object.getOwnPropertyDescriptor(e,r):s;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)i=Reflect.decorate(t,e,r,s);else for(var n=t.length-1;n>=0;n--)(o=t[n])&&(i=(a<3?o(i):a>3?o(e,r,i):o(e,r))||i);return a>3&&i&&Object.defineProperty(e,r,i),i};let WcAppLayout=class extends h{constructor(){super(...arguments),this.selectedDrawer="trip-details"}static get styles(){return[layoutStyles,navbarStyles]}render(){return T`
+    `}};WcTraveldetailsPage=__decorate$1([n$1("wc-traveldetails-page")],WcTraveldetailsPage);var __decorate=function(t,e,r,s){var o,a=arguments.length,i=a<3?e:null===s?s=Object.getOwnPropertyDescriptor(e,r):s;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)i=Reflect.decorate(t,e,r,s);else for(var n=t.length-1;n>=0;n--)(o=t[n])&&(i=(a<3?o(i):a>3?o(e,r,i):o(e,r))||i);return a>3&&i&&Object.defineProperty(e,r,i),i};let WcAppLayout=class extends h{constructor(){super(...arguments),this.selectedDrawer="foto-preview"}static get styles(){return[layoutStyles,navbarStyles]}render(){return T`
         <div class="account-layout">
             <header>
                 <wc-icon primaryColor="island" icon="island" class="island"></wc-icon><h3>Fuerteventura</h3><div style="min-width: 60px;"></div>

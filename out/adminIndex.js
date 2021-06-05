@@ -1189,7 +1189,7 @@ const navbarStyles = r$1 `
     right: 0px;
     bottom: 0px;
     left: 0px;
-    background-image: url("assets/fuerteventura_1.jpeg");
+    background-image: url("https://firebasestorage.googleapis.com/v0/b/fuerteventura-d4e75.appspot.com/o/fuerteventura_551.jpeg?alt=media&token=5660bdc4-9f90-4a28-9898-f2865ef4ac60");
     opacity: 0.2;
     background-repeat: no-repeat;
     background-size: cover;
@@ -2311,7 +2311,7 @@ let WcFotoPreview = class WcFotoPreview extends h {
           </div>
         </div>
         <div class="foto-calendar ${this.showStory ? 'hidden' : ''}">
-          <img src=${this.month === 'Juni' ? "assets/fuerteventura_1.jpeg" : "assets/fuerteventura_2.jpeg"} alt="fuerte" style="height: 415px; border-top-right-radius: 10px; border-top-left-radius: 10px;">
+          <img src=${this.month === 'Juni' ? "https://firebasestorage.googleapis.com/v0/b/fuerteventura-d4e75.appspot.com/o/fuerteventura_551.jpeg?alt=media&token=5660bdc4-9f90-4a28-9898-f2865ef4ac60" : "https://firebasestorage.googleapis.com/v0/b/fuerteventura-d4e75.appspot.com/o/fuerteventura-3-playa-cofete.jpeg?alt=media&token=ee0a5768-73b6-4b92-9a79-cb2ccd7a9a5f"} alt="fuerte" style="height: 415px; border-top-right-radius: 10px; border-top-left-radius: 10px;">
           <div class="calendar-month">
             <wc-icon primaryColor=${this.month === 'Juli' ? "warning" : "ocher"} icon="angle-left" style=${this.month === 'Juli' && 'cursor: pointer'} @click=${() => this.month = 'Juni'}></wc-icon>
             ${this.month} 2021
@@ -2447,7 +2447,7 @@ let WcTraveldetailsPage = class WcTraveldetailsPage extends h {
           <p class="flex"><wc-icon primaryColor="gray" icon="clock-light"></wc-icon>11:30 (12:30 DE) - 17:15</p>
         </div>
         <div class="apartment">
-          <img src="assets/CallePuntaPesebre.png" alt="apartment">
+          <img src="https://firebasestorage.googleapis.com/v0/b/fuerteventura-d4e75.appspot.com/o/CallePuntaPesebre.png?alt=media&token=12872362-5c82-436d-af72-d83ec671ae74" alt="apartment">
           <div class="apartment-info">
             <h3 class="flex">Casa Luciano</h3>
             <p class="flex">Calle Punta Pesebre, 8, Jardin del Sol</p>
@@ -2473,7 +2473,7 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 let WcAppLayout = class WcAppLayout extends h {
     constructor() {
         super(...arguments);
-        this.selectedDrawer = 'trip-details';
+        this.selectedDrawer = 'foto-preview';
     }
     static get styles() {
         return [layoutStyles, navbarStyles];

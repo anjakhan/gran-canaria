@@ -1,4 +1,4 @@
-var __awaiter$6 = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+var __awaiter$3 = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -9,8 +9,12 @@ var __awaiter$6 = (undefined && undefined.__awaiter) || function (thisArg, _argu
 };
 const firebase = window.firebase;
 const config$1 = {
-    apiKey: "AIzaSyAggX7zwnqbVl56pZP4O7oH0QtPu9YMph0",
-    authDomain: "printess-saas.firebaseapp.com",
+    apiKey: "AIzaSyBUbyQiqE7TSAS2J5iIVII1Z99tKdd0AuE",
+    authDomain: "fuerteventura-d4e75.firebaseapp.com",
+    projectId: "fuerteventura-d4e75",
+    storageBucket: "fuerteventura-d4e75.appspot.com",
+    messagingSenderId: "378393506142",
+    appId: "1:378393506142:web:4d16e60264d0388a685fcf"
 };
 firebase.initializeApp(config$1);
 const checkErrorCode = (errorCode) => {
@@ -37,7 +41,7 @@ const checkErrorCode = (errorCode) => {
     }
 };
 function signinWithGoogle() {
-    return __awaiter$6(this, void 0, void 0, function* () {
+    return __awaiter$3(this, void 0, void 0, function* () {
         const provider = new firebase.auth.GoogleAuthProvider();
         provider.setCustomParameters({ prompt: 'select_account' });
         try {
@@ -52,7 +56,7 @@ function signinWithGoogle() {
     });
 }
 function signinUser(email, password) {
-    return __awaiter$6(this, void 0, void 0, function* () {
+    return __awaiter$3(this, void 0, void 0, function* () {
         try {
             const userCredential = yield firebase.auth().signInWithEmailAndPassword(email, password);
             return userCredential;
@@ -64,357 +68,65 @@ function signinUser(email, password) {
         }
     });
 }
-
-var __awaiter$5 = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
+const createTravelDocument = (traveldoc, images) => {
+    var _a;
+    firestore.collection("fuerte").add({
+        id: '',
+        headline: (_a = traveldoc.headline) !== null && _a !== void 0 ? _a : '',
+        story: traveldoc.story || '',
+        foldername: traveldoc.date + '_' + traveldoc.foldername,
+        date: traveldoc.date,
+        location: traveldoc.location,
+        images: images
+    })
+        .then((docRef) => {
+        console.log("Document written with ID: ", docRef.id);
+        firestore.collection('fuerte').doc(`${docRef.id}`).set({
+            id: docRef.id
+        }, { merge: true });
+    })
+        .catch((error) => {
+        console.error("Error adding document: ", error);
     });
 };
-function createRequestInit(method, bodyContent, contentType, token) {
-    const headers = {
-        "Accept": "application/json",
-        "Content-Type": contentType
-    };
-    if (token) {
-        headers["Authorization"] = "Bearer " + token;
-    }
-    const r = {
-        method: method,
-        mode: "cors",
-        cache: "no-cache",
-        credentials: "omit",
-        headers: headers,
-        redirect: "error",
-        referrerPolicy: "no-referrer",
-        body: bodyContent
-    };
-    return r;
-}
-function postPlainText(url, json, token) {
-    return __awaiter$5(this, void 0, void 0, function* () {
-        const response = yield fetch(url, createRequestInit("POST", json, "text/plain", token));
-        return response;
+const getTravelDocs = () => {
+    const docs = firestore.collection("fuerte").get()
+        .then((querySnapshot) => {
+        return querySnapshot.docs.map((doc) => doc.data());
     });
-}
-function postJson(url, json, token) {
-    return __awaiter$5(this, void 0, void 0, function* () {
-        const response = yield fetch(url, createRequestInit("POST", json, "application/json", token));
-        return response;
-    });
-}
-
-var __awaiter$4 = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
+    return docs;
 };
-class ServerErrorResponse {
-    constructor(code, message) {
-        this.code = code;
-        this.message = message;
-    }
-    static Create(response) {
-        return __awaiter$4(this, void 0, void 0, function* () {
-            if (response.headers.get("Content-Type") === "application/json; charset=utf-8") {
-                const json = yield response.json();
-                if (typeof json.c === "number" && typeof json.m === "string") {
-                    return new ServerErrorResponse(json.c, json.m);
-                }
-            }
-            return new ServerErrorResponse(response.status, response.statusText);
-        });
-    }
-}
-class PrintessApi {
-    constructor(urlPrefix, token) {
-        this.urlPrefix = urlPrefix || "http://localhost:5000";
-        this.token = token;
-    }
-    postPlainText(path, json) {
-        return __awaiter$4(this, void 0, void 0, function* () {
-            if (!path.startsWith("/")) {
-                path = "/" + path;
-            }
-            const url = this.urlPrefix + path;
-            return postPlainText(url, json, this.token);
-        });
-    }
-    postJson(path, json) {
-        return __awaiter$4(this, void 0, void 0, function* () {
-            if (!path.startsWith("/")) {
-                path = "/" + path;
-            }
-            const url = this.urlPrefix + path;
-            return postJson(url, json, this.token);
-        });
-    }
-    loginWithGoogleAuthToken(googleToken) {
-        return __awaiter$4(this, void 0, void 0, function* () {
-            const response = yield this.postPlainText("/jwttokenlogin", googleToken);
-            if (response.status === 200) {
-                return yield response.json();
-            }
-            return yield ServerErrorResponse.Create(response);
-        });
-    }
-    activate(userId, activationCode) {
-        return __awaiter$4(this, void 0, void 0, function* () {
-            const model = {
-                userId: userId,
-                activationCode: activationCode
-            };
-            const response = yield this.postJson("/printess/activate", JSON.stringify(model));
-            if (response.status === 200) {
-                return;
-            }
-            return yield ServerErrorResponse.Create(response);
-        });
-    }
-    loadOrders(model) {
-        return __awaiter$4(this, void 0, void 0, function* () {
-            const response = yield this.postJson("/orders/list", JSON.stringify(model));
-            if (response.status === 200) {
-                return yield response.json();
-            }
-            return yield ServerErrorResponse.Create(response);
-        });
-    }
-    loadProductionJobs() {
-        return __awaiter$4(this, void 0, void 0, function* () {
-            const r = [];
-            r.push({
-                enqueuedOn: new Date(),
-                processingOn: new Date(),
-                finishedOn: new Date(),
-                failedOn: new Date(),
-                isFinalStatus: true,
-                errorDetails: null,
-                jobId: "my job id",
-                productionType: "templateId",
-                files: [
-                    {
-                        documentName: "my document",
-                        fileSize: 2000,
-                        downloadUrl: "https://www.example.com",
-                        pages: 2
-                    }
-                ]
-            });
-            return r;
-        });
-    }
-}
-class PrintessAdminApi {
-    constructor(urlPrefix, token) {
-        this.urlPrefix = urlPrefix || "http://localhost:5000";
-        this.token = token;
-    }
-    postJson(path, json) {
-        return __awaiter$4(this, void 0, void 0, function* () {
-            if (!path.startsWith("/")) {
-                path = "/" + path;
-            }
-            const url = this.urlPrefix + path;
-            const response = yield postJson(url, json, this.token);
-            if (response.status === 200) {
-                return yield response.json();
-            }
-            return yield ServerErrorResponse.Create(response);
-        });
-    }
-    postJsonVoid(path, json) {
-        return __awaiter$4(this, void 0, void 0, function* () {
-            if (!path.startsWith("/")) {
-                path = "/" + path;
-            }
-            const url = this.urlPrefix + path;
-            const response = yield postJson(url, json, this.token);
-            if (response.status === 200) {
-                return;
-            }
-            return yield ServerErrorResponse.Create(response);
-        });
-    }
-    loadUsers(search) {
-        return __awaiter$4(this, void 0, void 0, function* () {
-            return this.postJson("/admin/codes/load", JSON.stringify(search));
-        });
-    }
-    activateUser(userId) {
-        return __awaiter$4(this, void 0, void 0, function* () {
-            const model = {
-                userId: userId
-            };
-            return this.postJsonVoid("admin/user/activate", JSON.stringify(model));
-        });
-    }
-    deactivateUser(userId) {
-        return __awaiter$4(this, void 0, void 0, function* () {
-            const model = {
-                userId: userId
-            };
-            return this.postJsonVoid("admin/user/deactivate", JSON.stringify(model));
-        });
-    }
-    setEmailVerified(userId) {
-        return __awaiter$4(this, void 0, void 0, function* () {
-            const model = {
-                userId: userId
-            };
-            return this.postJsonVoid("admin/user/setemailverified", JSON.stringify(model));
-        });
-    }
-    setEmailUnverified(userId) {
-        return __awaiter$4(this, void 0, void 0, function* () {
-            const model = {
-                userId: userId
-            };
-            return this.postJsonVoid("admin/user/setemailunverified", JSON.stringify(model));
-        });
-    }
-    loadWhitelist() {
-        return __awaiter$4(this, void 0, void 0, function* () {
-            const model = {};
-            return this.postJson("admin/whitelist/load", JSON.stringify(model));
-        });
-    }
-    addWhitelistEntry(email) {
-        return __awaiter$4(this, void 0, void 0, function* () {
-            const model = {
-                email: email
-            };
-            return this.postJsonVoid("admin/whitelist/add", JSON.stringify(model));
-        });
-    }
-    removeWhitelistEntry(email) {
-        return __awaiter$4(this, void 0, void 0, function* () {
-            const model = {
-                email: email
-            };
-            return this.postJsonVoid("admin/whitelist/remove", JSON.stringify(model));
-        });
-    }
-}
-class ApiStream {
-    constructor(domain, stream, token, onMessage) {
-        switch (stream) {
-            case "orders":
-                this.endpoint = "wss://" + domain + "/stream/orders";
-                break;
-        }
-        this.closeConnection = false;
-        this.timeout = 250;
-        this.token = token;
-        this.onMessage = onMessage;
-        this.connect();
-    }
-    disconnect() {
-        clearInterval(this.pingHandle);
-        clearTimeout(this.timeoutHandle);
-        this.closeConnection = true;
-        this.socket.close();
-    }
-    tryReconnect() {
-        clearInterval(this.pingHandle);
-        clearTimeout(this.timeoutHandle);
-        this.timeoutHandle = window.setTimeout(() => this.connect(), this.timeout);
-    }
-    connect() {
-        if (this.closeConnection === true) {
-            return;
-        }
-        this.timeout = Math.min(this.timeout * 1.5, 10000);
-        this.socket = new WebSocket(this.endpoint);
-        this.socket.onerror = () => {
-            this.tryReconnect();
-        };
-        this.socket.onclose = () => {
-            this.tryReconnect();
-        };
-        this.socket.onopen = () => {
-            const c = {
-                c: adm.useAdminMode ? "adminAuth" : "auth",
-                p: this.token
-            };
-            this.timeout = 250;
-            clearInterval(this.pingHandle);
-            this.pingHandle = window.setInterval(() => this.sendPing(), 25000);
-            this.socket.send(JSON.stringify(c));
-        };
-        this.socket.onmessage = (ev) => {
-            const c = JSON.parse(ev.data);
-            switch (c.c) {
-                case "ping":
-                    this.sendPong();
-                    break;
-                case "pong":
-                    break;
-                case "auth":
-                    break;
-                default:
-                    this.onMessage(c);
-            }
-        };
-    }
-    sendPing() {
-        const c = {
-            c: "ping",
-            p: ""
-        };
-        this.socket.send(JSON.stringify(c));
-    }
-    sendPong() {
-        const c = {
-            c: "pong",
-            p: ""
-        };
-        this.socket.send(JSON.stringify(c));
-    }
-}
-class OrderStream extends ApiStream {
-    constructor(domain, token, onMessage) {
-        super(domain, "orders", token, (sc) => {
-            if (sc.c == "order") {
-                const dto = JSON.parse(sc.p);
-                onMessage(dto);
-            }
-        });
-    }
-}
+const uploadImage = (file, foldername) => {
+    const storage = firebase.storage().ref(`${foldername}/${file.name}`);
+    storage.put(file);
+};
+const firestore = firebase.firestore();
 
 /**
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-var t$3,i$4,s$5,e$4;const o$6=globalThis.trustedTypes,l$2=o$6?o$6.createPolicy("lit-html",{createHTML:t=>t}):void 0,n$5=`lit$${(Math.random()+"").slice(9)}$`,h$2="?"+n$5,r$2=`<${h$2}>`,u$2=document,c$2=(t="")=>u$2.createComment(t),d=t=>null===t||"object"!=typeof t&&"function"!=typeof t,v=Array.isArray,a$3=t=>{var i;return v(t)||"function"==typeof(null===(i=t)||void 0===i?void 0:i[Symbol.iterator])},f$1=/<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g,_=/-->/g,m$1=/>/g,p=/>|[ 	\n\r](?:([^\s"'>=/]+)([ 	\n\r]*=[ 	\n\r]*(?:[^ 	\n\r"'`<>=]|("|')|))|$)/g,$=/'/g,g=/"/g,y=/^(?:script|style|textarea)$/i,b=t=>(i,...s)=>({_$litType$:t,strings:i,values:s}),T=b(1),w=Symbol.for("lit-noChange"),A=Symbol.for("lit-nothing"),P=new WeakMap,V=(t,i,s)=>{var e,o;const l=null!==(e=null==s?void 0:s.renderBefore)&&void 0!==e?e:i;let n=l._$litPart$;if(void 0===n){const t=null!==(o=null==s?void 0:s.renderBefore)&&void 0!==o?o:null;l._$litPart$=n=new C(i.insertBefore(c$2(),t),t,void 0,s);}return n.I(t),n},E=u$2.createTreeWalker(u$2,129,null,!1),M=(t,i)=>{const s=t.length-1,e=[];let o,h=2===i?"<svg>":"",u=f$1;for(let i=0;i<s;i++){const s=t[i];let l,c,d=-1,v=0;for(;v<s.length&&(u.lastIndex=v,c=u.exec(s),null!==c);)v=u.lastIndex,u===f$1?"!--"===c[1]?u=_:void 0!==c[1]?u=m$1:void 0!==c[2]?(y.test(c[2])&&(o=RegExp("</"+c[2],"g")),u=p):void 0!==c[3]&&(u=p):u===p?">"===c[0]?(u=null!=o?o:f$1,d=-1):void 0===c[1]?d=-2:(d=u.lastIndex-c[2].length,l=c[1],u=void 0===c[3]?p:'"'===c[3]?g:$):u===g||u===$?u=p:u===_||u===m$1?u=f$1:(u=p,o=void 0);const a=u===p&&t[i+1].startsWith("/>")?" ":"";h+=u===f$1?s+r$2:d>=0?(e.push(l),s.slice(0,d)+"$lit$"+s.slice(d)+n$5+a):s+n$5+(-2===d?(e.push(void 0),i):a);}const c=h+(t[s]||"<?>")+(2===i?"</svg>":"");return [void 0!==l$2?l$2.createHTML(c):c,e]};class N{constructor({strings:t,_$litType$:i},s){let e;this.parts=[];let l=0,r=0;const u=t.length-1,d=this.parts,[v,a]=M(t,i);if(this.el=N.createElement(v,s),E.currentNode=this.el.content,2===i){const t=this.el.content,i=t.firstChild;i.remove(),t.append(...i.childNodes);}for(;null!==(e=E.nextNode())&&d.length<u;){if(1===e.nodeType){if(e.hasAttributes()){const t=[];for(const i of e.getAttributeNames())if(i.endsWith("$lit$")||i.startsWith(n$5)){const s=a[r++];if(t.push(i),void 0!==s){const t=e.getAttribute(s.toLowerCase()+"$lit$").split(n$5),i=/([.?@])?(.*)/.exec(s);d.push({type:1,index:l,name:i[2],strings:t,ctor:"."===i[1]?I:"?"===i[1]?L:"@"===i[1]?R:H});}else d.push({type:6,index:l});}for(const i of t)e.removeAttribute(i);}if(y.test(e.tagName)){const t=e.textContent.split(n$5),i=t.length-1;if(i>0){e.textContent=o$6?o$6.emptyScript:"";for(let s=0;s<i;s++)e.append(t[s],c$2()),E.nextNode(),d.push({type:2,index:++l});e.append(t[i],c$2());}}}else if(8===e.nodeType)if(e.data===h$2)d.push({type:2,index:l});else {let t=-1;for(;-1!==(t=e.data.indexOf(n$5,t+1));)d.push({type:7,index:l}),t+=n$5.length-1;}l++;}}static createElement(t,i){const s=u$2.createElement("template");return s.innerHTML=t,s}}function S$1(t,i,s=t,e){var o,l,n,h;if(i===w)return i;let r=void 0!==e?null===(o=s.Σi)||void 0===o?void 0:o[e]:s.Σo;const u=d(i)?void 0:i._$litDirective$;return (null==r?void 0:r.constructor)!==u&&(null===(l=null==r?void 0:r.O)||void 0===l||l.call(r,!1),void 0===u?r=void 0:(r=new u(t),r.T(t,s,e)),void 0!==e?(null!==(n=(h=s).Σi)&&void 0!==n?n:h.Σi=[])[e]=r:s.Σo=r),void 0!==r&&(i=S$1(t,r.S(t,i.values),r,e)),i}class k{constructor(t,i){this.l=[],this.N=void 0,this.D=t,this.M=i;}u(t){var i;const{el:{content:s},parts:e}=this.D,o=(null!==(i=null==t?void 0:t.creationScope)&&void 0!==i?i:u$2).importNode(s,!0);E.currentNode=o;let l=E.nextNode(),n=0,h=0,r=e[0];for(;void 0!==r;){if(n===r.index){let i;2===r.type?i=new C(l,l.nextSibling,this,t):1===r.type?i=new r.ctor(l,r.name,r.strings,this,t):6===r.type&&(i=new z(l,this,t)),this.l.push(i),r=e[++h];}n!==(null==r?void 0:r.index)&&(l=E.nextNode(),n++);}return o}v(t){let i=0;for(const s of this.l)void 0!==s&&(void 0!==s.strings?(s.I(t,s,i),i+=s.strings.length-2):s.I(t[i])),i++;}}class C{constructor(t,i,s,e){this.type=2,this.N=void 0,this.A=t,this.B=i,this.M=s,this.options=e;}setConnected(t){var i;null===(i=this.P)||void 0===i||i.call(this,t);}get parentNode(){return this.A.parentNode}get startNode(){return this.A}get endNode(){return this.B}I(t,i=this){t=S$1(this,t,i),d(t)?t===A||null==t||""===t?(this.H!==A&&this.R(),this.H=A):t!==this.H&&t!==w&&this.m(t):void 0!==t._$litType$?this._(t):void 0!==t.nodeType?this.$(t):a$3(t)?this.g(t):this.m(t);}k(t,i=this.B){return this.A.parentNode.insertBefore(t,i)}$(t){this.H!==t&&(this.R(),this.H=this.k(t));}m(t){const i=this.A.nextSibling;null!==i&&3===i.nodeType&&(null===this.B?null===i.nextSibling:i===this.B.previousSibling)?i.data=t:this.$(u$2.createTextNode(t)),this.H=t;}_(t){var i;const{values:s,_$litType$:e}=t,o="number"==typeof e?this.C(t):(void 0===e.el&&(e.el=N.createElement(e.h,this.options)),e);if((null===(i=this.H)||void 0===i?void 0:i.D)===o)this.H.v(s);else {const t=new k(o,this),i=t.u(this.options);t.v(s),this.$(i),this.H=t;}}C(t){let i=P.get(t.strings);return void 0===i&&P.set(t.strings,i=new N(t)),i}g(t){v(this.H)||(this.H=[],this.R());const i=this.H;let s,e=0;for(const o of t)e===i.length?i.push(s=new C(this.k(c$2()),this.k(c$2()),this,this.options)):s=i[e],s.I(o),e++;e<i.length&&(this.R(s&&s.B.nextSibling,e),i.length=e);}R(t=this.A.nextSibling,i){var s;for(null===(s=this.P)||void 0===s||s.call(this,!1,!0,i);t&&t!==this.B;){const i=t.nextSibling;t.remove(),t=i;}}}class H{constructor(t,i,s,e,o){this.type=1,this.H=A,this.N=void 0,this.V=void 0,this.element=t,this.name=i,this.M=e,this.options=o,s.length>2||""!==s[0]||""!==s[1]?(this.H=Array(s.length-1).fill(A),this.strings=s):this.H=A;}get tagName(){return this.element.tagName}I(t,i=this,s,e){const o=this.strings;let l=!1;if(void 0===o)t=S$1(this,t,i,0),l=!d(t)||t!==this.H&&t!==w,l&&(this.H=t);else {const e=t;let n,h;for(t=o[0],n=0;n<o.length-1;n++)h=S$1(this,e[s+n],i,n),h===w&&(h=this.H[n]),l||(l=!d(h)||h!==this.H[n]),h===A?t=A:t!==A&&(t+=(null!=h?h:"")+o[n+1]),this.H[n]=h;}l&&!e&&this.W(t);}W(t){t===A?this.element.removeAttribute(this.name):this.element.setAttribute(this.name,null!=t?t:"");}}class I extends H{constructor(){super(...arguments),this.type=3;}W(t){this.element[this.name]=t===A?void 0:t;}}class L extends H{constructor(){super(...arguments),this.type=4;}W(t){t&&t!==A?this.element.setAttribute(this.name,""):this.element.removeAttribute(this.name);}}class R extends H{constructor(){super(...arguments),this.type=5;}I(t,i=this){var s;if((t=null!==(s=S$1(this,t,i,0))&&void 0!==s?s:A)===w)return;const e=this.H,o=t===A&&e!==A||t.capture!==e.capture||t.once!==e.once||t.passive!==e.passive,l=t!==A&&(e===A||o);o&&this.element.removeEventListener(this.name,this,e),l&&this.element.addEventListener(this.name,this,t),this.H=t;}handleEvent(t){var i,s;"function"==typeof this.H?this.H.call(null!==(s=null===(i=this.options)||void 0===i?void 0:i.host)&&void 0!==s?s:this.element,t):this.H.handleEvent(t);}}class z{constructor(t,i,s){this.element=t,this.type=6,this.N=void 0,this.V=void 0,this.M=i,this.options=s;}I(t){S$1(this,t);}}const Z={Z:"$lit$",U:n$5,Y:h$2,q:1,X:M,tt:k,it:a$3,st:S$1,et:C,ot:H,nt:L,rt:R,lt:I,ht:z};null===(i$4=(t$3=globalThis).litHtmlPlatformSupport)||void 0===i$4||i$4.call(t$3,N,C),(null!==(s$5=(e$4=globalThis).litHtmlVersions)&&void 0!==s$5?s$5:e$4.litHtmlVersions=[]).push("2.0.0-rc.2");
+var t$2,i$4,s$4,e$3;const o$6=globalThis.trustedTypes,l$2=o$6?o$6.createPolicy("lit-html",{createHTML:t=>t}):void 0,n$5=`lit$${(Math.random()+"").slice(9)}$`,h$2="?"+n$5,r$2=`<${h$2}>`,u=document,c=(t="")=>u.createComment(t),d=t=>null===t||"object"!=typeof t&&"function"!=typeof t,v=Array.isArray,a$2=t=>{var i;return v(t)||"function"==typeof(null===(i=t)||void 0===i?void 0:i[Symbol.iterator])},f=/<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g,_=/-->/g,m=/>/g,p=/>|[ 	\n\r](?:([^\s"'>=/]+)([ 	\n\r]*=[ 	\n\r]*(?:[^ 	\n\r"'`<>=]|("|')|))|$)/g,$=/'/g,g=/"/g,y=/^(?:script|style|textarea)$/i,b=t=>(i,...s)=>({_$litType$:t,strings:i,values:s}),T=b(1),w=Symbol.for("lit-noChange"),A=Symbol.for("lit-nothing"),P=new WeakMap,V=(t,i,s)=>{var e,o;const l=null!==(e=null==s?void 0:s.renderBefore)&&void 0!==e?e:i;let n=l._$litPart$;if(void 0===n){const t=null!==(o=null==s?void 0:s.renderBefore)&&void 0!==o?o:null;l._$litPart$=n=new C(i.insertBefore(c(),t),t,void 0,s);}return n.I(t),n},E=u.createTreeWalker(u,129,null,!1),M=(t,i)=>{const s=t.length-1,e=[];let o,h=2===i?"<svg>":"",u=f;for(let i=0;i<s;i++){const s=t[i];let l,c,d=-1,v=0;for(;v<s.length&&(u.lastIndex=v,c=u.exec(s),null!==c);)v=u.lastIndex,u===f?"!--"===c[1]?u=_:void 0!==c[1]?u=m:void 0!==c[2]?(y.test(c[2])&&(o=RegExp("</"+c[2],"g")),u=p):void 0!==c[3]&&(u=p):u===p?">"===c[0]?(u=null!=o?o:f,d=-1):void 0===c[1]?d=-2:(d=u.lastIndex-c[2].length,l=c[1],u=void 0===c[3]?p:'"'===c[3]?g:$):u===g||u===$?u=p:u===_||u===m?u=f:(u=p,o=void 0);const a=u===p&&t[i+1].startsWith("/>")?" ":"";h+=u===f?s+r$2:d>=0?(e.push(l),s.slice(0,d)+"$lit$"+s.slice(d)+n$5+a):s+n$5+(-2===d?(e.push(void 0),i):a);}const c=h+(t[s]||"<?>")+(2===i?"</svg>":"");return [void 0!==l$2?l$2.createHTML(c):c,e]};class N{constructor({strings:t,_$litType$:i},s){let e;this.parts=[];let l=0,r=0;const u=t.length-1,d=this.parts,[v,a]=M(t,i);if(this.el=N.createElement(v,s),E.currentNode=this.el.content,2===i){const t=this.el.content,i=t.firstChild;i.remove(),t.append(...i.childNodes);}for(;null!==(e=E.nextNode())&&d.length<u;){if(1===e.nodeType){if(e.hasAttributes()){const t=[];for(const i of e.getAttributeNames())if(i.endsWith("$lit$")||i.startsWith(n$5)){const s=a[r++];if(t.push(i),void 0!==s){const t=e.getAttribute(s.toLowerCase()+"$lit$").split(n$5),i=/([.?@])?(.*)/.exec(s);d.push({type:1,index:l,name:i[2],strings:t,ctor:"."===i[1]?I:"?"===i[1]?L:"@"===i[1]?R:H});}else d.push({type:6,index:l});}for(const i of t)e.removeAttribute(i);}if(y.test(e.tagName)){const t=e.textContent.split(n$5),i=t.length-1;if(i>0){e.textContent=o$6?o$6.emptyScript:"";for(let s=0;s<i;s++)e.append(t[s],c()),E.nextNode(),d.push({type:2,index:++l});e.append(t[i],c());}}}else if(8===e.nodeType)if(e.data===h$2)d.push({type:2,index:l});else {let t=-1;for(;-1!==(t=e.data.indexOf(n$5,t+1));)d.push({type:7,index:l}),t+=n$5.length-1;}l++;}}static createElement(t,i){const s=u.createElement("template");return s.innerHTML=t,s}}function S$1(t,i,s=t,e){var o,l,n,h;if(i===w)return i;let r=void 0!==e?null===(o=s.Σi)||void 0===o?void 0:o[e]:s.Σo;const u=d(i)?void 0:i._$litDirective$;return (null==r?void 0:r.constructor)!==u&&(null===(l=null==r?void 0:r.O)||void 0===l||l.call(r,!1),void 0===u?r=void 0:(r=new u(t),r.T(t,s,e)),void 0!==e?(null!==(n=(h=s).Σi)&&void 0!==n?n:h.Σi=[])[e]=r:s.Σo=r),void 0!==r&&(i=S$1(t,r.S(t,i.values),r,e)),i}class k{constructor(t,i){this.l=[],this.N=void 0,this.D=t,this.M=i;}u(t){var i;const{el:{content:s},parts:e}=this.D,o=(null!==(i=null==t?void 0:t.creationScope)&&void 0!==i?i:u).importNode(s,!0);E.currentNode=o;let l=E.nextNode(),n=0,h=0,r=e[0];for(;void 0!==r;){if(n===r.index){let i;2===r.type?i=new C(l,l.nextSibling,this,t):1===r.type?i=new r.ctor(l,r.name,r.strings,this,t):6===r.type&&(i=new z(l,this,t)),this.l.push(i),r=e[++h];}n!==(null==r?void 0:r.index)&&(l=E.nextNode(),n++);}return o}v(t){let i=0;for(const s of this.l)void 0!==s&&(void 0!==s.strings?(s.I(t,s,i),i+=s.strings.length-2):s.I(t[i])),i++;}}class C{constructor(t,i,s,e){this.type=2,this.N=void 0,this.A=t,this.B=i,this.M=s,this.options=e;}setConnected(t){var i;null===(i=this.P)||void 0===i||i.call(this,t);}get parentNode(){return this.A.parentNode}get startNode(){return this.A}get endNode(){return this.B}I(t,i=this){t=S$1(this,t,i),d(t)?t===A||null==t||""===t?(this.H!==A&&this.R(),this.H=A):t!==this.H&&t!==w&&this.m(t):void 0!==t._$litType$?this._(t):void 0!==t.nodeType?this.$(t):a$2(t)?this.g(t):this.m(t);}k(t,i=this.B){return this.A.parentNode.insertBefore(t,i)}$(t){this.H!==t&&(this.R(),this.H=this.k(t));}m(t){const i=this.A.nextSibling;null!==i&&3===i.nodeType&&(null===this.B?null===i.nextSibling:i===this.B.previousSibling)?i.data=t:this.$(u.createTextNode(t)),this.H=t;}_(t){var i;const{values:s,_$litType$:e}=t,o="number"==typeof e?this.C(t):(void 0===e.el&&(e.el=N.createElement(e.h,this.options)),e);if((null===(i=this.H)||void 0===i?void 0:i.D)===o)this.H.v(s);else {const t=new k(o,this),i=t.u(this.options);t.v(s),this.$(i),this.H=t;}}C(t){let i=P.get(t.strings);return void 0===i&&P.set(t.strings,i=new N(t)),i}g(t){v(this.H)||(this.H=[],this.R());const i=this.H;let s,e=0;for(const o of t)e===i.length?i.push(s=new C(this.k(c()),this.k(c()),this,this.options)):s=i[e],s.I(o),e++;e<i.length&&(this.R(s&&s.B.nextSibling,e),i.length=e);}R(t=this.A.nextSibling,i){var s;for(null===(s=this.P)||void 0===s||s.call(this,!1,!0,i);t&&t!==this.B;){const i=t.nextSibling;t.remove(),t=i;}}}class H{constructor(t,i,s,e,o){this.type=1,this.H=A,this.N=void 0,this.V=void 0,this.element=t,this.name=i,this.M=e,this.options=o,s.length>2||""!==s[0]||""!==s[1]?(this.H=Array(s.length-1).fill(A),this.strings=s):this.H=A;}get tagName(){return this.element.tagName}I(t,i=this,s,e){const o=this.strings;let l=!1;if(void 0===o)t=S$1(this,t,i,0),l=!d(t)||t!==this.H&&t!==w,l&&(this.H=t);else {const e=t;let n,h;for(t=o[0],n=0;n<o.length-1;n++)h=S$1(this,e[s+n],i,n),h===w&&(h=this.H[n]),l||(l=!d(h)||h!==this.H[n]),h===A?t=A:t!==A&&(t+=(null!=h?h:"")+o[n+1]),this.H[n]=h;}l&&!e&&this.W(t);}W(t){t===A?this.element.removeAttribute(this.name):this.element.setAttribute(this.name,null!=t?t:"");}}class I extends H{constructor(){super(...arguments),this.type=3;}W(t){this.element[this.name]=t===A?void 0:t;}}class L extends H{constructor(){super(...arguments),this.type=4;}W(t){t&&t!==A?this.element.setAttribute(this.name,""):this.element.removeAttribute(this.name);}}class R extends H{constructor(){super(...arguments),this.type=5;}I(t,i=this){var s;if((t=null!==(s=S$1(this,t,i,0))&&void 0!==s?s:A)===w)return;const e=this.H,o=t===A&&e!==A||t.capture!==e.capture||t.once!==e.once||t.passive!==e.passive,l=t!==A&&(e===A||o);o&&this.element.removeEventListener(this.name,this,e),l&&this.element.addEventListener(this.name,this,t),this.H=t;}handleEvent(t){var i,s;"function"==typeof this.H?this.H.call(null!==(s=null===(i=this.options)||void 0===i?void 0:i.host)&&void 0!==s?s:this.element,t):this.H.handleEvent(t);}}class z{constructor(t,i,s){this.element=t,this.type=6,this.N=void 0,this.V=void 0,this.M=i,this.options=s;}I(t){S$1(this,t);}}null===(i$4=(t$2=globalThis).litHtmlPlatformSupport)||void 0===i$4||i$4.call(t$2,N,C),(null!==(s$4=(e$3=globalThis).litHtmlVersions)&&void 0!==s$4?s$4:e$3.litHtmlVersions=[]).push("2.0.0-rc.2");
 
 /**
  * @license
  * Copyright 2019 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const t$2=window.ShadowRoot&&(void 0===window.ShadyCSS||window.ShadyCSS.nativeShadow)&&"adoptedStyleSheets"in Document.prototype&&"replace"in CSSStyleSheet.prototype,e$3=Symbol();class n$4{constructor(t,n){if(n!==e$3)throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");this.cssText=t;}get styleSheet(){return t$2&&void 0===this.t&&(this.t=new CSSStyleSheet,this.t.replaceSync(this.cssText)),this.t}toString(){return this.cssText}}const s$4=t=>new n$4(t+"",e$3),o$5=new Map,r$1=(t,...s)=>{const r=s.reduce(((e,s,o)=>e+(t=>{if(t instanceof n$4)return t.cssText;if("number"==typeof t)return t;throw Error(`Value passed to 'css' function must be a 'css' function result: ${t}. Use 'unsafeCSS' to pass non-literal values, but\n            take care to ensure page security.`)})(s)+t[o+1]),t[0]);let i=o$5.get(r);return void 0===i&&o$5.set(r,i=new n$4(r,e$3)),i},i$3=(e,n)=>{t$2?e.adoptedStyleSheets=n.map((t=>t instanceof CSSStyleSheet?t:t.styleSheet)):n.forEach((t=>{const n=document.createElement("style");n.textContent=t.cssText,e.appendChild(n);}));},S=t$2?t=>t:t=>t instanceof CSSStyleSheet?(t=>{let e="";for(const n of t.cssRules)e+=n.cssText;return s$4(e)})(t):t;
+const t$1=window.ShadowRoot&&(void 0===window.ShadyCSS||window.ShadyCSS.nativeShadow)&&"adoptedStyleSheets"in Document.prototype&&"replace"in CSSStyleSheet.prototype,e$2=Symbol();class n$4{constructor(t,n){if(n!==e$2)throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");this.cssText=t;}get styleSheet(){return t$1&&void 0===this.t&&(this.t=new CSSStyleSheet,this.t.replaceSync(this.cssText)),this.t}toString(){return this.cssText}}const s$3=t=>new n$4(t+"",e$2),o$5=new Map,r$1=(t,...s)=>{const r=s.reduce(((e,s,o)=>e+(t=>{if(t instanceof n$4)return t.cssText;if("number"==typeof t)return t;throw Error(`Value passed to 'css' function must be a 'css' function result: ${t}. Use 'unsafeCSS' to pass non-literal values, but\n            take care to ensure page security.`)})(s)+t[o+1]),t[0]);let i=o$5.get(r);return void 0===i&&o$5.set(r,i=new n$4(r,e$2)),i},i$3=(e,n)=>{t$1?e.adoptedStyleSheets=n.map((t=>t instanceof CSSStyleSheet?t:t.styleSheet)):n.forEach((t=>{const n=document.createElement("style");n.textContent=t.cssText,e.appendChild(n);}));},S=t$1?t=>t:t=>t instanceof CSSStyleSheet?(t=>{let e="";for(const n of t.cssRules)e+=n.cssText;return s$3(e)})(t):t;
 
 /**
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
- */var s$3,e$2,h$1,r;const o$4={toAttribute(t,i){switch(i){case Boolean:t=t?"":null;break;case Object:case Array:t=null==t?t:JSON.stringify(t);}return t},fromAttribute(t,i){let s=t;switch(i){case Boolean:s=null!==t;break;case Number:s=null===t?null:Number(t);break;case Object:case Array:try{s=JSON.parse(t);}catch(t){s=null;}}return s}},n$3=(t,i)=>i!==t&&(i==i||t==t),l$1={attribute:!0,type:String,converter:o$4,reflect:!1,hasChanged:n$3};class a$2 extends HTMLElement{constructor(){super(),this.Πi=new Map,this.Πo=void 0,this.Πl=void 0,this.isUpdatePending=!1,this.hasUpdated=!1,this.Πh=null,this.u();}static addInitializer(t){var i;null!==(i=this.v)&&void 0!==i||(this.v=[]),this.v.push(t);}static get observedAttributes(){this.finalize();const t=[];return this.elementProperties.forEach(((i,s)=>{const e=this.Πp(s,i);void 0!==e&&(this.Πm.set(e,s),t.push(e));})),t}static createProperty(t,i=l$1){if(i.state&&(i.attribute=!1),this.finalize(),this.elementProperties.set(t,i),!i.noAccessor&&!this.prototype.hasOwnProperty(t)){const s="symbol"==typeof t?Symbol():"__"+t,e=this.getPropertyDescriptor(t,s,i);void 0!==e&&Object.defineProperty(this.prototype,t,e);}}static getPropertyDescriptor(t,i,s){return {get(){return this[i]},set(e){const h=this[t];this[i]=e,this.requestUpdate(t,h,s);},configurable:!0,enumerable:!0}}static getPropertyOptions(t){return this.elementProperties.get(t)||l$1}static finalize(){if(this.hasOwnProperty("finalized"))return !1;this.finalized=!0;const t=Object.getPrototypeOf(this);if(t.finalize(),this.elementProperties=new Map(t.elementProperties),this.Πm=new Map,this.hasOwnProperty("properties")){const t=this.properties,i=[...Object.getOwnPropertyNames(t),...Object.getOwnPropertySymbols(t)];for(const s of i)this.createProperty(s,t[s]);}return this.elementStyles=this.finalizeStyles(this.styles),!0}static finalizeStyles(i){const s=[];if(Array.isArray(i)){const e=new Set(i.flat(1/0).reverse());for(const i of e)s.unshift(S(i));}else void 0!==i&&s.push(S(i));return s}static Πp(t,i){const s=i.attribute;return !1===s?void 0:"string"==typeof s?s:"string"==typeof t?t.toLowerCase():void 0}u(){var t;this.Πg=new Promise((t=>this.enableUpdating=t)),this.L=new Map,this.Π_(),this.requestUpdate(),null===(t=this.constructor.v)||void 0===t||t.forEach((t=>t(this)));}addController(t){var i,s;(null!==(i=this.ΠU)&&void 0!==i?i:this.ΠU=[]).push(t),void 0!==this.renderRoot&&this.isConnected&&(null===(s=t.hostConnected)||void 0===s||s.call(t));}removeController(t){var i;null===(i=this.ΠU)||void 0===i||i.splice(this.ΠU.indexOf(t)>>>0,1);}Π_(){this.constructor.elementProperties.forEach(((t,i)=>{this.hasOwnProperty(i)&&(this.Πi.set(i,this[i]),delete this[i]);}));}createRenderRoot(){var t;const s=null!==(t=this.shadowRoot)&&void 0!==t?t:this.attachShadow(this.constructor.shadowRootOptions);return i$3(s,this.constructor.elementStyles),s}connectedCallback(){var t;void 0===this.renderRoot&&(this.renderRoot=this.createRenderRoot()),this.enableUpdating(!0),null===(t=this.ΠU)||void 0===t||t.forEach((t=>{var i;return null===(i=t.hostConnected)||void 0===i?void 0:i.call(t)})),this.Πl&&(this.Πl(),this.Πo=this.Πl=void 0);}enableUpdating(t){}disconnectedCallback(){var t;null===(t=this.ΠU)||void 0===t||t.forEach((t=>{var i;return null===(i=t.hostDisconnected)||void 0===i?void 0:i.call(t)})),this.Πo=new Promise((t=>this.Πl=t));}attributeChangedCallback(t,i,s){this.K(t,s);}Πj(t,i,s=l$1){var e,h;const r=this.constructor.Πp(t,s);if(void 0!==r&&!0===s.reflect){const n=(null!==(h=null===(e=s.converter)||void 0===e?void 0:e.toAttribute)&&void 0!==h?h:o$4.toAttribute)(i,s.type);this.Πh=t,null==n?this.removeAttribute(r):this.setAttribute(r,n),this.Πh=null;}}K(t,i){var s,e,h;const r=this.constructor,n=r.Πm.get(t);if(void 0!==n&&this.Πh!==n){const t=r.getPropertyOptions(n),l=t.converter,a=null!==(h=null!==(e=null===(s=l)||void 0===s?void 0:s.fromAttribute)&&void 0!==e?e:"function"==typeof l?l:null)&&void 0!==h?h:o$4.fromAttribute;this.Πh=n,this[n]=a(i,t.type),this.Πh=null;}}requestUpdate(t,i,s){let e=!0;void 0!==t&&(((s=s||this.constructor.getPropertyOptions(t)).hasChanged||n$3)(this[t],i)?(this.L.has(t)||this.L.set(t,i),!0===s.reflect&&this.Πh!==t&&(void 0===this.Πk&&(this.Πk=new Map),this.Πk.set(t,s))):e=!1),!this.isUpdatePending&&e&&(this.Πg=this.Πq());}async Πq(){this.isUpdatePending=!0;try{for(await this.Πg;this.Πo;)await this.Πo;}catch(t){Promise.reject(t);}const t=this.performUpdate();return null!=t&&await t,!this.isUpdatePending}performUpdate(){var t;if(!this.isUpdatePending)return;this.hasUpdated,this.Πi&&(this.Πi.forEach(((t,i)=>this[i]=t)),this.Πi=void 0);let i=!1;const s=this.L;try{i=this.shouldUpdate(s),i?(this.willUpdate(s),null===(t=this.ΠU)||void 0===t||t.forEach((t=>{var i;return null===(i=t.hostUpdate)||void 0===i?void 0:i.call(t)})),this.update(s)):this.Π$();}catch(t){throw i=!1,this.Π$(),t}i&&this.E(s);}willUpdate(t){}E(t){var i;null===(i=this.ΠU)||void 0===i||i.forEach((t=>{var i;return null===(i=t.hostUpdated)||void 0===i?void 0:i.call(t)})),this.hasUpdated||(this.hasUpdated=!0,this.firstUpdated(t)),this.updated(t);}Π$(){this.L=new Map,this.isUpdatePending=!1;}get updateComplete(){return this.getUpdateComplete()}getUpdateComplete(){return this.Πg}shouldUpdate(t){return !0}update(t){void 0!==this.Πk&&(this.Πk.forEach(((t,i)=>this.Πj(i,this[i],t))),this.Πk=void 0),this.Π$();}updated(t){}firstUpdated(t){}}a$2.finalized=!0,a$2.shadowRootOptions={mode:"open"},null===(e$2=(s$3=globalThis).reactiveElementPlatformSupport)||void 0===e$2||e$2.call(s$3,{ReactiveElement:a$2}),(null!==(h$1=(r=globalThis).reactiveElementVersions)&&void 0!==h$1?h$1:r.reactiveElementVersions=[]).push("1.0.0-rc.1");
+ */var s$2,e$1,h$1,r;const o$4={toAttribute(t,i){switch(i){case Boolean:t=t?"":null;break;case Object:case Array:t=null==t?t:JSON.stringify(t);}return t},fromAttribute(t,i){let s=t;switch(i){case Boolean:s=null!==t;break;case Number:s=null===t?null:Number(t);break;case Object:case Array:try{s=JSON.parse(t);}catch(t){s=null;}}return s}},n$3=(t,i)=>i!==t&&(i==i||t==t),l$1={attribute:!0,type:String,converter:o$4,reflect:!1,hasChanged:n$3};class a$1 extends HTMLElement{constructor(){super(),this.Πi=new Map,this.Πo=void 0,this.Πl=void 0,this.isUpdatePending=!1,this.hasUpdated=!1,this.Πh=null,this.u();}static addInitializer(t){var i;null!==(i=this.v)&&void 0!==i||(this.v=[]),this.v.push(t);}static get observedAttributes(){this.finalize();const t=[];return this.elementProperties.forEach(((i,s)=>{const e=this.Πp(s,i);void 0!==e&&(this.Πm.set(e,s),t.push(e));})),t}static createProperty(t,i=l$1){if(i.state&&(i.attribute=!1),this.finalize(),this.elementProperties.set(t,i),!i.noAccessor&&!this.prototype.hasOwnProperty(t)){const s="symbol"==typeof t?Symbol():"__"+t,e=this.getPropertyDescriptor(t,s,i);void 0!==e&&Object.defineProperty(this.prototype,t,e);}}static getPropertyDescriptor(t,i,s){return {get(){return this[i]},set(e){const h=this[t];this[i]=e,this.requestUpdate(t,h,s);},configurable:!0,enumerable:!0}}static getPropertyOptions(t){return this.elementProperties.get(t)||l$1}static finalize(){if(this.hasOwnProperty("finalized"))return !1;this.finalized=!0;const t=Object.getPrototypeOf(this);if(t.finalize(),this.elementProperties=new Map(t.elementProperties),this.Πm=new Map,this.hasOwnProperty("properties")){const t=this.properties,i=[...Object.getOwnPropertyNames(t),...Object.getOwnPropertySymbols(t)];for(const s of i)this.createProperty(s,t[s]);}return this.elementStyles=this.finalizeStyles(this.styles),!0}static finalizeStyles(i){const s=[];if(Array.isArray(i)){const e=new Set(i.flat(1/0).reverse());for(const i of e)s.unshift(S(i));}else void 0!==i&&s.push(S(i));return s}static Πp(t,i){const s=i.attribute;return !1===s?void 0:"string"==typeof s?s:"string"==typeof t?t.toLowerCase():void 0}u(){var t;this.Πg=new Promise((t=>this.enableUpdating=t)),this.L=new Map,this.Π_(),this.requestUpdate(),null===(t=this.constructor.v)||void 0===t||t.forEach((t=>t(this)));}addController(t){var i,s;(null!==(i=this.ΠU)&&void 0!==i?i:this.ΠU=[]).push(t),void 0!==this.renderRoot&&this.isConnected&&(null===(s=t.hostConnected)||void 0===s||s.call(t));}removeController(t){var i;null===(i=this.ΠU)||void 0===i||i.splice(this.ΠU.indexOf(t)>>>0,1);}Π_(){this.constructor.elementProperties.forEach(((t,i)=>{this.hasOwnProperty(i)&&(this.Πi.set(i,this[i]),delete this[i]);}));}createRenderRoot(){var t;const s=null!==(t=this.shadowRoot)&&void 0!==t?t:this.attachShadow(this.constructor.shadowRootOptions);return i$3(s,this.constructor.elementStyles),s}connectedCallback(){var t;void 0===this.renderRoot&&(this.renderRoot=this.createRenderRoot()),this.enableUpdating(!0),null===(t=this.ΠU)||void 0===t||t.forEach((t=>{var i;return null===(i=t.hostConnected)||void 0===i?void 0:i.call(t)})),this.Πl&&(this.Πl(),this.Πo=this.Πl=void 0);}enableUpdating(t){}disconnectedCallback(){var t;null===(t=this.ΠU)||void 0===t||t.forEach((t=>{var i;return null===(i=t.hostDisconnected)||void 0===i?void 0:i.call(t)})),this.Πo=new Promise((t=>this.Πl=t));}attributeChangedCallback(t,i,s){this.K(t,s);}Πj(t,i,s=l$1){var e,h;const r=this.constructor.Πp(t,s);if(void 0!==r&&!0===s.reflect){const n=(null!==(h=null===(e=s.converter)||void 0===e?void 0:e.toAttribute)&&void 0!==h?h:o$4.toAttribute)(i,s.type);this.Πh=t,null==n?this.removeAttribute(r):this.setAttribute(r,n),this.Πh=null;}}K(t,i){var s,e,h;const r=this.constructor,n=r.Πm.get(t);if(void 0!==n&&this.Πh!==n){const t=r.getPropertyOptions(n),l=t.converter,a=null!==(h=null!==(e=null===(s=l)||void 0===s?void 0:s.fromAttribute)&&void 0!==e?e:"function"==typeof l?l:null)&&void 0!==h?h:o$4.fromAttribute;this.Πh=n,this[n]=a(i,t.type),this.Πh=null;}}requestUpdate(t,i,s){let e=!0;void 0!==t&&(((s=s||this.constructor.getPropertyOptions(t)).hasChanged||n$3)(this[t],i)?(this.L.has(t)||this.L.set(t,i),!0===s.reflect&&this.Πh!==t&&(void 0===this.Πk&&(this.Πk=new Map),this.Πk.set(t,s))):e=!1),!this.isUpdatePending&&e&&(this.Πg=this.Πq());}async Πq(){this.isUpdatePending=!0;try{for(await this.Πg;this.Πo;)await this.Πo;}catch(t){Promise.reject(t);}const t=this.performUpdate();return null!=t&&await t,!this.isUpdatePending}performUpdate(){var t;if(!this.isUpdatePending)return;this.hasUpdated,this.Πi&&(this.Πi.forEach(((t,i)=>this[i]=t)),this.Πi=void 0);let i=!1;const s=this.L;try{i=this.shouldUpdate(s),i?(this.willUpdate(s),null===(t=this.ΠU)||void 0===t||t.forEach((t=>{var i;return null===(i=t.hostUpdate)||void 0===i?void 0:i.call(t)})),this.update(s)):this.Π$();}catch(t){throw i=!1,this.Π$(),t}i&&this.E(s);}willUpdate(t){}E(t){var i;null===(i=this.ΠU)||void 0===i||i.forEach((t=>{var i;return null===(i=t.hostUpdated)||void 0===i?void 0:i.call(t)})),this.hasUpdated||(this.hasUpdated=!0,this.firstUpdated(t)),this.updated(t);}Π$(){this.L=new Map,this.isUpdatePending=!1;}get updateComplete(){return this.getUpdateComplete()}getUpdateComplete(){return this.Πg}shouldUpdate(t){return !0}update(t){void 0!==this.Πk&&(this.Πk.forEach(((t,i)=>this.Πj(i,this[i],t))),this.Πk=void 0),this.Π$();}updated(t){}firstUpdated(t){}}a$1.finalized=!0,a$1.shadowRootOptions={mode:"open"},null===(e$1=(s$2=globalThis).reactiveElementPlatformSupport)||void 0===e$1||e$1.call(s$2,{ReactiveElement:a$1}),(null!==(h$1=(r=globalThis).reactiveElementVersions)&&void 0!==h$1?h$1:r.reactiveElementVersions=[]).push("1.0.0-rc.1");
 
 /**
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
- */var i$2,l,o$3,s$2,n$2,a$1;(null!==(i$2=(a$1=globalThis).litElementVersions)&&void 0!==i$2?i$2:a$1.litElementVersions=[]).push("3.0.0-rc.1");class h extends a$2{constructor(){super(...arguments),this.renderOptions={host:this},this.Φt=void 0;}createRenderRoot(){var t,e;const r=super.createRenderRoot();return null!==(t=(e=this.renderOptions).renderBefore)&&void 0!==t||(e.renderBefore=r.firstChild),r}update(t){const r=this.render();super.update(t),this.Φt=V(r,this.renderRoot,this.renderOptions);}connectedCallback(){var t;super.connectedCallback(),null===(t=this.Φt)||void 0===t||t.setConnected(!0);}disconnectedCallback(){var t;super.disconnectedCallback(),null===(t=this.Φt)||void 0===t||t.setConnected(!1);}render(){return w}}h.finalized=!0,h._$litElement$=!0,null===(o$3=(l=globalThis).litElementHydrateSupport)||void 0===o$3||o$3.call(l,{LitElement:h}),null===(n$2=(s$2=globalThis).litElementPlatformSupport)||void 0===n$2||n$2.call(s$2,{LitElement:h});
+ */var i$2,l,o$3,s$1,n$2,a;(null!==(i$2=(a=globalThis).litElementVersions)&&void 0!==i$2?i$2:a.litElementVersions=[]).push("3.0.0-rc.1");class h extends a$1{constructor(){super(...arguments),this.renderOptions={host:this},this.Φt=void 0;}createRenderRoot(){var t,e;const r=super.createRenderRoot();return null!==(t=(e=this.renderOptions).renderBefore)&&void 0!==t||(e.renderBefore=r.firstChild),r}update(t){const r=this.render();super.update(t),this.Φt=V(r,this.renderRoot,this.renderOptions);}connectedCallback(){var t;super.connectedCallback(),null===(t=this.Φt)||void 0===t||t.setConnected(!0);}disconnectedCallback(){var t;super.disconnectedCallback(),null===(t=this.Φt)||void 0===t||t.setConnected(!1);}render(){return w}}h.finalized=!0,h._$litElement$=!0,null===(o$3=(l=globalThis).litElementHydrateSupport)||void 0===o$3||o$3.call(l,{LitElement:h}),null===(n$2=(s$1=globalThis).litElementPlatformSupport)||void 0===n$2||n$2.call(s$1,{LitElement:h});
 
 /**
  * @license
@@ -428,7 +140,7 @@ const n$1=n=>e=>"function"==typeof e?((n,e)=>(window.customElements.define(n,e),
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const i$1=(i,e)=>"method"===e.kind&&e.descriptor&&!("value"in e.descriptor)?{...e,finisher(n){n.createProperty(e.key,i);}}:{kind:"field",key:Symbol(),placement:"own",descriptor:{},originalKey:e.key,initializer(){"function"==typeof e.initializer&&(this[e.key]=e.initializer.call(this));},finisher(n){n.createProperty(e.key,i);}};function e$1(e){return (n,t)=>void 0!==t?((i,e,n)=>{e.constructor.createProperty(n,i);})(e,n,t):i$1(e,n)}
+const i$1=(i,e)=>"method"===e.kind&&e.descriptor&&!("value"in e.descriptor)?{...e,finisher(n){n.createProperty(e.key,i);}}:{kind:"field",key:Symbol(),placement:"own",descriptor:{},originalKey:e.key,initializer(){"function"==typeof e.initializer&&(this[e.key]=e.initializer.call(this));},finisher(n){n.createProperty(e.key,i);}};function e(e){return (n,t)=>void 0!==t?((i,e,n)=>{e.constructor.createProperty(n,i);})(e,n,t):i$1(e,n)}
 
 /**
  * @license
@@ -468,15 +180,15 @@ function isMobile(mobileDeviceWidth = 896) {
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const t$1={ATTRIBUTE:1,CHILD:2,PROPERTY:3,BOOLEAN_ATTRIBUTE:4,EVENT:5,ELEMENT:6},i=t=>(...i)=>({_$litDirective$:t,values:i});class s$1{constructor(t){}T(t,i,s){this.Σdt=t,this.M=i,this.Σct=s;}S(t,i){return this.update(t,i)}update(t,i){return this.render(...i)}}
+const t={ATTRIBUTE:1,CHILD:2,PROPERTY:3,BOOLEAN_ATTRIBUTE:4,EVENT:5,ELEMENT:6},i=t=>(...i)=>({_$litDirective$:t,values:i});class s{constructor(t){}T(t,i,s){this.Σdt=t,this.M=i,this.Σct=s;}S(t,i){return this.update(t,i)}update(t,i){return this.render(...i)}}
 
 /**
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
- */class n extends s$1{constructor(i){if(super(i),this.vt=A,i.type!==t$1.CHILD)throw Error(this.constructor.directiveName+"() can only be used in child bindings")}render(r){if(r===A)return this.Vt=void 0,this.vt=r;if(r===w)return r;if("string"!=typeof r)throw Error(this.constructor.directiveName+"() called with a non-string value");if(r===this.vt)return this.Vt;this.vt=r;const s=[r];return s.raw=s,this.Vt={_$litType$:this.constructor.resultType,strings:s,values:[]}}}n.directiveName="unsafeHTML",n.resultType=1;const o=i(n);
+ */class n extends s{constructor(i){if(super(i),this.vt=A,i.type!==t.CHILD)throw Error(this.constructor.directiveName+"() can only be used in child bindings")}render(r){if(r===A)return this.Vt=void 0,this.vt=r;if(r===w)return r;if("string"!=typeof r)throw Error(this.constructor.directiveName+"() called with a non-string value");if(r===this.vt)return this.Vt;this.vt=r;const s=[r];return s.raw=s,this.Vt={_$litType$:this.constructor.resultType,strings:s,values:[]}}}n.directiveName="unsafeHTML",n.resultType=1;const o=i(n);
 
-var __decorate$i = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+var __decorate$8 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
@@ -1041,6 +753,25 @@ c16.583,0,30.355-0.984,37.017-1.562V121.497z M190.931,51.013c-6.188,0.551-20.108
             return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
         <path d="M442 114H6a6 6 0 0 1-6-6V84a6 6 0 0 1 6-6h436a6 6 0 0 1 6 6v24a6 6 0 0 1-6 6zm0 160H6a6 6 0 0 1-6-6v-24a6 6 0 0 1 6-6h436a6 6 0 0 1 6 6v24a6 6 0 0 1-6 6zm0 160H6a6 6 0 0 1-6-6v-24a6 6 0 0 1 6-6h436a6 6 0 0 1 6 6v24a6 6 0 0 1-6 6z"/>
       </svg>`;
+        case "island":
+            return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+        <path class="fa-secondary" d="M284.91 358.8a144 144 0 0 0-43.71-6.8h-45.07c10-42.85 25-122.77 21-202.33L238.89 128h27.39c11.16 48 28.58 142.41 18.63 230.8z" opacity="0.4"></path>
+        <path class="fa-primary" d="M241.2 352h-98.4A144 144 0 0 0 .36 474.78C-2.53 494.3 12.39 512 32.12 512h319.76c19.73 0 34.65-17.7 31.76-37.22A144 144 0 0 0 241.2 352zm206.62-238.36C439.69 67.43 393 32 336.53 32c-34.88 0-65.66 13.82-86.3 35.08C235.78 28.29 193.72 0 143.47 0 87 0 40.31 35.43 32.18 81.64a12.37 12.37 0 0 0 10.24 14.2 12.24 12.24 0 0 0 2.18.16H80l16-32 16 32h30.17c-34.21 35-39.62 86.88-14.54 122.58 4.36 6.2 13.14 7.31 18.5 1.95L238.89 128H368l16-32 16 32h35.4a12.38 12.38 0 0 0 12.6-12.18 12.24 12.24 0 0 0-.18-2.18z"></path>
+      </svg>`;
+        case "camera-retro-duotone":
+            return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+        <path class="fa-secondary" d="M256 232a88 88 0 1 0 88 88 88 88 0 0 0-88-88zm0 56a32.09 32.09 0 0 0-32 32 16 16 0 0 1-32 0 64.06 64.06 0 0 1 64-64 16 16 0 0 1 0 32zM480 32H256l-64 48H16A16 16 0 0 0 0 96v64h512V64a32.09 32.09 0 0 0-32-32z" opacity="0.4"/><path class="fa-primary" d="M176 48a16 16 0 0 0-16-16H64a16 16 0 0 0-16 16v32h128zM0 160v272a48 48 0 0 0 48 48h416a48 48 0 0 0 48-48V160zm256 280a120 120 0 1 1 120-120 120 120 0 0 1-120 120z"/>
+      </svg>`;
+        case "map-duotone":
+            return `<svg viewBox="0 0 576 512">
+        <path class="fa-secondary" d="M554.06 161.16L416 224v288l139.88-55.95A32 32 0 0 0 576 426.34V176a16 16 0 0 0-21.94-14.84zM20.12 216A32 32 0 0 0 0 245.66V496a16 16 0 0 0 21.94 14.86L160 448V214.92a302.84 302.84 0 0 1-21.25-46.42zM288 359.67a47.78 47.78 0 0 1-36.51-17C231.83 319.51 210.92 293.09 192 266v182l192 64V266c-18.92 27.09-39.82 53.52-59.49 76.72A47.8 47.8 0 0 1 288 359.67z" opacity="0.4"/>
+        <path class="fa-primary" d="M288 0a126 126 0 0 0-126 126c0 56.26 82.35 158.8 113.9 196a15.77 15.77 0 0 0 24.2 0C331.65 284.8 414 182.26 414 126A126 126 0 0 0 288 0zm0 168a42 42 0 1 1 42-42 42 42 0 0 1-42 42z"/>
+      </svg>`;
+        case "plane-duotone":
+            return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+        <path class="fa-secondary" d="M214.86 192h150.85L260.61 8.06A16 16 0 0 0 246.71 0h-65.5a16 16 0 0 0-15.38 20.39zm-49 299.6a16 16 0 0 0 15.35 20.4h65.5a16 16 0 0 0 13.89-8.06L365.71 320H214.86z" opacity="0.4"/>
+        <path class="fa-primary" d="M480 320H112l-43.2 57.6A16 16 0 0 1 56 384H16A16 16 0 0 1 .49 364.12L32 256 .49 147.88A16 16 0 0 1 16 128h40a16 16 0 0 1 12.8 6.4L112 192h368c35.35 0 96 28.65 96 64s-60.65 64-96 64z"/>
+      </svg>`;
         default:
             assertNever(icon);
     }
@@ -1158,6 +889,20 @@ svg.color-frame:hover {
 svg.color-head-toolbar:hover {
   fill: var(--printess-headToolbarColorHover);
 }
+.color-island {
+  fill: #C8DF52;
+}
+
+.color-island:hover {
+  fill: #d5e974;
+}
+
+.color-ocher, .color-ocher:hover {
+  fill: var(--fuerte-brown);
+}
+.color-aqua, .color-aqua:hover {
+  fill: var(--fuerte-aqua);
+}
 `;
     }
     render() {
@@ -1168,13 +913,13 @@ svg.color-head-toolbar:hover {
         return T `${o(getIcon(this.icon).replace('<svg ', ' <svg class="' + cl + '"'))}`;
     }
 };
-__decorate$i([
-    e$1()
+__decorate$8([
+    e()
 ], WcIcon.prototype, "primaryColor", void 0);
-__decorate$i([
-    e$1()
+__decorate$8([
+    e()
 ], WcIcon.prototype, "icon", void 0);
-WcIcon = __decorate$i([
+WcIcon = __decorate$8([
     n$1("wc-icon")
 ], WcIcon);
 
@@ -1362,645 +1107,266 @@ const config = {
     isMobile: isMobile(896)
 };
 
-const accountStyles = r$1 `
-  .account-page {
-    font-family: var(--printess-text-font);
-    font-size: 14px;
-    font-weight: 400;
-    color: #555555;
+const layoutStyles = r$1 `
+  .account-layout {
+    font-family: var(--printess-font);
+    height: 100vh;
+    display: grid;
+    grid-template-rows: 50px 1fr;
+    grid-template-columns: 200px 1fr;
+    background-color: var(--fuerte-light);
   }
 
-  .topic {
-    font-size: 22px;
-    font-weight: 500;
-    font-family: var(--printess-header-font);
+  #user-content {
+    grid-column: 2/3;
+    grid-row: 2/3;
+    padding: 10px 250px 40px 50px;
+    overflow-y: scroll;
   }
 
-  .card {
-    width: 80%;
-    margin-top: 30px;
-    margin-bottom: 70px;
+  @media (max-width: 1200px) {
+    #user-content {
+      padding-right: 50px;
+    }
+  }
+  
+  .drawer {
+    background-color: var(--fuerte-aqua);
+    grid-column: 1/2;
+    grid-row: 2/3;
+    border-right: 1px solid #1a39601a;
+    outline: none;
+    padding: 30px;
   }
 
-  wc-icon {
-    padding: 5px 0 0 5px;
+  @media (max-width: ${config.mobileDeviceWidth}px) {
+    .account-layout {
+      display: flex;
+      flex-direction: column;
+    }
+
+    #user-content {
+      padding: 50px 30px 20px;
+    }
+
+    .drawer {
+      position: fixed;
+      top: 50;
+      left: 0;
+      right: 0;
+      display: flex;
+      flex-direction: column;
+      height: auto;
+      padding: 0;
+      z-index: 10;
+    }
+  }
+`;
+const navbarStyles = r$1 `
+  header {
+    grid-column: 1/3;
+    grid-row: 1/2;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: auto;
+    z-index: 1;
+    height: 50px;
+    background-color: var(--fuerte-background-color);
+    color: white;
+    font-family: Ubuntu, 'Open Sans', 'Helvetica Neue', sans-serif;
+    padding-left: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: var(--fuerte-box-shadow);
+  }
+  header::before {
+    content: "";
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    background-image: url("assets/fuerteventura_1.jpeg");
+    opacity: 0.2;
+    background-repeat: no-repeat;
+    background-size: cover;
+    z-index: 1;
+  }
+
+  .island {
     width: 20px;
-    height: 20px;
+    margin-left: 10px; 
     cursor: pointer;
   }
 
-  .pink { border-bottom: 2px solid var(--printess-pink); }
-  .green { border-bottom: 2px solid var(--printess-green); }
-  .magenta { border-bottom: 2px solid #d20064; }
-  .blue { border-bottom: 2px solid var(--printess-blue); }
+  @media (max-width: ${config.mobileDeviceWidth}px) {
+    header::before {
+      background-image: none;
+    }
 
-  .table-header {
-    padding-left: 20px;
-    border-top-right-radius: 4px;
-    border-top-left-radius: 4px;
-    color: #fff;
-    margin-top: 10px;
-    margin-bottom: 0;
+    .island {
+      width: 0px;
+    }
+  }
+
+  #printess-logo {
+    display: inline-block;
+    height: 35px;
+    width: 120px;
+    padding-bottom: 5px;
+    padding-left: 0px;
+    background-size: 100%;
+    background-image: url(https://printess.com/printess-white-2.svg);
+    background-position: 0px 0px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    text-decoration: none;
+    background-origin: content-box;
+  }
+`;
+
+const drawerStyles = r$1 `  
+  .tab {
+    cursor: pointer;
+    font-family: var(--printess-font);
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 40px;
+    color: white;
+    text-shadow: 1px 1px 2px #555;
+  }
+
+  .tab wc-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+  }
+
+  .selected {
+    color: var(--fuerte-brown);
+  }
+
+  .user-icon {
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+    @media (max-width: ${config.mobileDeviceWidth}px) {
+    .menu-icon {
+      position: fixed;
+      top: 14px;
+      left: 20px;
+      height: 25px;
+      width: 30px;
+    }
+
+    .tab {
+      border-bottom: 1px solid #ddd;
+      width: 100%;
+      font-size: 15px;
+      justify-content: center;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+  }
+`;
+
+var __decorate$7 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+let WcAppDrawer = class WcAppDrawer extends h {
+    constructor(selectedDrawer) {
+        super();
+        this.selectedDrawer = '';
+        this.drawerOpen = false;
+        this.drawers = [{
+                name: 'foto-preview',
+                title: 'Fotos',
+                icon: 'camera-retro-duotone'
+            }, {
+                name: 'map',
+                title: 'Karte',
+                icon: 'map-duotone'
+            }, {
+                name: 'trip-details',
+                title: 'Reisedaten',
+                icon: 'plane-duotone'
+            }];
+        this.selectedDrawer = selectedDrawer;
+    }
+    static get styles() {
+        return [drawerStyles];
+    }
+    ;
+    ;
+    connectedCallback() {
+        super.connectedCallback();
+    }
+    ;
+    getDrawerSelection(callback) {
+        this.callback = callback;
+    }
+    ;
+    openDrawer() {
+        this.drawerOpen = !this.drawerOpen;
+        this.requestUpdate();
+    }
+    ;
+    setDrawerSelection(name) {
+        this.selectedDrawer = name;
+        if (this.callback) {
+            this.callback(this.selectedDrawer);
+        }
+    }
+    ;
+    render() {
+        return T `
+      ${config.isMobile ? T `<wc-icon @click=${this.openDrawer} class="menu-icon" primaryColor="toolbar" icon=${this.drawerOpen ? 'close' : 'bars-light'}></wc-icon>` : ''} 
+      <aside class="drawer ${!this.drawerOpen && config.isMobile ? 'hidden' : ''}">
+        ${appUser === 'admin' ? T `<div class="tab ${this.selectedDrawer === 'upload' ? "selected" : ""}" style="display: flex; align-items: center;"
+          @click=${() => this.setDrawerSelection('upload')}>Foto Upload</div>` : ''}
+
+        ${this.drawers.map(d => T `<div class="tab ${this.selectedDrawer === d.name ? "selected" : ""}" style="display: flex; align-items: center;"
+          @click=${() => this.setDrawerSelection(d.name)}><wc-icon primaryColor=${this.selectedDrawer === d.name ? "green" : "toolbar"} icon=${d.icon}></wc-icon>${d.title}</div>`)}
+      </aside>
+    `;
+    }
+    ;
+};
+__decorate$7([
+    e({ type: String })
+], WcAppDrawer.prototype, "selectedDrawer", void 0);
+WcAppDrawer = __decorate$7([
+    n$1("wc-app-drawer")
+], WcAppDrawer);
+
+const uploadStyles = r$1 `
+  .upload-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    color: #555;
   }
 
   .title {
-    font-size: 18px;
-    font-weight: 400;
-    line-height: 50px;
-    margin: 0;
-  }
-
-  .pink .table-header { background-color: var(--printess-pink); }
-  .green .table-header { background-color: var(--printess-green); }
-  .magenta .table-header { background-color: #d20064; }
-  .blue .table-header { background-color: var(--printess-blue); }
-
-  dl {
-    display: grid;
-    margin-top: 0;
-    margin-bottom: 0;
-    grid-template-columns: 120px calc(100% - 120px);
-  }
-
-  dt, dd {
-    display: flex;
-    line-height: 25px;
-    margin-left: 0;
-    text-align: left;
-    padding: 10px 20px;
-  }
-
-  dd {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .token {
-    width: 70%;
-    white-space: nowrap; 
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .pink dt:nth-of-type(even), .pink dd:nth-of-type(even) {
-    background-color: var(--printess-lightpink);
-  }
-  .green dt:nth-of-type(even), .green dd:nth-of-type(even) {
-    background-color: var(--printess-lightgreen);
-  }
-  .blue dt:nth-of-type(even), .blue dd:nth-of-type(even) {
-    background-color: var(--printess-lightblue);
-  }
-
-  input.readonly {
-    border: none;
-    outline: none;
-    background-color: transparent;
-    font-size: 16px;
-  }
-
-  button {
-    padding: 2px 7px;
-    border: none;
-    border-radius: 4px;
-    color: #fff;
-    cursor: pointer;
-    font-family: var(--printess-button-font);
-    font-size: 14px;
-    font-weight: 400;
-  }
-
-  .settings {
-    padding: 7px 20px;
-    margin: 20px 15px;
-  }
-
-  .pink button { background-color: var(--printess-pink); }
-  .green button { background-color: var(--printess-green); }
-  .magenta button { background-color: #d20064; }
-  .blue button { background-color: var(--printess-blue); }
-
-  .pink .hide-token {
-    background-color: var(--printess-pink);
-    border: 1px solid var(--printess-pink);
-    color: var(--printess-pink);
-  }
-  .green .hide-token {
-    background-color: var(--printess-lightgreen);
-    border: 1px solid var(--printess-green);
-    color: var(--printess-green);
-  }
-  .magenta .hide-token {
-    background-color: var(--printess-lightmagenta);
-    border: 1px solid var(--printess-magenta);
-    color: var(--printess-magenta);
-  }
-  .blue .hide-token {
-    background-color: var(--printess-lightblue);
-    border: 1px solid var(--printess-blue);
-    color: var(--printess-blue);
-  }
-  
-  @media (max-width: ${config.mobileDeviceWidth}px) {
-    .topic {
-      font-size: 20px;
-    }
-
-    .subtopic {
-      font-size: 14px;
-    }
-
-    .card {
-      width: 100%;
-      margin-bottom: 50px;
-    }
-
-    .table-header {
-      padding-left: 10px;
-    }
-
-    .title {
-      font-size: 14px;
-      line-height: 36px;
-      margin: 0;
-    }
-
-    dl {
-      grid-template-columns: 80px calc(100% - 80px);
-    }
-
-    dd, dt {
-      font-size: 12px;
-      word-break: break-word;
-      line-height: 16px;
-      padding: 10px;
-    }
-
-    .table-body p {
-      font-size: 12px;
-      padding: 0 10px;
-    }
-
-    .settings {
-      font-size: 12px;
-    }
+    text-align: center;
+    padding-right: 150px;
   }
 `;
-
-const dialogStyles = r$1 `
-  .modal {
-    font-family: var(--printess-text-font);
-    color: #555555;
-    display: block;
-    position: fixed;
-    z-index: 100;
-    padding-top: 70px;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-  }
-
-  .modal-wrapper {
-    background-color: #fefefe;
-    margin: auto;
-    width: 50vmin;
-    box-shadow: 0px 4px 10px rgba(0,0,0,0.2), 0px 4px 20px rgba(0,0,0,0.2);
-  }
-
-  @media (max-width: ${config.mobileDeviceWidth}px) {
-    .modal {
-      padding-top: 45px;
-    }
-
-    .modal-wrapper {
-      width: 70vmin;
-    }
-  }
-
-  .pink { border-bottom: 2px solid #e35fbc; }
-  .green { border-bottom: 2px solid var(--printess-green); }
-  .magenta { border-bottom: 2px solid var(--printess-magenta); }
-  .blue { border-bottom: 2px solid var(--printess-blue); }
-
-  .modal-header {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    padding-left: 20px;
-    color: #fff;
-    margin-top: 10px;
-    margin-bottom: 0;
-  }
-
-  .modal-title {
-    line-height: 50px;
-    margin: 0;
-    font-size: 18px;
-    font-weight: 400;
-  }
-
-  wc-icon {
-    width: 20px;
-    height: 20px;
-    cursor: pointer;
-    margin: 15px 20px;
-  }
-
-  .pink .modal-header { background-color: #e35fbc; }
-  .green .modal-header { background-color: var(--printess-green); }
-  .magenta .modal-header { background-color: var(--printess-magenta); }
-  .blue .modal-header { background-color: var(--printess-blue); }
-
-  .modal-content {
-    padding: 20px;
-    font-size: 16px;
-    font-weight: 400;
-    text-align: left;
-    min-height: 160px;
-  }
-
-  label {
-    font-size: 14px;
-    padding-left: 2px;
-  }
-
-  input {
-    padding: 10px;
-    font-size: 14px;
-    font-weight: 400;
-    width: 100%;
-    margin-top: 7px;
-    border: 1px solid rgb(118, 118, 118);
-  }
-
-  input:hover {
-    background-color: var(--printess-lightpink);
-    border: 1px solid rgb(118, 118, 118);
-  }
-
-  button.submit {
-    width: 100%;
-    padding: 10px;
-    margin-top: 15px;
-    color: white;
-    cursor: pointer;
-    outline: none;
-    border: none;
-    border-radius: 4px;
-    background-color: #e35fbc;
-    font-family: var(--printess-button-font);
-    font-size: 14px;
-    font-weight: 400;
-  }
-
-  .pink .submit { background-color: #e35fbc; }
-  .green .submit { background-color: var(--printess-green); }
-  .magenta .submit { background-color: var(--printess-magenta); }
-  .blue .submit { background-color: var(--printess-blue); }
-
-  .pink .submit:hover {
-    background-color: #e447b6;
-  }
-`;
-
-var __decorate$h = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-let WcBackdrop = class WcBackdrop extends h {
-    constructor() {
-        super();
-    }
-    ;
-    static get styles() {
-        return r$1 `
-      :host, :host * {
-          box-sizing: border-box;
-      }
-      :host  {
-          position: absolute;
-          left:0;
-          top:0;
-          width: 100vw;
-          height: 100vh;
-          background: rgba(0,0,0,0.5);
-          z-index: 89;
-      }
-    `;
-    }
-    ;
-    cancelMouse(e) {
-        e.preventDefault();
-        e.stopPropagation();
-    }
-    ;
-    connectedCallback() {
-        super.connectedCallback();
-        this.addEventListener("mousedown", this.cancelMouse);
-        this.addEventListener("mouseup", this.cancelMouse);
-        this.addEventListener("mousemove", this.cancelMouse);
-    }
-    ;
-    disconnectedCallback() {
-        this.removeEventListener("mousedown", this.cancelMouse);
-        this.removeEventListener("mouseup", this.cancelMouse);
-        this.removeEventListener("mousemove", this.cancelMouse);
-        super.disconnectedCallback();
-    }
-    ;
-    render() {
-        return T ``;
-    }
-    ;
-};
-WcBackdrop = __decorate$h([
-    n$1("wc-backdrop")
-], WcBackdrop);
-
-const pinnedUserStyles = r$1 `
-  .pinned-user {
-    display: grid;
-    margin-top: 0;
-    margin-bottom: 0;
-    grid-template-columns: 250px calc(100% - 250px);
-  }
-
-  .pinned-user.lightgreen {
-    background-color: var(--printess-lightgreen);
-  }
-
-  wc-icon {
-    padding: 5px 0 0 5px;
-    width: 20px;
-    height: 20px;
-    cursor: pointer;
-  }
-
-  .pinned-user-name, .pinned-user-email {
-    display: flex;
-    font-size: 16px;
-    line-height: 25px;
-    margin-left: 0;
-    font-weight: 400;
-    text-align: left;
-    padding: 10px 20px;
-  }
-
-  .pinned-user-email {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  button {
-    padding: 2px 7px;
-    border: none;
-    border-radius: 4px;
-    color: #fff;
-    cursor: pointer;
-    font-family: var(--printess-button-font);
-    font-size: 14px;
-    font-weight: 400;
-  }
-
-  .pink button { background-color: var(--printess-pink); }
-  .green button { background-color: var(--printess-green); }
-  .magenta button { background-color: var(--printess-magenta); }
-  .blue button { background-color: var(--printess-blue); }
-
-  .button-span {
-    display: flex;
-    flex-direction: row;
-  }
-
-  .user-name {
-    padding-left: 10px;
-  }
-`;
-
-var __decorate$g = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-let WcPinnedUser = class WcPinnedUser extends h {
-    constructor(name, email, idx) {
-        super();
-        this.name = '';
-        this.email = '';
-        this.name = name;
-        this.email = email;
-        this.idx = idx;
-    }
-    static get styles() {
-        return [pinnedUserStyles];
-    }
-    ;
-    ;
-    render() {
-        return T `
-      <div class="pinned-user green ${this.idx % 2 === 0 ? '' : 'lightgreen'}">
-        <div class="pinned-user-name">
-          <wc-icon icon="user-solid"></wc-icon>
-          <span name="user-name" class="user-name">${this.name}</span>
-        </div>
-        <div class="pinned-user-email">
-          <span name="user-email" class="user-email">${this.email}</span>
-          <span class="button-span">
-            <button @click=${this.adjustUserRights} style="margin-right: 10px;">user rights</button>
-            <button @click=${this.removeUser}>remove user</button>
-          </span>
-        </div>
-      </div>
-    `;
-    }
-    ;
-    adjustUserRights(e) {
-        console.log(e.target.parentNode.parentNode.querySelector('span.user-email').textContent);
-    }
-    ;
-    removeUser(e) {
-        this.remove();
-    }
-    ;
-};
-__decorate$g([
-    e$1({ type: String })
-], WcPinnedUser.prototype, "name", void 0);
-__decorate$g([
-    e$1({ type: String })
-], WcPinnedUser.prototype, "email", void 0);
-__decorate$g([
-    e$1({ type: Number })
-], WcPinnedUser.prototype, "idx", void 0);
-WcPinnedUser = __decorate$g([
-    n$1("wc-pinned-user")
-], WcPinnedUser);
-
-var __decorate$f = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-let WcDialogPinUser = class WcDialogPinUser extends h {
-    constructor() {
-        super();
-        this.errorMsg = '';
-        this.backdrop = new WcBackdrop();
-    }
-    ;
-    showDialog(callback) {
-        this.callback = callback;
-        document.body.appendChild(this.backdrop);
-        document.body.appendChild(this);
-    }
-    ;
-    closeDialog() {
-        document.body.removeChild(this.backdrop);
-        document.body.removeChild(this);
-    }
-    ;
-    static get styles() {
-        return [dialogStyles];
-    }
-    ;
-    render() {
-        return T `
-      <div class="modal">
-      
-        <div class="modal-wrapper pink">
-          <div class="modal-header">
-            <slot name="title" class="modal-title">Add User</slot>
-            <wc-icon primaryColor="arrows" icon="close" @click=${() => this.closeDialog()}></wc-icon>
-          </div>
-      
-          <div class="modal-content">
-            <div>
-              <label for="name" style="display: flex;">Pin a user: &nbsp;<span style="color: red; display: ${this.errorMsg ? 'block' : 'none'}"> ${this.errorMsg}</span></label>
-              <input type="text" id="name" name="name" placeholder="user name">
-              <input type="email" id="email" name="email" placeholder="e-mail address" required>
-              <button @click=${this.addUser} class="submit">Add User</button>
-            </div>
-          </div>
-        </div>
-      
-      </div>
-    `;
-    }
-    ;
-    addUser(e) {
-        const name = e.target.parentNode.querySelector('#name').value;
-        const email = e.target.parentNode.querySelector('#email').value;
-        if (!name && email.indexOf('@') === -1) {
-            this.errorMsg = 'to pin a user fill in name and email address';
-            return;
-        }
-        if (!name) {
-            this.errorMsg = 'name missing';
-            return;
-        }
-        if (email.indexOf('@') === -1) {
-            this.errorMsg = 'no valid email address';
-            return;
-        }
-        this.errorMsg = '';
-        if (this.callback) {
-            this.callback(name, email);
-        }
-        this.closeDialog();
-    }
-    ;
-};
-__decorate$f([
-    e$1({ type: String })
-], WcDialogPinUser.prototype, "errorMsg", void 0);
-WcDialogPinUser = __decorate$f([
-    n$1("wc-dialog-pin-user")
-], WcDialogPinUser);
-
-var __decorate$e = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-let WcAccountPage = class WcAccountPage extends h {
-    constructor() {
-        super(...arguments);
-        this.pinnedUsers = [{
-                name: 'Christoph Clermont',
-                email: 'cc@printess.com'
-            }];
-        this.currentUser = currentUser;
-    }
-    static get styles() {
-        return [accountStyles];
-    }
-    ;
-    connectedCallback() {
-        super.connectedCallback();
-    }
-    ;
-    render() {
-        return T `
-            <div class="account-page"> 
-                <h3 class="topic">Profile</h3>
-            
-                <div class="card green">
-                    <div class="table-header">
-                        <h3 class="title">Personal Information</h3>
-                    </div>
-                    <div class="table-body">
-                        <dl>
-                            <dt>Name:</dt>
-                            <dd>${this.currentUser.displayName}</dd>
-                            <dt>Email:</dt>
-                            <dd>${this.currentUser.eMailAddress}</dd>
-                            <!-- <dt>Password:</dt>
-                            <dd>********</dd> -->
-                            <dt>Last Login:</dt>
-                            <dd>${this.currentUser.lastLogin}</dd>
-                        </dl>
-                        <!-- <button class="settings">Edit Settings</button> -->
-                    </div>
-                </div>
-            
-                <h3 class="topic">Danger Zone</h3>
-                <p class="subtopic">Irreversible and destructive actions</p>
-            
-                <div class="card magenta">
-                    <div class="table-header">
-                        <h3 class="title">Delete Account</h3>
-                    </div>
-                    <div class="table-body">
-                        <p style="padding-left: 20px;">Once you delete this account, there is no going back. All your content will
-                            be deleted.</p>
-                        <button class="settings">Delete Account</button>
-                    </div>
-                </div>
-            </div>
-        `;
-    }
-    ;
-    addUser(e) {
-        const td = new WcDialogPinUser();
-        td.showDialog((name, email) => {
-            this.pinnedUsers = [...this.pinnedUsers, { name, email }];
-        });
-    }
-    ;
-};
-__decorate$e([
-    e$1({ type: Array })
-], WcAccountPage.prototype, "pinnedUsers", void 0);
-WcAccountPage = __decorate$e([
-    n$1("wc-account-page")
-], WcAccountPage);
 
 class NobsBase {
     constructor(nobs, source) {
@@ -2276,2863 +1642,218 @@ class Nobs {
     }
 }
 
-var __awaiter$3 = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-function getData(api) {
-    return __awaiter$3(this, void 0, void 0, function* () {
-        const response = yield fetch(api);
-        const data = yield response.json();
-        return data;
-    });
-}
-
-const templateStyles = r$1 `
-  .template-item {    
-    width: 270px;
-    display: flex;
-    border-radius: 5px;
-    padding: 20px;
-    font-family: var(--printess-text-font);
-    color: #555555;
-  }
-
-  .pink  { background-color: var(--printess-lightpink); }
-  .green  { background-color: var(--printess-lightgreen); }
-  .blue  { background-color: var(--printess-lightblue); }
-  .magenta  { background-color: var(--printess-lightmagenta); }
-
-  .template-img {
-    display: flex;
-    width: 100px;
-    padding-right:20px;
-    justify-content: center;
-    align-items: center;
-  }
-
-  img {
-    border-radius: 5px;
-    width: 100px;
-    height: 80px;
-    object-fit: cover;
-  }
-
-  .template-txt {
-    justify-content: center;
-    margin: auto;
-    width: 180px;
-  }
-
-  .template-title {
-    margin-top: 0;
-  }
-
-  .template-info {
-    margin-bottom: 0;
-    font-size: 12px;
-    line-height: 20px;
-  }
-`;
-
-var __decorate$d = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-let WcTemplatePreview = class WcTemplatePreview extends h {
-    constructor(template, color) {
-        super();
-        this.color = '';
-        this.color = color;
-        this.template = template;
-    }
-    static get styles() {
-        return [templateStyles];
-    }
-    ;
-    render() {
-        var _a, _b, _c, _d;
-        return T `
-            <div class="template-item ${this.color}">
-                <div class="template-img">
-                    <img src=${this.template && this.template.imageSource} alt=${(_a = this.template) === null || _a === void 0 ? void 0 : _a.templateName}>
-                </div>
-                <div class="template-txt">
-                    <p class="template-title">${(_b = this.template) === null || _b === void 0 ? void 0 : _b.templateName}</p>
-                    <p class="template-info">
-                        <span>created: ${(_c = this.template) === null || _c === void 0 ? void 0 : _c.dateCreated}</span><br>
-                        <span>last modified: ${(_d = this.template) === null || _d === void 0 ? void 0 : _d.dateModified}</span>
-                    </p>
-                </div>
-            </div>
-        `;
-    }
-    ;
-};
-__decorate$d([
-    e$1({ attribute: true, type: Object })
-], WcTemplatePreview.prototype, "template", void 0);
-__decorate$d([
-    e$1({ attribute: true, type: String })
-], WcTemplatePreview.prototype, "color", void 0);
-WcTemplatePreview = __decorate$d([
-    n$1("wc-template-preview")
-], WcTemplatePreview);
-
-const templatesPageStyles = r$1 `
-  .template-page {
-    font-family: var(--printess-text-font);
-    color: #555555;
-  }
-
-  .topic {
-    font-size: 22px;
-    font-weight: 500;
-    font-family: var(--printess-header-font);
-  }
-
-  .template-wrapper {
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
-    grid-gap: 20px;
-    margin-top: 30px;
-  }
-
-  @media (max-width: ${config.mobileDeviceWidth}px) {
-    .topic {
-      font-size: 20px;
-    }
-
-    .subtopic {
-      font-size: 14px;
-    }
-  }
-`;
-
-var __decorate$c = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-let WcTemplatesPage = class WcTemplatesPage extends h {
-    static get styles() {
-        return [templatesPageStyles];
-    }
-    ;
-    connectedCallback() {
-        super.connectedCallback();
-        getData('../../mockup/templates.json')
-            .then(data => this.templates = data.templates);
-    }
-    renderTemplates() {
-        if (this.templates) {
-            return T `${this.templates.map((template, idx) => new WcTemplatePreview(template, ['green', 'pink', 'blue',
-                'magenta'][idx % 4]))}`;
-        }
-        else {
-            return T `<p>Templates loading ...</p>`;
+class UploadNobs extends NobsBase {
+    constructor(nobs_or_dto, source) {
+        var _a, _b, _c, _d, _e;
+        super(nobs_or_dto, source);
+        if (!(nobs_or_dto instanceof Nobs) && !(source instanceof UploadNobs)) {
+            const model = nobs_or_dto;
+            this.id = "";
+            this.headline = (_a = model.headline) !== null && _a !== void 0 ? _a : "";
+            this.story = (_b = model.story) !== null && _b !== void 0 ? _b : "";
+            this.date = (_c = model.date) !== null && _c !== void 0 ? _c : new Date();
+            this.location = (_d = model.location) !== null && _d !== void 0 ? _d : [];
+            this.foldername = (_e = model.foldername) !== null && _e !== void 0 ? _e : "";
         }
     }
     ;
-    render() {
-        return T `
-            <div class="template-page">
-                <h3 class="topic">User Templates</h3>
-                <p class="subtopic">Templates list</p>
-                <div class="template-wrapper">
-                    ${this.renderTemplates()}
-                </div>
-            </div>
-        `;
-    }
-    ;
-};
-__decorate$c([
-    e$1({ type: Array })
-], WcTemplatesPage.prototype, "templates", void 0);
-WcTemplatesPage = __decorate$c([
-    n$1("wc-templates-page")
-], WcTemplatesPage);
-
-class SearchOrders extends NobsBase {
-    constructor(nobs_or_dto_or_templateName, source) {
-        var _a, _b, _c, _d;
-        super(nobs_or_dto_or_templateName, source);
-        if (!(nobs_or_dto_or_templateName instanceof Nobs) && !(source instanceof SearchOrders)) {
-            if (typeof nobs_or_dto_or_templateName === "string") {
-                this.templateName = nobs_or_dto_or_templateName;
-                this.origin = "";
-                this.productType = "";
-                this.externalOrderId = "";
-            }
-            else {
-                const model = nobs_or_dto_or_templateName;
-                this.templateName = (_a = model.templateName) !== null && _a !== void 0 ? _a : "";
-                this.templateNameOperator = model.templateNameOperator;
-                this.origin = (_b = model.origin) !== null && _b !== void 0 ? _b : "";
-                this.productType = (_c = model.productType) !== null && _c !== void 0 ? _c : "";
-                this.externalOrderId = (_d = model.externalOrderId) !== null && _d !== void 0 ? _d : "";
-                this.startDate = model.startDate;
-                this.endDate = model.endDate;
-                this.isFinished = model.isFinished;
-                this.isImposed = model.isImposed;
-                this.take = model.take;
-                this.skip = model.skip;
-            }
-        }
-    }
     toDto() {
         return {
-            templateName: this.templateName,
-            templateNameOperator: this.templateNameOperator,
-            origin: this.origin,
-            productType: this.productType,
-            externalOrderId: this.externalOrderId,
-            startDate: this.startDate,
-            endDate: this.endDate,
-            isFinished: this.isFinished,
-            isImposed: this.isImposed,
-            isFailed: this.isFailed,
-            take: this.take,
-            skip: this.skip,
-            payload: adm.useAdminMode ? "skipUserIdCheck" : ""
+            id: "",
+            headline: this.headline,
+            story: this.story,
+            date: this.date,
+            location: this.location,
+            foldername: this.foldername
         };
     }
+    ;
 }
 
-const printjobsStyles = r$1 `
-  .user-orders {
-    font-family: var(--printess-text-font);
-    color: #555555;
+const fotoUploadStyles = r$1 `
+  .foto-upload-container {
+    margin-bottom: 15px;
   }
 
-  .topic {
-    font-size: 22px;
-    font-weight: 500;
-    font-family: var(--printess-header-font);
-    color: #555555;
-  }
-
-  .filter-wrapper {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 30px;
-  }
-
-  .setting-buttons {
-    display: flex;
-    flex-direction: row;
-  }
-
-  .inline {
-    display: flex;
-    align-items: center;
-  }
-
-  .template-name-label {
-    font-size: 16px;
-  }
-
-  .table-settings {
-    display: flex;
-    align-items: center;
-    padding: 10px 20px;
-    height: 35px;
-    margin-right: 10px;
-    cursor: pointer;
-    border: 1px solid #ADADAD;
-    outline: none;
-    border-radius: 4px;
-    font-family: var(--printess-button-font);
+  .file-loader {
+    position: relative;
+    width: 300px;
+    height: 40px;
+    letter-spacing: 0.5px;
+    line-height: 40px;
     font-size: 14px;
-    font-weight: 400;
-    color: #555555;
-  }
-
-  .table-settings:hover {
-    background-color: #e2e2e2;
-  }
-
-  .input-label {
+    font-weight: 600;
+    background-color: black;
+    color: white;
+    border: none;
+    cursor: pointer;
     display: flex;
-    flex-direction: column;
-    margin-bottom: 20px;
-    width: 200px;
+    justify-content: center;
+    margin: 10px 10px 15px;
+    box-shadow: var(--fuerte-box-shadow);
+    &:hover {
+      background-color: white;
+      color: black;
+      border: 1px solid black;
+    }
   }
 
   label {
-    font-size: 12px;
-    font-weight: 400;
-    color: #555555;
+    cursor: pointer;
+    height: auto;
+    cursor: pointer;
   }
 
   input {
-    padding: 10px 20px;
-    background-color: #f8f8f8;
-    border-radius: 4px;
-    border: none;
-    outline: none;
-    margin: 10px 10px 0 0;
-    font-size: 14px;
-    font-weight: 400;
-    font-family: var(--printess-text-font);
-    height: 40px;
-    width: 200px;
-    color:  #555555;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    opacity: 0;
+    width: 100%;
+    cursor: pointer;
   }
 
-  .expanded-filter {
+  .preview {
+    margin: 0 10px;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
+    width: 300px;
   }
 
-  select {
-    padding: 10px 20px;
-    margin: 10px 10px 0 0;
-    height: 40px;
-    width: 200px;
-    font-family: var(--printess-text-font);
-    font-size: 14px;
-    font-weight: 400;
-    background-color: #f8f8f8;
-    outline: none;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    color: #555555;
-  }
-
-  wc-icon {
-    width: 25px;
-    height: 25px;
-  }
-
-  .table-container {
-    margin-top: 10px;
-  }
-
-  .hidden {
-    display: none;
-  }
-
-  @media (max-width: ${config.mobileDeviceWidth}px) {
-    .topic {
-      font-size: 20px;
-    }
-
-    .subtopic {
-      font-size: 14px;
-    }
-
-    .filter-wrapper {
-      margin-top: 20px;
-    }
-
-    .setting-buttons {
-      margin-bottom: 10px;
-    }
-
-    .table-settings {
-      font-size: 12px;
-      padding: 7px 10px;
-      height: 30px;
-      margin-right: 5px;
-    }
-
-    .inline {
-      width: 100%;
-      display: flex;
-      flex-direction: row;
-      flex-wrap: nowrap;
-      align-items: center;
-      margin-top: 20px;
-    }
-
-    .template-name-label {
-      font-size: 12px;
-    }
-    
-    input {
-      padding: 0 15px;
-      font-size: 12px;
-      height: 30px;
-    }
-
-    label {
-      font-size: 12px;
-    }
-
-    wc-icon {
-      width: 15px;
-      height: 15px;
-    }
-
-    .inline wc-icon {
-      width: 20px;
-      height: 20px;
-    }
+  img {
+    height: 60px;
+    margin: 10px;
   }
 `;
-
-class ValueDebounce {
-    constructor(callback) {
-        this.timeout = 1000;
-        this.callback = callback;
-    }
-    change(value, timeout = 1000) {
-        this.value = value;
-        window.clearTimeout(this.timeoutHandle);
-        this.timeoutHandle = window.setTimeout(() => {
-            this.callback(this.value);
-        }, timeout);
-    }
-    immediate(value) {
-        this.value = value;
-        this.callback(value);
-    }
-}
-
-/**
- * @license
- * Copyright 2020 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */const {et:t}=Z,e=()=>document.createComment(""),u$1=(o,i,n)=>{var v;const l=o.A.parentNode,r=void 0===i?o.B:i.A;if(void 0===n){const i=l.insertBefore(e(),r),v=l.insertBefore(e(),r);n=new t(i,v,o,o.options);}else {const t=n.B.nextSibling,i=n.M!==o;if(i&&(null===(v=n.Q)||void 0===v||v.call(n,o),n.M=o),t!==r||i){let o=n.A;for(;o!==t;){const t=o.nextSibling;l.insertBefore(o,r),o=t;}}}return n},c$1=(o,t,i=o)=>(o.I(t,i),o),s={},f=(o,t=s)=>o.H=t,a=o=>o.H,m=o=>{var t;null===(t=o.P)||void 0===t||t.call(o,!1,!0);let i=o.A;const n=o.B.nextSibling;for(;i!==n;){const o=i.nextSibling;i.remove(),i=o;}};
-
-/**
- * @license
- * Copyright 2017 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */
-const u=(e,s,t)=>{const r=new Map;for(let l=s;l<=t;l++)r.set(e[l],l);return r},c=i(class extends s$1{constructor(e){if(super(e),e.type!==t$1.CHILD)throw Error("repeat() can only be used in text expressions")}Mt(e,s,t){let r;void 0===t?t=s:void 0!==s&&(r=s);const l=[],o=[];let i=0;for(const s of e)l[i]=r?r(s,i):i,o[i]=t(s,i),i++;return {values:o,keys:l}}render(e,s,t){return this.Mt(e,s,t).values}update(s,[t,r,c]){var d;const p=a(s),{values:v,keys:a$1}=this.Mt(t,r,c);if(!p)return this.Pt=a$1,v;const h=null!==(d=this.Pt)&&void 0!==d?d:this.Pt=[],m$1=[];let x,y,j=0,k=p.length-1,w$1=0,b=v.length-1;for(;j<=k&&w$1<=b;)if(null===p[j])j++;else if(null===p[k])k--;else if(h[j]===a$1[w$1])m$1[w$1]=c$1(p[j],v[w$1]),j++,w$1++;else if(h[k]===a$1[b])m$1[b]=c$1(p[k],v[b]),k--,b--;else if(h[j]===a$1[b])m$1[b]=c$1(p[j],v[b]),u$1(s,m$1[b+1],p[j]),j++,b--;else if(h[k]===a$1[w$1])m$1[w$1]=c$1(p[k],v[w$1]),u$1(s,p[j],p[k]),k--,w$1++;else if(void 0===x&&(x=u(a$1,w$1,b),y=u(h,j,k)),x.has(h[j]))if(x.has(h[k])){const e=y.get(a$1[w$1]),t=void 0!==e?p[e]:null;if(null===t){const e=u$1(s,p[j]);c$1(e,v[w$1]),m$1[w$1]=e;}else m$1[w$1]=c$1(t,v[w$1]),u$1(s,p[j],t),p[e]=null;w$1++;}else m(p[k]),k--;else m(p[j]),j++;for(;w$1<=b;){const e=u$1(s,m$1[b+1]);c$1(e,v[w$1]),m$1[w$1++]=e;}for(;j<=k;){const e=p[j++];null!==e&&m(e);}return this.Pt=a$1,f(s,m$1),w}});
-
-function toInteger(dirtyNumber) {
-  if (dirtyNumber === null || dirtyNumber === true || dirtyNumber === false) {
-    return NaN;
-  }
-
-  var number = Number(dirtyNumber);
-
-  if (isNaN(number)) {
-    return number;
-  }
-
-  return number < 0 ? Math.ceil(number) : Math.floor(number);
-}
-
-function requiredArgs(required, args) {
-  if (args.length < required) {
-    throw new TypeError(required + ' argument' + (required > 1 ? 's' : '') + ' required, but only ' + args.length + ' present');
-  }
-}
-
-/**
- * @name toDate
- * @category Common Helpers
- * @summary Convert the given argument to an instance of Date.
- *
- * @description
- * Convert the given argument to an instance of Date.
- *
- * If the argument is an instance of Date, the function returns its clone.
- *
- * If the argument is a number, it is treated as a timestamp.
- *
- * If the argument is none of the above, the function returns Invalid Date.
- *
- * **Note**: *all* Date arguments passed to any *date-fns* function is processed by `toDate`.
- *
- * @param {Date|Number} argument - the value to convert
- * @returns {Date} the parsed date in the local time zone
- * @throws {TypeError} 1 argument required
- *
- * @example
- * // Clone the date:
- * const result = toDate(new Date(2014, 1, 11, 11, 30, 30))
- * //=> Tue Feb 11 2014 11:30:30
- *
- * @example
- * // Convert the timestamp to date:
- * const result = toDate(1392098430000)
- * //=> Tue Feb 11 2014 11:30:30
- */
-
-function toDate(argument) {
-  requiredArgs(1, arguments);
-  var argStr = Object.prototype.toString.call(argument); // Clone the date
-
-  if (argument instanceof Date || typeof argument === 'object' && argStr === '[object Date]') {
-    // Prevent the date to lose the milliseconds when passed to new Date() in IE10
-    return new Date(argument.getTime());
-  } else if (typeof argument === 'number' || argStr === '[object Number]') {
-    return new Date(argument);
-  } else {
-    if ((typeof argument === 'string' || argStr === '[object String]') && typeof console !== 'undefined') {
-      // eslint-disable-next-line no-console
-      console.warn("Starting with v2.0.0-beta.1 date-fns doesn't accept strings as date arguments. Please use `parseISO` to parse strings. See: https://git.io/fjule"); // eslint-disable-next-line no-console
-
-      console.warn(new Error().stack);
-    }
-
-    return new Date(NaN);
-  }
-}
-
-/**
- * @name addDays
- * @category Day Helpers
- * @summary Add the specified number of days to the given date.
- *
- * @description
- * Add the specified number of days to the given date.
- *
- * ### v2.0.0 breaking changes:
- *
- * - [Changes that are common for the whole library](https://github.com/date-fns/date-fns/blob/master/docs/upgradeGuide.md#Common-Changes).
- *
- * @param {Date|Number} date - the date to be changed
- * @param {Number} amount - the amount of days to be added. Positive decimals will be rounded using `Math.floor`, decimals less than zero will be rounded using `Math.ceil`.
- * @returns {Date} - the new date with the days added
- * @throws {TypeError} - 2 arguments required
- *
- * @example
- * // Add 10 days to 1 September 2014:
- * const result = addDays(new Date(2014, 8, 1), 10)
- * //=> Thu Sep 11 2014 00:00:00
- */
-
-function addDays(dirtyDate, dirtyAmount) {
-  requiredArgs(2, arguments);
-  var date = toDate(dirtyDate);
-  var amount = toInteger(dirtyAmount);
-
-  if (isNaN(amount)) {
-    return new Date(NaN);
-  }
-
-  if (!amount) {
-    // If 0 days, no-op to avoid changing times in the hour before end of DST
-    return date;
-  }
-
-  date.setDate(date.getDate() + amount);
-  return date;
-}
-
-/**
- * Google Chrome as of 67.0.3396.87 introduced timezones with offset that includes seconds.
- * They usually appear for dates that denote time before the timezones were introduced
- * (e.g. for 'Europe/Prague' timezone the offset is GMT+00:57:44 before 1 October 1891
- * and GMT+01:00:00 after that date)
- *
- * Date#getTimezoneOffset returns the offset in minutes and would return 57 for the example above,
- * which would lead to incorrect calculations.
- *
- * This function returns the timezone offset in milliseconds that takes seconds in account.
- */
-function getTimezoneOffsetInMilliseconds(date) {
-  var utcDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds(), date.getMilliseconds()));
-  utcDate.setUTCFullYear(date.getFullYear());
-  return date.getTime() - utcDate.getTime();
-}
-
-/**
- * @name compareAsc
- * @category Common Helpers
- * @summary Compare the two dates and return -1, 0 or 1.
- *
- * @description
- * Compare the two dates and return 1 if the first date is after the second,
- * -1 if the first date is before the second or 0 if dates are equal.
- *
- * ### v2.0.0 breaking changes:
- *
- * - [Changes that are common for the whole library](https://github.com/date-fns/date-fns/blob/master/docs/upgradeGuide.md#Common-Changes).
- *
- * @param {Date|Number} dateLeft - the first date to compare
- * @param {Date|Number} dateRight - the second date to compare
- * @returns {Number} the result of the comparison
- * @throws {TypeError} 2 arguments required
- *
- * @example
- * // Compare 11 February 1987 and 10 July 1989:
- * const result = compareAsc(new Date(1987, 1, 11), new Date(1989, 6, 10))
- * //=> -1
- *
- * @example
- * // Sort the array of dates:
- * const result = [
- *   new Date(1995, 6, 2),
- *   new Date(1987, 1, 11),
- *   new Date(1989, 6, 10)
- * ].sort(compareAsc)
- * //=> [
- * //   Wed Feb 11 1987 00:00:00,
- * //   Mon Jul 10 1989 00:00:00,
- * //   Sun Jul 02 1995 00:00:00
- * // ]
- */
-
-function compareAsc(dirtyDateLeft, dirtyDateRight) {
-  requiredArgs(2, arguments);
-  var dateLeft = toDate(dirtyDateLeft);
-  var dateRight = toDate(dirtyDateRight);
-  var diff = dateLeft.getTime() - dateRight.getTime();
-
-  if (diff < 0) {
-    return -1;
-  } else if (diff > 0) {
-    return 1; // Return 0 if diff is 0; return NaN if diff is NaN
-  } else {
-    return diff;
-  }
-}
-
-/**
- * @name differenceInCalendarMonths
- * @category Month Helpers
- * @summary Get the number of calendar months between the given dates.
- *
- * @description
- * Get the number of calendar months between the given dates.
- *
- * ### v2.0.0 breaking changes:
- *
- * - [Changes that are common for the whole library](https://github.com/date-fns/date-fns/blob/master/docs/upgradeGuide.md#Common-Changes).
- *
- * @param {Date|Number} dateLeft - the later date
- * @param {Date|Number} dateRight - the earlier date
- * @returns {Number} the number of calendar months
- * @throws {TypeError} 2 arguments required
- *
- * @example
- * // How many calendar months are between 31 January 2014 and 1 September 2014?
- * var result = differenceInCalendarMonths(
- *   new Date(2014, 8, 1),
- *   new Date(2014, 0, 31)
- * )
- * //=> 8
- */
-
-function differenceInCalendarMonths(dirtyDateLeft, dirtyDateRight) {
-  requiredArgs(2, arguments);
-  var dateLeft = toDate(dirtyDateLeft);
-  var dateRight = toDate(dirtyDateRight);
-  var yearDiff = dateLeft.getFullYear() - dateRight.getFullYear();
-  var monthDiff = dateLeft.getMonth() - dateRight.getMonth();
-  return yearDiff * 12 + monthDiff;
-}
-
-/**
- * @name differenceInMilliseconds
- * @category Millisecond Helpers
- * @summary Get the number of milliseconds between the given dates.
- *
- * @description
- * Get the number of milliseconds between the given dates.
- *
- * ### v2.0.0 breaking changes:
- *
- * - [Changes that are common for the whole library](https://github.com/date-fns/date-fns/blob/master/docs/upgradeGuide.md#Common-Changes).
- *
- * @param {Date|Number} dateLeft - the later date
- * @param {Date|Number} dateRight - the earlier date
- * @returns {Number} the number of milliseconds
- * @throws {TypeError} 2 arguments required
- *
- * @example
- * // How many milliseconds are between
- * // 2 July 2014 12:30:20.600 and 2 July 2014 12:30:21.700?
- * const result = differenceInMilliseconds(
- *   new Date(2014, 6, 2, 12, 30, 21, 700),
- *   new Date(2014, 6, 2, 12, 30, 20, 600)
- * )
- * //=> 1100
- */
-
-function differenceInMilliseconds(dirtyDateLeft, dirtyDateRight) {
-  requiredArgs(2, arguments);
-  var dateLeft = toDate(dirtyDateLeft);
-  var dateRight = toDate(dirtyDateRight);
-  return dateLeft.getTime() - dateRight.getTime();
-}
-
-/**
- * @name endOfDay
- * @category Day Helpers
- * @summary Return the end of a day for the given date.
- *
- * @description
- * Return the end of a day for the given date.
- * The result will be in the local timezone.
- *
- * ### v2.0.0 breaking changes:
- *
- * - [Changes that are common for the whole library](https://github.com/date-fns/date-fns/blob/master/docs/upgradeGuide.md#Common-Changes).
- *
- * @param {Date|Number} date - the original date
- * @returns {Date} the end of a day
- * @throws {TypeError} 1 argument required
- *
- * @example
- * // The end of a day for 2 September 2014 11:55:00:
- * const result = endOfDay(new Date(2014, 8, 2, 11, 55, 0))
- * //=> Tue Sep 02 2014 23:59:59.999
- */
-
-function endOfDay(dirtyDate) {
-  requiredArgs(1, arguments);
-  var date = toDate(dirtyDate);
-  date.setHours(23, 59, 59, 999);
-  return date;
-}
-
-/**
- * @name endOfMonth
- * @category Month Helpers
- * @summary Return the end of a month for the given date.
- *
- * @description
- * Return the end of a month for the given date.
- * The result will be in the local timezone.
- *
- * ### v2.0.0 breaking changes:
- *
- * - [Changes that are common for the whole library](https://github.com/date-fns/date-fns/blob/master/docs/upgradeGuide.md#Common-Changes).
- *
- * @param {Date|Number} date - the original date
- * @returns {Date} the end of a month
- * @throws {TypeError} 1 argument required
- *
- * @example
- * // The end of a month for 2 September 2014 11:55:00:
- * const result = endOfMonth(new Date(2014, 8, 2, 11, 55, 0))
- * //=> Tue Sep 30 2014 23:59:59.999
- */
-
-function endOfMonth(dirtyDate) {
-  requiredArgs(1, arguments);
-  var date = toDate(dirtyDate);
-  var month = date.getMonth();
-  date.setFullYear(date.getFullYear(), month + 1, 0);
-  date.setHours(23, 59, 59, 999);
-  return date;
-}
-
-/**
- * @name isLastDayOfMonth
- * @category Month Helpers
- * @summary Is the given date the last day of a month?
- *
- * @description
- * Is the given date the last day of a month?
- *
- * ### v2.0.0 breaking changes:
- *
- * - [Changes that are common for the whole library](https://github.com/date-fns/date-fns/blob/master/docs/upgradeGuide.md#Common-Changes).
- *
- * @param {Date|Number} date - the date to check
- * @returns {Boolean} the date is the last day of a month
- * @throws {TypeError} 1 argument required
- *
- * @example
- * // Is 28 February 2014 the last day of a month?
- * var result = isLastDayOfMonth(new Date(2014, 1, 28))
- * //=> true
- */
-
-function isLastDayOfMonth(dirtyDate) {
-  requiredArgs(1, arguments);
-  var date = toDate(dirtyDate);
-  return endOfDay(date).getTime() === endOfMonth(date).getTime();
-}
-
-/**
- * @name differenceInMonths
- * @category Month Helpers
- * @summary Get the number of full months between the given dates.
- *
- * @description
- * Get the number of full months between the given dates.
- *
- * ### v2.0.0 breaking changes:
- *
- * - [Changes that are common for the whole library](https://github.com/date-fns/date-fns/blob/master/docs/upgradeGuide.md#Common-Changes).
- *
- * @param {Date|Number} dateLeft - the later date
- * @param {Date|Number} dateRight - the earlier date
- * @returns {Number} the number of full months
- * @throws {TypeError} 2 arguments required
- *
- * @example
- * // How many full months are between 31 January 2014 and 1 September 2014?
- * var result = differenceInMonths(new Date(2014, 8, 1), new Date(2014, 0, 31))
- * //=> 7
- */
-
-function differenceInMonths(dirtyDateLeft, dirtyDateRight) {
-  requiredArgs(2, arguments);
-  var dateLeft = toDate(dirtyDateLeft);
-  var dateRight = toDate(dirtyDateRight);
-  var sign = compareAsc(dateLeft, dateRight);
-  var difference = Math.abs(differenceInCalendarMonths(dateLeft, dateRight));
-  var result; // Check for the difference of less than month
-
-  if (difference < 1) {
-    result = 0;
-  } else {
-    if (dateLeft.getMonth() === 1 && dateLeft.getDate() > 27) {
-      // This will check if the date is end of Feb and assign a higher end of month date
-      // to compare it with Jan
-      dateLeft.setDate(30);
-    }
-
-    dateLeft.setMonth(dateLeft.getMonth() - sign * difference); // Math.abs(diff in full months - diff in calendar months) === 1 if last calendar month is not full
-    // If so, result must be decreased by 1 in absolute value
-
-    var isLastMonthNotFull = compareAsc(dateLeft, dateRight) === -sign; // Check for cases of one full calendar month
-
-    if (isLastDayOfMonth(toDate(dirtyDateLeft)) && difference === 1 && compareAsc(dirtyDateLeft, dateRight) === 1) {
-      isLastMonthNotFull = false;
-    }
-
-    result = sign * (difference - Number(isLastMonthNotFull));
-  } // Prevent negative zero
-
-
-  return result === 0 ? 0 : result;
-}
-
-/**
- * @name differenceInSeconds
- * @category Second Helpers
- * @summary Get the number of seconds between the given dates.
- *
- * @description
- * Get the number of seconds between the given dates.
- *
- * ### v2.0.0 breaking changes:
- *
- * - [Changes that are common for the whole library](https://github.com/date-fns/date-fns/blob/master/docs/upgradeGuide.md#Common-Changes).
- *
- * @param {Date|Number} dateLeft - the later date
- * @param {Date|Number} dateRight - the earlier date
- * @returns {Number} the number of seconds
- * @throws {TypeError} 2 arguments required
- *
- * @example
- * // How many seconds are between
- * // 2 July 2014 12:30:07.999 and 2 July 2014 12:30:20.000?
- * const result = differenceInSeconds(
- *   new Date(2014, 6, 2, 12, 30, 20, 0),
- *   new Date(2014, 6, 2, 12, 30, 7, 999)
- * )
- * //=> 12
- */
-
-function differenceInSeconds(dirtyDateLeft, dirtyDateRight) {
-  requiredArgs(2, arguments);
-  var diff = differenceInMilliseconds(dirtyDateLeft, dirtyDateRight) / 1000;
-  return diff > 0 ? Math.floor(diff) : Math.ceil(diff);
-}
-
-var formatDistanceLocale = {
-  lessThanXSeconds: {
-    one: 'less than a second',
-    other: 'less than {{count}} seconds'
-  },
-  xSeconds: {
-    one: '1 second',
-    other: '{{count}} seconds'
-  },
-  halfAMinute: 'half a minute',
-  lessThanXMinutes: {
-    one: 'less than a minute',
-    other: 'less than {{count}} minutes'
-  },
-  xMinutes: {
-    one: '1 minute',
-    other: '{{count}} minutes'
-  },
-  aboutXHours: {
-    one: 'about 1 hour',
-    other: 'about {{count}} hours'
-  },
-  xHours: {
-    one: '1 hour',
-    other: '{{count}} hours'
-  },
-  xDays: {
-    one: '1 day',
-    other: '{{count}} days'
-  },
-  aboutXWeeks: {
-    one: 'about 1 week',
-    other: 'about {{count}} weeks'
-  },
-  xWeeks: {
-    one: '1 week',
-    other: '{{count}} weeks'
-  },
-  aboutXMonths: {
-    one: 'about 1 month',
-    other: 'about {{count}} months'
-  },
-  xMonths: {
-    one: '1 month',
-    other: '{{count}} months'
-  },
-  aboutXYears: {
-    one: 'about 1 year',
-    other: 'about {{count}} years'
-  },
-  xYears: {
-    one: '1 year',
-    other: '{{count}} years'
-  },
-  overXYears: {
-    one: 'over 1 year',
-    other: 'over {{count}} years'
-  },
-  almostXYears: {
-    one: 'almost 1 year',
-    other: 'almost {{count}} years'
-  }
-};
-function formatDistance$1(token, count, options) {
-  options = options || {};
-  var result;
-
-  if (typeof formatDistanceLocale[token] === 'string') {
-    result = formatDistanceLocale[token];
-  } else if (count === 1) {
-    result = formatDistanceLocale[token].one;
-  } else {
-    result = formatDistanceLocale[token].other.replace('{{count}}', count);
-  }
-
-  if (options.addSuffix) {
-    if (options.comparison > 0) {
-      return 'in ' + result;
-    } else {
-      return result + ' ago';
-    }
-  }
-
-  return result;
-}
-
-function buildFormatLongFn(args) {
-  return function (dirtyOptions) {
-    var options = dirtyOptions || {};
-    var width = options.width ? String(options.width) : args.defaultWidth;
-    var format = args.formats[width] || args.formats[args.defaultWidth];
-    return format;
-  };
-}
-
-var dateFormats = {
-  full: 'EEEE, MMMM do, y',
-  long: 'MMMM do, y',
-  medium: 'MMM d, y',
-  short: 'MM/dd/yyyy'
-};
-var timeFormats = {
-  full: 'h:mm:ss a zzzz',
-  long: 'h:mm:ss a z',
-  medium: 'h:mm:ss a',
-  short: 'h:mm a'
-};
-var dateTimeFormats = {
-  full: "{{date}} 'at' {{time}}",
-  long: "{{date}} 'at' {{time}}",
-  medium: '{{date}}, {{time}}',
-  short: '{{date}}, {{time}}'
-};
-var formatLong = {
-  date: buildFormatLongFn({
-    formats: dateFormats,
-    defaultWidth: 'full'
-  }),
-  time: buildFormatLongFn({
-    formats: timeFormats,
-    defaultWidth: 'full'
-  }),
-  dateTime: buildFormatLongFn({
-    formats: dateTimeFormats,
-    defaultWidth: 'full'
-  })
-};
-
-var formatRelativeLocale = {
-  lastWeek: "'last' eeee 'at' p",
-  yesterday: "'yesterday at' p",
-  today: "'today at' p",
-  tomorrow: "'tomorrow at' p",
-  nextWeek: "eeee 'at' p",
-  other: 'P'
-};
-function formatRelative(token, _date, _baseDate, _options) {
-  return formatRelativeLocale[token];
-}
-
-function buildLocalizeFn(args) {
-  return function (dirtyIndex, dirtyOptions) {
-    var options = dirtyOptions || {};
-    var context = options.context ? String(options.context) : 'standalone';
-    var valuesArray;
-
-    if (context === 'formatting' && args.formattingValues) {
-      var defaultWidth = args.defaultFormattingWidth || args.defaultWidth;
-      var width = options.width ? String(options.width) : defaultWidth;
-      valuesArray = args.formattingValues[width] || args.formattingValues[defaultWidth];
-    } else {
-      var _defaultWidth = args.defaultWidth;
-
-      var _width = options.width ? String(options.width) : args.defaultWidth;
-
-      valuesArray = args.values[_width] || args.values[_defaultWidth];
-    }
-
-    var index = args.argumentCallback ? args.argumentCallback(dirtyIndex) : dirtyIndex;
-    return valuesArray[index];
-  };
-}
-
-var eraValues = {
-  narrow: ['B', 'A'],
-  abbreviated: ['BC', 'AD'],
-  wide: ['Before Christ', 'Anno Domini']
-};
-var quarterValues = {
-  narrow: ['1', '2', '3', '4'],
-  abbreviated: ['Q1', 'Q2', 'Q3', 'Q4'],
-  wide: ['1st quarter', '2nd quarter', '3rd quarter', '4th quarter'] // Note: in English, the names of days of the week and months are capitalized.
-  // If you are making a new locale based on this one, check if the same is true for the language you're working on.
-  // Generally, formatted dates should look like they are in the middle of a sentence,
-  // e.g. in Spanish language the weekdays and months should be in the lowercase.
-
-};
-var monthValues = {
-  narrow: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
-  abbreviated: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-  wide: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-};
-var dayValues = {
-  narrow: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
-  short: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
-  abbreviated: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-  wide: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
-};
-var dayPeriodValues = {
-  narrow: {
-    am: 'a',
-    pm: 'p',
-    midnight: 'mi',
-    noon: 'n',
-    morning: 'morning',
-    afternoon: 'afternoon',
-    evening: 'evening',
-    night: 'night'
-  },
-  abbreviated: {
-    am: 'AM',
-    pm: 'PM',
-    midnight: 'midnight',
-    noon: 'noon',
-    morning: 'morning',
-    afternoon: 'afternoon',
-    evening: 'evening',
-    night: 'night'
-  },
-  wide: {
-    am: 'a.m.',
-    pm: 'p.m.',
-    midnight: 'midnight',
-    noon: 'noon',
-    morning: 'morning',
-    afternoon: 'afternoon',
-    evening: 'evening',
-    night: 'night'
-  }
-};
-var formattingDayPeriodValues = {
-  narrow: {
-    am: 'a',
-    pm: 'p',
-    midnight: 'mi',
-    noon: 'n',
-    morning: 'in the morning',
-    afternoon: 'in the afternoon',
-    evening: 'in the evening',
-    night: 'at night'
-  },
-  abbreviated: {
-    am: 'AM',
-    pm: 'PM',
-    midnight: 'midnight',
-    noon: 'noon',
-    morning: 'in the morning',
-    afternoon: 'in the afternoon',
-    evening: 'in the evening',
-    night: 'at night'
-  },
-  wide: {
-    am: 'a.m.',
-    pm: 'p.m.',
-    midnight: 'midnight',
-    noon: 'noon',
-    morning: 'in the morning',
-    afternoon: 'in the afternoon',
-    evening: 'in the evening',
-    night: 'at night'
-  }
-};
-
-function ordinalNumber(dirtyNumber, _dirtyOptions) {
-  var number = Number(dirtyNumber); // If ordinal numbers depend on context, for example,
-  // if they are different for different grammatical genders,
-  // use `options.unit`:
-  //
-  //   var options = dirtyOptions || {}
-  //   var unit = String(options.unit)
-  //
-  // where `unit` can be 'year', 'quarter', 'month', 'week', 'date', 'dayOfYear',
-  // 'day', 'hour', 'minute', 'second'
-
-  var rem100 = number % 100;
-
-  if (rem100 > 20 || rem100 < 10) {
-    switch (rem100 % 10) {
-      case 1:
-        return number + 'st';
-
-      case 2:
-        return number + 'nd';
-
-      case 3:
-        return number + 'rd';
-    }
-  }
-
-  return number + 'th';
-}
-
-var localize = {
-  ordinalNumber: ordinalNumber,
-  era: buildLocalizeFn({
-    values: eraValues,
-    defaultWidth: 'wide'
-  }),
-  quarter: buildLocalizeFn({
-    values: quarterValues,
-    defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
-      return Number(quarter) - 1;
-    }
-  }),
-  month: buildLocalizeFn({
-    values: monthValues,
-    defaultWidth: 'wide'
-  }),
-  day: buildLocalizeFn({
-    values: dayValues,
-    defaultWidth: 'wide'
-  }),
-  dayPeriod: buildLocalizeFn({
-    values: dayPeriodValues,
-    defaultWidth: 'wide',
-    formattingValues: formattingDayPeriodValues,
-    defaultFormattingWidth: 'wide'
-  })
-};
-
-function buildMatchPatternFn(args) {
-  return function (dirtyString, dirtyOptions) {
-    var string = String(dirtyString);
-    var options = dirtyOptions || {};
-    var matchResult = string.match(args.matchPattern);
-
-    if (!matchResult) {
-      return null;
-    }
-
-    var matchedString = matchResult[0];
-    var parseResult = string.match(args.parsePattern);
-
-    if (!parseResult) {
-      return null;
-    }
-
-    var value = args.valueCallback ? args.valueCallback(parseResult[0]) : parseResult[0];
-    value = options.valueCallback ? options.valueCallback(value) : value;
-    return {
-      value: value,
-      rest: string.slice(matchedString.length)
-    };
-  };
-}
-
-function buildMatchFn(args) {
-  return function (dirtyString, dirtyOptions) {
-    var string = String(dirtyString);
-    var options = dirtyOptions || {};
-    var width = options.width;
-    var matchPattern = width && args.matchPatterns[width] || args.matchPatterns[args.defaultMatchWidth];
-    var matchResult = string.match(matchPattern);
-
-    if (!matchResult) {
-      return null;
-    }
-
-    var matchedString = matchResult[0];
-    var parsePatterns = width && args.parsePatterns[width] || args.parsePatterns[args.defaultParseWidth];
-    var value;
-
-    if (Object.prototype.toString.call(parsePatterns) === '[object Array]') {
-      value = findIndex(parsePatterns, function (pattern) {
-        return pattern.test(matchedString);
-      });
-    } else {
-      value = findKey(parsePatterns, function (pattern) {
-        return pattern.test(matchedString);
-      });
-    }
-
-    value = args.valueCallback ? args.valueCallback(value) : value;
-    value = options.valueCallback ? options.valueCallback(value) : value;
-    return {
-      value: value,
-      rest: string.slice(matchedString.length)
-    };
-  };
-}
-
-function findKey(object, predicate) {
-  for (var key in object) {
-    if (object.hasOwnProperty(key) && predicate(object[key])) {
-      return key;
-    }
-  }
-}
-
-function findIndex(array, predicate) {
-  for (var key = 0; key < array.length; key++) {
-    if (predicate(array[key])) {
-      return key;
-    }
-  }
-}
-
-var matchOrdinalNumberPattern = /^(\d+)(th|st|nd|rd)?/i;
-var parseOrdinalNumberPattern = /\d+/i;
-var matchEraPatterns = {
-  narrow: /^(b|a)/i,
-  abbreviated: /^(b\.?\s?c\.?|b\.?\s?c\.?\s?e\.?|a\.?\s?d\.?|c\.?\s?e\.?)/i,
-  wide: /^(before christ|before common era|anno domini|common era)/i
-};
-var parseEraPatterns = {
-  any: [/^b/i, /^(a|c)/i]
-};
-var matchQuarterPatterns = {
-  narrow: /^[1234]/i,
-  abbreviated: /^q[1234]/i,
-  wide: /^[1234](th|st|nd|rd)? quarter/i
-};
-var parseQuarterPatterns = {
-  any: [/1/i, /2/i, /3/i, /4/i]
-};
-var matchMonthPatterns = {
-  narrow: /^[jfmasond]/i,
-  abbreviated: /^(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)/i,
-  wide: /^(january|february|march|april|may|june|july|august|september|october|november|december)/i
-};
-var parseMonthPatterns = {
-  narrow: [/^j/i, /^f/i, /^m/i, /^a/i, /^m/i, /^j/i, /^j/i, /^a/i, /^s/i, /^o/i, /^n/i, /^d/i],
-  any: [/^ja/i, /^f/i, /^mar/i, /^ap/i, /^may/i, /^jun/i, /^jul/i, /^au/i, /^s/i, /^o/i, /^n/i, /^d/i]
-};
-var matchDayPatterns = {
-  narrow: /^[smtwf]/i,
-  short: /^(su|mo|tu|we|th|fr|sa)/i,
-  abbreviated: /^(sun|mon|tue|wed|thu|fri|sat)/i,
-  wide: /^(sunday|monday|tuesday|wednesday|thursday|friday|saturday)/i
-};
-var parseDayPatterns = {
-  narrow: [/^s/i, /^m/i, /^t/i, /^w/i, /^t/i, /^f/i, /^s/i],
-  any: [/^su/i, /^m/i, /^tu/i, /^w/i, /^th/i, /^f/i, /^sa/i]
-};
-var matchDayPeriodPatterns = {
-  narrow: /^(a|p|mi|n|(in the|at) (morning|afternoon|evening|night))/i,
-  any: /^([ap]\.?\s?m\.?|midnight|noon|(in the|at) (morning|afternoon|evening|night))/i
-};
-var parseDayPeriodPatterns = {
-  any: {
-    am: /^a/i,
-    pm: /^p/i,
-    midnight: /^mi/i,
-    noon: /^no/i,
-    morning: /morning/i,
-    afternoon: /afternoon/i,
-    evening: /evening/i,
-    night: /night/i
-  }
-};
-var match = {
-  ordinalNumber: buildMatchPatternFn({
-    matchPattern: matchOrdinalNumberPattern,
-    parsePattern: parseOrdinalNumberPattern,
-    valueCallback: function (value) {
-      return parseInt(value, 10);
-    }
-  }),
-  era: buildMatchFn({
-    matchPatterns: matchEraPatterns,
-    defaultMatchWidth: 'wide',
-    parsePatterns: parseEraPatterns,
-    defaultParseWidth: 'any'
-  }),
-  quarter: buildMatchFn({
-    matchPatterns: matchQuarterPatterns,
-    defaultMatchWidth: 'wide',
-    parsePatterns: parseQuarterPatterns,
-    defaultParseWidth: 'any',
-    valueCallback: function (index) {
-      return index + 1;
-    }
-  }),
-  month: buildMatchFn({
-    matchPatterns: matchMonthPatterns,
-    defaultMatchWidth: 'wide',
-    parsePatterns: parseMonthPatterns,
-    defaultParseWidth: 'any'
-  }),
-  day: buildMatchFn({
-    matchPatterns: matchDayPatterns,
-    defaultMatchWidth: 'wide',
-    parsePatterns: parseDayPatterns,
-    defaultParseWidth: 'any'
-  }),
-  dayPeriod: buildMatchFn({
-    matchPatterns: matchDayPeriodPatterns,
-    defaultMatchWidth: 'any',
-    parsePatterns: parseDayPeriodPatterns,
-    defaultParseWidth: 'any'
-  })
-};
-
-/**
- * @type {Locale}
- * @category Locales
- * @summary English locale (United States).
- * @language English
- * @iso-639-2 eng
- * @author Sasha Koss [@kossnocorp]{@link https://github.com/kossnocorp}
- * @author Lesha Koss [@leshakoss]{@link https://github.com/leshakoss}
- */
-
-var locale = {
-  code: 'en-US',
-  formatDistance: formatDistance$1,
-  formatLong: formatLong,
-  formatRelative: formatRelative,
-  localize: localize,
-  match: match,
-  options: {
-    weekStartsOn: 0
-    /* Sunday */
-    ,
-    firstWeekContainsDate: 1
-  }
-};
-
-function assign(target, dirtyObject) {
-  if (target == null) {
-    throw new TypeError('assign requires that input parameter not be null or undefined');
-  }
-
-  dirtyObject = dirtyObject || {};
-
-  for (var property in dirtyObject) {
-    if (dirtyObject.hasOwnProperty(property)) {
-      target[property] = dirtyObject[property];
-    }
-  }
-
-  return target;
-}
-
-function cloneObject(dirtyObject) {
-  return assign({}, dirtyObject);
-}
-
-var MINUTES_IN_DAY = 1440;
-var MINUTES_IN_ALMOST_TWO_DAYS = 2520;
-var MINUTES_IN_MONTH = 43200;
-var MINUTES_IN_TWO_MONTHS = 86400;
-/**
- * @name formatDistance
- * @category Common Helpers
- * @summary Return the distance between the given dates in words.
- *
- * @description
- * Return the distance between the given dates in words.
- *
- * | Distance between dates                                            | Result              |
- * |-------------------------------------------------------------------|---------------------|
- * | 0 ... 30 secs                                                     | less than a minute  |
- * | 30 secs ... 1 min 30 secs                                         | 1 minute            |
- * | 1 min 30 secs ... 44 mins 30 secs                                 | [2..44] minutes     |
- * | 44 mins ... 30 secs ... 89 mins 30 secs                           | about 1 hour        |
- * | 89 mins 30 secs ... 23 hrs 59 mins 30 secs                        | about [2..24] hours |
- * | 23 hrs 59 mins 30 secs ... 41 hrs 59 mins 30 secs                 | 1 day               |
- * | 41 hrs 59 mins 30 secs ... 29 days 23 hrs 59 mins 30 secs         | [2..30] days        |
- * | 29 days 23 hrs 59 mins 30 secs ... 44 days 23 hrs 59 mins 30 secs | about 1 month       |
- * | 44 days 23 hrs 59 mins 30 secs ... 59 days 23 hrs 59 mins 30 secs | about 2 months      |
- * | 59 days 23 hrs 59 mins 30 secs ... 1 yr                           | [2..12] months      |
- * | 1 yr ... 1 yr 3 months                                            | about 1 year        |
- * | 1 yr 3 months ... 1 yr 9 month s                                  | over 1 year         |
- * | 1 yr 9 months ... 2 yrs                                           | almost 2 years      |
- * | N yrs ... N yrs 3 months                                          | about N years       |
- * | N yrs 3 months ... N yrs 9 months                                 | over N years        |
- * | N yrs 9 months ... N+1 yrs                                        | almost N+1 years    |
- *
- * With `options.includeSeconds == true`:
- * | Distance between dates | Result               |
- * |------------------------|----------------------|
- * | 0 secs ... 5 secs      | less than 5 seconds  |
- * | 5 secs ... 10 secs     | less than 10 seconds |
- * | 10 secs ... 20 secs    | less than 20 seconds |
- * | 20 secs ... 40 secs    | half a minute        |
- * | 40 secs ... 60 secs    | less than a minute   |
- * | 60 secs ... 90 secs    | 1 minute             |
- *
- * ### v2.0.0 breaking changes:
- *
- * - [Changes that are common for the whole library](https://github.com/date-fns/date-fns/blob/master/docs/upgradeGuide.md#Common-Changes).
- *
- * - The function was renamed from `distanceInWords ` to `formatDistance`
- *   to make its name consistent with `format` and `formatRelative`.
- *
- * - The order of arguments is swapped to make the function
- *   consistent with `differenceIn...` functions.
- *
- *   ```javascript
- *   // Before v2.0.0
- *
- *   distanceInWords(
- *     new Date(1986, 3, 4, 10, 32, 0),
- *     new Date(1986, 3, 4, 11, 32, 0),
- *     { addSuffix: true }
- *   ) //=> 'in about 1 hour'
- *
- *   // v2.0.0 onward
- *
- *   formatDistance(
- *     new Date(1986, 3, 4, 11, 32, 0),
- *     new Date(1986, 3, 4, 10, 32, 0),
- *     { addSuffix: true }
- *   ) //=> 'in about 1 hour'
- *   ```
- *
- * @param {Date|Number} date - the date
- * @param {Date|Number} baseDate - the date to compare with
- * @param {Object} [options] - an object with options.
- * @param {Boolean} [options.includeSeconds=false] - distances less than a minute are more detailed
- * @param {Boolean} [options.addSuffix=false] - result indicates if the second date is earlier or later than the first
- * @param {Locale} [options.locale=defaultLocale] - the locale object. See [Locale]{@link https://date-fns.org/docs/Locale}
- * @returns {String} the distance in words
- * @throws {TypeError} 2 arguments required
- * @throws {RangeError} `date` must not be Invalid Date
- * @throws {RangeError} `baseDate` must not be Invalid Date
- * @throws {RangeError} `options.locale` must contain `formatDistance` property
- *
- * @example
- * // What is the distance between 2 July 2014 and 1 January 2015?
- * const result = formatDistance(new Date(2014, 6, 2), new Date(2015, 0, 1))
- * //=> '6 months'
- *
- * @example
- * // What is the distance between 1 January 2015 00:00:15
- * // and 1 January 2015 00:00:00, including seconds?
- * const result = formatDistance(
- *   new Date(2015, 0, 1, 0, 0, 15),
- *   new Date(2015, 0, 1, 0, 0, 0),
- *   { includeSeconds: true }
- * )
- * //=> 'less than 20 seconds'
- *
- * @example
- * // What is the distance from 1 January 2016
- * // to 1 January 2015, with a suffix?
- * const result = formatDistance(new Date(2015, 0, 1), new Date(2016, 0, 1), {
- *   addSuffix: true
- * })
- * //=> 'about 1 year ago'
- *
- * @example
- * // What is the distance between 1 August 2016 and 1 January 2015 in Esperanto?
- * import { eoLocale } from 'date-fns/locale/eo'
- * const result = formatDistance(new Date(2016, 7, 1), new Date(2015, 0, 1), {
- *   locale: eoLocale
- * })
- * //=> 'pli ol 1 jaro'
- */
-
-function formatDistance(dirtyDate, dirtyBaseDate) {
-  var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-  requiredArgs(2, arguments);
-  var locale$1 = options.locale || locale;
-
-  if (!locale$1.formatDistance) {
-    throw new RangeError('locale must contain formatDistance property');
-  }
-
-  var comparison = compareAsc(dirtyDate, dirtyBaseDate);
-
-  if (isNaN(comparison)) {
-    throw new RangeError('Invalid time value');
-  }
-
-  var localizeOptions = cloneObject(options);
-  localizeOptions.addSuffix = Boolean(options.addSuffix);
-  localizeOptions.comparison = comparison;
-  var dateLeft;
-  var dateRight;
-
-  if (comparison > 0) {
-    dateLeft = toDate(dirtyBaseDate);
-    dateRight = toDate(dirtyDate);
-  } else {
-    dateLeft = toDate(dirtyDate);
-    dateRight = toDate(dirtyBaseDate);
-  }
-
-  var seconds = differenceInSeconds(dateRight, dateLeft);
-  var offsetInSeconds = (getTimezoneOffsetInMilliseconds(dateRight) - getTimezoneOffsetInMilliseconds(dateLeft)) / 1000;
-  var minutes = Math.round((seconds - offsetInSeconds) / 60);
-  var months; // 0 up to 2 mins
-
-  if (minutes < 2) {
-    if (options.includeSeconds) {
-      if (seconds < 5) {
-        return locale$1.formatDistance('lessThanXSeconds', 5, localizeOptions);
-      } else if (seconds < 10) {
-        return locale$1.formatDistance('lessThanXSeconds', 10, localizeOptions);
-      } else if (seconds < 20) {
-        return locale$1.formatDistance('lessThanXSeconds', 20, localizeOptions);
-      } else if (seconds < 40) {
-        return locale$1.formatDistance('halfAMinute', null, localizeOptions);
-      } else if (seconds < 60) {
-        return locale$1.formatDistance('lessThanXMinutes', 1, localizeOptions);
-      } else {
-        return locale$1.formatDistance('xMinutes', 1, localizeOptions);
-      }
-    } else {
-      if (minutes === 0) {
-        return locale$1.formatDistance('lessThanXMinutes', 1, localizeOptions);
-      } else {
-        return locale$1.formatDistance('xMinutes', minutes, localizeOptions);
-      }
-    } // 2 mins up to 0.75 hrs
-
-  } else if (minutes < 45) {
-    return locale$1.formatDistance('xMinutes', minutes, localizeOptions); // 0.75 hrs up to 1.5 hrs
-  } else if (minutes < 90) {
-    return locale$1.formatDistance('aboutXHours', 1, localizeOptions); // 1.5 hrs up to 24 hrs
-  } else if (minutes < MINUTES_IN_DAY) {
-    var hours = Math.round(minutes / 60);
-    return locale$1.formatDistance('aboutXHours', hours, localizeOptions); // 1 day up to 1.75 days
-  } else if (minutes < MINUTES_IN_ALMOST_TWO_DAYS) {
-    return locale$1.formatDistance('xDays', 1, localizeOptions); // 1.75 days up to 30 days
-  } else if (minutes < MINUTES_IN_MONTH) {
-    var days = Math.round(minutes / MINUTES_IN_DAY);
-    return locale$1.formatDistance('xDays', days, localizeOptions); // 1 month up to 2 months
-  } else if (minutes < MINUTES_IN_TWO_MONTHS) {
-    months = Math.round(minutes / MINUTES_IN_MONTH);
-    return locale$1.formatDistance('aboutXMonths', months, localizeOptions);
-  }
-
-  months = differenceInMonths(dateRight, dateLeft); // 2 months up to 12 months
-
-  if (months < 12) {
-    var nearestMonth = Math.round(minutes / MINUTES_IN_MONTH);
-    return locale$1.formatDistance('xMonths', nearestMonth, localizeOptions); // 1 year up to max Date
-  } else {
-    var monthsSinceStartOfYear = months % 12;
-    var years = Math.floor(months / 12); // N years up to 1 years 3 months
-
-    if (monthsSinceStartOfYear < 3) {
-      return locale$1.formatDistance('aboutXYears', years, localizeOptions); // N years 3 months up to N years 9 months
-    } else if (monthsSinceStartOfYear < 9) {
-      return locale$1.formatDistance('overXYears', years, localizeOptions); // N years 9 months up to N year 12 months
-    } else {
-      return locale$1.formatDistance('almostXYears', years + 1, localizeOptions);
-    }
-  }
-}
-
-/**
- * @name subDays
- * @category Day Helpers
- * @summary Subtract the specified number of days from the given date.
- *
- * @description
- * Subtract the specified number of days from the given date.
- *
- * ### v2.0.0 breaking changes:
- *
- * - [Changes that are common for the whole library](https://github.com/date-fns/date-fns/blob/master/docs/upgradeGuide.md#Common-Changes).
- *
- * @param {Date|Number} date - the date to be changed
- * @param {Number} amount - the amount of days to be subtracted. Positive decimals will be rounded using `Math.floor`, decimals less than zero will be rounded using `Math.ceil`.
- * @returns {Date} the new date with the days subtracted
- * @throws {TypeError} 2 arguments required
- *
- * @example
- * // Subtract 10 days from 1 September 2014:
- * const result = subDays(new Date(2014, 8, 1), 10)
- * //=> Fri Aug 22 2014 00:00:00
- */
-
-function subDays(dirtyDate, dirtyAmount) {
-  requiredArgs(2, arguments);
-  var amount = toInteger(dirtyAmount);
-  return addDays(dirtyDate, -amount);
-}
-
-const tableStyles$1 = r$1 `
-  .table-wrapper {
-    overflow: auto;
-    border-bottom: 2px solid #d0049b;
-    border-top-right-radius: 4px;
-    border-top-left-radius: 4px;
-    font-family: var(--printess-text-font);
-  }
-  
-  table {
-    margin-top:0;
-    position: relative;
-    border-collapse: collapse;
-    width: 100%;
-    font-size: 14px;
-    font-weight: 400;
-  }
-
-  td, th {
-    padding: 7px 20px;
-    line-height: 25px;
-    white-space: nowrap;
-    color: #555555;
-  }
-
-  tr:nth-child(odd){
-    background-color:rgba(208, 4, 155, 0.04);
-  }
-
-  th {
-    padding-top: 12px;
-    padding-bottom: 12px;
-    text-align: left;
-    background-color: #d0049b;
-    color: #fff;
-    font-size: 18px;
-    font-weight: 400;
-    position: sticky;
-    top:0;
-  }
-
-  td a {
-    text-decoration: none;
-    color: #d3277c;
-  }
-
-  wc-icon {
-    width: 25px;
-    height: 25px;
-  }
-
-  .flex {
-    display: flex;
-  }
-
-  .hide {
-    display: none;
-  }
-
-  .loader {
-    position: fixed;
-    left: 50%;
-    top: 50%;
-    display: inline-block;
-    width: 80px;
-    height: 80px;
-  }
-  .loader:after {
-    content: " ";
-    display: block;
-    width: 64px;
-    height: 64px;
-    margin: 8px;
-    border-radius: 50%;
-    border: 6px solid var(--printess-magenta);
-    border-color: var(--printess-magenta) transparent var(--printess-magenta) transparent;
-    animation: loader 1.2s linear infinite;
-  }
-  @keyframes loader {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
-  }
-  .spinner,
-  .spinner:after {
-    border-radius: 50%;
-    width: 2em;
-    height: 2em;
-  }
-  .spinner {
-    font-size: 8px;
-    position: relative;
-    border-top: 0.5em solid rgba(230,0,126, 0.2);
-    border-right: 0.5em solid rgba(230,0,126, 0.2);
-    border-bottom: 0.5em solid rgba(230,0,126, 0.2);
-    border-left: 0.5em solid #e6007e;
-    -webkit-transform: translateZ(0);
-    -ms-transform: translateZ(0);
-    transform: translateZ(0);
-    -webkit-animation: load8 1.1s infinite linear;
-    animation: load8 1.1s infinite linear;
-  }
-  @-webkit-keyframes load8 {
-    0% {
-      -webkit-transform: rotate(0deg);
-      transform: rotate(0deg);
-    }
-    100% {
-      -webkit-transform: rotate(360deg);
-      transform: rotate(360deg);
-    }
-  }
-  @keyframes load8 {
-    0% {
-      -webkit-transform: rotate(0deg);
-      transform: rotate(0deg);
-    }
-    100% {
-      -webkit-transform: rotate(360deg);
-      transform: rotate(360deg);
-    }
-  }
-
-`;
-
-var __decorate$b = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-let WcDialogErrorMessage = class WcDialogErrorMessage extends h {
-    constructor(errorMsg) {
-        super();
-        this.backdrop = new WcBackdrop();
-        this.errorMsg = errorMsg;
-    }
-    static get styles() {
-        return [dialogStyles, r$1 `
-      .modal-wrapper {
-        width: 70vmin;
-      }
-    `];
-    }
-    ;
-    ;
-    showDialog() {
-        document.body.appendChild(this.backdrop);
-        document.body.appendChild(this);
-    }
-    ;
-    closeDialog() {
-        document.body.removeChild(this.backdrop);
-        document.body.removeChild(this);
-    }
-    ;
-    render() {
-        return T `
-      <div class="modal">
-      
-        <div class="modal-wrapper pink">
-          <div class="modal-header">
-            <slot name="title" class="modal-title">Failure Details</slot>
-            <wc-icon primaryColor="arrows" icon="close" @click=${() => this.closeDialog()}></wc-icon>
-          </div>
-
-          <div class="modal-content">
-            <p style="word-break: break-word;">${this.errorMsg}</p>
-            <button @click=${this.closeDialog} class="submit">Close</button>
-          </div>
-        </div>
-      </div>
-    `;
-    }
-    ;
-};
-__decorate$b([
-    e$1({ attribute: false, type: String })
-], WcDialogErrorMessage.prototype, "errorMsg", void 0);
-WcDialogErrorMessage = __decorate$b([
-    n$1("wc-dialog-error-message")
-], WcDialogErrorMessage);
-
-var __decorate$a = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-const columns = [{
-        name: 'id',
-        title: 'ID'
-    }, {
-        name: 'jobId',
-        title: 'Job ID'
-    }, {
-        name: 'userInfo',
-        title: 'User Info'
-    }, {
-        name: 'userId',
-        title: 'User ID'
-    }, {
-        name: 'sourceUserId',
-        title: 'Source User ID'
-    }, {
-        name: 'externalOrderId',
-        title: 'External Order ID'
-    }, {
-        name: 'templateName',
-        title: 'Template Name'
-    }, {
-        name: 'origin',
-        title: 'Origin'
-    }, {
-        name: 'shopSaveId',
-        title: 'Shop Save ID'
-    }, {
-        name: 'productType',
-        title: 'Product Type'
-    }, {
-        name: 'createdOn',
-        title: 'Created'
-    }, {
-        name: 'finishedOn',
-        title: 'Finished'
-    }, {
-        name: 'isFinished',
-        title: 'Status'
-    }, {
-        name: 'failureDetails',
-        title: 'Failure Details'
-    }, {
-        name: 'result',
-        title: 'Pdf File'
-    }, {
-        name: 'document',
-        title: 'Documents'
-    }, {
-        name: 'pages',
-        title: 'Pages'
-    }, {
-        name: 'size',
-        title: 'Size'
-    }, {
-        name: 'loadableTemplateName',
-        title: 'Loadable Template Name'
-    }];
-let WcPrintjobsTable = class WcPrintjobsTable extends h {
-    constructor(data, headers) {
-        super();
-        this.data = data;
-        this.headers = headers;
-        const localSettings = localStorage.getItem('tableSettings');
-        localSettings ? this.headers = JSON.parse(localSettings) : this.headers;
-    }
-    static get styles() {
-        return [tableStyles$1];
-    }
-    ;
-    ;
-    showError(error) {
-        console.log('error msg: ', error.message, 'error code: ', error.code);
-    }
-    ;
-    getUserInfo(item) {
-        let r = "";
-        if (this.data.users) {
-            const main = this.data.users.filter(u => u.id === item.userId)[0];
-            if (main) {
-                r += main.d + " (" + main.e + ")";
-            }
-            if (item.sourceUserId) {
-                const source = this.data.users.filter(u => u.id === item.sourceUserId)[0];
-                if (source) {
-                    r += ", issued by " + source.d + " (" + source.e + ")";
-                }
-            }
-        }
-        return r;
-    }
-    render() {
-        return T `    
-    ${!this.data ? T `<div class="loader"></div>` : T `
-    <div class="table-wrapper">
-      <table class="layout display responsive-table">
-        <thead>
-          <tr>
-            ${c(columns, item => item.name, item => T `
-              <th class=${this.headers.includes(`${item.title}`) ? '' : 'hide'}>${item.title}</th>
-            `)}
-          </tr>
-        </thead>
-        <tbody>
-          ${this.data && c(this.data.orders, item => item.id, item => {
-            var _a, _b;
-            const userInfo = this.getUserInfo(item);
-            return T `
-            <tr>
-              <td class='orders-id ${this.headers.includes('ID') ? '' : 'hide'}'>${item.id}</td>
-              <td class=${this.headers.includes('Job ID') ? '' : 'hide'}>${item.jobId}</td>
-              <td class=${this.headers.includes('User Info') ? '' : 'hide'}>${userInfo}</td>
-              <td class=${this.headers.includes('User ID') ? '' : 'hide'}>${item.userId}</td>
-              <td class=${this.headers.includes('Source User ID') ? '' : 'hide'}>${item.sourceUserId}</td>
-              <td class=${this.headers.includes('External Order ID') ? '' : 'hide'}>${item.externalOrderId}</td>
-              <td class=${this.headers.includes('Template Name') ? '' : 'hide'}><a href="https://editor.printess.com/?name=${encodeURIComponent(item.loadableTemplateName)}${currentUser.id === item.userId ? "" : "&userId=" + item.userId}" target="_blank" style="display:flex;flex-direction:row;" title=${userInfo}><wc-icon primaryColor="pink" icon="printess-wand"></wc-icon> &nbsp ${item.templateName}</a></td>
-              <td class=${this.headers.includes('Origin') ? '' : 'hide'}>${item.origin}</td>
-              <td class=${this.headers.includes('Shop Save ID') ? '' : 'hide'}>${item.shopSaveId}</td>
-              <td class=${this.headers.includes('Product Type') ? '' : 'hide'}>${item.productType}</td>
-              <td class=${this.headers.includes('Created') ? '' : 'hide'}>${formatDistance(subDays(new Date(item.createdOn), 0), new Date(), { addSuffix: true })}</td>
-              <td class=${this.headers.includes('Finished') ? '' : 'hide'}>${item.isFinished ? formatDistance(subDays(new Date(item.finishedOn ? item.finishedOn : 0), 0), new Date(), { addSuffix: true }) : ''}</td>
-              <td class=${this.headers.includes('Status') ? '' : 'hide'}>${this.statusValue(item.isFinished, item.isFailure, item.failureDetails, item.jobId, item.createdOn)}</td>
-              <td class=${this.headers.includes('Failure Details') ? '' : 'hide'}>${item.failureDetails}</td>
-              <td class=${this.headers.includes('Pdf File') ? 'flex' : 'hide'}>${this.pdfValue((_a = item.result) === null || _a === void 0 ? void 0 : _a.r, (_b = item.result) === null || _b === void 0 ? void 0 : _b.zip)}</td>
-              <td class=${this.headers.includes('Documents') ? '' : 'hide'}>${item.documents}</td>
-              <td class=${this.headers.includes('Pages') ? '' : 'hide'}>${item.pages}</td>
-              <td class=${this.headers.includes('Size') ? '' : 'hide'}>${item.size ? T `${(item.size / 1000000).toFixed(2)} MB` : '0 MB'}</td>
-              <td class=${this.headers.includes('Loadable Template Name') ? '' : 'hide'}><a href="https://editor.printess.com/?name=${item.loadableTemplateName}" target="_blank" title=${userInfo}>${item.loadableTemplateName}</a></td>
-            </tr>
-          `;
-        })}
-          </tbody>
-      </table>
-    </div>
-    `}`;
-    }
-    ;
-    showErrorMsg(message) {
-        const td = new WcDialogErrorMessage(message);
-        td.showDialog();
-    }
-    ;
-    statusValue(isFinished, isFailure, failureDetails, jobId, createdOn) {
-        if (isFinished && !isFailure) {
-            return T `<wc-icon primaryColor="lightgreen" icon="check"></wc-icon>`;
-        }
-        else if (!isFinished) {
-            return T `<div class="spinner"></div>`;
-        }
-        else {
-            return T `<wc-icon primaryColor="pink" icon="warning" @click=${() => this.showErrorMsg(failureDetails)} style="cursor: pointer;"></wc-icon>`;
-        }
-    }
-    ;
-    pdfValue(fileUrl, zipUrl) {
-        if (fileUrl) {
-            return T `${Object.keys(fileUrl).map((url) => T `
-        <a href=${fileUrl[url]} style="display: inline-block" target="_blank">
-          <wc-icon primaryColor="pink" icon="page-inverse" style="margin-right: 10px;"></wc-icon>
-        </a>`)}`;
-        }
-        else if (zipUrl) {
-            return T `
-        <a href="${zipUrl}" target="_blank">
-          <wc-icon primaryColor="pink" icon="page-inverse"></wc-icon>
-        </a>`;
-        }
-        else {
-            return T `<wc-icon primaryColor="gray" icon="page-light"></wc-icon>`;
-        }
-    }
-};
-__decorate$a([
-    e$1({ attribute: false, type: Object })
-], WcPrintjobsTable.prototype, "data", void 0);
-__decorate$a([
-    e$1({ attribute: false, type: Array })
-], WcPrintjobsTable.prototype, "headers", void 0);
-__decorate$a([
-    e$1({ attribute: false, type: String })
-], WcPrintjobsTable.prototype, "errorMsg", void 0);
-__decorate$a([
-    e$1({ attribute: false, type: Object })
-], WcPrintjobsTable.prototype, "productionStatus", void 0);
-WcPrintjobsTable = __decorate$a([
-    n$1("wc-printjobs-table")
-], WcPrintjobsTable);
-
-var __decorate$9 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-const mobileColumns = [{
-        name: 'id',
-        title: 'ID'
-    }, {
-        name: 'jobId',
-        title: 'Job ID'
-    }, {
-        name: 'userInfo',
-        title: 'User Info'
-    }, {
-        name: 'userId',
-        title: 'User ID'
-    }, {
-        name: 'sourceUserId',
-        title: 'Source User ID'
-    }, {
-        name: 'externalOrderId',
-        title: 'External Order ID'
-    }, {
-        name: 'origin',
-        title: 'Origin'
-    }, {
-        name: 'shopSaveId',
-        title: 'Shop Save ID'
-    }, {
-        name: 'productType',
-        title: 'Product Type'
-    }, {
-        name: 'createdOn',
-        title: 'Created'
-    }, {
-        name: 'result',
-        title: 'Pdf File'
-    }, {
-        name: 'loadableTemplateName',
-        title: 'Loadable Template Name'
-    }];
-let WcDialogTableSettings = class WcDialogTableSettings extends h {
-    constructor() {
-        super();
-        this.state = ['ID', 'Template Name', 'Created', 'Status', 'Pdf File', 'Documents', 'Pages', 'Size'];
-        this.headerSelection = config.isMobile ? mobileColumns : columns;
-        this.backdrop = new WcBackdrop();
-    }
-    static get styles() {
-        return [dialogStyles, r$1 `
-      label {
-        cursor: pointer;
-        font-family: var(--printess-text-font);
-      }
-      input {
-        width: auto;
-      }
-
-      [type="checkbox"] {
-        position: relative;
-        border: none;
-        border-radius: 10px;
-        outline: none;
-        left: 0px;
-        top: -10px;
-        width: 40px;
-        height: 16px;
-        z-index: 0;
-        -webkit-appearance: none;
-      }
-
-      [type="checkbox"]:focus, [type="checkbox"]:hover {
-        display: hidden;
-        border: none;
-        outline: none;
-      }
-
-      [type="checkbox"] + label {
-        position: relative;
-        display: block;
-        cursor: pointer;
-        line-height: 1.3;
-        padding-left: 70px;
-        position: relative;
-        margin-top: -35px;
-      }
-      [type="checkbox"] + label:before {
-        width: 40px;
-        height: 18px;
-        border-radius: 30px;
-        border: 2px solid #ddd;
-        background-color: #EEE;
-        content: "";
-        margin-right: 15px;
-        transition: background-color 0.5s linear;
-        z-index: 5;
-        position: absolute;
-        left: 0px;
-      }
-      [type="checkbox"] + label:after {
-        width: 18px;
-        height: 18px;
-        border-radius: 30px;
-        background-color: #fff;
-        content: "";
-        transition: margin 0.1s linear;
-        box-shadow: 0px 0px 5px #aaa;
-        position: absolute;
-        left: 2px;
-        top: 2px;
-        z-index: 10;
-      }
-      [type="checkbox"]:checked + label:before {
-        background-color: #e35fbc;
-      }
-      [type="checkbox"]:checked + label:after {
-        margin: 0 0 0 22px;
-      }
-    `];
-    }
-    ;
-    ;
-    showDialog(callback) {
-        this.callback = callback;
-        document.body.appendChild(this.backdrop);
-        document.body.appendChild(this);
-        const localSettings = localStorage.getItem('tableSettings');
-        localSettings ? this.state = JSON.parse(localSettings) : this.state;
-    }
-    ;
-    closeDialog() {
-        document.body.removeChild(this.backdrop);
-        document.body.removeChild(this);
-    }
-    ;
-    checkAll(e) {
-        var _a, _b;
-        if (!e.target.checked) {
-            (_a = this.shadowRoot) === null || _a === void 0 ? void 0 : _a.querySelectorAll('input').forEach(item => item.checked = false);
-            this.state = [];
-        }
-        else {
-            columns.forEach((col) => this.state.push(col.title));
-            (_b = this.shadowRoot) === null || _b === void 0 ? void 0 : _b.querySelectorAll('input').forEach(item => item.checked = true);
-        }
-    }
-    ;
-    addColumn(e) {
-        const column = e.target.value;
-        if (!this.state.includes(column)) {
-            this.state = [...this.state, column];
-        }
-        else {
-            const i = this.state.indexOf(column);
-            this.state.splice(i, 1);
-        }
-    }
-    ;
-    adjustTable() {
-        if (this.callback) {
-            this.callback(this.state);
-        }
-        localStorage.setItem('tableSettings', JSON.stringify(this.state));
-        this.closeDialog();
-    }
-    ;
-    render() {
-        return T `
-      <div class="modal">
-      
-        <div class="modal-wrapper pink">
-          <div class="modal-header">
-            <slot name="title" class="modal-title">Select Columns</slot>
-            <wc-icon primaryColor="arrows" icon="close" @click=${() => this.closeDialog()}></wc-icon>
-          </div>
-
-          <div class="modal-content">
-            <input @change=${this.checkAll} type="checkbox" name="all" id="all" value="Select All">
-            <label for="all" style="margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #777777"> Select All</label>
-
-            ${c(this.headerSelection, item => item.name, item => T `
-              <input @change=${this.addColumn} type="checkbox" name=${item.name} id=${item.name} value=${item.title} ?checked=${this.state.includes(`${item.title}`)}>
-              <label for=${item.name}> ${item.title}</label><br>
-            `)}
-
-            <button @click=${this.adjustTable} class="submit">Change Table Settings</button>
-          </div>
-        </div>
-      </div>
-    `;
-    }
-    ;
-};
-__decorate$9([
-    e$1({ type: Array })
-], WcDialogTableSettings.prototype, "state", void 0);
-WcDialogTableSettings = __decorate$9([
-    n$1("wc-dialog-table-settings")
-], WcDialogTableSettings);
-
-const paginationStyles = r$1 `
-  wc-icon {
-    width: 25px;
-    height: 25px;
-  }
-
-  .pagination-container {
-    font-size: 14px; 
-    display: grid;
-    grid-template-columns: 2fr 1fr 2fr;
-    align-items: center;
-    font-family: var(--printess-text-font);
-    color: #555555;
-  }
-
-  .page-button {
-    cursor: pointer;
-    margin-left: 10px;
-    background-color: transparent;
-    border: none;
-    outline: none;
-    width: 30px;
-    height: 30px;
-    border-radius: 4px;
-  }
-
-  .page-button:hover {
-    background-color: #eee;
-  }
-
-  .page-button wc-icon {
-    width: 20px;
-    height: 20px;
-  }
-
-  .active-page {
-    background-color: #d0049b;
-    color: white;
-  }
-
-  .active-page:hover {
-    background-color: #d0049b;
-    cursor: default;
-  }
-
-  .disabled:hover, .disabled:focus {
-    cursor: default;
-    background-color: transparent;
-  }
-
-  .dropdown {
-    position: relative;
-    display: inline-block;
-    width: 80px;
-  }
-
-  .current-take {
-    background-color: #f8f8f8;
-    border-radius: 4px;
-    border: none;
-    outline: none;
-    font-size: 14px;
-    font-weight: 400;
-    height: 40px;
-    width: 80px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-  }
-
-  .entries-list {
-    display: block;
-    position: absolute;
-    width: 80px;
-    left: 0;
-    z-index: 1;
-    border: 1px solid lightgray;
-    background-color: white;
-    border-radius: 4px;
-  }
-
-  .top {
-    top: 40px;
-  }
-
-  .bottom {
-    bottom: 40px;
-  }
-
-  .entry {
-    display: block;
-    text-align: center;
-    padding: 10px 20px;
-    cursor: pointer;
-  }
-
-  .entry:hover {
-    background-color: #eee;
-  }
-
-  .hidden {
-    display: none;
-  }
-
-  @media (max-width: ${config.mobileDeviceWidth}px) {
-    .pagination-container {
-      font-size: 12px;
-      grid-template-columns: 2fr 1fr 3fr;
-    }
-
-    .current-take {
-      font-size: 12px;
-      height: 30px;
-      width: 80px;
-    }
-
-    .top {
-      top: 30px;
-    }
-
-    .bottom {
-      bottom: 30px;
-    }
-
-    .page-button {
-      margin-left: 0;
-      width: 20px;
-      height: 20px;
-    }
-
-    wc-icon {
-      width: 15px;
-      height: 15px;
-    }
-
-    .page-button wc-icon {
-      width: 15px;
-      height: 15px;
-    }
-  }
-`;
-
-var __decorate$8 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-let WcPagination = class WcPagination extends h {
-    constructor(count, page, skip, take, position) {
-        super();
-        this.hideTopList = true;
-        this.hideBottomList = true;
-        this.page = 1;
-        this.take = 100;
-        this.skip = 0;
-        this.count = count;
-        this.page = page;
-        this.skip = skip;
-        this.take = take;
-        this.position = position;
-    }
-    static get styles() {
-        return [paginationStyles];
-    }
-    ;
-    ;
-    getPageValues(callback) {
-        this.callback = callback;
-    }
-    ;
-    displayTopList() {
-        this.hideTopList = !this.hideTopList;
-    }
-    ;
-    displayBottomList() {
-        this.hideBottomList = !this.hideBottomList;
-    }
-    ;
-    changeEntries(e) {
-        const value = e.target.getAttribute('data-value');
-        this.take = value !== null ? parseInt(value) : this.take;
-        this.skip = 0;
-        this.page = 1;
-        this.position === 'top' ? this.hideTopList = !this.hideTopList : this.hideBottomList = !this.hideBottomList;
-        if (this.callback) {
-            this.callback(this.page, this.skip, this.take);
-        }
-    }
-    ;
-    updateTable() {
-        const rest = this.count % this.take;
-        this.skip = (this.page - 1) * this.take;
-        if (this.skip === this.count) {
-            this.take = rest;
-            this.skip = this.count - rest;
-        }
-        if (this.callback) {
-            this.callback(this.page, this.skip, this.take);
-        }
-    }
-    ;
-    nextPage() {
-        if (this.page === Math.ceil(this.count / this.take))
-            return;
-        this.page++;
-        this.updateTable();
-    }
-    ;
-    prevPage() {
-        if (this.page === 1)
-            return;
-        this.page--;
-        this.updateTable();
-    }
-    ;
-    firstPage() {
-        if (this.page === 1)
-            return;
-        this.page = 1;
-        this.updateTable();
-    }
-    ;
-    lastPage() {
-        if (this.page === Math.ceil(this.count / this.take))
-            return;
-        this.page = Math.ceil(this.count / this.take);
-        this.updateTable();
-    }
-    ;
-    render() {
-        return T `
-    <div class="pagination-container">
-      <div>
-        ${config.isMobile ? T `
-          ${this.take * this.page - this.take + 1} - ${this.page * this.take > this.count ? this.count : this.page * this.take} / ${this.count}` : T `
-        Showing ${this.take * this.page - this.take + 1} to ${this.page * this.take > this.count ? this.count : this.page * this.take} of ${this.count} entries`}
-        
-      </div>
-      <div style="display: flex; justify-content: center; align-items: center;">
-        ${config.isMobile ? '' : T `<span>Entries: &nbsp</span>`}
-        <div class="dropdown">
-          <div class="current-take" @click=${this.displayTopList}>${this.take}<wc-icon primaryColor="gray" icon="carret-down-solid" style="margin-left: 10px;"></wc-icon></div>
-          <div class="entries-list ${this.position} ${this.hideTopList ? 'hidden' : ''}">
-            <div @click=${this.changeEntries} class="entry" data-value="10">10</div>
-            <div @click=${this.changeEntries} class="entry" data-value="20">20</div>
-            <div @click=${this.changeEntries} class="entry" data-value="50">50</div>
-            <div @click=${this.changeEntries} class="entry" data-value="100">100</div>
-            <div @click=${this.changeEntries} class="entry" data-value="200">200</div>
-            <div @click=${this.changeEntries} class="entry" data-value="500">500</div>
-          </div>
-        </div>
-      </div>
-      <div class="paging" style="display: flex; justify-content: flex-end; align-items: center;">
-        <button @click=${this.firstPage} class="page-button ${this.page === 1 ? "disabled" : ""}" style="margin: 0;">
-          <wc-icon primaryColor=${this.page === 1 ? "gray" : "black"} icon="collapseLeft"></wc-icon>
-        </button>
-        <button @click=${this.prevPage} class="page-button ${this.page === 1 ? "disabled" : ""}" style="margin: 0;">
-          <wc-icon primaryColor=${this.page === 1 ? "gray" : "black"} icon="angle-left"></wc-icon>
-        </button>
-        <span style="margin: 0 10px;">${this.page} ${config.isMobile ? '' : T `of ${Math.ceil(this.count / this.take)}`}</span>
-        <button @click=${this.nextPage} class="page-button ${this.page === Math.ceil(this.count / this.take) ? "disabled" : ""}" style=" margin-left: 0;">
-          <wc-icon primaryColor=${this.page === Math.ceil(this.count / this.take) ? "gray" : "black"} icon="angle-right"></wc-icon>
-        </button>
-        <button @click=${this.lastPage} class="page-button ${this.page === Math.ceil(this.count / this.take) ? "disabled" : ""}" style="margin: 0 5px 0 0;">
-          <wc-icon primaryColor=${this.page === Math.ceil(this.count / this.take) ? "gray" : "black"} icon="expandLeft"></wc-icon>
-        </button>
-      </div>
-    </div>
-  `;
-    }
-    ;
-};
-__decorate$8([
-    e$1({ attribute: false, type: Boolean })
-], WcPagination.prototype, "hideTopList", void 0);
-__decorate$8([
-    e$1({ attribute: false, type: Boolean })
-], WcPagination.prototype, "hideBottomList", void 0);
-__decorate$8([
-    e$1({ attribute: false, type: Number })
-], WcPagination.prototype, "page", void 0);
-__decorate$8([
-    e$1({ attribute: false, type: Number })
-], WcPagination.prototype, "take", void 0);
-__decorate$8([
-    e$1({ attribute: false, type: Number })
-], WcPagination.prototype, "skip", void 0);
-__decorate$8([
-    e$1({ attribute: false, type: Number })
-], WcPagination.prototype, "count", void 0);
-__decorate$8([
-    e$1({ attribute: false, type: String })
-], WcPagination.prototype, "position", void 0);
-WcPagination = __decorate$8([
-    n$1("wc-pagination")
-], WcPagination);
-
-const tableStyles = r$1 `
-  .table-wrapper {
-    margin-top: 15px;
-    overflow: auto;
-    border-bottom: 2px solid #d0049b;
-    font-family: var(--printess-text-font);
-  }
-
-  a {
-    text-decoration: none;
-    color: white;
-  }
-
-  dl {
-    display: grid;
-    margin-top: 0;
-    margin-bottom: 20px;
-    grid-template-columns: 80px calc(100% - 80px);
-  }
-
-  .mobile-table-header {
-    font-size: 14px;
-    padding: 10px 20px;
-    grid-column: 1 / span 2;
-    background-color: #D0049B;
-    border-top-right-radius: 4px;
-    border-top-left-radius: 4px;
-  }
-
-  dt, dd {
-    display: flex;
-    line-height: 16px;
-    margin-left: 0;
-    text-align: left;
-    padding: 10px;
-    font-size: 12px;
-  }
-
-  dd {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  dt:nth-of-type(even), dd:nth-of-type(even) {
-    background-color: #D0049B19;
-  }
-
-  dd a {
-    text-decoration: none;
-    color: #d3277c;
-  }
-
-  wc-icon {
-    width: 15px;
-    height: 15px;
-  }
-
-  .flex {
-    display: flex;
-  }
-
-  .hide {
-    display: none;
-  }
-
-  .loader {
-    position: fixed;
-    left: 50%;
-    top: 50%;
-    display: inline-block;
-    width: 80px;
-    height: 80px;
-  }
-  .loader:after {
-    content: " ";
-    display: block;
-    width: 64px;
-    height: 64px;
-    margin: 8px;
-    border-radius: 50%;
-    border: 6px solid var(--printess-magenta);
-    border-color: var(--printess-magenta) transparent var(--printess-magenta) transparent;
-    animation: loader 1.2s linear infinite;
-  }
-  @keyframes loader {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
-  }
-  .spinner,
-  .spinner:after {
-    border-radius: 50%;
-    width: 2em;
-    height: 2em;
-  }
-  .spinner {
-    font-size: 8px;
-    position: relative;
-    border-top: 0.5em solid rgba(230,0,126, 0.2);
-    border-right: 0.5em solid rgba(230,0,126, 0.2);
-    border-bottom: 0.5em solid rgba(230,0,126, 0.2);
-    border-left: 0.5em solid #e6007e;
-    -webkit-transform: translateZ(0);
-    -ms-transform: translateZ(0);
-    transform: translateZ(0);
-    -webkit-animation: load8 1.1s infinite linear;
-    animation: load8 1.1s infinite linear;
-  }
-  @-webkit-keyframes load8 {
-    0% {
-      -webkit-transform: rotate(0deg);
-      transform: rotate(0deg);
-    }
-    100% {
-      -webkit-transform: rotate(360deg);
-      transform: rotate(360deg);
-    }
-  }
-  @keyframes load8 {
-    0% {
-      -webkit-transform: rotate(0deg);
-      transform: rotate(0deg);
-    }
-    100% {
-      -webkit-transform: rotate(360deg);
-      transform: rotate(360deg);
-    }
-  }
-
-`;
-
-var __decorate$7 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-let WcPrintjobsTableMobile = class WcPrintjobsTableMobile extends h {
-    constructor(data, headers) {
-        super();
-        this.data = data;
-        this.headers = headers;
-        const localSettings = localStorage.getItem('tableSettings');
-        localSettings ? this.headers = JSON.parse(localSettings) : this.headers;
-    }
-    static get styles() {
-        return [tableStyles];
-    }
-    ;
-    ;
-    showError(error) {
-        console.log('error msg: ', error.message, 'error code: ', error.code);
-    }
-    ;
-    getUserInfo(item) {
-        let r = "";
-        if (this.data.users) {
-            const main = this.data.users.filter(u => u.id === item.userId)[0];
-            if (main) {
-                r += main.d + " (" + main.e + ")";
-            }
-            if (item.sourceUserId) {
-                const source = this.data.users.filter(u => u.id === item.sourceUserId)[0];
-                if (source) {
-                    r += ", issued by " + source.d + " (" + source.e + ")";
-                }
-            }
-        }
-        return r;
-    }
-    render() {
-        return T `    
-    ${!this.data ? T `<div class="loader"></div>` : T `
-    <div class="table-wrapper">
-      
-        ${this.data && c(this.data.orders, item => item.id, item => {
-            var _a, _b;
-            const userInfo = this.getUserInfo(item);
-            return T `
-      <dl>
-        ${this.headers.includes('Template Name') ? T `
-          <div class="mobile-table-header"><a href="https://editor.printess.com/?name=${encodeURIComponent(item.loadableTemplateName)}${currentUser.id === item.userId ? "" : "&userId=" + item.userId}" target="_blank" style="display:flex;flex-direction:row;" title=${userInfo}><wc-icon primaryColor="toolbar" icon="printess-wand"></wc-icon> &nbsp ${item.templateName}</a></div>
-        ` : ''}
-        ${this.headers.includes('ID') ? T `
-          <dt>ID</dt>
-          <dd>${item.id}</dd>
-        ` : ''}
-        ${this.headers.includes('Job ID') ? T `
-          <dt>Job ID</dt>
-          <dd>${item.jobId}</dd>
-        ` : ''}
-        ${this.headers.includes('User Info') ? T `
-          <dt>User Info</dt>
-          <dd>${userInfo}</dd>
-        ` : ''}
-        ${this.headers.includes('User ID') ? T `
-          <dt>User ID</dt>
-          <dd>${item.userId}</dd>
-        ` : ''}
-        ${this.headers.includes('Source User ID') ? T `
-          <dt>Source User ID</dt>
-          <dd>${item.sourceUserId}</dd>
-        ` : ''}
-        ${this.headers.includes('External Order ID') ? T `
-          <dt>External Order ID</dt>
-          <dd>${item.externalOrderId}</dd>
-        ` : ''}
-        ${this.headers.includes('Origin') ? T `
-          <dt>Origin</dt>
-          <dd>${item.origin}</dd>
-        ` : ''}
-        ${this.headers.includes('Shop Save ID') ? T `
-          <dt>Shop Save ID</dt>
-          <dd>${item.shopSaveId}</dd>
-        ` : ''}
-        ${this.headers.includes('Product Type') ? T `
-          <dt>Product Type</dt>
-          <dd>${item.productType}</dd>
-        ` : ''}
-        ${this.headers.includes('Created') ? T `
-          <dt>Created</dt>
-          <dd>
-            ${formatDistance(subDays(new Date(item.createdOn), 0), new Date(), { addSuffix: true })}
-            ${this.statusValue(item.isFinished, item.isFailure, item.failureDetails, item.jobId, item.createdOn)}
-          </dd>
-        ` : ''}
-        ${this.headers.includes('Pdf File') ? T `
-          <dt>Pdf File</dt>
-          <dd>
-            ${this.pdfValue((_a = item.result) === null || _a === void 0 ? void 0 : _a.r, (_b = item.result) === null || _b === void 0 ? void 0 : _b.zip)}
-            (${item.size ? T `${(item.size / 1000000).toFixed(2)} MB` : '0 MB'})
-          </dd>
-        ` : ''}
-        ${this.headers.includes('Loadable Template Name') ? T `
-          <dt>Loadable Template Name</dt>
-          <dd><a href="https://editor.printess.com/?name=${encodeURIComponent(item.loadableTemplateName)}${currentUser.id === item.userId ? "" : "&userId=" + item.userId}" target="_blank" title=${userInfo}>${item.loadableTemplateName}</a></dd>
-        ` : ''}
-      </dl>
-      `;
-        })}
-    
-
-      <!-- <table class="layout display responsive-table">
-        <thead>
-          <tr>
-            ${c(columns, item => item.name, item => T `
-              <th class=${this.headers.includes(`${item.title}`) ? '' : 'hide'}>${item.title}</th>
-            `)}
-          </tr>
-        </thead>
-        <tbody>
-          ${this.data && c(this.data.orders, item => item.id, item => {
-            var _a, _b;
-            const userInfo = this.getUserInfo(item);
-            return T `
-            <tr>
-              <td class='orders-id ${this.headers.includes('ID') ? '' : 'hide'}'>${item.id}</td>
-              <td class=${this.headers.includes('Job ID') ? '' : 'hide'}>${item.jobId}</td>
-              <td class=${this.headers.includes('User Info') ? '' : 'hide'}>${userInfo}</td>
-              <td class=${this.headers.includes('User ID') ? '' : 'hide'}>${item.userId}</td>
-              <td class=${this.headers.includes('Source User ID') ? '' : 'hide'}>${item.sourceUserId}</td>
-              <td class=${this.headers.includes('External Order ID') ? '' : 'hide'}>${item.externalOrderId}</td>
-              <td class=${this.headers.includes('Template Name') ? '' : 'hide'}><a href="https://editor.printess.com/?name=${encodeURIComponent(item.loadableTemplateName)}${currentUser.id === item.userId ? "" : "&userId=" + item.userId}" target="_blank" style="display:flex;flex-direction:row;" title=${userInfo}><wc-icon primaryColor="pink" icon="printess-wand"></wc-icon> &nbsp ${item.templateName}</a></td>
-              <td class=${this.headers.includes('Origin') ? '' : 'hide'}>${item.origin}</td>
-              <td class=${this.headers.includes('Shop Save ID') ? '' : 'hide'}>${item.shopSaveId}</td>
-              <td class=${this.headers.includes('Product Type') ? '' : 'hide'}>${item.productType}</td>
-              <td class=${this.headers.includes('Created') ? '' : 'hide'}>${formatDistance(subDays(new Date(item.createdOn), 0), new Date(), { addSuffix: true })}</td>
-              <td class=${this.headers.includes('Finished') ? '' : 'hide'}>${item.isFinished ? formatDistance(subDays(new Date(item.finishedOn ? item.finishedOn : 0), 0), new Date(), { addSuffix: true }) : ''}</td>
-              <td class=${this.headers.includes('Status') ? '' : 'hide'}>${this.statusValue(item.isFinished, item.isFailure, item.failureDetails, item.jobId, item.createdOn)}</td>
-              <td class=${this.headers.includes('Failure Details') ? '' : 'hide'}>${item.failureDetails}</td>
-              <td class=${this.headers.includes('Pdf File') ? 'flex' : 'hide'}>${this.pdfValue((_a = item.result) === null || _a === void 0 ? void 0 : _a.r, (_b = item.result) === null || _b === void 0 ? void 0 : _b.zip)}</td>
-              <td class=${this.headers.includes('Documents') ? '' : 'hide'}>${item.documents}</td>
-              <td class=${this.headers.includes('Pages') ? '' : 'hide'}>${item.pages}</td>
-              <td class=${this.headers.includes('Size') ? '' : 'hide'}>${item.size ? T `${(item.size / 1000000).toFixed(2)} MB` : '0 MB'}</td>
-              <td class=${this.headers.includes('Loadable Template Name') ? '' : 'hide'}><a href="https://editor.printess.com/?name=${item.loadableTemplateName}" target="_blank" title=${userInfo}>${item.loadableTemplateName}</a></td>
-            </tr>
-          `;
-        })}
-          </tbody>
-      </table> -->
-    </div>
-    `}`;
-    }
-    ;
-    showErrorMsg(message) {
-        const td = new WcDialogErrorMessage(message);
-        td.showDialog();
-    }
-    ;
-    statusValue(isFinished, isFailure, failureDetails, jobId, createdOn) {
-        if (isFinished && !isFailure) {
-            return T `<wc-icon primaryColor="lightgreen" icon="check"></wc-icon>`;
-        }
-        else if (!isFinished) {
-            return T `<div class="spinner"></div>`;
-        }
-        else {
-            return T `<wc-icon primaryColor="pink" icon="warning" @click=${() => this.showErrorMsg(failureDetails)} style="cursor: pointer;"></wc-icon>`;
-        }
-    }
-    ;
-    pdfValue(fileUrl, zipUrl) {
-        if (fileUrl) {
-            return T `${Object.keys(fileUrl).map((url) => T `
-        <a href=${fileUrl[url]} style="display: inline-block" target="_blank">
-          <wc-icon primaryColor="pink" icon="page-inverse" style="margin-right: 10px;"></wc-icon>
-        </a>`)}`;
-        }
-        else if (zipUrl) {
-            return T `
-        <a href="${zipUrl}" target="_blank">
-          <wc-icon primaryColor="pink" icon="page-inverse"></wc-icon>
-        </a>`;
-        }
-        else {
-            return T `<wc-icon primaryColor="gray" icon="page-light"></wc-icon>`;
-        }
-    }
-};
-__decorate$7([
-    e$1({ attribute: false, type: Object })
-], WcPrintjobsTableMobile.prototype, "data", void 0);
-__decorate$7([
-    e$1({ attribute: false, type: Array })
-], WcPrintjobsTableMobile.prototype, "headers", void 0);
-__decorate$7([
-    e$1({ attribute: false, type: String })
-], WcPrintjobsTableMobile.prototype, "errorMsg", void 0);
-__decorate$7([
-    e$1({ attribute: false, type: Object })
-], WcPrintjobsTableMobile.prototype, "productionStatus", void 0);
-WcPrintjobsTableMobile = __decorate$7([
-    n$1("wc-printjobs-table-mobile")
-], WcPrintjobsTableMobile);
 
 var __decorate$6 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+const fileTypes = [
+    "image/jpg",
+    "image/bmp",
+    "image/jpeg",
+    "image/png",
+    "image/tiff",
+    "image/webp",
+];
+const validFileType = (file) => fileTypes.includes(file.type);
+let WcUploadFotos = class WcUploadFotos extends h {
+    constructor(foldername, date) {
+        super();
+        this.foldername = foldername;
+        this.date = date;
+    }
+    static get styles() {
+        return [fotoUploadStyles];
+    }
+    ;
+    ;
+    updateImageDisplay(e) {
+        console.log(e.target.files);
+        const curFiles = e.target.files;
+        if (curFiles) {
+            for (const file of curFiles) {
+                if (validFileType(file)) {
+                    const image = document.createElement('img');
+                    const foldername = this.date + '_' + this.foldername;
+                    image.src = URL.createObjectURL(file);
+                    image.alt = file.name;
+                    uploadImage(file, foldername);
+                }
+            }
+            alert('files uploaded');
+        }
+    }
+    ;
+    render() {
+        return T `
+      <div class="foto-upload-container">
+        <div class="file-loader">
+          <label htmlFor='myfile'>UPLOAD FOTOS</label>
+          <input type='file' name='myfile' id='myfile' accept=".jpg, .jpeg, .png, .tiff, .bmp" className='file-input' @change=${(e) => this.updateImageDisplay(e)} multiple />
+        </div>
+        <div className="preview">
+        </div>        
+      </div>
+    `;
+    }
+    ;
+};
+__decorate$6([
+    e({ type: String })
+], WcUploadFotos.prototype, "foldername", void 0);
+__decorate$6([
+    e({ type: String })
+], WcUploadFotos.prototype, "date", void 0);
+__decorate$6([
+    o$1('.preview')
+], WcUploadFotos.prototype, "preview", void 0);
+__decorate$6([
+    o$1('.file-input')
+], WcUploadFotos.prototype, "fileInput", void 0);
+WcUploadFotos = __decorate$6([
+    n$1("wc-upload-fotos")
+], WcUploadFotos);
+
+const formStyles = r$1 `
+  form {
+    font-family: Ubuntu, 'Open Sans', 'Helvetica Neue', sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #555;
+    padding-right: 150px;
+    padding-top: 20px;
+  }
+
+  input {
+    font-family: Ubuntu, 'Open Sans', 'Helvetica Neue', sans-serif;
+    margin: 10px;
+    padding: 5px 10px;
+    width: 300px;
+    height: 40px;
+    outline: none;
+    border: 1px solid #555;
+    box-shadow: var(--fuerte-box-shadow);
+  }
+
+  textarea {
+    font-family: Ubuntu, 'Open Sans', 'Helvetica Neue', sans-serif;
+    margin: 10px;
+    padding: 5px 10px;
+    width: 300px;
+    height: 200px;
+    outline: none;
+    border: 1px solid #555;
+    box-shadow: var(--fuerte-box-shadow);
+  }
+
+  button {
+    font-family: Ubuntu, 'Open Sans', 'Helvetica Neue', sans-serif;
+    margin: 10px;
+    padding: 5px 10px;
+    width: 300px;
+    height: 40px;
+    background-color: var(--fuerte-background-color);
+    border: none;
+    outline: none;
+    color: white;
+    box-shadow: var(--fuerte-box-shadow);
+    font-weight: 600;
+    letter-spacing: 1.2px;
+    cursor: pointer;
+  }
+`;
+
+var __decorate$5 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
@@ -5147,3905 +1868,344 @@ var __awaiter$2 = (undefined && undefined.__awaiter) || function (thisArg, _argu
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-let WcPrintjobsPage = class WcPrintjobsPage extends h {
+let WcUploadForm = class WcUploadForm extends h {
     constructor() {
-        super();
-        this.headers = ['ID', 'Template Name', 'Created', 'Status', 'Pdf File', 'Documents', 'Pages', 'Size'];
-        this.hideFilter = true;
-        this.page = 1;
-        this.take = 100;
-        this.skip = 0;
-        this.isFilter = false;
-        this.loadTemplatesDebounce = new ValueDebounce((value) => __awaiter$2(this, void 0, void 0, function* () {
-            const apiResponse = yield api.loadOrders(value);
-            if (apiResponse instanceof ServerErrorResponse) {
-                this.showError(apiResponse);
-            }
-            else {
-                this.data = apiResponse;
-            }
-        }));
-        this.date = new Date();
-        this.date.setDate(this.date.getDate() - 30);
-        this.state = new SearchOrders({
-            templateName: '',
-            origin: '',
-            productType: '',
-            externalOrderId: '',
-            take: this.take,
-            startDate: this.date
-        });
+        super(...arguments);
+        this.images = [];
     }
     static get styles() {
-        return [printjobsStyles];
+        return [formStyles];
     }
     ;
     setState(nobs) {
-        this.state = new SearchOrders(nobs, this.state);
-    }
-    ;
-    showError(error) {
-        console.log('error msg: ', error.message, 'error code: ', error.code);
-    }
-    ;
-    ;
-    handleOrder(o) {
-        console.log(o);
-        if (this.page === 1 && !this.isFilter) {
-            let count = this.data.count;
-            let users = this.data.users;
-            let newOrders = [];
-            let hasNewOrder = false;
-            this.data.orders.forEach(order => {
-                if (order.id === o.id) {
-                    hasNewOrder = true;
-                    if (o.isFinished) {
-                        this.status.value !== 'isProcessing' && newOrders.push(o);
-                        this.status.value === 'isProcessing' && count--;
-                    }
-                    else {
-                        newOrders.push(order);
-                    }
-                }
-                else {
-                    newOrders.push(order);
-                }
-            });
-            if (!hasNewOrder) {
-                if (this.status.value === 'isProcessing' && o.isFinished) {
-                    count--;
-                    newOrders.length > this.take && newOrders.pop();
-                }
-                else {
-                    count++;
-                    newOrders = [o, ...newOrders];
-                    newOrders.length > this.take && newOrders.pop();
-                }
-            }
-            this.data = { orders: newOrders, count, users };
-        }
+        this.state = new UploadNobs(nobs, this.state);
     }
     ;
     connectedCallback() {
         super.connectedCallback();
-        const model = this.state.toDto();
-        this.loadTemplatesDebounce.immediate(model);
-        this.connectOrderStream();
-    }
-    ;
-    connectOrderStream() {
-        var _a;
-        if (this.orderStream) {
-            this.orderStream.disconnect();
-        }
-        this.orderStream = new OrderStream(apiEndpoint, (_a = api.token) !== null && _a !== void 0 ? _a : "", this.handleOrder.bind(this));
-        if (this.orderStream) ;
-    }
-    ;
-    loadTemplates() {
-        const model = this.state.toDto();
-        this.loadTemplatesDebounce.change(model, 500);
-    }
-    ;
-    setSearchOrders(value, name) {
         const nobs = new Nobs();
-        this.page = 1;
-        nobs.setProperty(this.state, 'skip', 0);
-        nobs.setProperty(this.state, 'take', this.take);
+        nobs.setProperty(this.state, 'id', '');
+        this.setState(nobs);
+    }
+    ;
+    getPics(foldername) {
+        let listUrls = [];
+        let storageRef = firebase.storage().ref(foldername);
+        storageRef.listAll().then(function (res) {
+            res.items.forEach((imageRef) => {
+                imageRef.getDownloadURL().then((url) => {
+                    listUrls = [...listUrls, url];
+                    console.log(listUrls);
+                });
+            });
+        })
+            .catch(function (error) {
+            console.log(error);
+        });
+        setTimeout(() => this.images = listUrls, 2000);
+    }
+    ;
+    handleSubmit(e) {
+        return __awaiter$2(this, void 0, void 0, function* () {
+            e.preventDefault();
+            const foldername = this.state.date + '_' + this.state.foldername;
+            try {
+                yield this.getPics(foldername);
+                setTimeout(() => createTravelDocument(this.state, this.images), 3000);
+            }
+            catch (error) {
+                console.log(error);
+            }
+        });
+    }
+    ;
+    handleChange(e) {
+        const nobs = new Nobs();
+        const name = e.target.name;
+        const value = e.target.value;
         nobs.setProperty(this.state, name, value);
         this.setState(nobs);
-        this.loadTemplates();
     }
     ;
-    onSearchOrderChange(e) {
-        let searchValue = e.target.value;
-        this.isFilter = true;
-        const searchName = e.target.name;
-        this.setSearchOrders(searchValue, searchName);
-    }
-    ;
-    onStatusChange(e) {
+    handleLocation(e) {
         const nobs = new Nobs();
-        this.page = 1;
-        this.isFilter = true;
-        let finishedValue;
-        let failureValue;
-        switch (e.target.value) {
-            case ('all'):
-                finishedValue = undefined;
-                failureValue = undefined;
-                break;
-            case ('isFinished'):
-                finishedValue = true;
-                failureValue = false;
-                break;
-            case ('isProcessing'):
-                finishedValue = false;
-                failureValue = false;
-                this.isFilter = false;
-                break;
-            case ('isFailed'):
-                finishedValue = true;
-                failureValue = true;
-                break;
-        }
-        nobs.setProperty(this.state, 'skip', 0);
-        nobs.setProperty(this.state, 'take', this.take);
-        nobs.setProperty(this.state, 'isFinished', finishedValue);
-        nobs.setProperty(this.state, 'isFailed', failureValue);
+        const name = e.target.name;
+        const value = e.target.value.split(',');
+        nobs.setProperty(this.state, name, value);
         this.setState(nobs);
-        this.loadTemplates();
     }
     ;
-    expandFilter() {
-        this.hideFilter = !this.hideFilter;
+    renderFileLoader() {
+        const foldername = this.state ? this.state.foldername : '';
+        const date = this.state ? this.state.date : '';
+        return new WcUploadFotos(foldername, date);
     }
     ;
-    resetFilter() {
-        var _a;
-        this.page = 1;
-        this.isFilter = false;
-        this.state = new SearchOrders({
-            templateName: '',
-            origin: '',
-            productType: '',
-            externalOrderId: '',
-            take: this.take,
-            startDate: this.date
-        });
-        (_a = this.shadowRoot) === null || _a === void 0 ? void 0 : _a.querySelectorAll('input').forEach(i => i.value = '');
-        this.status.value = 'all';
-        const model = this.state.toDto();
-        this.loadTemplatesDebounce.immediate(model);
-    }
-    ;
-    setTableSettings() {
-        const td = new WcDialogTableSettings();
-        td.showDialog(headers => {
-            this.headers = headers;
-        });
-    }
-    ;
-    setPagination(position) {
-        if (this.data) {
-            const td = new WcPagination(this.data.count, this.page, this.skip, this.take, position);
-            td.getPageValues((page, skip, take) => {
-                this.page = page;
-                this.skip = skip;
-                this.take = take;
-                this.applyPagination();
-            });
-            return td;
-        }
-    }
-    ;
-    applyPagination() {
-        const nobs = new Nobs();
-        nobs.setProperty(this.state, 'take', this.take);
-        nobs.setProperty(this.state, 'skip', this.skip);
-        this.setState(nobs);
-        this.loadTemplates();
-    }
-    ;
-    renderTable() {
-        return config.isMobile ? new WcPrintjobsTableMobile(this.data, this.headers) : new WcPrintjobsTable(this.data, this.headers);
-    }
-    ;
-    toggleAdminMode() {
-        adm.useAdminMode = !adm.useAdminMode;
-        this.connectOrderStream();
-        this.loadTemplates();
-        this.requestUpdate();
-    }
     render() {
-        console.log(this.data);
         return T `
-      <div class="user-orders">
-        <h3 class="topic">Print Jobs</h3>
-        <p class="subtopic">Customer orders</p>
+      <div class="upload-form">
+        <form @submit=${this.handleSubmit}>
+          <input name="headline" type="text" placeholder="headline" @change=${this.handleChange} required>
+          <textarea name="story" placeholder="story about the day ..." @change=${this.handleChange}></textarea>
+          <input name="date" type="date" @change=${this.handleChange} required>
+          <input name="location" type="text" placeholder="location" @change=${this.handleLocation} required>
+          <input name="foldername" type="text" placeholder="folder name" @change=${this.handleChange} required>
 
-        <div class="filter-wrapper">
-          <div class="setting-buttons">
-            <button @click=${this.setTableSettings} class="table-settings">${config.isMobile ? T `<wc-icon primaryColor="gray" icon="settings" style="width: 15px; margin-right: 10px;"></wc-icon>` : 'select'} columns</button>
-            <button @click=${this.loadTemplates} class="table-settings">${config.isMobile ? T `<wc-icon primaryColor="gray" icon="sync-alt" style="width: 12px; margin-right: 10px;"></wc-icon>` : 'refresh'}  printjobs</button>
-          ${adm.canUseAdminMode ? T `<button @click=${this.toggleAdminMode} class="table-settings"><wc-icon primaryColor="gray" icon=${adm.useAdminMode ? 'user-crown-solid' : 'user-solid'} style="width: 14px; margin-right: 10px;"></wc-icon>${adm.useAdminMode ? "admin" : "user"}</button>` : ""}
-          </div>
+          ${this.renderFileLoader()}
 
-          <div class="inline">
-            <wc-icon @click=${this.expandFilter} primaryColor="gray" icon=${this.hideFilter ? "carret-right-solid" : "carret-down-solid"} style="cursor: pointer;"></wc-icon>
-            <label class="template-name-label" for="templateName">Search:</label>
-            <input @keyup=${this.onSearchOrderChange} type="text" name="templateName" placeholder="template name" style="margin: 0 10px;">
-            <wc-icon @click=${this.resetFilter} primaryColor="gray" icon="filter-reset" style="cursor: pointer;"></wc-icon>
-          </div>
-        </div>
-
-        <div class="expanded-filter ${this.hideFilter ? 'hidden' : ''}" style="margin-top: 20px;">
-          <div class="input-label">
-            <label for="origin">Origin:</label>
-            <input @keyup=${this.onSearchOrderChange} type="text" name="origin" placeholder="origin">
-          </div>
-          <div class="input-label">
-            <label for="productType">Product Type:</label>
-            <input @keyup=${this.onSearchOrderChange} type="text" name="productType" placeholder="product type">
-          </div>
-          <div class="input-label">
-            <label for="externalOrderId">External Order ID:</label>
-            <input @keyup=${this.onSearchOrderChange} type="text" name="externalOrderId" placeholder="external order id">
-          </div>
-          <div class="input-label">
-            <label for="startDate">From:</label>
-            <input @change=${this.onSearchOrderChange} type="date" name="startDate" placeholder="start date">
-          </div>
-          <div class="input-label">
-            <label for="endDate">To:</label>
-            <input @change=${this.onSearchOrderChange} type="date" name="endDate" placeholder="end date">
-          </div>
-          <div class="input-label">
-            <label for="status">Status:</label>
-            <select @change=${this.onStatusChange} name="status">
-              <option value="all">All</option>
-              <option value="isFinished">Finished</option>
-              <option value="isProcessing">Unfinished</option>
-              <option value="isFailed">Failed</option>
-            </select>
-          </div>
-        </div>
-        
-        ${this.data && this.data.count === 0 ?
-            T `<div style="width: 100%; display: flex; justify-content: center;"><p>~ No Print Jobs available ~</p></div>`
-            : T `
-        <div class="pagination" style="margin-top: 30px;">
-          ${this.setPagination("top")}
-        </div>
-        
-        <div class="table-container">
-          ${this.renderTable()}
-        </div>
-        
-        <div class="pagination" style="margin-top: 10px;">
-          ${this.setPagination("bottom")}
-        </div>
-        `}
+          <button type="submit">ADD FOTO STORY</button>
+        </form>
       </div>
-  `;
-    }
-    ;
-};
-__decorate$6([
-    e$1({ attribute: false, type: Object })
-], WcPrintjobsPage.prototype, "state", void 0);
-__decorate$6([
-    e$1({ attribute: false, type: Object })
-], WcPrintjobsPage.prototype, "data", void 0);
-__decorate$6([
-    e$1({ attribute: false, type: Array })
-], WcPrintjobsPage.prototype, "headers", void 0);
-__decorate$6([
-    e$1({ attribute: false, type: Boolean })
-], WcPrintjobsPage.prototype, "hideFilter", void 0);
-__decorate$6([
-    e$1({ attribute: false, type: Number })
-], WcPrintjobsPage.prototype, "page", void 0);
-__decorate$6([
-    e$1({ attribute: false, type: Number })
-], WcPrintjobsPage.prototype, "take", void 0);
-__decorate$6([
-    e$1({ attribute: false, type: Number })
-], WcPrintjobsPage.prototype, "skip", void 0);
-__decorate$6([
-    e$1({ attribute: false, type: Object })
-], WcPrintjobsPage.prototype, "date", void 0);
-__decorate$6([
-    e$1({ attribute: false, type: Boolean })
-], WcPrintjobsPage.prototype, "isFilter", void 0);
-__decorate$6([
-    o$1('select')
-], WcPrintjobsPage.prototype, "status", void 0);
-WcPrintjobsPage = __decorate$6([
-    n$1("wc-printjobs-page")
-], WcPrintjobsPage);
-
-const statisticsStyles = r$1 `
-  .printjobs-statistics {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    width: 100%;
-    margin-top: 20px;
-  }
-
-  .box {
-    display: grid;
-    grid-template-columns: 50px 1fr;
-    grid-template-rows: 1fr 1fr;
-    align-items: center;
-    padding: 15px 20px 5px;
-    margin-right: 10px;
-    margin-bottom: 10px;
-    background-color: rgb(248, 248, 248);
-    border-radius: 4px;
-    min-width: 200px;
-  }
-
-  wc-icon {
-    grid-column: 1;
-    grid-row: 1;
-    width: 35px;
-    height: 35px;
-    margin-right: 10px;
-  }
-
-  .text-wrapper {
-    grid-column: 2;
-    grid-row: 1;
-    display: flex;
-    flex-direction: column;
-    text-align: right;
-  }
-
-  .topic {
-    font-size: 14px;
-  }
-
-  .value {
-    font-size: 22px;
-  }
-
-  hr {
-    grid-column: 1 / span 2;
-    grid-row: 2;
-    width: 100%;
-    border: none;
-    border-bottom: 1px solid gray;
-  }
-
-  .status {
-    grid-column: 1 / span 2;
-    grid-row: 2;
-    font-size: 12px;
-    color: #bbbbbb;
-    padding-top: 10px;
-    border-top: 1px solid #ccc;
-    display: flex;
-    flex-direction: row;
-  }
-`;
-
-var __decorate$5 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-let WcPrintjobsStatistics = class WcPrintjobsStatistics extends h {
-    constructor(data) {
-        super();
-        this.printjobs = 0;
-        this.data = data;
-    }
-    static get styles() {
-        return [statisticsStyles];
-    }
-    ;
-    setState(nobs) {
-        this.state = new SearchOrders(nobs, this.state);
-    }
-    ;
-    showError(error) {
-        console.log('error msg: ', error.message, 'error code: ', error.code);
-    }
-    ;
-    ;
-    handleOrder(o) {
-        console.log(o);
-        o.isFinished ? this.printjobs-- : this.printjobs++;
-        if (this.data && o.isFinished) {
-            this.data = { orders: [o, ...this.data.orders], count: this.data.count++, users: this.data.users };
-        }
-    }
-    ;
-    connectedCallback() {
-        super.connectedCallback();
-        this.connectOrderStream();
-    }
-    ;
-    connectOrderStream() {
-        var _a;
-        if (this.orderStream) {
-            this.orderStream.disconnect();
-        }
-        this.orderStream = new OrderStream(apiEndpoint, (_a = api.token) !== null && _a !== void 0 ? _a : "", this.handleOrder.bind(this));
-        if (this.orderStream) ;
-    }
-    ;
-    usageValue() {
-        let usage = 0;
-        this.data && this.data.orders.forEach(o => usage += o.size);
-        if (usage < 10000) {
-            return `${usage} Byte`;
-        }
-        else if (usage < 100000000) {
-            return `${(usage / 1000000).toFixed(2)} MB`;
-        }
-        else {
-            return `${(usage / 1000000000).toFixed(2)} GB`;
-        }
-    }
-    ;
-    getRecentPrintjobs() {
-        const date = new Date();
-        date.setHours(date.getHours() - 1);
-        return this.data.orders.filter(o => new Date(o.createdOn).getTime() >= date.getTime());
-    }
-    ;
-    createdValue() {
-        if (this.data) {
-            const printjobs = this.getRecentPrintjobs();
-            return printjobs.length;
-        }
-        return 0;
-    }
-    ;
-    errorValue() {
-        if (this.data) {
-            const printjobs = this.getRecentPrintjobs();
-            return printjobs.filter(o => o.isFailure === true).length;
-        }
-        return 0;
-    }
-    ;
-    creditValue() {
-        if (this.data) {
-            const date = new Date();
-            date.setDate(1);
-            date.setHours(0);
-            date.setMinutes(0);
-            date.setSeconds(0);
-            const filter = this.data.orders.filter(o => new Date(o.createdOn).getTime() >= date.getTime() && !o.isFailure);
-            return filter.length;
-        }
-        return 0;
-    }
-    ;
-    render() {
-        console.log('statistics', this.data);
-        return T `
-      <div class="printjobs-statistics">
-        <div class="space box">
-          <wc-icon primaryColor="gray" icon="database"></wc-icon>
-          <div class="text-wrapper">
-            <span class="topic">Total Usage</span>
-            <span class="value">${this.usageValue()}</span>
-          </div>
-          <div class="status">
-            <wc-icon primaryColor="lightgray" icon="calendar-light" style="width: 15px; height: 15px;"></wc-icon>
-            Last 30 days
-          </div>
-        </div>
-        <div class="production box">
-          <wc-icon primaryColor="gray" icon="page-light"></wc-icon>
-          <div class="text-wrapper">
-            <span class="topic">In Production</span>
-            <span class="value">${this.printjobs > 0 ? this.printjobs : 0}</span>
-          </div>
-          <div class="status">
-            <wc-icon primaryColor="lightgray" icon="sync-alt" style="width: 15px; height: 15px;"></wc-icon>
-            Updated now
-          </div>
-        </div>
-        <div class="creation box">
-          <wc-icon primaryColor="gray" icon="page-inverse"></wc-icon>
-          <div class="text-wrapper">
-            <span class="topic">Created</span>
-            <span class="value">${Math.ceil(this.createdValue() / 60)} / min</span>
-          </div>
-          <div class="status">
-            <wc-icon primaryColor="lightgray" icon="sync-alt" style="width: 15px; height: 15px;"></wc-icon>
-            Updated now
-          </div>
-        </div>
-        <div class="errors box">
-          <wc-icon primaryColor="gray" icon="warning"></wc-icon>
-          <div class="text-wrapper">
-            <span class="topic">Errors</span>
-            <span class="value">${this.errorValue()}</span>
-          </div>
-          <div class="status">
-            <wc-icon primaryColor="lightgray" icon="clock-light" style="width: 15px; height: 15px;"></wc-icon>
-            In the last hour
-          </div>
-        </div>
-        <div class="credits box">
-          <wc-icon primaryColor="gray" icon="coin"></wc-icon>
-          <div class="text-wrapper">
-            <span class="topic">Credits</span>
-            <span class="value"><span style="color: ${this.creditValue() > 1000 ? 'rgb(211, 39, 124)' : '#555555'}">${this.creditValue()}</span> / 1.000</span>
-          </div>
-          <div class="status">
-            <wc-icon primaryColor="lightgray" icon="calendar-light" style="width: 15px; height: 15px;"></wc-icon>
-            Current month
-          </div>
-        </div>
-      </div>
-  `;
+    `;
     }
     ;
 };
 __decorate$5([
-    e$1({ attribute: false, type: Object })
-], WcPrintjobsStatistics.prototype, "state", void 0);
+    e({ type: Object })
+], WcUploadForm.prototype, "state", void 0);
 __decorate$5([
-    e$1({ attribute: false, type: Object })
-], WcPrintjobsStatistics.prototype, "data", void 0);
-__decorate$5([
-    e$1({ attribute: false, type: Number })
-], WcPrintjobsStatistics.prototype, "printjobs", void 0);
-WcPrintjobsStatistics = __decorate$5([
-    n$1("wc-printjobs-statistics")
-], WcPrintjobsStatistics);
+    e({ type: Object })
+], WcUploadForm.prototype, "images", void 0);
+WcUploadForm = __decorate$5([
+    n$1("wc-upload-form")
+], WcUploadForm);
 
-const dashboardStyles = r$1 `
-  .dashboard {
-    font-family: var(--printess-text-font);
-    color: #555555;    
-  }
-
-  .topic {
-    font-size: 22px;
-    font-weight: 500;
-    font-family: var(--printess-header-font);
-    color: #555555;
-  }
-
-  @media (max-width: ${config.mobileDeviceWidth}px) {
-    .topic {
-      font-size: 20px;
-    }
-
-    .subtopic {
-      font-size: 14px;
-    }
-  }
-`;
-
-/**
- * @license
- * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
- * This code may only be used under the BSD style license found at
- * http://polymer.github.io/LICENSE.txt
- * The complete set of authors may be found at
- * http://polymer.github.io/AUTHORS.txt
- * The complete set of contributors may be found at
- * http://polymer.github.io/CONTRIBUTORS.txt
- * Code distributed by Google as part of the polymer project is also
- * subject to an additional IP rights grant found at
- * http://polymer.github.io/PATENTS.txt
- */
-/**
- * True if the custom elements polyfill is in use.
- */
-const isCEPolyfill = typeof window !== 'undefined' &&
-    window.customElements != null &&
-    window.customElements.polyfillWrapFlushCallback !==
-        undefined;
-/**
- * Removes nodes, starting from `start` (inclusive) to `end` (exclusive), from
- * `container`.
- */
-const removeNodes = (container, start, end = null) => {
-    while (start !== end) {
-        const n = start.nextSibling;
-        container.removeChild(start);
-        start = n;
-    }
-};
-
-/**
- * @license
- * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
- * This code may only be used under the BSD style license found at
- * http://polymer.github.io/LICENSE.txt
- * The complete set of authors may be found at
- * http://polymer.github.io/AUTHORS.txt
- * The complete set of contributors may be found at
- * http://polymer.github.io/CONTRIBUTORS.txt
- * Code distributed by Google as part of the polymer project is also
- * subject to an additional IP rights grant found at
- * http://polymer.github.io/PATENTS.txt
- */
-/**
- * An expression marker with embedded unique key to avoid collision with
- * possible text in templates.
- */
-const marker = `{{lit-${String(Math.random()).slice(2)}}}`;
-/**
- * An expression marker used text-positions, multi-binding attributes, and
- * attributes with markup-like text values.
- */
-const nodeMarker = `<!--${marker}-->`;
-const markerRegex = new RegExp(`${marker}|${nodeMarker}`);
-/**
- * Suffix appended to all bound attribute names.
- */
-const boundAttributeSuffix = '$lit$';
-/**
- * An updatable Template that tracks the location of dynamic parts.
- */
-class Template {
-    constructor(result, element) {
-        this.parts = [];
-        this.element = element;
-        const nodesToRemove = [];
-        const stack = [];
-        // Edge needs all 4 parameters present; IE11 needs 3rd parameter to be null
-        const walker = document.createTreeWalker(element.content, 133 /* NodeFilter.SHOW_{ELEMENT|COMMENT|TEXT} */, null, false);
-        // Keeps track of the last index associated with a part. We try to delete
-        // unnecessary nodes, but we never want to associate two different parts
-        // to the same index. They must have a constant node between.
-        let lastPartIndex = 0;
-        let index = -1;
-        let partIndex = 0;
-        const { strings, values: { length } } = result;
-        while (partIndex < length) {
-            const node = walker.nextNode();
-            if (node === null) {
-                // We've exhausted the content inside a nested template element.
-                // Because we still have parts (the outer for-loop), we know:
-                // - There is a template in the stack
-                // - The walker will find a nextNode outside the template
-                walker.currentNode = stack.pop();
-                continue;
-            }
-            index++;
-            if (node.nodeType === 1 /* Node.ELEMENT_NODE */) {
-                if (node.hasAttributes()) {
-                    const attributes = node.attributes;
-                    const { length } = attributes;
-                    // Per
-                    // https://developer.mozilla.org/en-US/docs/Web/API/NamedNodeMap,
-                    // attributes are not guaranteed to be returned in document order.
-                    // In particular, Edge/IE can return them out of order, so we cannot
-                    // assume a correspondence between part index and attribute index.
-                    let count = 0;
-                    for (let i = 0; i < length; i++) {
-                        if (endsWith(attributes[i].name, boundAttributeSuffix)) {
-                            count++;
-                        }
-                    }
-                    while (count-- > 0) {
-                        // Get the template literal section leading up to the first
-                        // expression in this attribute
-                        const stringForPart = strings[partIndex];
-                        // Find the attribute name
-                        const name = lastAttributeNameRegex.exec(stringForPart)[2];
-                        // Find the corresponding attribute
-                        // All bound attributes have had a suffix added in
-                        // TemplateResult#getHTML to opt out of special attribute
-                        // handling. To look up the attribute value we also need to add
-                        // the suffix.
-                        const attributeLookupName = name.toLowerCase() + boundAttributeSuffix;
-                        const attributeValue = node.getAttribute(attributeLookupName);
-                        node.removeAttribute(attributeLookupName);
-                        const statics = attributeValue.split(markerRegex);
-                        this.parts.push({ type: 'attribute', index, name, strings: statics });
-                        partIndex += statics.length - 1;
-                    }
-                }
-                if (node.tagName === 'TEMPLATE') {
-                    stack.push(node);
-                    walker.currentNode = node.content;
-                }
-            }
-            else if (node.nodeType === 3 /* Node.TEXT_NODE */) {
-                const data = node.data;
-                if (data.indexOf(marker) >= 0) {
-                    const parent = node.parentNode;
-                    const strings = data.split(markerRegex);
-                    const lastIndex = strings.length - 1;
-                    // Generate a new text node for each literal section
-                    // These nodes are also used as the markers for node parts
-                    for (let i = 0; i < lastIndex; i++) {
-                        let insert;
-                        let s = strings[i];
-                        if (s === '') {
-                            insert = createMarker();
-                        }
-                        else {
-                            const match = lastAttributeNameRegex.exec(s);
-                            if (match !== null && endsWith(match[2], boundAttributeSuffix)) {
-                                s = s.slice(0, match.index) + match[1] +
-                                    match[2].slice(0, -boundAttributeSuffix.length) + match[3];
-                            }
-                            insert = document.createTextNode(s);
-                        }
-                        parent.insertBefore(insert, node);
-                        this.parts.push({ type: 'node', index: ++index });
-                    }
-                    // If there's no text, we must insert a comment to mark our place.
-                    // Else, we can trust it will stick around after cloning.
-                    if (strings[lastIndex] === '') {
-                        parent.insertBefore(createMarker(), node);
-                        nodesToRemove.push(node);
-                    }
-                    else {
-                        node.data = strings[lastIndex];
-                    }
-                    // We have a part for each match found
-                    partIndex += lastIndex;
-                }
-            }
-            else if (node.nodeType === 8 /* Node.COMMENT_NODE */) {
-                if (node.data === marker) {
-                    const parent = node.parentNode;
-                    // Add a new marker node to be the startNode of the Part if any of
-                    // the following are true:
-                    //  * We don't have a previousSibling
-                    //  * The previousSibling is already the start of a previous part
-                    if (node.previousSibling === null || index === lastPartIndex) {
-                        index++;
-                        parent.insertBefore(createMarker(), node);
-                    }
-                    lastPartIndex = index;
-                    this.parts.push({ type: 'node', index });
-                    // If we don't have a nextSibling, keep this node so we have an end.
-                    // Else, we can remove it to save future costs.
-                    if (node.nextSibling === null) {
-                        node.data = '';
-                    }
-                    else {
-                        nodesToRemove.push(node);
-                        index--;
-                    }
-                    partIndex++;
-                }
-                else {
-                    let i = -1;
-                    while ((i = node.data.indexOf(marker, i + 1)) !== -1) {
-                        // Comment node has a binding marker inside, make an inactive part
-                        // The binding won't work, but subsequent bindings will
-                        // TODO (justinfagnani): consider whether it's even worth it to
-                        // make bindings in comments work
-                        this.parts.push({ type: 'node', index: -1 });
-                        partIndex++;
-                    }
-                }
-            }
-        }
-        // Remove text binding nodes after the walk to not disturb the TreeWalker
-        for (const n of nodesToRemove) {
-            n.parentNode.removeChild(n);
-        }
-    }
-}
-const endsWith = (str, suffix) => {
-    const index = str.length - suffix.length;
-    return index >= 0 && str.slice(index) === suffix;
-};
-const isTemplatePartActive = (part) => part.index !== -1;
-// Allows `document.createComment('')` to be renamed for a
-// small manual size-savings.
-const createMarker = () => document.createComment('');
-/**
- * This regex extracts the attribute name preceding an attribute-position
- * expression. It does this by matching the syntax allowed for attributes
- * against the string literal directly preceding the expression, assuming that
- * the expression is in an attribute-value position.
- *
- * See attributes in the HTML spec:
- * https://www.w3.org/TR/html5/syntax.html#elements-attributes
- *
- * " \x09\x0a\x0c\x0d" are HTML space characters:
- * https://www.w3.org/TR/html5/infrastructure.html#space-characters
- *
- * "\0-\x1F\x7F-\x9F" are Unicode control characters, which includes every
- * space character except " ".
- *
- * So an attribute is:
- *  * The name: any character except a control character, space character, ('),
- *    ("), ">", "=", or "/"
- *  * Followed by zero or more space characters
- *  * Followed by "="
- *  * Followed by zero or more space characters
- *  * Followed by:
- *    * Any character except space, ('), ("), "<", ">", "=", (`), or
- *    * (") then any non-("), or
- *    * (') then any non-(')
- */
-const lastAttributeNameRegex = 
-// eslint-disable-next-line no-control-regex
-/([ \x09\x0a\x0c\x0d])([^\0-\x1F\x7F-\x9F "'>=/]+)([ \x09\x0a\x0c\x0d]*=[ \x09\x0a\x0c\x0d]*(?:[^ \x09\x0a\x0c\x0d"'`<>=]*|"[^"]*|'[^']*))$/;
-
-/**
- * @license
- * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
- * This code may only be used under the BSD style license found at
- * http://polymer.github.io/LICENSE.txt
- * The complete set of authors may be found at
- * http://polymer.github.io/AUTHORS.txt
- * The complete set of contributors may be found at
- * http://polymer.github.io/CONTRIBUTORS.txt
- * Code distributed by Google as part of the polymer project is also
- * subject to an additional IP rights grant found at
- * http://polymer.github.io/PATENTS.txt
- */
-const walkerNodeFilter = 133 /* NodeFilter.SHOW_{ELEMENT|COMMENT|TEXT} */;
-/**
- * Removes the list of nodes from a Template safely. In addition to removing
- * nodes from the Template, the Template part indices are updated to match
- * the mutated Template DOM.
- *
- * As the template is walked the removal state is tracked and
- * part indices are adjusted as needed.
- *
- * div
- *   div#1 (remove) <-- start removing (removing node is div#1)
- *     div
- *       div#2 (remove)  <-- continue removing (removing node is still div#1)
- *         div
- * div <-- stop removing since previous sibling is the removing node (div#1,
- * removed 4 nodes)
- */
-function removeNodesFromTemplate(template, nodesToRemove) {
-    const { element: { content }, parts } = template;
-    const walker = document.createTreeWalker(content, walkerNodeFilter, null, false);
-    let partIndex = nextActiveIndexInTemplateParts(parts);
-    let part = parts[partIndex];
-    let nodeIndex = -1;
-    let removeCount = 0;
-    const nodesToRemoveInTemplate = [];
-    let currentRemovingNode = null;
-    while (walker.nextNode()) {
-        nodeIndex++;
-        const node = walker.currentNode;
-        // End removal if stepped past the removing node
-        if (node.previousSibling === currentRemovingNode) {
-            currentRemovingNode = null;
-        }
-        // A node to remove was found in the template
-        if (nodesToRemove.has(node)) {
-            nodesToRemoveInTemplate.push(node);
-            // Track node we're removing
-            if (currentRemovingNode === null) {
-                currentRemovingNode = node;
-            }
-        }
-        // When removing, increment count by which to adjust subsequent part indices
-        if (currentRemovingNode !== null) {
-            removeCount++;
-        }
-        while (part !== undefined && part.index === nodeIndex) {
-            // If part is in a removed node deactivate it by setting index to -1 or
-            // adjust the index as needed.
-            part.index = currentRemovingNode !== null ? -1 : part.index - removeCount;
-            // go to the next active part.
-            partIndex = nextActiveIndexInTemplateParts(parts, partIndex);
-            part = parts[partIndex];
-        }
-    }
-    nodesToRemoveInTemplate.forEach((n) => n.parentNode.removeChild(n));
-}
-const countNodes = (node) => {
-    let count = (node.nodeType === 11 /* Node.DOCUMENT_FRAGMENT_NODE */) ? 0 : 1;
-    const walker = document.createTreeWalker(node, walkerNodeFilter, null, false);
-    while (walker.nextNode()) {
-        count++;
-    }
-    return count;
-};
-const nextActiveIndexInTemplateParts = (parts, startIndex = -1) => {
-    for (let i = startIndex + 1; i < parts.length; i++) {
-        const part = parts[i];
-        if (isTemplatePartActive(part)) {
-            return i;
-        }
-    }
-    return -1;
-};
-/**
- * Inserts the given node into the Template, optionally before the given
- * refNode. In addition to inserting the node into the Template, the Template
- * part indices are updated to match the mutated Template DOM.
- */
-function insertNodeIntoTemplate(template, node, refNode = null) {
-    const { element: { content }, parts } = template;
-    // If there's no refNode, then put node at end of template.
-    // No part indices need to be shifted in this case.
-    if (refNode === null || refNode === undefined) {
-        content.appendChild(node);
-        return;
-    }
-    const walker = document.createTreeWalker(content, walkerNodeFilter, null, false);
-    let partIndex = nextActiveIndexInTemplateParts(parts);
-    let insertCount = 0;
-    let walkerIndex = -1;
-    while (walker.nextNode()) {
-        walkerIndex++;
-        const walkerNode = walker.currentNode;
-        if (walkerNode === refNode) {
-            insertCount = countNodes(node);
-            refNode.parentNode.insertBefore(node, refNode);
-        }
-        while (partIndex !== -1 && parts[partIndex].index === walkerIndex) {
-            // If we've inserted the node, simply adjust all subsequent parts
-            if (insertCount > 0) {
-                while (partIndex !== -1) {
-                    parts[partIndex].index += insertCount;
-                    partIndex = nextActiveIndexInTemplateParts(parts, partIndex);
-                }
-                return;
-            }
-            partIndex = nextActiveIndexInTemplateParts(parts, partIndex);
-        }
-    }
-}
-
-/**
- * @license
- * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
- * This code may only be used under the BSD style license found at
- * http://polymer.github.io/LICENSE.txt
- * The complete set of authors may be found at
- * http://polymer.github.io/AUTHORS.txt
- * The complete set of contributors may be found at
- * http://polymer.github.io/CONTRIBUTORS.txt
- * Code distributed by Google as part of the polymer project is also
- * subject to an additional IP rights grant found at
- * http://polymer.github.io/PATENTS.txt
- */
-const directives = new WeakMap();
-const isDirective = (o) => {
-    return typeof o === 'function' && directives.has(o);
-};
-
-/**
- * @license
- * Copyright (c) 2018 The Polymer Project Authors. All rights reserved.
- * This code may only be used under the BSD style license found at
- * http://polymer.github.io/LICENSE.txt
- * The complete set of authors may be found at
- * http://polymer.github.io/AUTHORS.txt
- * The complete set of contributors may be found at
- * http://polymer.github.io/CONTRIBUTORS.txt
- * Code distributed by Google as part of the polymer project is also
- * subject to an additional IP rights grant found at
- * http://polymer.github.io/PATENTS.txt
- */
-/**
- * A sentinel value that signals that a value was handled by a directive and
- * should not be written to the DOM.
- */
-const noChange = {};
-/**
- * A sentinel value that signals a NodePart to fully clear its content.
- */
-const nothing = {};
-
-/**
- * @license
- * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
- * This code may only be used under the BSD style license found at
- * http://polymer.github.io/LICENSE.txt
- * The complete set of authors may be found at
- * http://polymer.github.io/AUTHORS.txt
- * The complete set of contributors may be found at
- * http://polymer.github.io/CONTRIBUTORS.txt
- * Code distributed by Google as part of the polymer project is also
- * subject to an additional IP rights grant found at
- * http://polymer.github.io/PATENTS.txt
- */
-/**
- * An instance of a `Template` that can be attached to the DOM and updated
- * with new values.
- */
-class TemplateInstance {
-    constructor(template, processor, options) {
-        this.__parts = [];
-        this.template = template;
-        this.processor = processor;
-        this.options = options;
-    }
-    update(values) {
-        let i = 0;
-        for (const part of this.__parts) {
-            if (part !== undefined) {
-                part.setValue(values[i]);
-            }
-            i++;
-        }
-        for (const part of this.__parts) {
-            if (part !== undefined) {
-                part.commit();
-            }
-        }
-    }
-    _clone() {
-        // There are a number of steps in the lifecycle of a template instance's
-        // DOM fragment:
-        //  1. Clone - create the instance fragment
-        //  2. Adopt - adopt into the main document
-        //  3. Process - find part markers and create parts
-        //  4. Upgrade - upgrade custom elements
-        //  5. Update - set node, attribute, property, etc., values
-        //  6. Connect - connect to the document. Optional and outside of this
-        //     method.
-        //
-        // We have a few constraints on the ordering of these steps:
-        //  * We need to upgrade before updating, so that property values will pass
-        //    through any property setters.
-        //  * We would like to process before upgrading so that we're sure that the
-        //    cloned fragment is inert and not disturbed by self-modifying DOM.
-        //  * We want custom elements to upgrade even in disconnected fragments.
-        //
-        // Given these constraints, with full custom elements support we would
-        // prefer the order: Clone, Process, Adopt, Upgrade, Update, Connect
-        //
-        // But Safari does not implement CustomElementRegistry#upgrade, so we
-        // can not implement that order and still have upgrade-before-update and
-        // upgrade disconnected fragments. So we instead sacrifice the
-        // process-before-upgrade constraint, since in Custom Elements v1 elements
-        // must not modify their light DOM in the constructor. We still have issues
-        // when co-existing with CEv0 elements like Polymer 1, and with polyfills
-        // that don't strictly adhere to the no-modification rule because shadow
-        // DOM, which may be created in the constructor, is emulated by being placed
-        // in the light DOM.
-        //
-        // The resulting order is on native is: Clone, Adopt, Upgrade, Process,
-        // Update, Connect. document.importNode() performs Clone, Adopt, and Upgrade
-        // in one step.
-        //
-        // The Custom Elements v1 polyfill supports upgrade(), so the order when
-        // polyfilled is the more ideal: Clone, Process, Adopt, Upgrade, Update,
-        // Connect.
-        const fragment = isCEPolyfill ?
-            this.template.element.content.cloneNode(true) :
-            document.importNode(this.template.element.content, true);
-        const stack = [];
-        const parts = this.template.parts;
-        // Edge needs all 4 parameters present; IE11 needs 3rd parameter to be null
-        const walker = document.createTreeWalker(fragment, 133 /* NodeFilter.SHOW_{ELEMENT|COMMENT|TEXT} */, null, false);
-        let partIndex = 0;
-        let nodeIndex = 0;
-        let part;
-        let node = walker.nextNode();
-        // Loop through all the nodes and parts of a template
-        while (partIndex < parts.length) {
-            part = parts[partIndex];
-            if (!isTemplatePartActive(part)) {
-                this.__parts.push(undefined);
-                partIndex++;
-                continue;
-            }
-            // Progress the tree walker until we find our next part's node.
-            // Note that multiple parts may share the same node (attribute parts
-            // on a single element), so this loop may not run at all.
-            while (nodeIndex < part.index) {
-                nodeIndex++;
-                if (node.nodeName === 'TEMPLATE') {
-                    stack.push(node);
-                    walker.currentNode = node.content;
-                }
-                if ((node = walker.nextNode()) === null) {
-                    // We've exhausted the content inside a nested template element.
-                    // Because we still have parts (the outer for-loop), we know:
-                    // - There is a template in the stack
-                    // - The walker will find a nextNode outside the template
-                    walker.currentNode = stack.pop();
-                    node = walker.nextNode();
-                }
-            }
-            // We've arrived at our part's node.
-            if (part.type === 'node') {
-                const part = this.processor.handleTextExpression(this.options);
-                part.insertAfterNode(node.previousSibling);
-                this.__parts.push(part);
-            }
-            else {
-                this.__parts.push(...this.processor.handleAttributeExpressions(node, part.name, part.strings, this.options));
-            }
-            partIndex++;
-        }
-        if (isCEPolyfill) {
-            document.adoptNode(fragment);
-            customElements.upgrade(fragment);
-        }
-        return fragment;
-    }
-}
-
-/**
- * @license
- * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
- * This code may only be used under the BSD style license found at
- * http://polymer.github.io/LICENSE.txt
- * The complete set of authors may be found at
- * http://polymer.github.io/AUTHORS.txt
- * The complete set of contributors may be found at
- * http://polymer.github.io/CONTRIBUTORS.txt
- * Code distributed by Google as part of the polymer project is also
- * subject to an additional IP rights grant found at
- * http://polymer.github.io/PATENTS.txt
- */
-/**
- * Our TrustedTypePolicy for HTML which is declared using the html template
- * tag function.
- *
- * That HTML is a developer-authored constant, and is parsed with innerHTML
- * before any untrusted expressions have been mixed in. Therefor it is
- * considered safe by construction.
- */
-const policy = window.trustedTypes &&
-    trustedTypes.createPolicy('lit-html', { createHTML: (s) => s });
-const commentMarker = ` ${marker} `;
-/**
- * The return type of `html`, which holds a Template and the values from
- * interpolated expressions.
- */
-class TemplateResult {
-    constructor(strings, values, type, processor) {
-        this.strings = strings;
-        this.values = values;
-        this.type = type;
-        this.processor = processor;
-    }
-    /**
-     * Returns a string of HTML used to create a `<template>` element.
-     */
-    getHTML() {
-        const l = this.strings.length - 1;
-        let html = '';
-        let isCommentBinding = false;
-        for (let i = 0; i < l; i++) {
-            const s = this.strings[i];
-            // For each binding we want to determine the kind of marker to insert
-            // into the template source before it's parsed by the browser's HTML
-            // parser. The marker type is based on whether the expression is in an
-            // attribute, text, or comment position.
-            //   * For node-position bindings we insert a comment with the marker
-            //     sentinel as its text content, like <!--{{lit-guid}}-->.
-            //   * For attribute bindings we insert just the marker sentinel for the
-            //     first binding, so that we support unquoted attribute bindings.
-            //     Subsequent bindings can use a comment marker because multi-binding
-            //     attributes must be quoted.
-            //   * For comment bindings we insert just the marker sentinel so we don't
-            //     close the comment.
-            //
-            // The following code scans the template source, but is *not* an HTML
-            // parser. We don't need to track the tree structure of the HTML, only
-            // whether a binding is inside a comment, and if not, if it appears to be
-            // the first binding in an attribute.
-            const commentOpen = s.lastIndexOf('<!--');
-            // We're in comment position if we have a comment open with no following
-            // comment close. Because <-- can appear in an attribute value there can
-            // be false positives.
-            isCommentBinding = (commentOpen > -1 || isCommentBinding) &&
-                s.indexOf('-->', commentOpen + 1) === -1;
-            // Check to see if we have an attribute-like sequence preceding the
-            // expression. This can match "name=value" like structures in text,
-            // comments, and attribute values, so there can be false-positives.
-            const attributeMatch = lastAttributeNameRegex.exec(s);
-            if (attributeMatch === null) {
-                // We're only in this branch if we don't have a attribute-like
-                // preceding sequence. For comments, this guards against unusual
-                // attribute values like <div foo="<!--${'bar'}">. Cases like
-                // <!-- foo=${'bar'}--> are handled correctly in the attribute branch
-                // below.
-                html += s + (isCommentBinding ? commentMarker : nodeMarker);
-            }
-            else {
-                // For attributes we use just a marker sentinel, and also append a
-                // $lit$ suffix to the name to opt-out of attribute-specific parsing
-                // that IE and Edge do for style and certain SVG attributes.
-                html += s.substr(0, attributeMatch.index) + attributeMatch[1] +
-                    attributeMatch[2] + boundAttributeSuffix + attributeMatch[3] +
-                    marker;
-            }
-        }
-        html += this.strings[l];
-        return html;
-    }
-    getTemplateElement() {
-        const template = document.createElement('template');
-        let value = this.getHTML();
-        if (policy !== undefined) {
-            // this is secure because `this.strings` is a TemplateStringsArray.
-            // TODO: validate this when
-            // https://github.com/tc39/proposal-array-is-template-object is
-            // implemented.
-            value = policy.createHTML(value);
-        }
-        template.innerHTML = value;
-        return template;
-    }
-}
-
-/**
- * @license
- * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
- * This code may only be used under the BSD style license found at
- * http://polymer.github.io/LICENSE.txt
- * The complete set of authors may be found at
- * http://polymer.github.io/AUTHORS.txt
- * The complete set of contributors may be found at
- * http://polymer.github.io/CONTRIBUTORS.txt
- * Code distributed by Google as part of the polymer project is also
- * subject to an additional IP rights grant found at
- * http://polymer.github.io/PATENTS.txt
- */
-const isPrimitive = (value) => {
-    return (value === null ||
-        !(typeof value === 'object' || typeof value === 'function'));
-};
-const isIterable = (value) => {
-    return Array.isArray(value) ||
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        !!(value && value[Symbol.iterator]);
-};
-/**
- * Writes attribute values to the DOM for a group of AttributeParts bound to a
- * single attribute. The value is only set once even if there are multiple parts
- * for an attribute.
- */
-class AttributeCommitter {
-    constructor(element, name, strings) {
-        this.dirty = true;
-        this.element = element;
-        this.name = name;
-        this.strings = strings;
-        this.parts = [];
-        for (let i = 0; i < strings.length - 1; i++) {
-            this.parts[i] = this._createPart();
-        }
-    }
-    /**
-     * Creates a single part. Override this to create a differnt type of part.
-     */
-    _createPart() {
-        return new AttributePart(this);
-    }
-    _getValue() {
-        const strings = this.strings;
-        const l = strings.length - 1;
-        const parts = this.parts;
-        // If we're assigning an attribute via syntax like:
-        //    attr="${foo}"  or  attr=${foo}
-        // but not
-        //    attr="${foo} ${bar}" or attr="${foo} baz"
-        // then we don't want to coerce the attribute value into one long
-        // string. Instead we want to just return the value itself directly,
-        // so that sanitizeDOMValue can get the actual value rather than
-        // String(value)
-        // The exception is if v is an array, in which case we do want to smash
-        // it together into a string without calling String() on the array.
-        //
-        // This also allows trusted values (when using TrustedTypes) being
-        // assigned to DOM sinks without being stringified in the process.
-        if (l === 1 && strings[0] === '' && strings[1] === '') {
-            const v = parts[0].value;
-            if (typeof v === 'symbol') {
-                return String(v);
-            }
-            if (typeof v === 'string' || !isIterable(v)) {
-                return v;
-            }
-        }
-        let text = '';
-        for (let i = 0; i < l; i++) {
-            text += strings[i];
-            const part = parts[i];
-            if (part !== undefined) {
-                const v = part.value;
-                if (isPrimitive(v) || !isIterable(v)) {
-                    text += typeof v === 'string' ? v : String(v);
-                }
-                else {
-                    for (const t of v) {
-                        text += typeof t === 'string' ? t : String(t);
-                    }
-                }
-            }
-        }
-        text += strings[l];
-        return text;
-    }
-    commit() {
-        if (this.dirty) {
-            this.dirty = false;
-            this.element.setAttribute(this.name, this._getValue());
-        }
-    }
-}
-/**
- * A Part that controls all or part of an attribute value.
- */
-class AttributePart {
-    constructor(committer) {
-        this.value = undefined;
-        this.committer = committer;
-    }
-    setValue(value) {
-        if (value !== noChange && (!isPrimitive(value) || value !== this.value)) {
-            this.value = value;
-            // If the value is a not a directive, dirty the committer so that it'll
-            // call setAttribute. If the value is a directive, it'll dirty the
-            // committer if it calls setValue().
-            if (!isDirective(value)) {
-                this.committer.dirty = true;
-            }
-        }
-    }
-    commit() {
-        while (isDirective(this.value)) {
-            const directive = this.value;
-            this.value = noChange;
-            directive(this);
-        }
-        if (this.value === noChange) {
-            return;
-        }
-        this.committer.commit();
-    }
-}
-/**
- * A Part that controls a location within a Node tree. Like a Range, NodePart
- * has start and end locations and can set and update the Nodes between those
- * locations.
- *
- * NodeParts support several value types: primitives, Nodes, TemplateResults,
- * as well as arrays and iterables of those types.
- */
-class NodePart {
-    constructor(options) {
-        this.value = undefined;
-        this.__pendingValue = undefined;
-        this.options = options;
-    }
-    /**
-     * Appends this part into a container.
-     *
-     * This part must be empty, as its contents are not automatically moved.
-     */
-    appendInto(container) {
-        this.startNode = container.appendChild(createMarker());
-        this.endNode = container.appendChild(createMarker());
-    }
-    /**
-     * Inserts this part after the `ref` node (between `ref` and `ref`'s next
-     * sibling). Both `ref` and its next sibling must be static, unchanging nodes
-     * such as those that appear in a literal section of a template.
-     *
-     * This part must be empty, as its contents are not automatically moved.
-     */
-    insertAfterNode(ref) {
-        this.startNode = ref;
-        this.endNode = ref.nextSibling;
-    }
-    /**
-     * Appends this part into a parent part.
-     *
-     * This part must be empty, as its contents are not automatically moved.
-     */
-    appendIntoPart(part) {
-        part.__insert(this.startNode = createMarker());
-        part.__insert(this.endNode = createMarker());
-    }
-    /**
-     * Inserts this part after the `ref` part.
-     *
-     * This part must be empty, as its contents are not automatically moved.
-     */
-    insertAfterPart(ref) {
-        ref.__insert(this.startNode = createMarker());
-        this.endNode = ref.endNode;
-        ref.endNode = this.startNode;
-    }
-    setValue(value) {
-        this.__pendingValue = value;
-    }
-    commit() {
-        if (this.startNode.parentNode === null) {
-            return;
-        }
-        while (isDirective(this.__pendingValue)) {
-            const directive = this.__pendingValue;
-            this.__pendingValue = noChange;
-            directive(this);
-        }
-        const value = this.__pendingValue;
-        if (value === noChange) {
-            return;
-        }
-        if (isPrimitive(value)) {
-            if (value !== this.value) {
-                this.__commitText(value);
-            }
-        }
-        else if (value instanceof TemplateResult) {
-            this.__commitTemplateResult(value);
-        }
-        else if (value instanceof Node) {
-            this.__commitNode(value);
-        }
-        else if (isIterable(value)) {
-            this.__commitIterable(value);
-        }
-        else if (value === nothing) {
-            this.value = nothing;
-            this.clear();
-        }
-        else {
-            // Fallback, will render the string representation
-            this.__commitText(value);
-        }
-    }
-    __insert(node) {
-        this.endNode.parentNode.insertBefore(node, this.endNode);
-    }
-    __commitNode(value) {
-        if (this.value === value) {
-            return;
-        }
-        this.clear();
-        this.__insert(value);
-        this.value = value;
-    }
-    __commitText(value) {
-        const node = this.startNode.nextSibling;
-        value = value == null ? '' : value;
-        // If `value` isn't already a string, we explicitly convert it here in case
-        // it can't be implicitly converted - i.e. it's a symbol.
-        const valueAsString = typeof value === 'string' ? value : String(value);
-        if (node === this.endNode.previousSibling &&
-            node.nodeType === 3 /* Node.TEXT_NODE */) {
-            // If we only have a single text node between the markers, we can just
-            // set its value, rather than replacing it.
-            // TODO(justinfagnani): Can we just check if this.value is primitive?
-            node.data = valueAsString;
-        }
-        else {
-            this.__commitNode(document.createTextNode(valueAsString));
-        }
-        this.value = value;
-    }
-    __commitTemplateResult(value) {
-        const template = this.options.templateFactory(value);
-        if (this.value instanceof TemplateInstance &&
-            this.value.template === template) {
-            this.value.update(value.values);
-        }
-        else {
-            // Make sure we propagate the template processor from the TemplateResult
-            // so that we use its syntax extension, etc. The template factory comes
-            // from the render function options so that it can control template
-            // caching and preprocessing.
-            const instance = new TemplateInstance(template, value.processor, this.options);
-            const fragment = instance._clone();
-            instance.update(value.values);
-            this.__commitNode(fragment);
-            this.value = instance;
-        }
-    }
-    __commitIterable(value) {
-        // For an Iterable, we create a new InstancePart per item, then set its
-        // value to the item. This is a little bit of overhead for every item in
-        // an Iterable, but it lets us recurse easily and efficiently update Arrays
-        // of TemplateResults that will be commonly returned from expressions like:
-        // array.map((i) => html`${i}`), by reusing existing TemplateInstances.
-        // If _value is an array, then the previous render was of an
-        // iterable and _value will contain the NodeParts from the previous
-        // render. If _value is not an array, clear this part and make a new
-        // array for NodeParts.
-        if (!Array.isArray(this.value)) {
-            this.value = [];
-            this.clear();
-        }
-        // Lets us keep track of how many items we stamped so we can clear leftover
-        // items from a previous render
-        const itemParts = this.value;
-        let partIndex = 0;
-        let itemPart;
-        for (const item of value) {
-            // Try to reuse an existing part
-            itemPart = itemParts[partIndex];
-            // If no existing part, create a new one
-            if (itemPart === undefined) {
-                itemPart = new NodePart(this.options);
-                itemParts.push(itemPart);
-                if (partIndex === 0) {
-                    itemPart.appendIntoPart(this);
-                }
-                else {
-                    itemPart.insertAfterPart(itemParts[partIndex - 1]);
-                }
-            }
-            itemPart.setValue(item);
-            itemPart.commit();
-            partIndex++;
-        }
-        if (partIndex < itemParts.length) {
-            // Truncate the parts array so _value reflects the current state
-            itemParts.length = partIndex;
-            this.clear(itemPart && itemPart.endNode);
-        }
-    }
-    clear(startNode = this.startNode) {
-        removeNodes(this.startNode.parentNode, startNode.nextSibling, this.endNode);
-    }
-}
-/**
- * Implements a boolean attribute, roughly as defined in the HTML
- * specification.
- *
- * If the value is truthy, then the attribute is present with a value of
- * ''. If the value is falsey, the attribute is removed.
- */
-class BooleanAttributePart {
-    constructor(element, name, strings) {
-        this.value = undefined;
-        this.__pendingValue = undefined;
-        if (strings.length !== 2 || strings[0] !== '' || strings[1] !== '') {
-            throw new Error('Boolean attributes can only contain a single expression');
-        }
-        this.element = element;
-        this.name = name;
-        this.strings = strings;
-    }
-    setValue(value) {
-        this.__pendingValue = value;
-    }
-    commit() {
-        while (isDirective(this.__pendingValue)) {
-            const directive = this.__pendingValue;
-            this.__pendingValue = noChange;
-            directive(this);
-        }
-        if (this.__pendingValue === noChange) {
-            return;
-        }
-        const value = !!this.__pendingValue;
-        if (this.value !== value) {
-            if (value) {
-                this.element.setAttribute(this.name, '');
-            }
-            else {
-                this.element.removeAttribute(this.name);
-            }
-            this.value = value;
-        }
-        this.__pendingValue = noChange;
-    }
-}
-/**
- * Sets attribute values for PropertyParts, so that the value is only set once
- * even if there are multiple parts for a property.
- *
- * If an expression controls the whole property value, then the value is simply
- * assigned to the property under control. If there are string literals or
- * multiple expressions, then the strings are expressions are interpolated into
- * a string first.
- */
-class PropertyCommitter extends AttributeCommitter {
-    constructor(element, name, strings) {
-        super(element, name, strings);
-        this.single =
-            (strings.length === 2 && strings[0] === '' && strings[1] === '');
-    }
-    _createPart() {
-        return new PropertyPart(this);
-    }
-    _getValue() {
-        if (this.single) {
-            return this.parts[0].value;
-        }
-        return super._getValue();
-    }
-    commit() {
-        if (this.dirty) {
-            this.dirty = false;
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            this.element[this.name] = this._getValue();
-        }
-    }
-}
-class PropertyPart extends AttributePart {
-}
-// Detect event listener options support. If the `capture` property is read
-// from the options object, then options are supported. If not, then the third
-// argument to add/removeEventListener is interpreted as the boolean capture
-// value so we should only pass the `capture` property.
-let eventOptionsSupported = false;
-// Wrap into an IIFE because MS Edge <= v41 does not support having try/catch
-// blocks right into the body of a module
-(() => {
-    try {
-        const options = {
-            get capture() {
-                eventOptionsSupported = true;
-                return false;
-            }
-        };
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        window.addEventListener('test', options, options);
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        window.removeEventListener('test', options, options);
-    }
-    catch (_e) {
-        // event options not supported
-    }
-})();
-class EventPart {
-    constructor(element, eventName, eventContext) {
-        this.value = undefined;
-        this.__pendingValue = undefined;
-        this.element = element;
-        this.eventName = eventName;
-        this.eventContext = eventContext;
-        this.__boundHandleEvent = (e) => this.handleEvent(e);
-    }
-    setValue(value) {
-        this.__pendingValue = value;
-    }
-    commit() {
-        while (isDirective(this.__pendingValue)) {
-            const directive = this.__pendingValue;
-            this.__pendingValue = noChange;
-            directive(this);
-        }
-        if (this.__pendingValue === noChange) {
-            return;
-        }
-        const newListener = this.__pendingValue;
-        const oldListener = this.value;
-        const shouldRemoveListener = newListener == null ||
-            oldListener != null &&
-                (newListener.capture !== oldListener.capture ||
-                    newListener.once !== oldListener.once ||
-                    newListener.passive !== oldListener.passive);
-        const shouldAddListener = newListener != null && (oldListener == null || shouldRemoveListener);
-        if (shouldRemoveListener) {
-            this.element.removeEventListener(this.eventName, this.__boundHandleEvent, this.__options);
-        }
-        if (shouldAddListener) {
-            this.__options = getOptions(newListener);
-            this.element.addEventListener(this.eventName, this.__boundHandleEvent, this.__options);
-        }
-        this.value = newListener;
-        this.__pendingValue = noChange;
-    }
-    handleEvent(event) {
-        if (typeof this.value === 'function') {
-            this.value.call(this.eventContext || this.element, event);
-        }
-        else {
-            this.value.handleEvent(event);
-        }
-    }
-}
-// We copy options because of the inconsistent behavior of browsers when reading
-// the third argument of add/removeEventListener. IE11 doesn't support options
-// at all. Chrome 41 only reads `capture` if the argument is an object.
-const getOptions = (o) => o &&
-    (eventOptionsSupported ?
-        { capture: o.capture, passive: o.passive, once: o.once } :
-        o.capture);
-
-/**
- * @license
- * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
- * This code may only be used under the BSD style license found at
- * http://polymer.github.io/LICENSE.txt
- * The complete set of authors may be found at
- * http://polymer.github.io/AUTHORS.txt
- * The complete set of contributors may be found at
- * http://polymer.github.io/CONTRIBUTORS.txt
- * Code distributed by Google as part of the polymer project is also
- * subject to an additional IP rights grant found at
- * http://polymer.github.io/PATENTS.txt
- */
-/**
- * The default TemplateFactory which caches Templates keyed on
- * result.type and result.strings.
- */
-function templateFactory(result) {
-    let templateCache = templateCaches.get(result.type);
-    if (templateCache === undefined) {
-        templateCache = {
-            stringsArray: new WeakMap(),
-            keyString: new Map()
-        };
-        templateCaches.set(result.type, templateCache);
-    }
-    let template = templateCache.stringsArray.get(result.strings);
-    if (template !== undefined) {
-        return template;
-    }
-    // If the TemplateStringsArray is new, generate a key from the strings
-    // This key is shared between all templates with identical content
-    const key = result.strings.join(marker);
-    // Check if we already have a Template for this key
-    template = templateCache.keyString.get(key);
-    if (template === undefined) {
-        // If we have not seen this key before, create a new Template
-        template = new Template(result, result.getTemplateElement());
-        // Cache the Template for this key
-        templateCache.keyString.set(key, template);
-    }
-    // Cache all future queries for this TemplateStringsArray
-    templateCache.stringsArray.set(result.strings, template);
-    return template;
-}
-const templateCaches = new Map();
-
-/**
- * @license
- * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
- * This code may only be used under the BSD style license found at
- * http://polymer.github.io/LICENSE.txt
- * The complete set of authors may be found at
- * http://polymer.github.io/AUTHORS.txt
- * The complete set of contributors may be found at
- * http://polymer.github.io/CONTRIBUTORS.txt
- * Code distributed by Google as part of the polymer project is also
- * subject to an additional IP rights grant found at
- * http://polymer.github.io/PATENTS.txt
- */
-const parts = new WeakMap();
-/**
- * Renders a template result or other value to a container.
- *
- * To update a container with new values, reevaluate the template literal and
- * call `render` with the new result.
- *
- * @param result Any value renderable by NodePart - typically a TemplateResult
- *     created by evaluating a template tag like `html` or `svg`.
- * @param container A DOM parent to render to. The entire contents are either
- *     replaced, or efficiently updated if the same result type was previous
- *     rendered there.
- * @param options RenderOptions for the entire render tree rendered to this
- *     container. Render options must *not* change between renders to the same
- *     container, as those changes will not effect previously rendered DOM.
- */
-const render$1 = (result, container, options) => {
-    let part = parts.get(container);
-    if (part === undefined) {
-        removeNodes(container, container.firstChild);
-        parts.set(container, part = new NodePart(Object.assign({ templateFactory }, options)));
-        part.appendInto(container);
-    }
-    part.setValue(result);
-    part.commit();
-};
-
-/**
- * @license
- * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
- * This code may only be used under the BSD style license found at
- * http://polymer.github.io/LICENSE.txt
- * The complete set of authors may be found at
- * http://polymer.github.io/AUTHORS.txt
- * The complete set of contributors may be found at
- * http://polymer.github.io/CONTRIBUTORS.txt
- * Code distributed by Google as part of the polymer project is also
- * subject to an additional IP rights grant found at
- * http://polymer.github.io/PATENTS.txt
- */
-/**
- * Creates Parts when a template is instantiated.
- */
-class DefaultTemplateProcessor {
-    /**
-     * Create parts for an attribute-position binding, given the event, attribute
-     * name, and string literals.
-     *
-     * @param element The element containing the binding
-     * @param name  The attribute name
-     * @param strings The string literals. There are always at least two strings,
-     *   event for fully-controlled bindings with a single expression.
-     */
-    handleAttributeExpressions(element, name, strings, options) {
-        const prefix = name[0];
-        if (prefix === '.') {
-            const committer = new PropertyCommitter(element, name.slice(1), strings);
-            return committer.parts;
-        }
-        if (prefix === '@') {
-            return [new EventPart(element, name.slice(1), options.eventContext)];
-        }
-        if (prefix === '?') {
-            return [new BooleanAttributePart(element, name.slice(1), strings)];
-        }
-        const committer = new AttributeCommitter(element, name, strings);
-        return committer.parts;
-    }
-    /**
-     * Create parts for a text-position binding.
-     * @param templateFactory
-     */
-    handleTextExpression(options) {
-        return new NodePart(options);
-    }
-}
-const defaultTemplateProcessor = new DefaultTemplateProcessor();
-
-/**
- * @license
- * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
- * This code may only be used under the BSD style license found at
- * http://polymer.github.io/LICENSE.txt
- * The complete set of authors may be found at
- * http://polymer.github.io/AUTHORS.txt
- * The complete set of contributors may be found at
- * http://polymer.github.io/CONTRIBUTORS.txt
- * Code distributed by Google as part of the polymer project is also
- * subject to an additional IP rights grant found at
- * http://polymer.github.io/PATENTS.txt
- */
-// IMPORTANT: do not change the property name or the assignment expression.
-// This line will be used in regexes to search for lit-html usage.
-// TODO(justinfagnani): inject version number at build time
-if (typeof window !== 'undefined') {
-    (window['litHtmlVersions'] || (window['litHtmlVersions'] = [])).push('1.4.1');
-}
-/**
- * Interprets a template literal as an HTML template that can efficiently
- * render to and update a container.
- */
-const html = (strings, ...values) => new TemplateResult(strings, values, 'html', defaultTemplateProcessor);
-
-/**
- * @license
- * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
- * This code may only be used under the BSD style license found at
- * http://polymer.github.io/LICENSE.txt
- * The complete set of authors may be found at
- * http://polymer.github.io/AUTHORS.txt
- * The complete set of contributors may be found at
- * http://polymer.github.io/CONTRIBUTORS.txt
- * Code distributed by Google as part of the polymer project is also
- * subject to an additional IP rights grant found at
- * http://polymer.github.io/PATENTS.txt
- */
-// Get a key to lookup in `templateCaches`.
-const getTemplateCacheKey = (type, scopeName) => `${type}--${scopeName}`;
-let compatibleShadyCSSVersion = true;
-if (typeof window.ShadyCSS === 'undefined') {
-    compatibleShadyCSSVersion = false;
-}
-else if (typeof window.ShadyCSS.prepareTemplateDom === 'undefined') {
-    console.warn(`Incompatible ShadyCSS version detected. ` +
-        `Please update to at least @webcomponents/webcomponentsjs@2.0.2 and ` +
-        `@webcomponents/shadycss@1.3.1.`);
-    compatibleShadyCSSVersion = false;
-}
-/**
- * Template factory which scopes template DOM using ShadyCSS.
- * @param scopeName {string}
- */
-const shadyTemplateFactory = (scopeName) => (result) => {
-    const cacheKey = getTemplateCacheKey(result.type, scopeName);
-    let templateCache = templateCaches.get(cacheKey);
-    if (templateCache === undefined) {
-        templateCache = {
-            stringsArray: new WeakMap(),
-            keyString: new Map()
-        };
-        templateCaches.set(cacheKey, templateCache);
-    }
-    let template = templateCache.stringsArray.get(result.strings);
-    if (template !== undefined) {
-        return template;
-    }
-    const key = result.strings.join(marker);
-    template = templateCache.keyString.get(key);
-    if (template === undefined) {
-        const element = result.getTemplateElement();
-        if (compatibleShadyCSSVersion) {
-            window.ShadyCSS.prepareTemplateDom(element, scopeName);
-        }
-        template = new Template(result, element);
-        templateCache.keyString.set(key, template);
-    }
-    templateCache.stringsArray.set(result.strings, template);
-    return template;
-};
-const TEMPLATE_TYPES = ['html', 'svg'];
-/**
- * Removes all style elements from Templates for the given scopeName.
- */
-const removeStylesFromLitTemplates = (scopeName) => {
-    TEMPLATE_TYPES.forEach((type) => {
-        const templates = templateCaches.get(getTemplateCacheKey(type, scopeName));
-        if (templates !== undefined) {
-            templates.keyString.forEach((template) => {
-                const { element: { content } } = template;
-                // IE 11 doesn't support the iterable param Set constructor
-                const styles = new Set();
-                Array.from(content.querySelectorAll('style')).forEach((s) => {
-                    styles.add(s);
-                });
-                removeNodesFromTemplate(template, styles);
-            });
-        }
-    });
-};
-const shadyRenderSet = new Set();
-/**
- * For the given scope name, ensures that ShadyCSS style scoping is performed.
- * This is done just once per scope name so the fragment and template cannot
- * be modified.
- * (1) extracts styles from the rendered fragment and hands them to ShadyCSS
- * to be scoped and appended to the document
- * (2) removes style elements from all lit-html Templates for this scope name.
- *
- * Note, <style> elements can only be placed into templates for the
- * initial rendering of the scope. If <style> elements are included in templates
- * dynamically rendered to the scope (after the first scope render), they will
- * not be scoped and the <style> will be left in the template and rendered
- * output.
- */
-const prepareTemplateStyles = (scopeName, renderedDOM, template) => {
-    shadyRenderSet.add(scopeName);
-    // If `renderedDOM` is stamped from a Template, then we need to edit that
-    // Template's underlying template element. Otherwise, we create one here
-    // to give to ShadyCSS, which still requires one while scoping.
-    const templateElement = !!template ? template.element : document.createElement('template');
-    // Move styles out of rendered DOM and store.
-    const styles = renderedDOM.querySelectorAll('style');
-    const { length } = styles;
-    // If there are no styles, skip unnecessary work
-    if (length === 0) {
-        // Ensure prepareTemplateStyles is called to support adding
-        // styles via `prepareAdoptedCssText` since that requires that
-        // `prepareTemplateStyles` is called.
-        //
-        // ShadyCSS will only update styles containing @apply in the template
-        // given to `prepareTemplateStyles`. If no lit Template was given,
-        // ShadyCSS will not be able to update uses of @apply in any relevant
-        // template. However, this is not a problem because we only create the
-        // template for the purpose of supporting `prepareAdoptedCssText`,
-        // which doesn't support @apply at all.
-        window.ShadyCSS.prepareTemplateStyles(templateElement, scopeName);
-        return;
-    }
-    const condensedStyle = document.createElement('style');
-    // Collect styles into a single style. This helps us make sure ShadyCSS
-    // manipulations will not prevent us from being able to fix up template
-    // part indices.
-    // NOTE: collecting styles is inefficient for browsers but ShadyCSS
-    // currently does this anyway. When it does not, this should be changed.
-    for (let i = 0; i < length; i++) {
-        const style = styles[i];
-        style.parentNode.removeChild(style);
-        condensedStyle.textContent += style.textContent;
-    }
-    // Remove styles from nested templates in this scope.
-    removeStylesFromLitTemplates(scopeName);
-    // And then put the condensed style into the "root" template passed in as
-    // `template`.
-    const content = templateElement.content;
-    if (!!template) {
-        insertNodeIntoTemplate(template, condensedStyle, content.firstChild);
-    }
-    else {
-        content.insertBefore(condensedStyle, content.firstChild);
-    }
-    // Note, it's important that ShadyCSS gets the template that `lit-html`
-    // will actually render so that it can update the style inside when
-    // needed (e.g. @apply native Shadow DOM case).
-    window.ShadyCSS.prepareTemplateStyles(templateElement, scopeName);
-    const style = content.querySelector('style');
-    if (window.ShadyCSS.nativeShadow && style !== null) {
-        // When in native Shadow DOM, ensure the style created by ShadyCSS is
-        // included in initially rendered output (`renderedDOM`).
-        renderedDOM.insertBefore(style.cloneNode(true), renderedDOM.firstChild);
-    }
-    else if (!!template) {
-        // When no style is left in the template, parts will be broken as a
-        // result. To fix this, we put back the style node ShadyCSS removed
-        // and then tell lit to remove that node from the template.
-        // There can be no style in the template in 2 cases (1) when Shady DOM
-        // is in use, ShadyCSS removes all styles, (2) when native Shadow DOM
-        // is in use ShadyCSS removes the style if it contains no content.
-        // NOTE, ShadyCSS creates its own style so we can safely add/remove
-        // `condensedStyle` here.
-        content.insertBefore(condensedStyle, content.firstChild);
-        const removes = new Set();
-        removes.add(condensedStyle);
-        removeNodesFromTemplate(template, removes);
-    }
-};
-/**
- * Extension to the standard `render` method which supports rendering
- * to ShadowRoots when the ShadyDOM (https://github.com/webcomponents/shadydom)
- * and ShadyCSS (https://github.com/webcomponents/shadycss) polyfills are used
- * or when the webcomponentsjs
- * (https://github.com/webcomponents/webcomponentsjs) polyfill is used.
- *
- * Adds a `scopeName` option which is used to scope element DOM and stylesheets
- * when native ShadowDOM is unavailable. The `scopeName` will be added to
- * the class attribute of all rendered DOM. In addition, any style elements will
- * be automatically re-written with this `scopeName` selector and moved out
- * of the rendered DOM and into the document `<head>`.
- *
- * It is common to use this render method in conjunction with a custom element
- * which renders a shadowRoot. When this is done, typically the element's
- * `localName` should be used as the `scopeName`.
- *
- * In addition to DOM scoping, ShadyCSS also supports a basic shim for css
- * custom properties (needed only on older browsers like IE11) and a shim for
- * a deprecated feature called `@apply` that supports applying a set of css
- * custom properties to a given location.
- *
- * Usage considerations:
- *
- * * Part values in `<style>` elements are only applied the first time a given
- * `scopeName` renders. Subsequent changes to parts in style elements will have
- * no effect. Because of this, parts in style elements should only be used for
- * values that will never change, for example parts that set scope-wide theme
- * values or parts which render shared style elements.
- *
- * * Note, due to a limitation of the ShadyDOM polyfill, rendering in a
- * custom element's `constructor` is not supported. Instead rendering should
- * either done asynchronously, for example at microtask timing (for example
- * `Promise.resolve()`), or be deferred until the first time the element's
- * `connectedCallback` runs.
- *
- * Usage considerations when using shimmed custom properties or `@apply`:
- *
- * * Whenever any dynamic changes are made which affect
- * css custom properties, `ShadyCSS.styleElement(element)` must be called
- * to update the element. There are two cases when this is needed:
- * (1) the element is connected to a new parent, (2) a class is added to the
- * element that causes it to match different custom properties.
- * To address the first case when rendering a custom element, `styleElement`
- * should be called in the element's `connectedCallback`.
- *
- * * Shimmed custom properties may only be defined either for an entire
- * shadowRoot (for example, in a `:host` rule) or via a rule that directly
- * matches an element with a shadowRoot. In other words, instead of flowing from
- * parent to child as do native css custom properties, shimmed custom properties
- * flow only from shadowRoots to nested shadowRoots.
- *
- * * When using `@apply` mixing css shorthand property names with
- * non-shorthand names (for example `border` and `border-width`) is not
- * supported.
- */
-const render = (result, container, options) => {
-    if (!options || typeof options !== 'object' || !options.scopeName) {
-        throw new Error('The `scopeName` option is required.');
-    }
-    const scopeName = options.scopeName;
-    const hasRendered = parts.has(container);
-    const needsScoping = compatibleShadyCSSVersion &&
-        container.nodeType === 11 /* Node.DOCUMENT_FRAGMENT_NODE */ &&
-        !!container.host;
-    // Handle first render to a scope specially...
-    const firstScopeRender = needsScoping && !shadyRenderSet.has(scopeName);
-    // On first scope render, render into a fragment; this cannot be a single
-    // fragment that is reused since nested renders can occur synchronously.
-    const renderContainer = firstScopeRender ? document.createDocumentFragment() : container;
-    render$1(result, renderContainer, Object.assign({ templateFactory: shadyTemplateFactory(scopeName) }, options));
-    // When performing first scope render,
-    // (1) We've rendered into a fragment so that there's a chance to
-    // `prepareTemplateStyles` before sub-elements hit the DOM
-    // (which might cause them to render based on a common pattern of
-    // rendering in a custom element's `connectedCallback`);
-    // (2) Scope the template with ShadyCSS one time only for this scope.
-    // (3) Render the fragment into the container and make sure the
-    // container knows its `part` is the one we just rendered. This ensures
-    // DOM will be re-used on subsequent renders.
-    if (firstScopeRender) {
-        const part = parts.get(renderContainer);
-        parts.delete(renderContainer);
-        // ShadyCSS might have style sheets (e.g. from `prepareAdoptedCssText`)
-        // that should apply to `renderContainer` even if the rendered value is
-        // not a TemplateInstance. However, it will only insert scoped styles
-        // into the document if `prepareTemplateStyles` has already been called
-        // for the given scope name.
-        const template = part.value instanceof TemplateInstance ?
-            part.value.template :
-            undefined;
-        prepareTemplateStyles(scopeName, renderContainer, template);
-        removeNodes(container, container.firstChild);
-        container.appendChild(renderContainer);
-        parts.set(container, part);
-    }
-    // After elements have hit the DOM, update styling if this is the
-    // initial render to this container.
-    // This is needed whenever dynamic changes are made so it would be
-    // safest to do every render; however, this would regress performance
-    // so we leave it up to the user to call `ShadyCSS.styleElement`
-    // for dynamic changes.
-    if (!hasRendered && needsScoping) {
-        window.ShadyCSS.styleElement(container.host);
-    }
-};
-
-/**
- * @license
- * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
- * This code may only be used under the BSD style license found at
- * http://polymer.github.io/LICENSE.txt
- * The complete set of authors may be found at
- * http://polymer.github.io/AUTHORS.txt
- * The complete set of contributors may be found at
- * http://polymer.github.io/CONTRIBUTORS.txt
- * Code distributed by Google as part of the polymer project is also
- * subject to an additional IP rights grant found at
- * http://polymer.github.io/PATENTS.txt
- */
-var _a$1;
-/**
- * Use this module if you want to create your own base class extending
- * [[UpdatingElement]].
- * @packageDocumentation
- */
-/*
- * When using Closure Compiler, JSCompiler_renameProperty(property, object) is
- * replaced at compile time by the munged name for object[property]. We cannot
- * alias this function, so we have to use a small shim that has the same
- * behavior when not compiling.
- */
-window.JSCompiler_renameProperty =
-    (prop, _obj) => prop;
-const defaultConverter = {
-    toAttribute(value, type) {
-        switch (type) {
-            case Boolean:
-                return value ? '' : null;
-            case Object:
-            case Array:
-                // if the value is `null` or `undefined` pass this through
-                // to allow removing/no change behavior.
-                return value == null ? value : JSON.stringify(value);
-        }
-        return value;
-    },
-    fromAttribute(value, type) {
-        switch (type) {
-            case Boolean:
-                return value !== null;
-            case Number:
-                return value === null ? null : Number(value);
-            case Object:
-            case Array:
-                // Type assert to adhere to Bazel's "must type assert JSON parse" rule.
-                return JSON.parse(value);
-        }
-        return value;
-    }
-};
-/**
- * Change function that returns true if `value` is different from `oldValue`.
- * This method is used as the default for a property's `hasChanged` function.
- */
-const notEqual = (value, old) => {
-    // This ensures (old==NaN, value==NaN) always returns false
-    return old !== value && (old === old || value === value);
-};
-const defaultPropertyDeclaration = {
-    attribute: true,
-    type: String,
-    converter: defaultConverter,
-    reflect: false,
-    hasChanged: notEqual
-};
-const STATE_HAS_UPDATED = 1;
-const STATE_UPDATE_REQUESTED = 1 << 2;
-const STATE_IS_REFLECTING_TO_ATTRIBUTE = 1 << 3;
-const STATE_IS_REFLECTING_TO_PROPERTY = 1 << 4;
-/**
- * The Closure JS Compiler doesn't currently have good support for static
- * property semantics where "this" is dynamic (e.g.
- * https://github.com/google/closure-compiler/issues/3177 and others) so we use
- * this hack to bypass any rewriting by the compiler.
- */
-const finalized = 'finalized';
-/**
- * Base element class which manages element properties and attributes. When
- * properties change, the `update` method is asynchronously called. This method
- * should be supplied by subclassers to render updates as desired.
- * @noInheritDoc
- */
-class UpdatingElement extends HTMLElement {
-    constructor() {
-        super();
-        this.initialize();
-    }
-    /**
-     * Returns a list of attributes corresponding to the registered properties.
-     * @nocollapse
-     */
-    static get observedAttributes() {
-        // note: piggy backing on this to ensure we're finalized.
-        this.finalize();
-        const attributes = [];
-        // Use forEach so this works even if for/of loops are compiled to for loops
-        // expecting arrays
-        this._classProperties.forEach((v, p) => {
-            const attr = this._attributeNameForProperty(p, v);
-            if (attr !== undefined) {
-                this._attributeToPropertyMap.set(attr, p);
-                attributes.push(attr);
-            }
-        });
-        return attributes;
-    }
-    /**
-     * Ensures the private `_classProperties` property metadata is created.
-     * In addition to `finalize` this is also called in `createProperty` to
-     * ensure the `@property` decorator can add property metadata.
-     */
-    /** @nocollapse */
-    static _ensureClassProperties() {
-        // ensure private storage for property declarations.
-        if (!this.hasOwnProperty(JSCompiler_renameProperty('_classProperties', this))) {
-            this._classProperties = new Map();
-            // NOTE: Workaround IE11 not supporting Map constructor argument.
-            const superProperties = Object.getPrototypeOf(this)._classProperties;
-            if (superProperties !== undefined) {
-                superProperties.forEach((v, k) => this._classProperties.set(k, v));
-            }
-        }
-    }
-    /**
-     * Creates a property accessor on the element prototype if one does not exist
-     * and stores a PropertyDeclaration for the property with the given options.
-     * The property setter calls the property's `hasChanged` property option
-     * or uses a strict identity check to determine whether or not to request
-     * an update.
-     *
-     * This method may be overridden to customize properties; however,
-     * when doing so, it's important to call `super.createProperty` to ensure
-     * the property is setup correctly. This method calls
-     * `getPropertyDescriptor` internally to get a descriptor to install.
-     * To customize what properties do when they are get or set, override
-     * `getPropertyDescriptor`. To customize the options for a property,
-     * implement `createProperty` like this:
-     *
-     * static createProperty(name, options) {
-     *   options = Object.assign(options, {myOption: true});
-     *   super.createProperty(name, options);
-     * }
-     *
-     * @nocollapse
-     */
-    static createProperty(name, options = defaultPropertyDeclaration) {
-        // Note, since this can be called by the `@property` decorator which
-        // is called before `finalize`, we ensure storage exists for property
-        // metadata.
-        this._ensureClassProperties();
-        this._classProperties.set(name, options);
-        // Do not generate an accessor if the prototype already has one, since
-        // it would be lost otherwise and that would never be the user's intention;
-        // Instead, we expect users to call `requestUpdate` themselves from
-        // user-defined accessors. Note that if the super has an accessor we will
-        // still overwrite it
-        if (options.noAccessor || this.prototype.hasOwnProperty(name)) {
-            return;
-        }
-        const key = typeof name === 'symbol' ? Symbol() : `__${name}`;
-        const descriptor = this.getPropertyDescriptor(name, key, options);
-        if (descriptor !== undefined) {
-            Object.defineProperty(this.prototype, name, descriptor);
-        }
-    }
-    /**
-     * Returns a property descriptor to be defined on the given named property.
-     * If no descriptor is returned, the property will not become an accessor.
-     * For example,
-     *
-     *   class MyElement extends LitElement {
-     *     static getPropertyDescriptor(name, key, options) {
-     *       const defaultDescriptor =
-     *           super.getPropertyDescriptor(name, key, options);
-     *       const setter = defaultDescriptor.set;
-     *       return {
-     *         get: defaultDescriptor.get,
-     *         set(value) {
-     *           setter.call(this, value);
-     *           // custom action.
-     *         },
-     *         configurable: true,
-     *         enumerable: true
-     *       }
-     *     }
-     *   }
-     *
-     * @nocollapse
-     */
-    static getPropertyDescriptor(name, key, options) {
-        return {
-            // tslint:disable-next-line:no-any no symbol in index
-            get() {
-                return this[key];
-            },
-            set(value) {
-                const oldValue = this[name];
-                this[key] = value;
-                this
-                    .requestUpdateInternal(name, oldValue, options);
-            },
-            configurable: true,
-            enumerable: true
-        };
-    }
-    /**
-     * Returns the property options associated with the given property.
-     * These options are defined with a PropertyDeclaration via the `properties`
-     * object or the `@property` decorator and are registered in
-     * `createProperty(...)`.
-     *
-     * Note, this method should be considered "final" and not overridden. To
-     * customize the options for a given property, override `createProperty`.
-     *
-     * @nocollapse
-     * @final
-     */
-    static getPropertyOptions(name) {
-        return this._classProperties && this._classProperties.get(name) ||
-            defaultPropertyDeclaration;
-    }
-    /**
-     * Creates property accessors for registered properties and ensures
-     * any superclasses are also finalized.
-     * @nocollapse
-     */
-    static finalize() {
-        // finalize any superclasses
-        const superCtor = Object.getPrototypeOf(this);
-        if (!superCtor.hasOwnProperty(finalized)) {
-            superCtor.finalize();
-        }
-        this[finalized] = true;
-        this._ensureClassProperties();
-        // initialize Map populated in observedAttributes
-        this._attributeToPropertyMap = new Map();
-        // make any properties
-        // Note, only process "own" properties since this element will inherit
-        // any properties defined on the superClass, and finalization ensures
-        // the entire prototype chain is finalized.
-        if (this.hasOwnProperty(JSCompiler_renameProperty('properties', this))) {
-            const props = this.properties;
-            // support symbols in properties (IE11 does not support this)
-            const propKeys = [
-                ...Object.getOwnPropertyNames(props),
-                ...(typeof Object.getOwnPropertySymbols === 'function') ?
-                    Object.getOwnPropertySymbols(props) :
-                    []
-            ];
-            // This for/of is ok because propKeys is an array
-            for (const p of propKeys) {
-                // note, use of `any` is due to TypeSript lack of support for symbol in
-                // index types
-                // tslint:disable-next-line:no-any no symbol in index
-                this.createProperty(p, props[p]);
-            }
-        }
-    }
-    /**
-     * Returns the property name for the given attribute `name`.
-     * @nocollapse
-     */
-    static _attributeNameForProperty(name, options) {
-        const attribute = options.attribute;
-        return attribute === false ?
-            undefined :
-            (typeof attribute === 'string' ?
-                attribute :
-                (typeof name === 'string' ? name.toLowerCase() : undefined));
-    }
-    /**
-     * Returns true if a property should request an update.
-     * Called when a property value is set and uses the `hasChanged`
-     * option for the property if present or a strict identity check.
-     * @nocollapse
-     */
-    static _valueHasChanged(value, old, hasChanged = notEqual) {
-        return hasChanged(value, old);
-    }
-    /**
-     * Returns the property value for the given attribute value.
-     * Called via the `attributeChangedCallback` and uses the property's
-     * `converter` or `converter.fromAttribute` property option.
-     * @nocollapse
-     */
-    static _propertyValueFromAttribute(value, options) {
-        const type = options.type;
-        const converter = options.converter || defaultConverter;
-        const fromAttribute = (typeof converter === 'function' ? converter : converter.fromAttribute);
-        return fromAttribute ? fromAttribute(value, type) : value;
-    }
-    /**
-     * Returns the attribute value for the given property value. If this
-     * returns undefined, the property will *not* be reflected to an attribute.
-     * If this returns null, the attribute will be removed, otherwise the
-     * attribute will be set to the value.
-     * This uses the property's `reflect` and `type.toAttribute` property options.
-     * @nocollapse
-     */
-    static _propertyValueToAttribute(value, options) {
-        if (options.reflect === undefined) {
-            return;
-        }
-        const type = options.type;
-        const converter = options.converter;
-        const toAttribute = converter && converter.toAttribute ||
-            defaultConverter.toAttribute;
-        return toAttribute(value, type);
-    }
-    /**
-     * Performs element initialization. By default captures any pre-set values for
-     * registered properties.
-     */
-    initialize() {
-        this._updateState = 0;
-        this._updatePromise =
-            new Promise((res) => this._enableUpdatingResolver = res);
-        this._changedProperties = new Map();
-        this._saveInstanceProperties();
-        // ensures first update will be caught by an early access of
-        // `updateComplete`
-        this.requestUpdateInternal();
-    }
-    /**
-     * Fixes any properties set on the instance before upgrade time.
-     * Otherwise these would shadow the accessor and break these properties.
-     * The properties are stored in a Map which is played back after the
-     * constructor runs. Note, on very old versions of Safari (<=9) or Chrome
-     * (<=41), properties created for native platform properties like (`id` or
-     * `name`) may not have default values set in the element constructor. On
-     * these browsers native properties appear on instances and therefore their
-     * default value will overwrite any element default (e.g. if the element sets
-     * this.id = 'id' in the constructor, the 'id' will become '' since this is
-     * the native platform default).
-     */
-    _saveInstanceProperties() {
-        // Use forEach so this works even if for/of loops are compiled to for loops
-        // expecting arrays
-        this.constructor
-            ._classProperties.forEach((_v, p) => {
-            if (this.hasOwnProperty(p)) {
-                const value = this[p];
-                delete this[p];
-                if (!this._instanceProperties) {
-                    this._instanceProperties = new Map();
-                }
-                this._instanceProperties.set(p, value);
-            }
-        });
-    }
-    /**
-     * Applies previously saved instance properties.
-     */
-    _applyInstanceProperties() {
-        // Use forEach so this works even if for/of loops are compiled to for loops
-        // expecting arrays
-        // tslint:disable-next-line:no-any
-        this._instanceProperties.forEach((v, p) => this[p] = v);
-        this._instanceProperties = undefined;
-    }
-    connectedCallback() {
-        // Ensure first connection completes an update. Updates cannot complete
-        // before connection.
-        this.enableUpdating();
-    }
-    enableUpdating() {
-        if (this._enableUpdatingResolver !== undefined) {
-            this._enableUpdatingResolver();
-            this._enableUpdatingResolver = undefined;
-        }
-    }
-    /**
-     * Allows for `super.disconnectedCallback()` in extensions while
-     * reserving the possibility of making non-breaking feature additions
-     * when disconnecting at some point in the future.
-     */
-    disconnectedCallback() {
-    }
-    /**
-     * Synchronizes property values when attributes change.
-     */
-    attributeChangedCallback(name, old, value) {
-        if (old !== value) {
-            this._attributeToProperty(name, value);
-        }
-    }
-    _propertyToAttribute(name, value, options = defaultPropertyDeclaration) {
-        const ctor = this.constructor;
-        const attr = ctor._attributeNameForProperty(name, options);
-        if (attr !== undefined) {
-            const attrValue = ctor._propertyValueToAttribute(value, options);
-            // an undefined value does not change the attribute.
-            if (attrValue === undefined) {
-                return;
-            }
-            // Track if the property is being reflected to avoid
-            // setting the property again via `attributeChangedCallback`. Note:
-            // 1. this takes advantage of the fact that the callback is synchronous.
-            // 2. will behave incorrectly if multiple attributes are in the reaction
-            // stack at time of calling. However, since we process attributes
-            // in `update` this should not be possible (or an extreme corner case
-            // that we'd like to discover).
-            // mark state reflecting
-            this._updateState = this._updateState | STATE_IS_REFLECTING_TO_ATTRIBUTE;
-            if (attrValue == null) {
-                this.removeAttribute(attr);
-            }
-            else {
-                this.setAttribute(attr, attrValue);
-            }
-            // mark state not reflecting
-            this._updateState = this._updateState & ~STATE_IS_REFLECTING_TO_ATTRIBUTE;
-        }
-    }
-    _attributeToProperty(name, value) {
-        // Use tracking info to avoid deserializing attribute value if it was
-        // just set from a property setter.
-        if (this._updateState & STATE_IS_REFLECTING_TO_ATTRIBUTE) {
-            return;
-        }
-        const ctor = this.constructor;
-        // Note, hint this as an `AttributeMap` so closure clearly understands
-        // the type; it has issues with tracking types through statics
-        // tslint:disable-next-line:no-unnecessary-type-assertion
-        const propName = ctor._attributeToPropertyMap.get(name);
-        if (propName !== undefined) {
-            const options = ctor.getPropertyOptions(propName);
-            // mark state reflecting
-            this._updateState = this._updateState | STATE_IS_REFLECTING_TO_PROPERTY;
-            this[propName] =
-                // tslint:disable-next-line:no-any
-                ctor._propertyValueFromAttribute(value, options);
-            // mark state not reflecting
-            this._updateState = this._updateState & ~STATE_IS_REFLECTING_TO_PROPERTY;
-        }
-    }
-    /**
-     * This protected version of `requestUpdate` does not access or return the
-     * `updateComplete` promise. This promise can be overridden and is therefore
-     * not free to access.
-     */
-    requestUpdateInternal(name, oldValue, options) {
-        let shouldRequestUpdate = true;
-        // If we have a property key, perform property update steps.
-        if (name !== undefined) {
-            const ctor = this.constructor;
-            options = options || ctor.getPropertyOptions(name);
-            if (ctor._valueHasChanged(this[name], oldValue, options.hasChanged)) {
-                if (!this._changedProperties.has(name)) {
-                    this._changedProperties.set(name, oldValue);
-                }
-                // Add to reflecting properties set.
-                // Note, it's important that every change has a chance to add the
-                // property to `_reflectingProperties`. This ensures setting
-                // attribute + property reflects correctly.
-                if (options.reflect === true &&
-                    !(this._updateState & STATE_IS_REFLECTING_TO_PROPERTY)) {
-                    if (this._reflectingProperties === undefined) {
-                        this._reflectingProperties = new Map();
-                    }
-                    this._reflectingProperties.set(name, options);
-                }
-            }
-            else {
-                // Abort the request if the property should not be considered changed.
-                shouldRequestUpdate = false;
-            }
-        }
-        if (!this._hasRequestedUpdate && shouldRequestUpdate) {
-            this._updatePromise = this._enqueueUpdate();
-        }
-    }
-    /**
-     * Requests an update which is processed asynchronously. This should
-     * be called when an element should update based on some state not triggered
-     * by setting a property. In this case, pass no arguments. It should also be
-     * called when manually implementing a property setter. In this case, pass the
-     * property `name` and `oldValue` to ensure that any configured property
-     * options are honored. Returns the `updateComplete` Promise which is resolved
-     * when the update completes.
-     *
-     * @param name {PropertyKey} (optional) name of requesting property
-     * @param oldValue {any} (optional) old value of requesting property
-     * @returns {Promise} A Promise that is resolved when the update completes.
-     */
-    requestUpdate(name, oldValue) {
-        this.requestUpdateInternal(name, oldValue);
-        return this.updateComplete;
-    }
-    /**
-     * Sets up the element to asynchronously update.
-     */
-    async _enqueueUpdate() {
-        this._updateState = this._updateState | STATE_UPDATE_REQUESTED;
-        try {
-            // Ensure any previous update has resolved before updating.
-            // This `await` also ensures that property changes are batched.
-            await this._updatePromise;
-        }
-        catch (e) {
-            // Ignore any previous errors. We only care that the previous cycle is
-            // done. Any error should have been handled in the previous update.
-        }
-        const result = this.performUpdate();
-        // If `performUpdate` returns a Promise, we await it. This is done to
-        // enable coordinating updates with a scheduler. Note, the result is
-        // checked to avoid delaying an additional microtask unless we need to.
-        if (result != null) {
-            await result;
-        }
-        return !this._hasRequestedUpdate;
-    }
-    get _hasRequestedUpdate() {
-        return (this._updateState & STATE_UPDATE_REQUESTED);
-    }
-    get hasUpdated() {
-        return (this._updateState & STATE_HAS_UPDATED);
-    }
-    /**
-     * Performs an element update. Note, if an exception is thrown during the
-     * update, `firstUpdated` and `updated` will not be called.
-     *
-     * You can override this method to change the timing of updates. If this
-     * method is overridden, `super.performUpdate()` must be called.
-     *
-     * For instance, to schedule updates to occur just before the next frame:
-     *
-     * ```
-     * protected async performUpdate(): Promise<unknown> {
-     *   await new Promise((resolve) => requestAnimationFrame(() => resolve()));
-     *   super.performUpdate();
-     * }
-     * ```
-     */
-    performUpdate() {
-        // Abort any update if one is not pending when this is called.
-        // This can happen if `performUpdate` is called early to "flush"
-        // the update.
-        if (!this._hasRequestedUpdate) {
-            return;
-        }
-        // Mixin instance properties once, if they exist.
-        if (this._instanceProperties) {
-            this._applyInstanceProperties();
-        }
-        let shouldUpdate = false;
-        const changedProperties = this._changedProperties;
-        try {
-            shouldUpdate = this.shouldUpdate(changedProperties);
-            if (shouldUpdate) {
-                this.update(changedProperties);
-            }
-            else {
-                this._markUpdated();
-            }
-        }
-        catch (e) {
-            // Prevent `firstUpdated` and `updated` from running when there's an
-            // update exception.
-            shouldUpdate = false;
-            // Ensure element can accept additional updates after an exception.
-            this._markUpdated();
-            throw e;
-        }
-        if (shouldUpdate) {
-            if (!(this._updateState & STATE_HAS_UPDATED)) {
-                this._updateState = this._updateState | STATE_HAS_UPDATED;
-                this.firstUpdated(changedProperties);
-            }
-            this.updated(changedProperties);
-        }
-    }
-    _markUpdated() {
-        this._changedProperties = new Map();
-        this._updateState = this._updateState & ~STATE_UPDATE_REQUESTED;
-    }
-    /**
-     * Returns a Promise that resolves when the element has completed updating.
-     * The Promise value is a boolean that is `true` if the element completed the
-     * update without triggering another update. The Promise result is `false` if
-     * a property was set inside `updated()`. If the Promise is rejected, an
-     * exception was thrown during the update.
-     *
-     * To await additional asynchronous work, override the `_getUpdateComplete`
-     * method. For example, it is sometimes useful to await a rendered element
-     * before fulfilling this Promise. To do this, first await
-     * `super._getUpdateComplete()`, then any subsequent state.
-     *
-     * @returns {Promise} The Promise returns a boolean that indicates if the
-     * update resolved without triggering another update.
-     */
-    get updateComplete() {
-        return this._getUpdateComplete();
-    }
-    /**
-     * Override point for the `updateComplete` promise.
-     *
-     * It is not safe to override the `updateComplete` getter directly due to a
-     * limitation in TypeScript which means it is not possible to call a
-     * superclass getter (e.g. `super.updateComplete.then(...)`) when the target
-     * language is ES5 (https://github.com/microsoft/TypeScript/issues/338).
-     * This method should be overridden instead. For example:
-     *
-     *   class MyElement extends LitElement {
-     *     async _getUpdateComplete() {
-     *       await super._getUpdateComplete();
-     *       await this._myChild.updateComplete;
-     *     }
-     *   }
-     * @deprecated Override `getUpdateComplete()` instead for forward
-     *     compatibility with `lit-element` 3.0 / `@lit/reactive-element`.
-     */
-    _getUpdateComplete() {
-        return this.getUpdateComplete();
-    }
-    /**
-     * Override point for the `updateComplete` promise.
-     *
-     * It is not safe to override the `updateComplete` getter directly due to a
-     * limitation in TypeScript which means it is not possible to call a
-     * superclass getter (e.g. `super.updateComplete.then(...)`) when the target
-     * language is ES5 (https://github.com/microsoft/TypeScript/issues/338).
-     * This method should be overridden instead. For example:
-     *
-     *   class MyElement extends LitElement {
-     *     async getUpdateComplete() {
-     *       await super.getUpdateComplete();
-     *       await this._myChild.updateComplete;
-     *     }
-     *   }
-     */
-    getUpdateComplete() {
-        return this._updatePromise;
-    }
-    /**
-     * Controls whether or not `update` should be called when the element requests
-     * an update. By default, this method always returns `true`, but this can be
-     * customized to control when to update.
-     *
-     * @param _changedProperties Map of changed properties with old values
-     */
-    shouldUpdate(_changedProperties) {
-        return true;
-    }
-    /**
-     * Updates the element. This method reflects property values to attributes.
-     * It can be overridden to render and keep updated element DOM.
-     * Setting properties inside this method will *not* trigger
-     * another update.
-     *
-     * @param _changedProperties Map of changed properties with old values
-     */
-    update(_changedProperties) {
-        if (this._reflectingProperties !== undefined &&
-            this._reflectingProperties.size > 0) {
-            // Use forEach so this works even if for/of loops are compiled to for
-            // loops expecting arrays
-            this._reflectingProperties.forEach((v, k) => this._propertyToAttribute(k, this[k], v));
-            this._reflectingProperties = undefined;
-        }
-        this._markUpdated();
-    }
-    /**
-     * Invoked whenever the element is updated. Implement to perform
-     * post-updating tasks via DOM APIs, for example, focusing an element.
-     *
-     * Setting properties inside this method will trigger the element to update
-     * again after this update cycle completes.
-     *
-     * @param _changedProperties Map of changed properties with old values
-     */
-    updated(_changedProperties) {
-    }
-    /**
-     * Invoked when the element is first updated. Implement to perform one time
-     * work on the element after update.
-     *
-     * Setting properties inside this method will trigger the element to update
-     * again after this update cycle completes.
-     *
-     * @param _changedProperties Map of changed properties with old values
-     */
-    firstUpdated(_changedProperties) {
-    }
-}
-_a$1 = finalized;
-/**
- * Marks class as having finished creating properties.
- */
-UpdatingElement[_a$1] = true;
-
-/**
- * @license
- * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
- * This code may only be used under the BSD style license found at
- * http://polymer.github.io/LICENSE.txt
- * The complete set of authors may be found at
- * http://polymer.github.io/AUTHORS.txt
- * The complete set of contributors may be found at
- * http://polymer.github.io/CONTRIBUTORS.txt
- * Code distributed by Google as part of the polymer project is also
- * subject to an additional IP rights grant found at
- * http://polymer.github.io/PATENTS.txt
- */
-const standardProperty = (options, element) => {
-    // When decorating an accessor, pass it through and add property metadata.
-    // Note, the `hasOwnProperty` check in `createProperty` ensures we don't
-    // stomp over the user's accessor.
-    if (element.kind === 'method' && element.descriptor &&
-        !('value' in element.descriptor)) {
-        return Object.assign(Object.assign({}, element), { finisher(clazz) {
-                clazz.createProperty(element.key, options);
-            } });
-    }
-    else {
-        // createProperty() takes care of defining the property, but we still
-        // must return some kind of descriptor, so return a descriptor for an
-        // unused prototype field. The finisher calls createProperty().
-        return {
-            kind: 'field',
-            key: Symbol(),
-            placement: 'own',
-            descriptor: {},
-            // When @babel/plugin-proposal-decorators implements initializers,
-            // do this instead of the initializer below. See:
-            // https://github.com/babel/babel/issues/9260 extras: [
-            //   {
-            //     kind: 'initializer',
-            //     placement: 'own',
-            //     initializer: descriptor.initializer,
-            //   }
-            // ],
-            initializer() {
-                if (typeof element.initializer === 'function') {
-                    this[element.key] = element.initializer.call(this);
-                }
-            },
-            finisher(clazz) {
-                clazz.createProperty(element.key, options);
-            }
-        };
-    }
-};
-const legacyProperty = (options, proto, name) => {
-    proto.constructor
-        .createProperty(name, options);
-};
-/**
- * A property decorator which creates a LitElement property which reflects a
- * corresponding attribute value. A [[`PropertyDeclaration`]] may optionally be
- * supplied to configure property features.
- *
- * This decorator should only be used for public fields. Private or protected
- * fields should use the [[`internalProperty`]] decorator.
- *
- * @example
- * ```ts
- * class MyElement {
- *   @property({ type: Boolean })
- *   clicked = false;
- * }
- * ```
- * @category Decorator
- * @ExportDecoratedItems
- */
-function property(options) {
-    // tslint:disable-next-line:no-any decorator
-    return (protoOrDescriptor, name) => (name !== undefined) ?
-        legacyProperty(options, protoOrDescriptor, name) :
-        standardProperty(options, protoOrDescriptor);
-}
-
-/**
-@license
-Copyright (c) 2019 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at
-http://polymer.github.io/LICENSE.txt The complete set of authors may be found at
-http://polymer.github.io/AUTHORS.txt The complete set of contributors may be
-found at http://polymer.github.io/CONTRIBUTORS.txt Code distributed by Google as
-part of the polymer project is also subject to an additional IP rights grant
-found at http://polymer.github.io/PATENTS.txt
-*/
-/**
- * Whether the current browser supports `adoptedStyleSheets`.
- */
-const supportsAdoptingStyleSheets = (window.ShadowRoot) &&
-    (window.ShadyCSS === undefined || window.ShadyCSS.nativeShadow) &&
-    ('adoptedStyleSheets' in Document.prototype) &&
-    ('replace' in CSSStyleSheet.prototype);
-const constructionToken = Symbol();
-class CSSResult {
-    constructor(cssText, safeToken) {
-        if (safeToken !== constructionToken) {
-            throw new Error('CSSResult is not constructable. Use `unsafeCSS` or `css` instead.');
-        }
-        this.cssText = cssText;
-    }
-    // Note, this is a getter so that it's lazy. In practice, this means
-    // stylesheets are not created until the first element instance is made.
-    get styleSheet() {
-        if (this._styleSheet === undefined) {
-            // Note, if `supportsAdoptingStyleSheets` is true then we assume
-            // CSSStyleSheet is constructable.
-            if (supportsAdoptingStyleSheets) {
-                this._styleSheet = new CSSStyleSheet();
-                this._styleSheet.replaceSync(this.cssText);
-            }
-            else {
-                this._styleSheet = null;
-            }
-        }
-        return this._styleSheet;
-    }
-    toString() {
-        return this.cssText;
-    }
-}
-/**
- * Wrap a value for interpolation in a [[`css`]] tagged template literal.
- *
- * This is unsafe because untrusted CSS text can be used to phone home
- * or exfiltrate data to an attacker controlled site. Take care to only use
- * this with trusted input.
- */
-const unsafeCSS = (value) => {
-    return new CSSResult(String(value), constructionToken);
-};
-const textFromCSSResult = (value) => {
-    if (value instanceof CSSResult) {
-        return value.cssText;
-    }
-    else if (typeof value === 'number') {
-        return value;
-    }
-    else {
-        throw new Error(`Value passed to 'css' function must be a 'css' function result: ${value}. Use 'unsafeCSS' to pass non-literal values, but
-            take care to ensure page security.`);
-    }
-};
-/**
- * Template tag which which can be used with LitElement's [[LitElement.styles |
- * `styles`]] property to set element styles. For security reasons, only literal
- * string values may be used. To incorporate non-literal values [[`unsafeCSS`]]
- * may be used inside a template string part.
- */
-const css = (strings, ...values) => {
-    const cssText = values.reduce((acc, v, idx) => acc + textFromCSSResult(v) + strings[idx + 1], strings[0]);
-    return new CSSResult(cssText, constructionToken);
-};
-
-/**
- * @license
- * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
- * This code may only be used under the BSD style license found at
- * http://polymer.github.io/LICENSE.txt
- * The complete set of authors may be found at
- * http://polymer.github.io/AUTHORS.txt
- * The complete set of contributors may be found at
- * http://polymer.github.io/CONTRIBUTORS.txt
- * Code distributed by Google as part of the polymer project is also
- * subject to an additional IP rights grant found at
- * http://polymer.github.io/PATENTS.txt
- */
-// IMPORTANT: do not change the property name or the assignment expression.
-// This line will be used in regexes to search for LitElement usage.
-// TODO(justinfagnani): inject version number at build time
-(window['litElementVersions'] || (window['litElementVersions'] = []))
-    .push('2.5.1');
-/**
- * Sentinal value used to avoid calling lit-html's render function when
- * subclasses do not implement `render`
- */
-const renderNotImplemented = {};
-/**
- * Base element class that manages element properties and attributes, and
- * renders a lit-html template.
- *
- * To define a component, subclass `LitElement` and implement a
- * `render` method to provide the component's template. Define properties
- * using the [[`properties`]] property or the [[`property`]] decorator.
- */
-class LitElement extends UpdatingElement {
-    /**
-     * Return the array of styles to apply to the element.
-     * Override this method to integrate into a style management system.
-     *
-     * @nocollapse
-     */
-    static getStyles() {
-        return this.styles;
-    }
-    /** @nocollapse */
-    static _getUniqueStyles() {
-        // Only gather styles once per class
-        if (this.hasOwnProperty(JSCompiler_renameProperty('_styles', this))) {
-            return;
-        }
-        // Take care not to call `this.getStyles()` multiple times since this
-        // generates new CSSResults each time.
-        // TODO(sorvell): Since we do not cache CSSResults by input, any
-        // shared styles will generate new stylesheet objects, which is wasteful.
-        // This should be addressed when a browser ships constructable
-        // stylesheets.
-        const userStyles = this.getStyles();
-        if (Array.isArray(userStyles)) {
-            // De-duplicate styles preserving the _last_ instance in the set.
-            // This is a performance optimization to avoid duplicated styles that can
-            // occur especially when composing via subclassing.
-            // The last item is kept to try to preserve the cascade order with the
-            // assumption that it's most important that last added styles override
-            // previous styles.
-            const addStyles = (styles, set) => styles.reduceRight((set, s) => 
-            // Note: On IE set.add() does not return the set
-            Array.isArray(s) ? addStyles(s, set) : (set.add(s), set), set);
-            // Array.from does not work on Set in IE, otherwise return
-            // Array.from(addStyles(userStyles, new Set<CSSResult>())).reverse()
-            const set = addStyles(userStyles, new Set());
-            const styles = [];
-            set.forEach((v) => styles.unshift(v));
-            this._styles = styles;
-        }
-        else {
-            this._styles = userStyles === undefined ? [] : [userStyles];
-        }
-        // Ensure that there are no invalid CSSStyleSheet instances here. They are
-        // invalid in two conditions.
-        // (1) the sheet is non-constructible (`sheet` of a HTMLStyleElement), but
-        //     this is impossible to check except via .replaceSync or use
-        // (2) the ShadyCSS polyfill is enabled (:. supportsAdoptingStyleSheets is
-        //     false)
-        this._styles = this._styles.map((s) => {
-            if (s instanceof CSSStyleSheet && !supportsAdoptingStyleSheets) {
-                // Flatten the cssText from the passed constructible stylesheet (or
-                // undetectable non-constructible stylesheet). The user might have
-                // expected to update their stylesheets over time, but the alternative
-                // is a crash.
-                const cssText = Array.prototype.slice.call(s.cssRules)
-                    .reduce((css, rule) => css + rule.cssText, '');
-                return unsafeCSS(cssText);
-            }
-            return s;
-        });
-    }
-    /**
-     * Performs element initialization. By default this calls
-     * [[`createRenderRoot`]] to create the element [[`renderRoot`]] node and
-     * captures any pre-set values for registered properties.
-     */
-    initialize() {
-        super.initialize();
-        this.constructor._getUniqueStyles();
-        this.renderRoot = this.createRenderRoot();
-        // Note, if renderRoot is not a shadowRoot, styles would/could apply to the
-        // element's getRootNode(). While this could be done, we're choosing not to
-        // support this now since it would require different logic around de-duping.
-        if (window.ShadowRoot && this.renderRoot instanceof window.ShadowRoot) {
-            this.adoptStyles();
-        }
-    }
-    /**
-     * Returns the node into which the element should render and by default
-     * creates and returns an open shadowRoot. Implement to customize where the
-     * element's DOM is rendered. For example, to render into the element's
-     * childNodes, return `this`.
-     * @returns {Element|DocumentFragment} Returns a node into which to render.
-     */
-    createRenderRoot() {
-        return this.attachShadow(this.constructor.shadowRootOptions);
-    }
-    /**
-     * Applies styling to the element shadowRoot using the [[`styles`]]
-     * property. Styling will apply using `shadowRoot.adoptedStyleSheets` where
-     * available and will fallback otherwise. When Shadow DOM is polyfilled,
-     * ShadyCSS scopes styles and adds them to the document. When Shadow DOM
-     * is available but `adoptedStyleSheets` is not, styles are appended to the
-     * end of the `shadowRoot` to [mimic spec
-     * behavior](https://wicg.github.io/construct-stylesheets/#using-constructed-stylesheets).
-     */
-    adoptStyles() {
-        const styles = this.constructor._styles;
-        if (styles.length === 0) {
-            return;
-        }
-        // There are three separate cases here based on Shadow DOM support.
-        // (1) shadowRoot polyfilled: use ShadyCSS
-        // (2) shadowRoot.adoptedStyleSheets available: use it
-        // (3) shadowRoot.adoptedStyleSheets polyfilled: append styles after
-        // rendering
-        if (window.ShadyCSS !== undefined && !window.ShadyCSS.nativeShadow) {
-            window.ShadyCSS.ScopingShim.prepareAdoptedCssText(styles.map((s) => s.cssText), this.localName);
-        }
-        else if (supportsAdoptingStyleSheets) {
-            this.renderRoot.adoptedStyleSheets =
-                styles.map((s) => s instanceof CSSStyleSheet ? s : s.styleSheet);
-        }
-        else {
-            // This must be done after rendering so the actual style insertion is done
-            // in `update`.
-            this._needsShimAdoptedStyleSheets = true;
-        }
-    }
-    connectedCallback() {
-        super.connectedCallback();
-        // Note, first update/render handles styleElement so we only call this if
-        // connected after first update.
-        if (this.hasUpdated && window.ShadyCSS !== undefined) {
-            window.ShadyCSS.styleElement(this);
-        }
-    }
-    /**
-     * Updates the element. This method reflects property values to attributes
-     * and calls `render` to render DOM via lit-html. Setting properties inside
-     * this method will *not* trigger another update.
-     * @param _changedProperties Map of changed properties with old values
-     */
-    update(changedProperties) {
-        // Setting properties in `render` should not trigger an update. Since
-        // updates are allowed after super.update, it's important to call `render`
-        // before that.
-        const templateResult = this.render();
-        super.update(changedProperties);
-        // If render is not implemented by the component, don't call lit-html render
-        if (templateResult !== renderNotImplemented) {
-            this.constructor
-                .render(templateResult, this.renderRoot, { scopeName: this.localName, eventContext: this });
-        }
-        // When native Shadow DOM is used but adoptedStyles are not supported,
-        // insert styling after rendering to ensure adoptedStyles have highest
-        // priority.
-        if (this._needsShimAdoptedStyleSheets) {
-            this._needsShimAdoptedStyleSheets = false;
-            this.constructor._styles.forEach((s) => {
-                const style = document.createElement('style');
-                style.textContent = s.cssText;
-                this.renderRoot.appendChild(style);
-            });
-        }
-    }
-    /**
-     * Invoked on each update to perform rendering tasks. This method may return
-     * any value renderable by lit-html's `NodePart` - typically a
-     * `TemplateResult`. Setting properties inside this method will *not* trigger
-     * the element to update.
-     */
-    render() {
-        return renderNotImplemented;
-    }
-}
-/**
- * Ensure this class is marked as `finalized` as an optimization ensuring
- * it will not needlessly try to `finalize`.
- *
- * Note this property name is a string to prevent breaking Closure JS Compiler
- * optimizations. See updating-element.ts for more information.
- */
-LitElement['finalized'] = true;
-/**
- * Reference to the underlying library method used to render the element's
- * DOM. By default, points to the `render` method from lit-html's shady-render
- * module.
- *
- * **Most users will never need to touch this property.**
- *
- * This  property should not be confused with the `render` instance method,
- * which should be overridden to define a template for the element.
- *
- * Advanced users creating a new base class based on LitElement can override
- * this property to point to a custom render method with a signature that
- * matches [shady-render's `render`
- * method](https://lit-html.polymer-project.org/api/modules/shady_render.html#render).
- *
- * @nocollapse
- */
-LitElement.render = render;
-/** @nocollapse */
-LitElement.shadowRootOptions = { mode: 'open' };
-
-/**
- * @license
- * Copyright 2014-2020 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-/**
- * Promise that resolves when the gviz loader script is loaded, which
- * provides access to the Google Charts loading API.
- */
-const loaderPromise = new Promise((resolve, reject) => {
-    // Resolve immediately if the loader script has been added already and
-    // `google.charts.load` is available. Adding the loader script twice throws
-    // an error.
-    if (typeof google !== 'undefined' && google.charts &&
-        typeof google.charts.load === 'function') {
-        resolve();
-    }
-    else {
-        // Try to find existing loader script.
-        let loaderScript = document.querySelector('script[src="https://www.gstatic.com/charts/loader.js"]');
-        if (!loaderScript) {
-            // If the loader is not present, add it.
-            loaderScript = document.createElement('script');
-            // Specify URL directly to pass JS compiler conformance checks.
-            loaderScript.src = 'https://www.gstatic.com/charts/loader.js';
-            document.head.appendChild(loaderScript);
-        }
-        loaderScript.addEventListener('load', resolve);
-        loaderScript.addEventListener('error', reject);
-    }
-});
-/**
- * Loads Google Charts API with the selected settings or using defaults.
- *
- * The following settings are available:
- * - version: which version of library to load, default: 'current',
- * - packages: which chart packages to load, default: ['corechart'],
- * - language: what language to load library in, default: `lang` attribute on
- *   `<html>` or 'en' if not specified,
- * - mapsApiKey: key to use for maps API.
- */
-async function load(settings = {}) {
-    await loaderPromise;
-    const { version = 'current', packages = ['corechart'], language = document.documentElement.lang || 'en', mapsApiKey, } = settings;
-    return google.charts.load(version, {
-        'packages': packages,
-        'language': language,
-        'mapsApiKey': mapsApiKey,
-    });
-}
-/**
- * Creates a DataTable object for use with a chart.
- *
- * Multiple different argument types are supported. This is because the
- * result of loading the JSON data URL is fed into this function for
- * DataTable construction and its format is unknown.
- *
- * The data argument can be one of a few options:
- *
- * - null/undefined: An empty DataTable is created. Columns must be added
- * - !DataTable: The object is simply returned
- * - {{cols: !Array, rows: !Array}}: A DataTable in object format
- * - {{cols: !Array}}: A DataTable in object format without rows
- * - !Array<!Array>: A DataTable in 2D array format
- *
- * Un-supported types:
- *
- * - Empty !Array<!Array>: (e.g. `[]`) While technically a valid data
- *   format, this is rejected as charts will not render empty DataTables.
- *   DataTables must at least have columns specified. An empty array is most
- *   likely due to a bug or bad data. If one wants an empty DataTable, pass
- *   no arguments.
- * - Anything else
- *
- * See <a
- * href="https://developers.google.com/chart/interactive/docs/reference#datatable-class">the
- * docs</a> for more details.
- *
- * @param data The data which we should use to construct new DataTable object
- */
-async function dataTable(data) {
-    // Ensure that `google.visualization` namespace is added to the document.
-    await load();
-    if (data == null) {
-        return new google.visualization.DataTable();
-    }
-    else if (data.getNumberOfRows) {
-        // Data is already a DataTable
-        return data;
-    }
-    else if (data.cols) { // data.rows may also be specified
-        // Data is in the form of object DataTable structure
-        return new google.visualization.DataTable(data);
-    }
-    else if (data.length > 0) {
-        // Data is in the form of a two dimensional array.
-        return google.visualization.arrayToDataTable(data);
-    }
-    else if (data.length === 0) {
-        // Chart data was empty.
-        // We throw instead of creating an empty DataTable because most
-        // (if not all) charts will render a sticky error in this situation.
-        throw new Error('Data was empty.');
-    }
-    throw new Error('Data format was not recognized.');
-}
-/**
- * Creates new `ChartWrapper`.
- * @param container Element in which the chart will be drawn
- */
-async function createChartWrapper(container) {
-    // Ensure that `google.visualization` namespace is added to the document.
-    await load();
-    // Typings suggest that `chartType` is required in `ChartSpecs`, but it works
-    // without it.
-    return new google.visualization.ChartWrapper({ 'container': container });
-}
-
-/**
- * @license
- * Copyright 2014-2020 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 var __decorate$4 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-const DEFAULT_EVENTS = ['ready', 'select'];
-/**
- * Constructor names for supported chart types.
- *
- * `ChartWrapper` expects a constructor name and assumes `google.visualization`
- *  as the default namespace.
- */
-const CHART_TYPES = {
-    'area': 'AreaChart',
-    'bar': 'BarChart',
-    'md-bar': 'google.charts.Bar',
-    'bubble': 'BubbleChart',
-    'calendar': 'Calendar',
-    'candlestick': 'CandlestickChart',
-    'column': 'ColumnChart',
-    'combo': 'ComboChart',
-    'gantt': 'Gantt',
-    'gauge': 'Gauge',
-    'geo': 'GeoChart',
-    'histogram': 'Histogram',
-    'line': 'LineChart',
-    'md-line': 'google.charts.Line',
-    'org': 'OrgChart',
-    'pie': 'PieChart',
-    'sankey': 'Sankey',
-    'scatter': 'ScatterChart',
-    'md-scatter': 'google.charts.Scatter',
-    'stepped-area': 'SteppedAreaChart',
-    'table': 'Table',
-    'timeline': 'Timeline',
-    'treemap': 'TreeMap',
-    'wordtree': 'WordTree',
-};
-/**
- * `google-chart` encapsulates Google Charts as a web component, allowing you to
- * easily visualize data. From simple line charts to complex hierarchical tree
- * maps, the chart element provides a number of ready-to-use chart types.
- *
- * ```html
- * <google-chart
- *     type='pie'
- *     options='{"title": "Distribution of days in 2001Q1"}'
- *     cols='[{"label":"Month", "type":"string"}, {"label":"Days",
- *         "type":"number"}]' rows='[["Jan", 31],["Feb", 28],["Mar", 31]]'>
- *   </google-chart>
- * ```
- *
- * Note: if you're passing JSON as attributes, single quotes are necessary to be
- * valid JSON. See
- * https://www.polymer-project.org/1.0/docs/devguide/properties#configuring-object-and-array-properties.
- *
- * Height and width are specified as style attributes:
- * ```css
- * google-chart {
- *   height: 300px;
- *   width: 50em;
- * }
- * ```
- *
- * Data can be provided in one of three ways:
- *
- * - Via the `cols` and `rows` attributes:
- *   ```
- *   cols='[{"label":"Mth", "type":"string"},{"label":"Days", "type":"number"}]'
- *   rows='[["Jan", 31],["Feb", 28],["Mar", 31]]'
- *   ```
- *
- * - Via the `data` attribute, passing in the data directly:
- *   ```
- *   data='[["Month", "Days"], ["Jan", 31], ["Feb", 28], ["Mar", 31]]'
- *   ```
- *
- * - Via the `data` attribute, passing in the URL to a resource containing the
- *   data, in JSON format:
- *   ```
- *   data='http://example.com/chart-data.json'
- *   ```
- *
- * - Via the `data` attribute, passing in a Google DataTable object:
- *   ```
- *   data='{{dataTable}}'
- *   ```
- *
- * - Via the `view` attribute, passing in a Google DataView object:
- *   ```
- *   view='{{dataView}}'
- *   ```
- *
- * You can display the charts in locales other than "en" by setting the `lang`
- * attribute on the `html` tag of your document:
- * ```
- * <html lang="ja">
- * ```
- *
- * @demo demo/index.html
- */
-class GoogleChart extends LitElement {
-    constructor() {
-        super(...arguments);
-        /**
-         * Fired after a chart type is rendered and ready for interaction.
-         *
-         * @event google-chart-ready
-         * @param {{chart: !Object}} detail The raw chart object.
-         */
-        /**
-         * Fired when the user makes a selection in the chart.
-         *
-         * @event google-chart-select
-         * @param {{chart: !Object}} detail The raw chart object.
-         */
-        /**
-         * Type of the chart.
-         *
-         * Should be one of:
-         * - `area`
-         * - `(md-)bar`
-         * - `bubble`
-         * - `calendar`
-         * - `candlestick`
-         * - `column`
-         * - `combo`
-         * - `gantt`
-         * - `gauge`
-         * - `geo`
-         * - `histogram`
-         * - `(md-)line`
-         * - `org`
-         * - `pie`
-         * - `sankey`
-         * - `(md-)scatter`
-         * - `stepped-area`
-         * - `table`
-         * - `timeline`
-         * - `treemap`
-         * - `wordtree`
-         *
-         * See <a
-         * href="https://google-developers.appspot.com/chart/interactive/docs/gallery">Google
-         * Visualization API reference (Chart Gallery)</a> for details.
-         */
-        this.type = 'column';
-        /**
-         * Enumerates the chart events that should be fired.
-         *
-         * Charts support a variety of events. By default, this element only
-         * fires on `ready` and `select`. If you would like to be notified of
-         * other chart events, use this property to list them.
-         * Events `ready` and `select` are always fired.
-         *
-         * Changes to this property are _not_ observed. Events are attached only
-         * at chart construction time.
-         */
-        this.events = [];
-        /**
-         * Sets the options for the chart.
-         *
-         * Example:
-         * ```
-         * {
-         *   title: "Chart title goes here",
-         *   hAxis: {title: "Categories"},
-         *   vAxis: {title: "Values", minValue: 0, maxValue: 2},
-         *   legend: "none"
-         * }
-         * ```
-         * See <a
-         * href="https://google-developers.appspot.com/chart/interactive/docs/gallery">Google
-         * Visualization API reference (Chart Gallery)</a> for the options available
-         * to each chart type.
-         *
-         * Setting this property always redraws the chart. If you would like to make
-         * changes to a sub-property, be sure to reassign the property:
-         * ```
-         * const options = googleChart.options;
-         * options.vAxis.logScale = true;
-         * googleChart.options = options;
-         * ```
-         * (Note: Missing parent properties are not automatically created.)
-         */
-        this.options = undefined;
-        /**
-         * Sets the data columns for this object.
-         *
-         * When specifying data with `cols` you must also specify `rows`, and
-         * not specify `data`.
-         *
-         * Example:
-         * <pre>[{label: "Categories", type: "string"},
-         *  {label: "Value", type: "number"}]</pre>
-         * See <a
-         * href="https://google-developers.appspot.com/chart/interactive/docs/reference#DataTable_addColumn">Google
-         * Visualization API reference (addColumn)</a> for column definition format.
-         */
-        this.cols = undefined;
-        /**
-         * Sets the data rows for this object.
-         *
-         * When specifying data with `rows` you must also specify `cols`, and
-         * not specify `data`.
-         *
-         * Example:
-         * <pre>[["Category 1", 1.0],
-         *  ["Category 2", 1.1]]</pre>
-         * See <a
-         * href="https://google-developers.appspot.com/chart/interactive/docs/reference#addrow">Google
-         * Visualization API reference (addRow)</a> for row format.
-         */
-        this.rows = undefined;
-        /**
-         * Sets the entire dataset for this object.
-         * Can be used to provide the data directly, or to provide a URL from
-         * which to request the data.
-         *
-         * The data format can be a two-dimensional array or the DataTable format
-         * expected by Google Charts.
-         * See <a
-         * href="https://google-developers.appspot.com/chart/interactive/docs/reference#DataTable">Google
-         * Visualization API reference (DataTable constructor)</a> for data table
-         * format details.
-         *
-         * When specifying data with `data` you must not specify `cols` or `rows`.
-         *
-         * Example:
-         * ```
-         * [["Categories", "Value"],
-         *  ["Category 1", 1.0],
-         *  ["Category 2", 1.1]]
-         * ```
-         */
-        // Note: type: String, because it is parsed manually in the observer.
-        this.data = undefined;
-        /**
-         * Sets the entire dataset for this object to a Google DataView.
-         *
-         * See <a
-         * href="https://google-developers.appspot.com/chart/interactive/docs/reference#dataview-class">Google
-         * Visualization API reference (DataView)</a> for details.
-         *
-         * When specifying data with `view` you must not specify `data`, `cols` or
-         * `rows`.
-         */
-        this.view = undefined;
-        /**
-         * Selected datapoint(s) in the chart.
-         *
-         * An array of objects, each with a numeric row and/or column property.
-         * `row` and `column` are the zero-based row or column number of an item
-         * in the data table to select.
-         *
-         * To select a whole column, set row to null;
-         * to select a whole row, set column to null.
-         *
-         * Example:
-         * ```
-         * [{row:0,column:1}, {row:1, column:null}]
-         * ```
-         */
-        this.selection = undefined;
-        /**
-         * Whether the chart is currently rendered.
-         * @export
-         */
-        this.drawn = false;
-        /**
-         * Internal data displayed on the chart.
-         */
-        // tslint:disable-next-line:enforce-name-casing
-        this._data = undefined;
-        /**
-         * Internal chart object.
-         */
-        this.chartWrapper = null;
-        this.redrawTimeoutId = undefined;
+let WcUploadPage = class WcUploadPage extends h {
+    static get styles() {
+        return [uploadStyles];
     }
-    /** @override */
+    ;
     render() {
-        return html `
-      <div id="styles"></div>
-      <div id="chartdiv"></div>
+        return T `
+      <div class="upload-page">
+        <h1 class="title">Upload Foto Story</h1>
+        <wc-upload-form></wc-upload-form>
+      </div>
     `;
     }
-    /** @override */
-    firstUpdated() {
-        createChartWrapper(this.shadowRoot.getElementById('chartdiv'))
-            .then((chartWrapper) => {
-            this.chartWrapper = chartWrapper;
-            this.typeChanged();
-            google.visualization.events.addListener(chartWrapper, 'ready', () => {
-                this.drawn = true;
-            });
-            google.visualization.events.addListener(chartWrapper, 'select', () => {
-                this.selection = chartWrapper.getChart().getSelection();
-            });
-            this.propagateEvents(DEFAULT_EVENTS, chartWrapper);
-        });
-    }
-    /** @override */
-    updated(changedProperties) {
-        if (changedProperties.has('type'))
-            this.typeChanged();
-        if (changedProperties.has('rows') || changedProperties.has('cols')) {
-            this.rowsOrColumnsChanged();
-        }
-        if (changedProperties.has('data'))
-            this.dataChanged();
-        if (changedProperties.has('view'))
-            this.viewChanged();
-        if (changedProperties.has('_data') ||
-            changedProperties.has('options'))
-            this.redraw();
-        if (changedProperties.has('selection'))
-            this.selectionChanged();
-    }
-    /** Reacts to chart type change. */
-    typeChanged() {
-        if (this.chartWrapper == null)
-            return;
-        this.chartWrapper.setChartType(CHART_TYPES[this.type] || this.type);
-        const lastChart = this.chartWrapper.getChart();
-        google.visualization.events.addOneTimeListener(this.chartWrapper, 'ready', () => {
-            // Ready event fires after `chartWrapper` is initialized.
-            const chart = this.chartWrapper.getChart();
-            if (chart !== lastChart) {
-                this.propagateEvents(this.events.filter((eventName) => !DEFAULT_EVENTS.includes(eventName)), chart);
-            }
-            const stylesDiv = this.shadowRoot.getElementById('styles');
-            if (!stylesDiv.children.length) {
-                this.localizeGlobalStylesheets(stylesDiv);
-            }
-            if (this.selection) {
-                this.selectionChanged();
-            }
-        });
-        this.redraw();
-    }
-    /**
-     * Adds listeners to propagate events from the chart.
-     */
-    propagateEvents(events, eventTarget) {
-        for (const eventName of events) {
-            google.visualization.events.addListener(eventTarget, eventName, (event) => {
-                this.dispatchEvent(new CustomEvent(`google-chart-${eventName}`, {
-                    bubbles: true,
-                    composed: true,
-                    detail: {
-                        // Events fire after `chartWrapper` is initialized.
-                        chart: this.chartWrapper.getChart(),
-                        data: event,
-                    }
-                }));
-            });
-        }
-    }
-    /** Sets the selectiton on the chart. */
-    selectionChanged() {
-        if (this.chartWrapper == null)
-            return;
-        const chart = this.chartWrapper.getChart();
-        if (chart == null)
-            return;
-        if (chart.setSelection) {
-            // Workaround for timeline chart which emits select event on setSelection.
-            // See issue #256.
-            if (this.type === 'timeline') {
-                const oldSelection = JSON.stringify(chart.getSelection());
-                const newSelection = JSON.stringify(this.selection);
-                if (newSelection === oldSelection)
-                    return;
-            }
-            chart.setSelection(this.selection);
-        }
-    }
-    /**
-     * Redraws the chart.
-     *
-     * Called automatically when data/type/selection attributes change.
-     * Call manually to handle view updates, page resizes, etc.
-     */
-    redraw() {
-        if (this.chartWrapper == null || this._data == null)
-            return;
-        // `ChartWrapper` can be initialized with `DataView` instead of `DataTable`.
-        this.chartWrapper.setDataTable(this._data);
-        this.chartWrapper.setOptions(this.options || {});
-        this.drawn = false;
-        if (this.redrawTimeoutId !== undefined)
-            clearTimeout(this.redrawTimeoutId);
-        this.redrawTimeoutId = window.setTimeout(() => {
-            // Drawing happens after `chartWrapper` is initialized.
-            this.chartWrapper.draw();
-        }, 5);
-    }
-    /**
-     * Returns the chart serialized as an image URI.
-     *
-     * Call this after the chart is drawn (`google-chart-ready` event).
-     */
-    get imageURI() {
-        if (this.chartWrapper == null)
-            return null;
-        const chart = this.chartWrapper.getChart();
-        return chart && chart.getImageURI();
-    }
-    /** Handles changes to the `view` attribute. */
-    viewChanged() {
-        if (!this.view)
-            return;
-        this._data = this.view;
-    }
-    /** Handles changes to the rows & columns attributes. */
-    async rowsOrColumnsChanged() {
-        const { rows, cols } = this;
-        if (!rows || !cols)
-            return;
-        try {
-            const dt = await dataTable({ cols });
-            dt.addRows(rows);
-            this._data = dt;
-        }
-        catch (reason) {
-            this.shadowRoot.getElementById('chartdiv').textContent = reason;
-        }
-    }
-    /**
-     * Handles changes to the `data` attribute.
-     */
-    dataChanged() {
-        let data = this.data;
-        let dataPromise;
-        if (!data) {
-            return;
-        }
-        let isString = false;
-        // Polymer 2 will not call observer if type:Object is set and fails, so
-        // we must parse the string ourselves.
-        try {
-            // Try to deserialize the value of the `data` property which might be a
-            // serialized array.
-            data = JSON.parse(data);
-        }
-        catch (e) {
-            isString = typeof data === 'string' || data instanceof String;
-        }
-        if (isString) {
-            // Load data asynchronously, from external URL.
-            dataPromise = fetch(data).then(response => response.json());
-        }
-        else {
-            // Data is all ready to be processed.
-            dataPromise = Promise.resolve(data);
-        }
-        dataPromise.then(dataTable).then(data => {
-            this._data = data;
-        });
-    }
-    /**
-     * Queries global document head for Google Charts `link#load-css-*` and clones
-     * them into the local root's `div#styles` element for shadow dom support.
-     */
-    localizeGlobalStylesheets(stylesDiv) {
-        // Get all Google Charts stylesheets.
-        const stylesheets = Array.from(document.head.querySelectorAll('link[rel="stylesheet"][type="text/css"][id^="load-css-"]'));
-        for (const stylesheet of stylesheets) {
-            // Clone necessary stylesheet attributes.
-            const clonedStylesheet = document.createElement('link');
-            clonedStylesheet.setAttribute('rel', 'stylesheet');
-            clonedStylesheet.setAttribute('type', 'text/css');
-            // `href` is always present.
-            clonedStylesheet.setAttribute('href', stylesheet.getAttribute('href'));
-            stylesDiv.appendChild(clonedStylesheet);
-        }
-    }
-}
-/** @nocollapse */
-GoogleChart.styles = css `
-    :host {
-      display: -webkit-flex;
-      display: -ms-flex;
-      display: flex;
-      margin: 0;
-      padding: 0;
-      width: 400px;
-      height: 300px;
+    ;
+};
+WcUploadPage = __decorate$4([
+    n$1("wc-upload-page")
+], WcUploadPage);
+
+const fotostoryStyles = r$1 `
+  .fotostory-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    color: #555;
+    padding-top: 30px;
+  }
+
+  .image-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+    padding: 30px 0 60px;
+  }
+
+  img {
+    width: auto;
+    height: 250px;
+    box-shadow: var(--fuerte-box-shadow);
+    margin: 20px;
+  }
+
+  @media (max-width: ${config.mobileDeviceWidth}px) {
+    .title {
+      margin-bottom: 0;
     }
 
-    :host([hidden]) {
-      display: none;
+    .image-container {
+      padding-top: 0px;
     }
 
-    :host([type="gauge"]) {
-      width: 300px;
-      height: 300px;
-    }
-
-    #chartdiv {
+    img {
       width: 100%;
+      height: auto;
+      margin: 10px;
     }
-
-    /* Workaround for slow initial ready event for tables. */
-    .google-visualization-table-loadtest {
-      padding-left: 6px;
-    }
-  `;
-__decorate$4([
-    property({ type: String, reflect: true })
-], GoogleChart.prototype, "type", void 0);
-__decorate$4([
-    property({ type: Array })
-], GoogleChart.prototype, "events", void 0);
-__decorate$4([
-    property({ type: Object, hasChanged: () => true })
-], GoogleChart.prototype, "options", void 0);
-__decorate$4([
-    property({ type: Array })
-], GoogleChart.prototype, "cols", void 0);
-__decorate$4([
-    property({ type: Array })
-], GoogleChart.prototype, "rows", void 0);
-__decorate$4([
-    property({ type: String })
-], GoogleChart.prototype, "data", void 0);
-__decorate$4([
-    property({ type: Object })
-], GoogleChart.prototype, "view", void 0);
-__decorate$4([
-    property({ type: Array })
-], GoogleChart.prototype, "selection", void 0);
-__decorate$4([
-    property({ type: Object })
-], GoogleChart.prototype, "_data", void 0);
-customElements.define('google-chart', GoogleChart);
+  }
+`;
 
 var __decorate$3 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+let WcFotostory = class WcFotostory extends h {
+    constructor(fotostory) {
+        super();
+        this.fotostory = fotostory;
+    }
+    static get styles() {
+        return [fotostoryStyles];
+    }
+    ;
+    ;
+    render() {
+        var _a;
+        return T `
+    ${this.fotostory ? T `
+      <div class="fotostory-container">
+        <h1 class="title">${this.fotostory.headline}</h1>
+        ${this.fotostory.story ? T `<p>${this.fotostory.story}</p>` : ''}
+        <div class="image-container">
+          ${(_a = this.fotostory.images) === null || _a === void 0 ? void 0 : _a.map((img) => T `<img src=${img} alt="fuerte">`)}
+        </div>
+        
+        
+      </div>
+    ` : T `
+      <div style="margin-top: 50px;">
+        <lottie-player src="https://assets1.lottiefiles.com/packages/lf20_ORPnX5.json"  background="transparent"  speed="1"  style="width: 500px; height: 500px;"  loop  autoplay></lottie-player>
+      </div>`}      
+    `;
+    }
+    ;
+};
+__decorate$3([
+    e({ type: Object })
+], WcFotostory.prototype, "fotostory", void 0);
+WcFotostory = __decorate$3([
+    n$1("wc-fotostory")
+], WcFotostory);
+
+const fotoPreviewStyles = r$1 `
+  .welcome-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    color: #555;
+  }
+
+  .header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .title {
+    text-align: center;
+  }
+
+  .foto-calendar {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: var(--fuerte-box-shadow);
+    border-radius: 10px;
+    margin-top: 20px;
+    width: 640px;
+    padding-bottom: 20px;
+    background-color: #fff7e6;
+  }
+
+  .calendar-month {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-size: 22px;
+    font-weight: bold;
+    padding: 30px 50px 10px;
+    text-align: center;
+  }
+
+  .calendar-month wc-icon {
+    width: 30px;
+    height: 30px;
+  }
+
+  .table-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .calendar-day {
+    font-weight: bold;
+    padding: 20px 35px;
+    color: var(--fuerte-aqua);
+  }
+
+  .month {
+    display: grid;
+    grid-template-columns: repeat(7, 90px);
+    grid-template-rows: repeat(5, 50px);
+    justify-content: center;
+  }
+
+  .date-box {
+    display: flex;
+    font-weight: bold;
+    color: #555;
+    text-align: center;
+    cursor: pointer;
+    align-self: center;
+    justify-content: center;
+    align-items: center;
+    width: 90px;
+    height: 50px;
+  }
+
+  .date-text {
+    text-align: center;
+    min-width: 20px;
+    min-height: 20px;
+  }
+
+  .date-box:hover .date-text {
+    background-color: var(--fuerte-brown);
+    border-radius: 100px;
+    padding: 5px;
+    color: white;
+  }
+
+  .today {
+    background-color: var(--fuerte-aqua);
+    border-radius: 100px;
+    padding: 5px;
+    color: white;
+  }
+  
+  .date-box:hover .today {
+    background-color: var(--fuerte-aqua);
+  }
+
+  .disabled {
+    cursor: default;
+  }
+
+  .back-to-calendar {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .hidden {
+    display: none;
+  }
+`;
+
+var __decorate$2 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
@@ -9060,287 +2220,203 @@ var __awaiter$1 = (undefined && undefined.__awaiter) || function (thisArg, _argu
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-let WcDashboardPage = class WcDashboardPage extends h {
+let WcFotoPreview = class WcFotoPreview extends h {
     constructor() {
-        super();
-        this.loadTemplatesDebounce = new ValueDebounce((value) => __awaiter$1(this, void 0, void 0, function* () {
-            const apiResponse = yield api.loadOrders(value);
-            if (apiResponse instanceof ServerErrorResponse) {
-                this.showError(apiResponse);
-            }
-            else {
-                this.data = apiResponse;
-            }
-        }));
-        const date = new Date();
-        date.setDate(date.getDate() - 30);
-        this.state = new SearchOrders({
-            templateName: '',
-            origin: '',
-            productType: '',
-            externalOrderId: '',
-            startDate: date
-        });
+        super(...arguments);
+        this.date = new Date();
+        this.month = 'Juni';
+        this.showStory = false;
     }
     static get styles() {
-        return [dashboardStyles];
+        return [fotoPreviewStyles];
     }
-    ;
-    setState(nobs) {
-        this.state = new SearchOrders(nobs, this.state);
-    }
-    ;
-    showError(error) {
-        console.log('error msg: ', error.message, 'error code: ', error.code);
-    }
-    ;
     ;
     connectedCallback() {
         super.connectedCallback();
-        const model = this.state.toDto();
-        this.loadTemplatesDebounce.immediate(model);
+        this.loadFotos();
     }
     ;
-    renderStatistics() {
-        return new WcPrintjobsStatistics(this.data);
+    loadFotos() {
+        return __awaiter$1(this, void 0, void 0, function* () {
+            const fotos = [];
+            try {
+                yield getTravelDocs()
+                    .then((data) => {
+                    data.forEach((doc) => fotos.push(doc));
+                })
+                    .catch((error) => console.log('no traveldocs found', error));
+            }
+            catch (error) {
+                console.log(error);
+            }
+            this.fotos = fotos;
+            console.log(this.fotos);
+        });
     }
     ;
-    render() {
-        console.log('dashboard', this.data);
+    renderFotostory() {
+        return new WcFotostory(this.fotostory);
+    }
+    renderFotos(daySelected, monthSelected) {
+        const filter = this.fotos.filter((story) => new Date(story.date).getDate() === daySelected && new Date(story.date).getMonth() + 1 === monthSelected);
+        this.fotostory = filter[0];
+        this.showStory = true;
+    }
+    ;
+    renderJuneCalendar() {
+        const array = [];
+        for (let i = 1; i <= 30; i++) {
+            array.push(i);
+        }
         return T `
-      <div class="dashboard">
-        <h3 class="topic">Dashboard</h3>
-        <p class="subtopic">Printjobs Statistics</p>
-
-        <div class="statistics-container">
-          ${this.renderStatistics()}
-        </div>
-
-        <!-- <div class="daily-printjobs">
-          <google-chart style="width: 100%"
-            type='line'
-            data='[["Bar", "Height" ], ["Bar 1", 10], ["Bar 2", 14], ["Bar 3", 16], ["Bar 4", 22],["Bar 5", 28]]'>
-          </google-chart>
+      <div class="date-box disabled"></div>
+      ${array.map((x, idx) => T `
+      <div class="date-box" @click=${() => this.renderFotos(idx + 1, 6)}>
+        <span class="date-text ${this.date.getDate() === idx + 1 && this.date.getMonth() === 5 ? 'today' : ''}">${idx + 1}</span>
+      </div>`)}
+      <div class="date-box disabled"></div><div class="date-box disabled"></div>
+      <div class="date-box disabled"></div><div class="date-box disabled"></div>
+    `;
+    }
+    ;
+    renderJulyCalendar() {
+        const array = [];
+        for (let i = 1; i <= 31; i++) {
+            array.push(i);
+        }
+        return T `
+      <div class="date-box disabled"></div>
+      <div class="date-box disabled"></div>
+      <div class="date-box disabled"></div>
+      ${array.map((x, idx) => T `
+      <div class="date-box" @click=${() => this.renderFotos(idx + 1, 7)}>
+        <span class="date-text ${this.date.getDate() === idx + 1 && this.date.getMonth() === 6 ? 'today' : ''}">${idx + 1}</span>
+      </div>`)}
+      <div class="date-box disabled"></div>
+    `;
+    }
+    render() {
+        return T `
+      <div class="welcome-page">
+        <!-- <div class="header">
+          <wc-icon primaryColor="aqua" icon="camera-retro-duotone" style="height: 35px; width: 35px; margin-right: 15px;"></wc-icon>
+          <h1 class="title"> Sonnige Grüße von der Insel</h1>
+          <wc-icon primaryColor="aqua" icon="camera-retro-duotone" style="height: 35px; width: 35px; margin-left: 15px;"></wc-icon>
         </div> -->
+        <div class="foto-story-container ${this.showStory ? '' : 'hidden'}">
+          ${this.renderFotostory()}
+          <div class="back-to-calendar" @click=${() => this.showStory = false}>
+          <wc-icon primaryColor="gray" icon="angle-left" style="width: 25px; height: 25px; margin-right: 10px;"></wc-icon>
+            Zurück zum Kalender
+          </div>
+        </div>
+        <div class="foto-calendar ${this.showStory ? 'hidden' : ''}">
+          <img src=${this.month === 'Juni' ? "assets/fuerteventura_1.jpeg" : "assets/fuerteventura_2.jpeg"} alt="fuerte" style="height: 415px; border-top-right-radius: 10px; border-top-left-radius: 10px;">
+          <div class="calendar-month">
+            <wc-icon primaryColor=${this.month === 'Juli' ? "warning" : "ocher"} icon="angle-left" style=${this.month === 'Juli' && 'cursor: pointer'} @click=${() => this.month = 'Juni'}></wc-icon>
+            ${this.month} 2021
+            <wc-icon primaryColor=${this.month === 'Juni' ? "warning" : "ocher"} icon="angle-right" style=${this.month === 'Juni' && 'cursor: pointer'} @click=${() => this.month = 'Juli'}></wc-icon>
+          </div>
+          <div class="table-header">
+            <div class="calendar-day">Mo</div>
+            <div class="calendar-day">Di</div>
+            <div class="calendar-day">Mi</div>
+            <div class="calendar-day">Do</div>
+            <div class="calendar-day">Fr</div>
+            <div class="calendar-day">Sa</div>
+            <div class="calendar-day">So</div>
+          </div>
+
+          <div class="month june ${this.month === 'Juni' ? '' : 'hidden'}">
+            ${this.renderJuneCalendar()}
+          </div>
+          <div class="month july ${this.month === 'Juli' ? '' : 'hidden'}">
+            ${this.renderJulyCalendar()}
+          </div>
+        </div> 
       </div>
-  `;
-    }
-    ;
-};
-__decorate$3([
-    e$1({ attribute: false, type: Object })
-], WcDashboardPage.prototype, "state", void 0);
-__decorate$3([
-    e$1({ attribute: false, type: Object })
-], WcDashboardPage.prototype, "data", void 0);
-WcDashboardPage = __decorate$3([
-    n$1("wc-dashboard-page")
-], WcDashboardPage);
-
-const paymentStyles = r$1 `
-  .payment-page {
-    font-family: var(--printess-text-font);
-    color: #555555;
-  }
-
-  .topic {
-    font-size: 22px;
-    font-weight: 500;
-    font-family: var(--printess-header-font);
-  }
-  
-  .icons {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-  }
-
-  .icon {
-    margin: 20px;
-    padding-top: 10px;
-    font-size: 12px;
-  }
-
-  wc-icon {
-    width: 40px;
-    height: 40px;
-    margin-bottom: 10px;
-  }
-
-  @media (max-width: ${config.mobileDeviceWidth}px) {
-    .topic {
-      font-size: 20px;
-    }
-
-    .subtopic {
-      font-size: 14px;
-    }
-  }
-`;
-
-var __decorate$2 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-let WcPaymentPage = class WcPaymentPage extends h {
-    constructor() {
-        super(...arguments);
-        this.wcicons = ["page-light", "coin-light", "coin", "page-inverse", "calendar-light", "calendar-alt", "clock-light", "sync-alt", "coins", "database", "angle-left", "angle-right", "chevron-left", "chevron-right", "filter-reset", "compact-disc", "chevron-double-down-duotone", "image", "portrait", "bezier", "text", "pathText", "magnet", "pointer", "close-square", "close", "docRef", "collapseLeft", "expandLeft", "edit", "pen", "pencil-ruler", "plus", "plus-circle", "plus-square", "minus", "shapes", "square", "settings", "vector-shape", "address-card", "paperclip", "facing-pages", "page", "cog", "perspective", "style", "story", "text-flow", "exchange", "text-align-justify-justify", "text-align-justify-left", "text-align-justify-right", "text-align-justify-center", "text-align-left", "text-align-right", "text-align-center", "check", "check-square", "user-circle", "user-solid", "user-crown-solid", "arrow-left", "arrow-right", "arrow-up", "arrow-down", "arrows", "arrows-circle", "arrows-h", "arrows-v", "carret-down-solid", "carret-right-solid", "text-size", "text-width", "line-height", "line-width", "palette", "brush", "undo", "undo-solid", "redo", "redo-solid", "copy", "copy-solid", "paste", "cut", "object-ungroup", "trash", "trash-solid", "remove-format", "clipboard", "search-plus", "search-minus", "search-light", "save", "slash", "empty", "cloud-upload-alt", "folder-open-solid", "tint", "warp-arc", "warp-flag", "warp-bulge", "warp-arc-upper", "warp-pit-upper", "warp-arc-lower", "warp-pit-lower", "warp-fish", "warp-squeeze", "warp-mug", "mesh", "crop", "fill-image", "fit-image", "vertical-align-bottom-baseline", "vertical-align-center-baseline", "vertical-align-center", "vertical-align-top", "vertical-align-bottom", "warning", "effects", "robot", "microchip", "record", "play", "running", "rotator", "lock-closed", "lock-open", "lock-closed-solid", "user-lock-closed", "user-lock-opened", "link", "stroke-cap-round", "stroke-cap-projecting", "stroke-cap-butt", "stroke-align-center", "stroke-align-inside", "stroke-align-outside", "stroke-join-miter", "stroke-join-round", "stroke-join-bevel", "wrap-both-sides", "no-wrap", "printess-wand", "print-solid", "shopping-cart", "shopping-cart-solid", "shopping-cart-add", "folder-plus", "eye-solid", "eye-solid-slash", "font", "send-back", "send-backward", "bring-front", "bring-forward", "distort", "list-ul", "ellipsis-v", "sun-light", "adjust", "scroll-old", "align-top", "align-middle", "align-bottom", "align-left", "align-center", "align-right", "space-vertical-around", "space-vertical-between", "space-horizontal-around", "space-horizontal-between", "layer-group", "ruler", "layout-snippet", "layout-snippet-invers", "group-snippet", "group-snippet-invers", "primary-doc", "primary-doc-invers", "preview-doc", "preview-doc-invers", "production-doc", "production-doc-invers", "facebook-round", "clock-solid", "page-plus-solid", "user-friends-solid", "opacity", "file-invoice", "help", "triangle-solid", "mirror-x", "mirror-y"].sort();
-    }
-    static get styles() {
-        return [paymentStyles];
-    }
-    ;
-    render() {
-        return T `
-            <div class="payment-page">
-                <h3 class="topic">Payments</h3>
-                <p class="subtopic">Order list</p>
-            
-                <div class="icons">
-                    ${this.wcicons.map((icon) => T `<p class="icon">
-                        <wc-icon primaryColor="green" icon="${icon}"></wc-icon><span>${icon}</span>
-                    </p>`)}
-                </div>
-            </div>
-        `;
+    `;
     }
     ;
 };
 __decorate$2([
-    e$1({ type: Array })
-], WcPaymentPage.prototype, "wcicons", void 0);
-WcPaymentPage = __decorate$2([
-    n$1("wc-payment-page")
-], WcPaymentPage);
+    e({ type: Array })
+], WcFotoPreview.prototype, "fotos", void 0);
+__decorate$2([
+    e({ type: Object })
+], WcFotoPreview.prototype, "fotostory", void 0);
+__decorate$2([
+    e({ type: Object })
+], WcFotoPreview.prototype, "date", void 0);
+__decorate$2([
+    e({ type: String })
+], WcFotoPreview.prototype, "month", void 0);
+__decorate$2([
+    e({ type: Boolean })
+], WcFotoPreview.prototype, "showStory", void 0);
+WcFotoPreview = __decorate$2([
+    n$1("wc-foto-preview")
+], WcFotoPreview);
 
-const layoutStyles = r$1 `
-  .account-layout {
-    font-family: var(--printess-font);
-    height: 100vh;
-    display: grid;
-    grid-template-rows: 50px 1fr;
-    grid-template-columns: 200px 1fr;
-  }
-
-  #user-content {
-    grid-column: 2/3;
-    grid-row: 2/3;
-    padding: 40px 50px;
-    overflow-y: scroll;
+const traveldetailsStyles = r$1 `
+  .travel-details-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    color: #555;
+    padding-top: 30px;
   }
   
-  .drawer {
-    background-color: #ececec;
-    grid-column: 1/2;
-    grid-row: 2/3;
-    border-right: 1px solid #1a39601a;
-    outline: none;
-    padding: 50px;
+  .title {
+    text-align: center;
+    margin-bottom: 40px;
   }
 
-  @media (max-width: ${config.mobileDeviceWidth}px) {
-    .account-layout {
-      display: flex;
-      flex-direction: column;
-    }
-
-    #user-content {
-      padding: 50px 30px 20px;
-    }
-
-    .drawer {
-      position: fixed;
-      top: 50;
-      left: 0;
-      right: 0;
-      display: flex;
-      flex-direction: column;
-      height: auto;
-      padding: 0;
-      z-index: 10;
-    }
+  .flight, .apartment {
+    background-color: #fff7e6;
+    box-shadow: var(--fuerte-box-shadow);
+    border-radius: 10px;
+    margin-bottom: 30px;
   }
-`;
-const navbarStyles = r$1 `
-  header {
-    grid-column: 1/3;
-    grid-row: 1/2;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: auto;
-    z-index: 1;
-    height: 50px;
-    background-color: var(--printess-navbar-blue);
-    padding-left: 70.5px;
+
+  .apartment {
+    width: 410px;
+  }
+
+  .flight {
+    padding: 10px 30px;
+  }
+
+  .flex {
     display: flex;
-    justify-content: space-between;
+    flex-direction: row;
+    flex-wrap: wrap;
     align-items: center;
+    justify-content: center;
+    align-content: center;
   }
 
-  #printess-logo {
-    display: inline-block;
-    height: 35px;
-    width: 120px;
-    padding-bottom: 5px;
-    padding-left: 0px;
-    background-size: 100%;
-    background-image: url(https://printess.com/printess-white-2.svg);
-    background-position: 0px 0px;
-    background-size: contain;
-    background-repeat: no-repeat;
-    text-decoration: none;
-    background-origin: content-box;
-  }
-`;
-
-const drawerStyles = r$1 `  
-  .tab {
-    cursor: pointer;
-    color: #222;
-    font-family: var(--printess-font);
-    font-size: 18px;
-    font-weight: 500;
-    line-height: 40px;
-    color: #555555;
+  img {
+    width: 410px; 
+    border-top-right-radius: 10px; 
+    border-top-left-radius: 10px;
   }
 
-  .selected {
-    color: var(--printess-pink);
+  wc-icon {
+    width: 20px;
+    height: 20px;
+    margin: 0 10px;
   }
 
-  .user-icon {
-    display: flex;
-    align-items: center;
-    position: relative;
-  }
-
-  .hidden {
-    display: none;
-  }
-
-    @media (max-width: ${config.mobileDeviceWidth}px) {
-    .menu-icon {
-      position: fixed;
-      top: 17px;
-      left: 20px;
-      height: 25px;
-      width: 30px;
+  @media screen and (max-width: 490px) {
+    .flight, .apartment {
+      max-width: 100%;
     }
 
-    .tab {
-      border-bottom: 1px solid #ddd;
-      width: 100%;
-      font-size: 15px;
-      justify-content: center;
-    }
-
-    .hidden {
-      display: none !important;
+    img {
+      max-width: 100%;
     }
   }
 `;
@@ -9351,88 +2427,42 @@ var __decorate$1 = (undefined && undefined.__decorate) || function (decorators, 
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-let WcAppDrawer = class WcAppDrawer extends h {
-    constructor(selectedDrawer) {
-        super();
-        this.selectedDrawer = 'dashboard';
-        this.drawerOpen = false;
-        this.debug = window.location.hostname === 'localhost' || window.location.href.indexOf('debug=1') > 0 || window.printessDebug === true;
-        this.drawers = [{
-                name: 'dashboard',
-                title: 'Dashboard'
-            }, {
-                name: 'account',
-                title: 'User Profile'
-            }, {
-                name: 'templates',
-                title: 'Templates'
-            }, {
-                name: 'printJobs',
-                title: 'Print Jobs'
-            }, {
-                name: 'editor',
-                title: 'Editor'
-            }, {
-                name: 'payment',
-                title: 'Payment'
-            }, {
-                name: 'settings',
-                title: 'Settings'
-            }];
-        this.publicDrawer = [{
-                name: 'dashboard',
-                title: 'Dashboard'
-            }, {
-                name: 'account',
-                title: 'User Profile'
-            }, {
-                name: 'printJobs',
-                title: 'Print Jobs'
-            }, {
-                name: 'editor',
-                title: 'Editor'
-            }];
-        this.selectedDrawer = selectedDrawer;
-    }
+let WcTraveldetailsPage = class WcTraveldetailsPage extends h {
     static get styles() {
-        return [drawerStyles];
-    }
-    ;
-    getDrawerSelection(callback) {
-        this.callback = callback;
-    }
-    ;
-    openDrawer() {
-        this.drawerOpen = !this.drawerOpen;
-        this.requestUpdate();
-    }
-    ;
-    setDrawerSelection(name) {
-        this.selectedDrawer = name;
-        if (this.callback) {
-            this.callback(this.selectedDrawer);
-        }
+        return [traveldetailsStyles];
     }
     ;
     render() {
         return T `
-      ${config.isMobile ? T `<wc-icon @click=${this.openDrawer} class="menu-icon" primaryColor="toolbar" icon=${this.drawerOpen ? 'close' : 'bars-light'}></wc-icon>` : ''} 
-      <aside class="drawer ${!this.drawerOpen && config.isMobile ? 'hidden' : ''}">
-        ${this.debug ? this.drawers.map(d => T `<div class="tab ${this.selectedDrawer === d.name ? "selected" : ""}" style="display: flex; align-items: center;"
-          @click=${() => this.setDrawerSelection(d.name)}>${d.title}<wc-icon class=${d.name === "editor" ? '' : 'hidden'} primaryColor=${this.selectedDrawer === 'editor' ? 'pink' : 'gray'} icon="printess-wand" style="margin-left: 10px; width: 17px; height: 17px;"></wc-icon></div>`) :
-            this.publicDrawer.map(d => T `<div class="tab ${this.selectedDrawer === d.name ? "selected" : ""}"  style="display: flex; align-items: center;"
-          @click=${() => this.setDrawerSelection(d.name)}>${d.title}<wc-icon class=${d.name === "editor" ? '' : 'hidden'} primaryColor=${this.selectedDrawer === 'editor' ? 'pink' : 'gray'} icon="printess-wand" style="margin-left: 10px; width: 17px; height: 17px;"></wc-icon></div>`)}
-      </aside>
+      <div class="travel-details-container">
+        <h1 class="title">Reisedaten</h1>
+        <div class="flight">
+          <h3 class="flex">Berlin (Brandenburg) <wc-icon primaryColor="gray" icon="plane-duotone"></wc-icon> Fuerteventura</h3>
+          <p class="flex"><wc-icon primaryColor="gray" icon="calendar-alt"></wc-icon>08.06.2021</p>
+          <p class="flex"><wc-icon primaryColor="gray" icon="clock-light"></wc-icon>06:50 - 10:55 (11:55 DE)</p>
+        </div>
+        <div class="flight">
+          <h3 class="flex">Fuerteventura <wc-icon primaryColor="gray" icon="plane-duotone"></wc-icon> Berlin (Brandenburg)</h3>
+          <p class="flex"><wc-icon primaryColor="gray" icon="calendar-alt"></wc-icon>06.07.2021</p>
+          <p class="flex"><wc-icon primaryColor="gray" icon="clock-light"></wc-icon>11:30 (12:30 DE) - 17:15</p>
+        </div>
+        <div class="apartment">
+          <img src="assets/CallePuntaPesebre.png" alt="apartment">
+          <div class="apartment-info">
+            <h3 class="flex">Casa Luciano</h3>
+            <p class="flex">Calle Punta Pesebre, 8, Jardin del Sol</p>
+            <p class="flex">Fase 1, Casa 13, Costa Calma,</p>
+            <p class="flex">Canarias 35627, Spain</p>          
+          </div>
+        </div>
+      </div>
     `;
     }
     ;
 };
-__decorate$1([
-    e$1({ type: String })
-], WcAppDrawer.prototype, "selectedDrawer", void 0);
-WcAppDrawer = __decorate$1([
-    n$1("wc-app-drawer")
-], WcAppDrawer);
+WcTraveldetailsPage = __decorate$1([
+    n$1("wc-traveldetails-page")
+], WcTraveldetailsPage);
 
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -9443,8 +2473,7 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 let WcAppLayout = class WcAppLayout extends h {
     constructor() {
         super(...arguments);
-        this.selectedDrawer = 'dashboard';
-        this.drawerOpen = false;
+        this.selectedDrawer = 'trip-details';
     }
     static get styles() {
         return [layoutStyles, navbarStyles];
@@ -9453,25 +2482,20 @@ let WcAppLayout = class WcAppLayout extends h {
     render() {
         return T `
         <div class="account-layout">
-            <header>                
-                <a href="https://printess.com" id="printess-logo"></a>
-                <div class="user-icon" style="margin-right: 40px;">
-                    <wc-icon @mousedown=${(e) => this.userClick(e)} icon="user-solid" style="width: 30px; height: 25px; cursor: pointer;"></wc-icon>
+            <header>
+                <wc-icon primaryColor="island" icon="island" class="island"></wc-icon><h3>Fuerteventura</h3><div style="min-width: 60px;"></div>
+                <div class="user-icon" style="position: fixed; right: 40px; top; 0px; z-index: 99;">
+                    <wc-icon @mousedown=${(e) => this.userClick(e)} primaryColor="island" icon="user-solid" style="width: 30px; height: 25px; cursor: pointer;"></wc-icon>
                 </div>
             </header>
 
-            <div class="drawer">${this.renderDrawer()}</div>            
+            <div class="drawer">${this.renderDrawer()}</div>  
             
             <div id="user-content">
                 ${this.getUserContent()}
             </div>
         </div>
         `;
-    }
-    ;
-    openDrawer() {
-        this.drawerOpen = !this.drawerOpen;
-        this.requestUpdate();
     }
     ;
     renderDrawer() {
@@ -9484,25 +2508,14 @@ let WcAppLayout = class WcAppLayout extends h {
     ;
     getUserContent() {
         switch (this.selectedDrawer) {
-            case ('account'): return new WcAccountPage();
-            case ('templates'): return new WcTemplatesPage();
-            case ('printJobs'): return new WcPrintjobsPage();
-            case ('dashboard'): return new WcDashboardPage();
-            case ('editor'):
-                window.open('https://editor.printess.com/', '_self');
-                break;
-            case ('payment'): return new WcPaymentPage();
-            case ('settings'): return T `<p>not implemented</p>`;
-            default: assertNever(this.selectedDrawer);
+            case ('trip-details'): return new WcTraveldetailsPage();
+            case ('foto-preview'): return new WcFotoPreview();
+            case ('upload'): return new WcUploadPage();
         }
     }
     ;
     userClick(e) {
         showCtxMenu(e, [
-            {
-                caption: currentUser.displayName,
-                disabled: true
-            },
             {
                 caption: "Log out",
                 callback: () => {
@@ -9518,7 +2531,7 @@ let WcAppLayout = class WcAppLayout extends h {
     ;
 };
 __decorate([
-    e$1({ type: String })
+    e({ type: String })
 ], WcAppLayout.prototype, "selectedDrawer", void 0);
 WcAppLayout = __decorate([
     n$1("wc-app-layout")
@@ -10560,699 +3573,6 @@ const masterStyles = r$1 `
 }
 `;
 
-class JOSEError extends Error {
-    constructor(message) {
-        super(message);
-        this.code = JOSEError.code;
-        this.name = this.constructor.name;
-        if (Error.captureStackTrace) {
-            Error.captureStackTrace(this, this.constructor);
-        }
-    }
-}
-JOSEError.code = 'ERR_JOSE_GENERIC';
-class JWTClaimValidationFailed extends JOSEError {
-    constructor(message, claim = 'unspecified', reason = 'unspecified') {
-        super(message);
-        this.code = JWTClaimValidationFailed.code;
-        this.claim = claim;
-        this.reason = reason;
-    }
-}
-JWTClaimValidationFailed.code = 'ERR_JWT_CLAIM_VALIDATION_FAILED';
-class JOSEAlgNotAllowed extends JOSEError {
-    constructor() {
-        super(...arguments);
-        this.code = JOSEAlgNotAllowed.code;
-    }
-}
-JOSEAlgNotAllowed.code = 'ERR_JOSE_ALG_NOT_ALLOWED';
-class JOSENotSupported extends JOSEError {
-    constructor() {
-        super(...arguments);
-        this.code = JOSENotSupported.code;
-    }
-}
-JOSENotSupported.code = 'ERR_JOSE_NOT_SUPPORTED';
-class JWSInvalid extends JOSEError {
-    constructor() {
-        super(...arguments);
-        this.code = JWSInvalid.code;
-    }
-}
-JWSInvalid.code = 'ERR_JWS_INVALID';
-class JWTInvalid extends JOSEError {
-    constructor() {
-        super(...arguments);
-        this.code = JWTInvalid.code;
-    }
-}
-JWTInvalid.code = 'ERR_JWT_INVALID';
-class JWSSignatureVerificationFailed extends JOSEError {
-    constructor() {
-        super(...arguments);
-        this.code = JWSSignatureVerificationFailed.code;
-        this.message = 'signature verification failed';
-    }
-}
-JWSSignatureVerificationFailed.code = 'ERR_JWS_SIGNATURE_VERIFICATION_FAILED';
-class JWTExpired extends JWTClaimValidationFailed {
-    constructor() {
-        super(...arguments);
-        this.code = JWTExpired.code;
-    }
-}
-JWTExpired.code = 'ERR_JWT_EXPIRED';
-
-const encoder = new TextEncoder();
-const decoder = new TextDecoder();
-function concat(...buffers) {
-    const size = buffers.reduce((acc, { length }) => acc + length, 0);
-    const buf = new Uint8Array(size);
-    let i = 0;
-    buffers.forEach((buffer) => {
-        buf.set(buffer, i);
-        i += buffer.length;
-    });
-    return buf;
-}
-
-const isDisjoint = (...headers) => {
-    const sources = headers.filter(Boolean);
-    if (sources.length === 0 || sources.length === 1) {
-        return true;
-    }
-    let acc;
-    for (const header of sources) {
-        const parameters = Object.keys(header);
-        if (!acc || acc.size === 0) {
-            acc = new Set(parameters);
-            continue;
-        }
-        for (const parameter of parameters) {
-            if (acc.has(parameter)) {
-                return false;
-            }
-            acc.add(parameter);
-        }
-    }
-    return true;
-};
-
-function isObjectLike(value) {
-    return typeof value === 'object' && value !== null;
-}
-function isObject(input) {
-    if (!isObjectLike(input) || Object.prototype.toString.call(input) !== '[object Object]') {
-        return false;
-    }
-    if (Object.getPrototypeOf(input) === null) {
-        return true;
-    }
-    let proto = input;
-    while (Object.getPrototypeOf(proto) !== null) {
-        proto = Object.getPrototypeOf(proto);
-    }
-    return Object.getPrototypeOf(input) === proto;
-}
-
-const checkKeyType = (alg, key) => {
-    if (alg.startsWith('HS') ||
-        alg === 'dir' ||
-        alg.startsWith('PBES2') ||
-        alg.match(/^A\d{3}(?:GCM)KW$/)) {
-        if (key instanceof Uint8Array || key.type === 'secret') {
-            return;
-        }
-        throw new TypeError('CryptoKey or KeyObject instances for symmetric algorithms must be of type "secret"');
-    }
-    if (key instanceof Uint8Array) {
-        throw new TypeError('CryptoKey or KeyObject instances must be used for asymmetric algorithms');
-    }
-    if (key.type === 'secret') {
-        throw new TypeError('CryptoKey or KeyObject instances for asymmetric algorithms must not be of type "secret"');
-    }
-};
-
-function getGlobal() {
-    if (typeof globalThis !== 'undefined')
-        return globalThis;
-    if (typeof self !== 'undefined')
-        return self;
-    if (typeof window !== 'undefined')
-        return window;
-    throw new Error('unable to locate global object');
-}
-var globalThis$1 = getGlobal();
-
-const decode = (input) => {
-    let encoded = input;
-    if (encoded instanceof Uint8Array) {
-        encoded = decoder.decode(encoded);
-    }
-    encoded = encoded.replace(/-/g, '+').replace(/_/g, '/').replace(/\s/g, '');
-    try {
-        return new Uint8Array(globalThis$1
-            .atob(encoded)
-            .split('')
-            .map((c) => c.charCodeAt(0)));
-    }
-    catch (_a) {
-        throw new TypeError('The input to be decoded is not correctly encoded.');
-    }
-};
-
-function subtleDsa(alg) {
-    switch (alg) {
-        case 'HS256':
-            return { hash: { name: 'SHA-256' }, name: 'HMAC' };
-        case 'HS384':
-            return { hash: { name: 'SHA-384' }, name: 'HMAC' };
-        case 'HS512':
-            return { hash: { name: 'SHA-512' }, name: 'HMAC' };
-        case 'PS256':
-            return {
-                hash: { name: 'SHA-256' },
-                name: 'RSA-PSS',
-                saltLength: 256 >> 3,
-            };
-        case 'PS384':
-            return {
-                hash: { name: 'SHA-384' },
-                name: 'RSA-PSS',
-                saltLength: 384 >> 3,
-            };
-        case 'PS512':
-            return {
-                hash: { name: 'SHA-512' },
-                name: 'RSA-PSS',
-                saltLength: 512 >> 3,
-            };
-        case 'RS256':
-            return { hash: { name: 'SHA-256' }, name: 'RSASSA-PKCS1-v1_5' };
-        case 'RS384':
-            return { hash: { name: 'SHA-384' }, name: 'RSASSA-PKCS1-v1_5' };
-        case 'RS512':
-            return { hash: { name: 'SHA-512' }, name: 'RSASSA-PKCS1-v1_5' };
-        case 'ES256':
-            return { hash: { name: 'SHA-256' }, name: 'ECDSA', namedCurve: 'P-256' };
-        case 'ES384':
-            return { hash: { name: 'SHA-384' }, name: 'ECDSA', namedCurve: 'P-384' };
-        case 'ES512':
-            return { hash: { name: 'SHA-512' }, name: 'ECDSA', namedCurve: 'P-521' };
-        default:
-            throw new JOSENotSupported(`alg ${alg} is not supported either by JOSE or your javascript runtime`);
-    }
-}
-
-var crypto = globalThis$1.crypto;
-function isCryptoKey(key) {
-    if (typeof globalThis$1.CryptoKey === 'undefined') {
-        return false;
-    }
-    return key != null && key instanceof globalThis$1.CryptoKey;
-}
-
-var checkKeyLength = (alg, key) => {
-    if (alg.startsWith('HS')) {
-        const bitlen = parseInt(alg.substr(-3), 10);
-        const { length } = key.algorithm;
-        if (typeof length !== 'number' || length < bitlen) {
-            throw new TypeError(`${alg} requires symmetric keys to be ${bitlen} bits or larger`);
-        }
-    }
-    if (alg.startsWith('RS') || alg.startsWith('PS')) {
-        const { modulusLength } = key.algorithm;
-        if (typeof modulusLength !== 'number' || modulusLength < 2048) {
-            throw new TypeError(`${alg} requires key modulusLength to be 2048 bits or larger`);
-        }
-    }
-};
-
-function getCryptoKey(alg, key, usage) {
-    if (isCryptoKey(key)) {
-        return key;
-    }
-    if (key instanceof Uint8Array) {
-        if (!alg.startsWith('HS')) {
-            throw new TypeError('symmetric keys are only applicable for HMAC-based algorithms');
-        }
-        return crypto.subtle.importKey('raw', key, { hash: { name: `SHA-${alg.substr(-3)}` }, name: 'HMAC' }, false, [usage]);
-    }
-    throw new TypeError('invalid key input');
-}
-
-const verify = async (alg, key, signature, data) => {
-    const cryptoKey = await getCryptoKey(alg, key, 'verify');
-    checkKeyLength(alg, cryptoKey);
-    const algorithm = subtleDsa(alg);
-    try {
-        return await crypto.subtle.verify(algorithm, cryptoKey, signature, data);
-    }
-    catch (_a) {
-        return false;
-    }
-};
-
-function validateCrit(Err, recognizedDefault, recognizedOption, protectedHeader, joseHeader) {
-    if (joseHeader.crit !== undefined && protectedHeader.crit === undefined) {
-        throw new Err('"crit" (Critical) Header Parameter MUST be integrity protected');
-    }
-    if (!protectedHeader || protectedHeader.crit === undefined) {
-        return new Set();
-    }
-    if (!Array.isArray(protectedHeader.crit) ||
-        protectedHeader.crit.length === 0 ||
-        protectedHeader.crit.some((input) => typeof input !== 'string' || input.length === 0)) {
-        throw new Err('"crit" (Critical) Header Parameter MUST be an array of non-empty strings when present');
-    }
-    let recognized;
-    if (recognizedOption !== undefined) {
-        recognized = new Map([...Object.entries(recognizedOption), ...recognizedDefault.entries()]);
-    }
-    else {
-        recognized = recognizedDefault;
-    }
-    for (const parameter of protectedHeader.crit) {
-        if (!recognized.has(parameter)) {
-            throw new JOSENotSupported(`Extension Header Parameter "${parameter}" is not recognized`);
-        }
-        if (joseHeader[parameter] === undefined) {
-            throw new Err(`Extension Header Parameter "${parameter}" is missing`);
-        }
-        else if (recognized.get(parameter) && protectedHeader[parameter] === undefined) {
-            throw new Err(`Extension Header Parameter "${parameter}" MUST be integrity protected`);
-        }
-    }
-    return new Set(protectedHeader.crit);
-}
-
-const validateAlgorithms = (option, algorithms) => {
-    if (algorithms !== undefined &&
-        (!Array.isArray(algorithms) || algorithms.some((s) => typeof s !== 'string'))) {
-        throw new TypeError(`"${option}" option must be an array of strings`);
-    }
-    if (!algorithms) {
-        return undefined;
-    }
-    return new Set(algorithms);
-};
-
-const checkExtensions = validateCrit.bind(undefined, JWSInvalid, new Map([['b64', true]]));
-const checkAlgOption = validateAlgorithms.bind(undefined, 'algorithms');
-async function flattenedVerify(jws, key, options) {
-    var _a;
-    if (!isObject(jws)) {
-        throw new JWSInvalid('Flattened JWS must be an object');
-    }
-    if (jws.protected === undefined && jws.header === undefined) {
-        throw new JWSInvalid('Flattened JWS must have either of the "protected" or "header" members');
-    }
-    if (jws.protected !== undefined && typeof jws.protected !== 'string') {
-        throw new JWSInvalid('JWS Protected Header incorrect type');
-    }
-    if (jws.payload === undefined) {
-        throw new JWSInvalid('JWS Payload missing');
-    }
-    if (typeof jws.signature !== 'string') {
-        throw new JWSInvalid('JWS Signature missing or incorrect type');
-    }
-    if (jws.header !== undefined && !isObject(jws.header)) {
-        throw new JWSInvalid('JWS Unprotected Header incorrect type');
-    }
-    let parsedProt = {};
-    if (jws.protected) {
-        const protectedHeader = decode(jws.protected);
-        parsedProt = JSON.parse(decoder.decode(protectedHeader));
-    }
-    if (!isDisjoint(parsedProt, jws.header)) {
-        throw new JWSInvalid('JWS Protected and JWS Unprotected Header Parameter names must be disjoint');
-    }
-    const joseHeader = {
-        ...parsedProt,
-        ...jws.header,
-    };
-    const extensions = checkExtensions(options === null || options === void 0 ? void 0 : options.crit, parsedProt, joseHeader);
-    let b64 = true;
-    if (extensions.has('b64')) {
-        b64 = parsedProt.b64;
-        if (typeof b64 !== 'boolean') {
-            throw new JWSInvalid('The "b64" (base64url-encode payload) Header Parameter must be a boolean');
-        }
-    }
-    const { alg } = joseHeader;
-    if (typeof alg !== 'string' || !alg) {
-        throw new JWSInvalid('JWS "alg" (Algorithm) Header Parameter missing or invalid');
-    }
-    const algorithms = options && checkAlgOption(options.algorithms);
-    if (algorithms && !algorithms.has(alg)) {
-        throw new JOSEAlgNotAllowed('"alg" (Algorithm) Header Parameter not allowed');
-    }
-    if (b64) {
-        if (typeof jws.payload !== 'string') {
-            throw new JWSInvalid('JWS Payload must be a string');
-        }
-    }
-    else if (typeof jws.payload !== 'string' && !(jws.payload instanceof Uint8Array)) {
-        throw new JWSInvalid('JWS Payload must be a string or an Uint8Array instance');
-    }
-    if (typeof key === 'function') {
-        key = await key(parsedProt, jws);
-    }
-    checkKeyType(alg, key);
-    const data = concat(encoder.encode((_a = jws.protected) !== null && _a !== void 0 ? _a : ''), encoder.encode('.'), typeof jws.payload === 'string' ? encoder.encode(jws.payload) : jws.payload);
-    const signature = decode(jws.signature);
-    const verified = await verify(alg, key, signature, data);
-    if (!verified) {
-        throw new JWSSignatureVerificationFailed();
-    }
-    let payload;
-    if (b64) {
-        payload = decode(jws.payload);
-    }
-    else if (typeof jws.payload === 'string') {
-        payload = encoder.encode(jws.payload);
-    }
-    else {
-        payload = jws.payload;
-    }
-    const result = { payload };
-    if (jws.protected !== undefined) {
-        result.protectedHeader = parsedProt;
-    }
-    if (jws.header !== undefined) {
-        result.unprotectedHeader = jws.header;
-    }
-    return result;
-}
-
-async function compactVerify(jws, key, options) {
-    if (jws instanceof Uint8Array) {
-        jws = decoder.decode(jws);
-    }
-    if (typeof jws !== 'string') {
-        throw new JWSInvalid('Compact JWS must be a string or Uint8Array');
-    }
-    const { 0: protectedHeader, 1: payload, 2: signature, length } = jws.split('.');
-    if (length !== 3) {
-        throw new JWSInvalid('Invalid Compact JWS');
-    }
-    const verified = await flattenedVerify({
-        payload: (payload || undefined),
-        protected: protectedHeader || undefined,
-        signature: (signature || undefined),
-    }, key, options);
-    return { payload: verified.payload, protectedHeader: verified.protectedHeader };
-}
-
-var epoch = (date) => Math.floor(date.getTime() / 1000);
-
-const minute = 60;
-const hour = minute * 60;
-const day = hour * 24;
-const week = day * 7;
-const year = day * 365.25;
-const REGEX = /^(\d+|\d+\.\d+) ?(seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|weeks?|w|years?|yrs?|y)$/i;
-var secs = (str) => {
-    const matched = REGEX.exec(str);
-    if (!matched) {
-        throw new TypeError('invalid time period format');
-    }
-    const value = parseFloat(matched[1]);
-    const unit = matched[2].toLowerCase();
-    switch (unit) {
-        case 'sec':
-        case 'secs':
-        case 'second':
-        case 'seconds':
-        case 's':
-            return Math.round(value);
-        case 'minute':
-        case 'minutes':
-        case 'min':
-        case 'mins':
-        case 'm':
-            return Math.round(value * minute);
-        case 'hour':
-        case 'hours':
-        case 'hr':
-        case 'hrs':
-        case 'h':
-            return Math.round(value * hour);
-        case 'day':
-        case 'days':
-        case 'd':
-            return Math.round(value * day);
-        case 'week':
-        case 'weeks':
-        case 'w':
-            return Math.round(value * week);
-        default:
-            return Math.round(value * year);
-    }
-};
-
-const normalizeTyp = (value) => value.toLowerCase().replace(/^application\//, '');
-const checkAudiencePresence = (audPayload, audOption) => {
-    if (typeof audPayload === 'string') {
-        return audOption.includes(audPayload);
-    }
-    if (Array.isArray(audPayload)) {
-        return audOption.some(Set.prototype.has.bind(new Set(audPayload)));
-    }
-    return false;
-};
-var jwtPayload = (protectedHeader, encodedPayload, options = {}) => {
-    const { typ } = options;
-    if (typ &&
-        (typeof protectedHeader.typ !== 'string' ||
-            normalizeTyp(protectedHeader.typ) !== normalizeTyp(typ))) {
-        throw new JWTClaimValidationFailed('unexpected "typ" JWT header value', 'typ', 'check_failed');
-    }
-    let payload;
-    try {
-        payload = JSON.parse(decoder.decode(encodedPayload));
-    }
-    catch (_a) {
-    }
-    if (!isObject(payload)) {
-        throw new JWTInvalid('JWT Claims Set must be a top-level JSON object');
-    }
-    const { issuer } = options;
-    if (issuer && !(Array.isArray(issuer) ? issuer : [issuer]).includes(payload.iss)) {
-        throw new JWTClaimValidationFailed('unexpected "iss" claim value', 'iss', 'check_failed');
-    }
-    const { subject } = options;
-    if (subject && payload.sub !== subject) {
-        throw new JWTClaimValidationFailed('unexpected "sub" claim value', 'sub', 'check_failed');
-    }
-    const { audience } = options;
-    if (audience &&
-        !checkAudiencePresence(payload.aud, typeof audience === 'string' ? [audience] : audience)) {
-        throw new JWTClaimValidationFailed('unexpected "aud" claim value', 'aud', 'check_failed');
-    }
-    let tolerance;
-    switch (typeof options.clockTolerance) {
-        case 'string':
-            tolerance = secs(options.clockTolerance);
-            break;
-        case 'number':
-            tolerance = options.clockTolerance;
-            break;
-        case 'undefined':
-            tolerance = 0;
-            break;
-        default:
-            throw new TypeError('invalid clockTolerance option type');
-    }
-    const { currentDate } = options;
-    const now = epoch(currentDate || new Date());
-    if (payload.iat !== undefined || options.maxTokenAge) {
-        if (typeof payload.iat !== 'number') {
-            throw new JWTClaimValidationFailed('"iat" claim must be a number', 'iat', 'invalid');
-        }
-        if (payload.exp === undefined && payload.iat > now + tolerance) {
-            throw new JWTClaimValidationFailed('"iat" claim timestamp check failed (it should be in the past)', 'iat', 'check_failed');
-        }
-    }
-    if (payload.nbf !== undefined) {
-        if (typeof payload.nbf !== 'number') {
-            throw new JWTClaimValidationFailed('"nbf" claim must be a number', 'nbf', 'invalid');
-        }
-        if (payload.nbf > now + tolerance) {
-            throw new JWTClaimValidationFailed('"nbf" claim timestamp check failed', 'nbf', 'check_failed');
-        }
-    }
-    if (payload.exp !== undefined) {
-        if (typeof payload.exp !== 'number') {
-            throw new JWTClaimValidationFailed('"exp" claim must be a number', 'exp', 'invalid');
-        }
-        if (payload.exp <= now - tolerance) {
-            throw new JWTExpired('"exp" claim timestamp check failed', 'exp', 'check_failed');
-        }
-    }
-    if (options.maxTokenAge) {
-        const age = now - payload.iat;
-        const max = typeof options.maxTokenAge === 'number' ? options.maxTokenAge : secs(options.maxTokenAge);
-        if (age - tolerance > max) {
-            throw new JWTExpired('"iat" claim timestamp check failed (too far in the past)', 'iat', 'check_failed');
-        }
-        if (age < 0 - tolerance) {
-            throw new JWTClaimValidationFailed('"iat" claim timestamp check failed (it should be in the past)', 'iat', 'check_failed');
-        }
-    }
-    return payload;
-};
-
-async function jwtVerify(jwt, key, options) {
-    var _a;
-    const verified = await compactVerify(jwt, key, options);
-    if (((_a = verified.protectedHeader.crit) === null || _a === void 0 ? void 0 : _a.includes('b64')) && verified.protectedHeader.b64 === false) {
-        throw new JWTInvalid('JWTs MUST NOT use unencoded payload');
-    }
-    const payload = jwtPayload(verified.protectedHeader, verified.payload, options);
-    return { payload, protectedHeader: verified.protectedHeader };
-}
-
-function subtleMapping(jwk) {
-    let algorithm;
-    let keyUsages;
-    switch (jwk.kty) {
-        case 'oct': {
-            switch (jwk.alg) {
-                case 'HS256':
-                case 'HS384':
-                case 'HS512':
-                    algorithm = { name: 'HMAC', hash: { name: `SHA-${jwk.alg.substr(-3)}` } };
-                    keyUsages = ['sign', 'verify'];
-                    break;
-                case 'A128CBC-HS256':
-                case 'A192CBC-HS384':
-                case 'A256CBC-HS512':
-                    throw new JOSENotSupported(`${jwk.alg} keys cannot be imported as CryptoKey instances`);
-                case 'A128GCM':
-                case 'A192GCM':
-                case 'A256GCM':
-                case 'A128GCMKW':
-                case 'A192GCMKW':
-                case 'A256GCMKW':
-                    algorithm = { name: 'AES-GCM' };
-                    keyUsages = ['encrypt', 'decrypt'];
-                    break;
-                case 'A128KW':
-                case 'A192KW':
-                case 'A256KW':
-                    algorithm = { name: 'AES-KW' };
-                    keyUsages = ['wrapKey', 'unwrapKey'];
-                    break;
-                case 'PBES2-HS256+A128KW':
-                case 'PBES2-HS384+A192KW':
-                case 'PBES2-HS512+A256KW':
-                    algorithm = { name: 'PBKDF2' };
-                    keyUsages = ['deriveBits'];
-                    break;
-                default:
-                    throw new JOSENotSupported('unsupported or invalid JWK "alg" (Algorithm) Parameter value');
-            }
-            break;
-        }
-        case 'RSA': {
-            switch (jwk.alg) {
-                case 'PS256':
-                case 'PS384':
-                case 'PS512':
-                    algorithm = { name: 'RSA-PSS', hash: { name: `SHA-${jwk.alg.substr(-3)}` } };
-                    keyUsages = jwk.d ? ['sign'] : ['verify'];
-                    break;
-                case 'RS256':
-                case 'RS384':
-                case 'RS512':
-                    algorithm = { name: 'RSASSA-PKCS1-v1_5', hash: { name: `SHA-${jwk.alg.substr(-3)}` } };
-                    keyUsages = jwk.d ? ['sign'] : ['verify'];
-                    break;
-                case 'RSA-OAEP':
-                case 'RSA-OAEP-256':
-                case 'RSA-OAEP-384':
-                case 'RSA-OAEP-512':
-                    algorithm = {
-                        name: 'RSA-OAEP',
-                        hash: { name: `SHA-${parseInt(jwk.alg.substr(-3), 10) || 1}` },
-                    };
-                    keyUsages = jwk.d ? ['decrypt', 'unwrapKey'] : ['encrypt', 'wrapKey'];
-                    break;
-                default:
-                    throw new JOSENotSupported('unsupported or invalid JWK "alg" (Algorithm) Parameter value');
-            }
-            break;
-        }
-        case 'EC': {
-            switch (jwk.alg) {
-                case 'ES256':
-                case 'ES384':
-                case 'ES512':
-                    algorithm = { name: 'ECDSA', namedCurve: jwk.crv };
-                    keyUsages = jwk.d ? ['sign'] : ['verify'];
-                    break;
-                case 'ECDH-ES':
-                case 'ECDH-ES+A128KW':
-                case 'ECDH-ES+A192KW':
-                case 'ECDH-ES+A256KW':
-                    algorithm = { name: 'ECDH', namedCurve: jwk.crv };
-                    keyUsages = jwk.d ? ['deriveBits'] : [];
-                    break;
-                default:
-                    throw new JOSENotSupported('unsupported or invalid JWK "alg" (Algorithm) Parameter value');
-            }
-            break;
-        }
-        default:
-            throw new JOSENotSupported('unsupported or invalid JWK "kty" (Key Type) Parameter value');
-    }
-    return { algorithm, keyUsages };
-}
-const parse = async (jwk) => {
-    var _a, _b;
-    const { algorithm, keyUsages } = subtleMapping(jwk);
-    let format = 'jwk';
-    let keyData = { ...jwk };
-    delete keyData.alg;
-    if (algorithm.name === 'PBKDF2') {
-        format = 'raw';
-        keyData = decode(jwk.k);
-    }
-    return crypto.subtle.importKey(format, keyData, algorithm, (_a = jwk.ext) !== null && _a !== void 0 ? _a : false, (_b = jwk.key_ops) !== null && _b !== void 0 ? _b : keyUsages);
-};
-
-async function parseJwk(jwk, alg, octAsKeyObject) {
-    if (!isObject(jwk)) {
-        throw new TypeError('JWK must be an object');
-    }
-    alg || (alg = jwk.alg);
-    if (typeof alg !== 'string' || !alg) {
-        throw new TypeError('"alg" argument is required when "jwk.alg" is not present');
-    }
-    switch (jwk.kty) {
-        case 'oct':
-            if (typeof jwk.k !== 'string' || !jwk.k) {
-                throw new TypeError('missing "k" (Key Value) Parameter value');
-            }
-            octAsKeyObject !== null && octAsKeyObject !== void 0 ? octAsKeyObject : (octAsKeyObject = jwk.ext !== true);
-            if (octAsKeyObject) {
-                return parse({ ...jwk, alg, ext: false });
-            }
-            return decode(jwk.k);
-        case 'RSA':
-            if (jwk.oth !== undefined) {
-                throw new JOSENotSupported('RSA JWK "oth" (Other Primes Info) Parameter value is not supported');
-            }
-        case 'EC':
-        case 'OKP':
-            return parse({ ...jwk, alg });
-        default:
-            throw new JOSENotSupported('unsupported "kty" (Key Type) Parameter value');
-    }
-}
-
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -11263,23 +3583,8 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
     });
 };
 var _a, _b, _c;
-const apiEndpoint = "api.printess.com";
-const adm = {
-    useAdminMode: false,
-    canUseAdminMode: false
-};
-const api = new PrintessApi('https://' + apiEndpoint);
-const adminApi = new PrintessAdminApi('https://' + apiEndpoint);
-let currentUser = {
-    id: '',
-    displayName: '',
-    eMailAddress: '',
-    isEmailAddressVerified: false,
-    lastLogin: new Date(),
-    code: '',
-    isActivated: false
-};
 const wcAppLayout = new WcAppLayout();
+let appUser = 'user';
 function setDisplay(id, value) {
     const node = document.getElementById(id);
     if (node) {
@@ -11298,73 +3603,9 @@ function setDisplay(id, value) {
 firebase.auth().onAuthStateChanged(function (user) {
     return __awaiter(this, void 0, void 0, function* () {
         if (user) {
-            const localDate = new Date(user.metadata.lastSignInTime);
-            currentUser = {
-                id: user.uid,
-                displayName: user.displayName,
-                eMailAddress: user.email,
-                isEmailAddressVerified: user.emailVerified,
-                lastLogin: localDate,
-                code: user.providerData[0].photoURL,
-                isActivated: false
-            };
+            user.email === 'trulli90@gmail.com' ? appUser = 'admin' : appUser = 'user';
             setDisplay("userAccount", "");
-            yield printessLogin(user);
-        }
-        else {
-            setDisplay("loginPage", "");
-        }
-    });
-});
-function readTokenData(token) {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            const rsaPublicKey = yield parseJwk({
-                kty: 'RSA',
-                e: 'AQAB',
-                n: 'wXIBXKQ_dpETu27jq5mx2blcCqrjvF5B0zuI4I1O3LJjOFqEKJrfIfVxVNf9er4qfQquSLaNYf_780rtUZTZkqX5rittfeTiQqzMVuFwipmfNdqlFMJeJiZAlZRq_t1BOQ9FxaE2Iz85eo_uWxT_tcXYDVPiLn-SzJNV2BNrLOvE1Qb3fqz3t-Tol4LudlcNI_-1DWRGTqHlllC6BUivFfbaBbCJBK1zTHJNtzXDvpNvADJWzmbRn8mBUcRjNFqPwUX6dwa_SudQ0oKvuBJXJhaxo1mfNntJj2UIOuJDBrNqEmY8uaUjNHzAtrzh2YUaTwaG6R6vdGlDsbqXWV6m966Y1KZP2tMv1cMyD0EgfOBGLKp98MY8uO3KvvN_8lfSyHbHMAz-I_0Gd7n1LjRUIFGmrXHp-xnyiZw3MuwhVyIP9JUzH87HQ5OlOfSJeaknqa9mWvoMldD0LnUdiaVXef7icTMjppykadj8rOiC5VAmhL6Cm_EL_GFLmylyQ5cSW0b6ns6ufO-3OuIAaxd5iacuIkgZr1ZX-r_ViA4lUnjl2fp-DEi_-BZPQCVzvwWE8QNKxTMpj1qm2rIvR1cWDcxQNuoyJEAEynk_b0vUxaWiu91dNgUtmC8AOunCxr7Hj41YBJPhRI2I985MF4xRLWISLhFmkttT0NpWUxzxsf0'
-            }, 'RS256');
-            const { payload } = yield jwtVerify(token, rsaPublicKey, {
-                issuer: "Printess GmbH & Co.KG",
-                audience: "printess-saas"
-            });
-            if (payload.role) {
-                if (typeof payload.role === "string") {
-                    if (payload.role === "admin") {
-                        adm.canUseAdminMode = true;
-                    }
-                }
-                else {
-                    const roles = payload.role;
-                    roles.forEach(role => {
-                        if (role === "admin") {
-                            adm.canUseAdminMode = true;
-                        }
-                    });
-                }
-            }
-        }
-        catch (error) {
-            console.error(error);
-        }
-        if (adm.canUseAdminMode) {
-            adm.useAdminMode = true;
-        }
-    });
-}
-function printessLogin(user) {
-    return __awaiter(this, void 0, void 0, function* () {
-        const authToken = yield user.getIdToken();
-        const apiResponse = yield api.loginWithGoogleAuthToken(authToken);
-        if (apiResponse instanceof ServerErrorResponse) {
-            alert(apiResponse.message);
-            setDisplay("loginPage", "");
-        }
-        else {
             setDisplay("loginPage", "none");
-            adminApi.token = apiResponse.token;
-            api.token = apiResponse.token;
-            yield readTokenData(apiResponse.token);
             const controlHost = document.getElementById('userAccount');
             controlHost === null || controlHost === void 0 ? void 0 : controlHost.append(wcAppLayout);
             const head = document.getElementsByTagName('head')[0];
@@ -11373,8 +3614,11 @@ function printessLogin(user) {
             s.appendChild(document.createTextNode(masterStyles.toString()));
             head.appendChild(s);
         }
+        else {
+            setDisplay("loginPage", "");
+        }
     });
-}
+});
 const logoutFunc = () => {
     (() => __awaiter(void 0, void 0, void 0, function* () {
         yield firebase.auth().signOut();
@@ -11396,4 +3640,4 @@ const logoutFunc = () => {
     }
 });
 
-export { adm, api, apiEndpoint, currentUser, logoutFunc };
+export { appUser, logoutFunc };

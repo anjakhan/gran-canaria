@@ -2607,7 +2607,7 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 let WcAppLayout = class WcAppLayout extends h {
     constructor() {
         super(...arguments);
-        this.selectedDrawer = 'map';
+        this.selectedDrawer = 'foto-preview';
     }
     static get styles() {
         return [layoutStyles, navbarStyles];

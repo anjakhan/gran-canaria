@@ -15,7 +15,7 @@ import { WcFuerteMapPage } from "../../pages/fuerte-map/WcFuerteMapPage";
 
 @customElement("wc-app-layout")
 export class WcAppLayout extends LitElement {
-    @property({ type: String }) selectedDrawer: string = 'map';
+    @property({ type: String }) selectedDrawer: string = 'foto-preview';
 
     static get styles() {
         return [layoutStyles, navbarStyles];

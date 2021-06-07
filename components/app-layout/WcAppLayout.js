@@ -18,7 +18,7 @@ import { WcFuerteMapPage } from "../../pages/fuerte-map/WcFuerteMapPage";
 let WcAppLayout = class WcAppLayout extends LitElement {
     constructor() {
         super(...arguments);
-        this.selectedDrawer = 'map';
+        this.selectedDrawer = 'foto-preview';
     }
     static get styles() {
         return [layoutStyles, navbarStyles];

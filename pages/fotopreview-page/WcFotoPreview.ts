@@ -35,7 +35,7 @@ export class WcFotoPreview extends LitElement {
       console.log(error);
     }
     this.fotos = fotos;
-    console.log(this.fotos)
+    console.log(this.fotos);
   };
 
   renderFotostory() {
@@ -83,7 +83,7 @@ export class WcFotoPreview extends LitElement {
 
   render(): TemplateResult {
     return html`
-      <div class="welcome-page">
+      <div class="calendar-container">
         <!-- <div class="header">
           <wc-icon primaryColor="aqua" icon="camera-retro-duotone" style="height: 35px; width: 35px; margin-right: 15px;"></wc-icon>
           <h1 class="title"> Sonnige Grüße von der Insel</h1>

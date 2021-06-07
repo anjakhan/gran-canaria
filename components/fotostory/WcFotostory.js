@@ -32,7 +32,7 @@ let WcFotostory = class WcFotostory extends LitElement {
       </div>
     ` : html `
       <div style="margin-top: 50px;">
-        <lottie-player src="https://assets1.lottiefiles.com/packages/lf20_ORPnX5.json"  background="transparent"  speed="1"  style="width: 500px; height: 500px;"  loop  autoplay></lottie-player>
+        <lottie-player class="lottie" src="https://assets1.lottiefiles.com/packages/lf20_ORPnX5.json"  background="transparent"  speed="1"  loop  autoplay></lottie-player>
       </div>`}      
     `;
     }

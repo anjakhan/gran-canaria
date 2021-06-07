@@ -29,6 +29,11 @@ export const fotostoryStyles: CSSResultGroup = css`
     margin: 20px;
   }
 
+  .lottie {
+    width: 500px;
+    height: 500px;
+  }
+
   @media (max-width: ${config.mobileDeviceWidth}px) {
     .title {
       margin-bottom: 0;
@@ -42,6 +47,10 @@ export const fotostoryStyles: CSSResultGroup = css`
       width: 100%;
       height: auto;
       margin: 10px;
+    }
+
+    .lottie {
+      width: 100%;
     }
   }
 `;

@@ -85,6 +85,7 @@ export const createTravelDocument = (traveldoc: FotoUploadDto, images: Array<str
   })
     .then((docRef: any) => {
       console.log("Document written with ID: ", docRef.id);
+      alert('Fotostory created');
       firestore.collection('fuerte').doc(`${docRef.id}`).set({
         id: docRef.id
       }, { merge: true });

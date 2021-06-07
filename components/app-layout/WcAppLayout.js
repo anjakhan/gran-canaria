@@ -14,10 +14,11 @@ import { WcAppDrawer } from "../app-drawer/WcAppDrawer";
 import { WcUploadPage } from "../../pages/fotoupload-page/WcUploadPage";
 import { WcFotoPreview } from "../../pages/fotopreview-page/WcFotoPreview";
 import { WcTraveldetailsPage } from "../../pages/traveldetails-page/WcTraveldetailsPage";
+import { WcFuerteMapPage } from "../../pages/fuerte-map/WcFuerteMapPage";
 let WcAppLayout = class WcAppLayout extends LitElement {
     constructor() {
         super(...arguments);
-        this.selectedDrawer = 'foto-preview';
+        this.selectedDrawer = 'map';
     }
     static get styles() {
         return [layoutStyles, navbarStyles];
@@ -55,8 +56,10 @@ let WcAppLayout = class WcAppLayout extends LitElement {
             case ('trip-details'): return new WcTraveldetailsPage();
             case ('foto-preview'): return new WcFotoPreview();
             case ('upload'): return new WcUploadPage();
+            case ('map'): return new WcFuerteMapPage();
             default: ('welcome');
         }
+        ;
     }
     ;
     userClick(e) {

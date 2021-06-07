@@ -95,7 +95,7 @@ let WcFotoPreview = class WcFotoPreview extends LitElement {
     }
     render() {
         return html `
-      <div class="welcome-page">
+      <div class="calendar-container">
         <!-- <div class="header">
           <wc-icon primaryColor="aqua" icon="camera-retro-duotone" style="height: 35px; width: 35px; margin-right: 15px;"></wc-icon>
           <h1 class="title"> Sonnige Grüße von der Insel</h1>

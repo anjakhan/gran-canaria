@@ -36,7 +36,7 @@ export class WcUploadForm extends LitElement {
       res.items.forEach((imageRef: any) => {
         imageRef.getDownloadURL().then((url: any) => {
           listUrls = [...listUrls, url]
-          console.log(listUrls)
+          console.log(listUrls);
         });
       });
     })
@@ -52,7 +52,7 @@ export class WcUploadForm extends LitElement {
 
     try {
       await this.getPics(foldername)
-      setTimeout(() => createTravelDocument(this.state, this.images), 3000);
+      setTimeout(() => createTravelDocument(this.state, this.images), 30000);
 
     } catch (error) {
       console.log(error);

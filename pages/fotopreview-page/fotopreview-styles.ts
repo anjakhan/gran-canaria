@@ -2,7 +2,7 @@ import { css, CSSResultGroup } from 'lit';
 import { config } from '../../config';
 
 export const fotoPreviewStyles: CSSResultGroup = css`
-  .welcome-page {
+  .calendar-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -125,6 +125,7 @@ export const fotoPreviewStyles: CSSResultGroup = css`
 
   @media (max-width: ${config.mobileDeviceWidth}px) {
     .foto-calendar {
+      margin-top: 40px;
       width: 100%;
     }
 

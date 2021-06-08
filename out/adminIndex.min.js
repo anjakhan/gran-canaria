@@ -889,7 +889,7 @@ svg.color-head-toolbar:hover {
           </div>
         </div>
       </div>
-    `}};WcTraveldetailsPage=__decorate$2([n$1("wc-traveldetails-page")],WcTraveldetailsPage);const L=window.L,createMap=t=>{const e=L.map(t).setView([28.378412972969333,-14.015175194361001],10);L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}).addTo(e),L.marker([28.173903183892257,-14.224354511395132]).addTo(e)},mapStyles=r$1`
+    `}};WcTraveldetailsPage=__decorate$2([n$1("wc-traveldetails-page")],WcTraveldetailsPage);const L=window.L,createMap=t=>{const e=config.isMobile?9:10,r=L.map(t).setView([28.378412972969333,-14.015175194361001],e);L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}).addTo(r),L.marker([28.173903183892257,-14.224354511395132]).addTo(r)},mapStyles=r$1`
   .leaflet-map-pane {
     position: absolute;
     top: 0;
@@ -900,6 +900,12 @@ svg.color-head-toolbar:hover {
 
   img {
     position: absolute;
+  }
+
+  @media (max-width: ${config.mobileDeviceWidth}px) {
+    #mapid {
+      height: 100vh!important;
+    }
   }
 `;var __decorate$1=function(t,e,r,o){var s,a=arguments.length,i=a<3?e:null===o?o=Object.getOwnPropertyDescriptor(e,r):o;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)i=Reflect.decorate(t,e,r,o);else for(var n=t.length-1;n>=0;n--)(s=t[n])&&(i=(a<3?s(i):a>3?s(e,r,i):s(e,r))||i);return a>3&&i&&Object.defineProperty(e,r,i),i};let WcFuerteMapPage=class extends h{static get styles(){return[mapStyles]}renderMap(){var t;const e=document.createElement("div");e.setAttribute("id","mapid"),e.style.height="100%",e.style.width="130%",null===(t=this.shadowRoot)||void 0===t||t.append(e),createMap(e)}render(){return T`
         ${this.renderMap()}

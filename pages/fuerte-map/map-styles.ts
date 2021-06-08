@@ -1,4 +1,5 @@
 import { css, CSSResultGroup } from 'lit';
+import { config } from '../../config';
 
 export const mapStyles: CSSResultGroup = css`
   .leaflet-map-pane {
@@ -11,5 +12,11 @@ export const mapStyles: CSSResultGroup = css`
 
   img {
     position: absolute;
+  }
+
+  @media (max-width: ${config.mobileDeviceWidth}px) {
+    #mapid {
+      height: 100vh!important;
+    }
   }
 `;

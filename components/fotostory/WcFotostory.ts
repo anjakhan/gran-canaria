@@ -22,7 +22,7 @@ export class WcFotostory extends LitElement {
     ${this.fotostory ? html`
       <div class="fotostory-container">
         <h1 class="title">${this.fotostory.headline}</h1>
-        ${this.fotostory.story ? html`<p style="text-align: justify;">${this.fotostory.story}</p>` : ''}
+        ${this.fotostory.story.map((story: string) => html`<p style="text-align: justify;">${story}</p>`)}
         <div class="image-container">
           ${this.fotostory.images?.map((img: string) => html`<img src=${img} alt="fuerte">`)}
         </div>

@@ -1651,7 +1651,7 @@ class UploadNobs extends NobsBase {
             const model = nobs_or_dto;
             this.id = "";
             this.headline = (_a = model.headline) !== null && _a !== void 0 ? _a : "";
-            this.story = (_b = model.story) !== null && _b !== void 0 ? _b : "";
+            this.story = (_b = model.story) !== null && _b !== void 0 ? _b : [];
             this.date = (_c = model.date) !== null && _c !== void 0 ? _c : new Date();
             this.location = (_d = model.location) !== null && _d !== void 0 ? _d : [];
             this.foldername = (_e = model.foldername) !== null && _e !== void 0 ? _e : "";
@@ -2072,7 +2072,7 @@ let WcFotostory = class WcFotostory extends h {
     ${this.fotostory ? T `
       <div class="fotostory-container">
         <h1 class="title">${this.fotostory.headline}</h1>
-        ${this.fotostory.story ? T `<p style="text-align: justify;">${this.fotostory.story}</p>` : ''}
+        ${this.fotostory.story.map((story) => T `<p style="text-align: justify;">${story}</p>`)}
         <div class="image-container">
           ${(_a = this.fotostory.images) === null || _a === void 0 ? void 0 : _a.map((img) => T `<img src=${img} alt="fuerte">`)}
         </div>

@@ -3,7 +3,7 @@ import { Nobs, NobsBase } from "../../classes/helpers/Nobs";
 export type FotoUploadDto = {
   id: string
   headline: string;
-  story: string;
+  story: Array<string>;
   date: Date;
   location: Array<string>;
   foldername: string;
@@ -13,7 +13,7 @@ export type FotoUploadDto = {
 export class UploadNobs extends NobsBase {
   readonly id: string
   readonly headline: string
-  readonly story: string
+  readonly story: Array<string>
   readonly date: Date
   readonly location: Array<string>
   readonly foldername: string
@@ -27,7 +27,7 @@ export class UploadNobs extends NobsBase {
       const model: Partial<FotoUploadDto> = nobs_or_dto;
       this.id = "";
       this.headline = model.headline ?? "";
-      this.story = model.story ?? "";
+      this.story = model.story ?? [];
       this.date = model.date ?? new Date();
       this.location = model.location ?? [];
       this.foldername = model.foldername ?? "";

@@ -25,12 +25,14 @@ let WcFotostory = class WcFotostory extends LitElement {
     }
     ;
     getPics(foldername) {
+        let urlList = [];
         fetch(`https://api.github.com/repos/anjakhan/fuerteventura/contents/assets/${foldername}`)
             .then(response => response.json())
             .then(data => {
-            data.forEach((foto) => this.images.push(foto.download_url));
+            data.forEach((foto) => urlList.push(foto.download_url));
         })
             .catch(error => console.error(error));
+        setTimeout(() => this.images = urlList, 2000);
     }
     ;
     renderImage(idx) {

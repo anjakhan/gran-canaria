@@ -77,19 +77,6 @@ export const navbarStyles: CSSResultGroup = css`
     align-items: center;
     box-shadow: var(--fuerte-box-shadow);
   }
-  header::before {
-    content: "";
-    position: absolute;
-    top: 0px;
-    right: 0px;
-    bottom: 0px;
-    left: 0px;
-    background-image: url("https://firebasestorage.googleapis.com/v0/b/fuerteventura-d4e75.appspot.com/o/fuerteventura_551.jpeg?alt=media&token=5660bdc4-9f90-4a28-9898-f2865ef4ac60");
-    opacity: 0.2;
-    background-repeat: no-repeat;
-    background-size: cover;
-    z-index: 1;
-  }
 
   .island {
     width: 20px;

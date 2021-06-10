@@ -27,12 +27,14 @@ export class WcFotostory extends LitElement {
   };
 
   getPics(foldername: string) {
+    let urlList: Array<string> = [];
     fetch(`https://api.github.com/repos/anjakhan/fuerteventura/contents/assets/${foldername}`)
       .then(response => response.json())
       .then(data => {
-        data.forEach((foto: { download_url: string }) => this.images.push(foto.download_url)) // Prints result from `response.json()` in getRequest
+        data.forEach((foto: { download_url: string }) => urlList.push(foto.download_url)) // Prints result from `response.json()` in getRequest
       })
       .catch(error => console.error(error))
+    setTimeout(() => this.images = urlList, 2000);
   };
 
   renderImage(idx: number) {

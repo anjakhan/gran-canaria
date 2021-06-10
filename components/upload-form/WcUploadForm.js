@@ -63,7 +63,7 @@ let WcUploadForm = class WcUploadForm extends LitElement {
             const foldername = this.state.date + '_' + this.state.foldername;
             try {
                 yield this.getPics(foldername);
-                setTimeout(() => createTravelDocument(this.state, this.images), 30000);
+                setTimeout(() => createTravelDocument(this.state, this.images), 60000);
             }
             catch (error) {
                 console.log(error);

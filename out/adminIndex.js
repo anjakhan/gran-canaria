@@ -1912,7 +1912,7 @@ let WcUploadForm = class WcUploadForm extends h {
             const foldername = this.state.date + '_' + this.state.foldername;
             try {
                 yield this.getPics(foldername);
-                setTimeout(() => createTravelDocument(this.state, this.images), 30000);
+                setTimeout(() => createTravelDocument(this.state, this.images), 60000);
             }
             catch (error) {
                 console.log(error);
@@ -2072,7 +2072,7 @@ let WcFotostory = class WcFotostory extends h {
     ${this.fotostory ? T `
       <div class="fotostory-container">
         <h1 class="title">${this.fotostory.headline}</h1>
-        ${this.fotostory.story ? T `<p>${this.fotostory.story}</p>` : ''}
+        ${this.fotostory.story ? T `<p style="text-align: justify;">${this.fotostory.story}</p>` : ''}
         <div class="image-container">
           ${(_a = this.fotostory.images) === null || _a === void 0 ? void 0 : _a.map((img) => T `<img src=${img} alt="fuerte">`)}
         </div>
@@ -2544,10 +2544,15 @@ const L = window.L;
 const createMap = (mapid) => {
     const zoom = config.isMobile ? 9 : 10;
     const map = L.map(mapid).setView([28.378412972969333, -14.015175194361001], zoom);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+        attribution: '&copy;<a href="http://www.esri.com/">Esri</a>i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
+        maxZoom: 18,
     }).addTo(map);
     L.marker([28.173903183892257, -14.224354511395132]).addTo(map);
+    L.marker([28.219257523446036, -14.221378929709454]).addTo(map);
+    L.marker([28.421440804718152, -13.853181596486714]).addTo(map);
+    L.marker([28.05377973446309, -14.323536843021353]).addTo(map);
+    L.marker([28.05291287531432, -14.320408750097652]).addTo(map);
 };
 
 const mapStyles = r$1 `
@@ -2561,6 +2566,38 @@ const mapStyles = r$1 `
 
   img {
     position: absolute;
+  }
+  .leaflet-control-container {
+    position: fixed;
+    bottom: 10px;
+    right: 20px;
+    padding: 10px 20px;
+    z-index: 10;
+    font-size: 10px;
+    color: white;
+  }
+
+  .leaflet-control-container a {
+    color: var(--fuerte-aqua);
+  }
+
+  .leaflet-control-zoom-out, .leaflet-control-zoom-in {
+    position: fixed;
+    background-color: white;
+    border-radius: 4px;
+    color: #555;
+    padding: 5px 7px;
+    top: 70;
+    right: 30;
+    text-decoration: none;
+  }
+
+  .leaflet-control-zoom-out a, .leaflet-control-zoom-in a {
+    color: #555;
+  }
+
+  .leaflet-control-zoom-in {
+    right: 55px;
   }
 
   @media (max-width: ${config.mobileDeviceWidth}px) {

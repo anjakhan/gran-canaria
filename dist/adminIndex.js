@@ -478,7 +478,7 @@ svg.color-head-toolbar:hover {
     letter-spacing: 1.2px;
     cursor: pointer;
   }
-`;var __decorate$6=function(t,e,r,o){var s,a=arguments.length,i=a<3?e:null===o?o=Object.getOwnPropertyDescriptor(e,r):o;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)i=Reflect.decorate(t,e,r,o);else for(var n=t.length-1;n>=0;n--)(s=t[n])&&(i=(a<3?s(i):a>3?s(e,r,i):s(e,r))||i);return a>3&&i&&Object.defineProperty(e,r,i),i},__awaiter$2=function(t,e,r,o){return new(r||(r=Promise))((function(s,a){function i(t){try{c(o.next(t))}catch(t){a(t)}}function n(t){try{c(o.throw(t))}catch(t){a(t)}}function c(t){var e;t.done?s(t.value):(e=t.value,e instanceof r?e:new r((function(t){t(e)}))).then(i,n)}c((o=o.apply(t,e||[])).next())}))};let WcUploadForm=class extends h{constructor(){super(...arguments),this.images=[]}static get styles(){return[formStyles]}setState(t){this.state=new UploadNobs(t,this.state)}connectedCallback(){super.connectedCallback();const t=new Nobs;t.setProperty(this.state,"id",""),this.setState(t)}getPics(t){let e=[];firebase.storage().ref(t).listAll().then((function(t){t.items.forEach((t=>{t.getDownloadURL().then((t=>{e=[...e,t],console.log(e)}))}))})).catch((function(t){console.log(t)})),setTimeout((()=>this.images=e),2e3)}handleSubmit(t){return __awaiter$2(this,void 0,void 0,(function*(){t.preventDefault();const e=this.state.date+"_"+this.state.foldername;try{yield this.getPics(e),setTimeout((()=>createTravelDocument(this.state,this.images)),3e4)}catch(t){console.log(t)}}))}handleChange(t){const e=new Nobs,r=t.target.name,o=t.target.value;e.setProperty(this.state,r,o),this.setState(e)}handleLocation(t){const e=new Nobs,r=t.target.name,o=t.target.value.split(",");e.setProperty(this.state,r,o),this.setState(e)}renderFileLoader(){const t=this.state?this.state.foldername:"",e=this.state?this.state.date:"";return new WcUploadFotos(t,e)}render(){return T`
+`;var __decorate$6=function(t,e,r,o){var s,a=arguments.length,i=a<3?e:null===o?o=Object.getOwnPropertyDescriptor(e,r):o;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)i=Reflect.decorate(t,e,r,o);else for(var n=t.length-1;n>=0;n--)(s=t[n])&&(i=(a<3?s(i):a>3?s(e,r,i):s(e,r))||i);return a>3&&i&&Object.defineProperty(e,r,i),i},__awaiter$2=function(t,e,r,o){return new(r||(r=Promise))((function(s,a){function i(t){try{c(o.next(t))}catch(t){a(t)}}function n(t){try{c(o.throw(t))}catch(t){a(t)}}function c(t){var e;t.done?s(t.value):(e=t.value,e instanceof r?e:new r((function(t){t(e)}))).then(i,n)}c((o=o.apply(t,e||[])).next())}))};let WcUploadForm=class extends h{constructor(){super(...arguments),this.images=[]}static get styles(){return[formStyles]}setState(t){this.state=new UploadNobs(t,this.state)}connectedCallback(){super.connectedCallback();const t=new Nobs;t.setProperty(this.state,"id",""),this.setState(t)}getPics(t){let e=[];firebase.storage().ref(t).listAll().then((function(t){t.items.forEach((t=>{t.getDownloadURL().then((t=>{e=[...e,t],console.log(e)}))}))})).catch((function(t){console.log(t)})),setTimeout((()=>this.images=e),2e3)}handleSubmit(t){return __awaiter$2(this,void 0,void 0,(function*(){t.preventDefault();const e=this.state.date+"_"+this.state.foldername;try{yield this.getPics(e),setTimeout((()=>createTravelDocument(this.state,this.images)),6e4)}catch(t){console.log(t)}}))}handleChange(t){const e=new Nobs,r=t.target.name,o=t.target.value;e.setProperty(this.state,r,o),this.setState(e)}handleLocation(t){const e=new Nobs,r=t.target.name,o=t.target.value.split(",");e.setProperty(this.state,r,o),this.setState(e)}renderFileLoader(){const t=this.state?this.state.foldername:"",e=this.state?this.state.date:"";return new WcUploadFotos(t,e)}render(){return T`
       <div class="upload-form">
         <form @submit=${this.handleSubmit}>
           <input name="headline" type="text" placeholder="headline" @change=${this.handleChange} required>
@@ -553,7 +553,7 @@ svg.color-head-toolbar:hover {
     ${this.fotostory?T`
       <div class="fotostory-container">
         <h1 class="title">${this.fotostory.headline}</h1>
-        ${this.fotostory.story?T`<p>${this.fotostory.story}</p>`:""}
+        ${this.fotostory.story?T`<p style="text-align: justify;">${this.fotostory.story}</p>`:""}
         <div class="image-container">
           ${null===(t=this.fotostory.images)||void 0===t?void 0:t.map((t=>T`<img src=${t} alt="fuerte">`))}
         </div>
@@ -889,7 +889,7 @@ svg.color-head-toolbar:hover {
           </div>
         </div>
       </div>
-    `}};WcTraveldetailsPage=__decorate$2([n$1("wc-traveldetails-page")],WcTraveldetailsPage);const L=window.L,createMap=t=>{const e=config.isMobile?9:10,r=L.map(t).setView([28.378412972969333,-14.015175194361001],e);L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}).addTo(r),L.marker([28.173903183892257,-14.224354511395132]).addTo(r)},mapStyles=r$1`
+    `}};WcTraveldetailsPage=__decorate$2([n$1("wc-traveldetails-page")],WcTraveldetailsPage);const L=window.L,createMap=t=>{const e=config.isMobile?9:10,r=L.map(t).setView([28.378412972969333,-14.015175194361001],e);L.tileLayer("http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",{attribution:'&copy;<a href="http://www.esri.com/">Esri</a>i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',maxZoom:18}).addTo(r),L.marker([28.173903183892257,-14.224354511395132]).addTo(r),L.marker([28.219257523446036,-14.221378929709454]).addTo(r),L.marker([28.421440804718152,-13.853181596486714]).addTo(r),L.marker([28.05377973446309,-14.323536843021353]).addTo(r),L.marker([28.05291287531432,-14.320408750097652]).addTo(r)},mapStyles=r$1`
   .leaflet-map-pane {
     position: absolute;
     top: 0;
@@ -900,6 +900,38 @@ svg.color-head-toolbar:hover {
 
   img {
     position: absolute;
+  }
+  .leaflet-control-container {
+    position: fixed;
+    bottom: 10px;
+    right: 20px;
+    padding: 10px 20px;
+    z-index: 10;
+    font-size: 10px;
+    color: white;
+  }
+
+  .leaflet-control-container a {
+    color: var(--fuerte-aqua);
+  }
+
+  .leaflet-control-zoom-out, .leaflet-control-zoom-in {
+    position: fixed;
+    background-color: white;
+    border-radius: 4px;
+    color: #555;
+    padding: 5px 7px;
+    top: 70;
+    right: 30;
+    text-decoration: none;
+  }
+
+  .leaflet-control-zoom-out a, .leaflet-control-zoom-in a {
+    color: #555;
+  }
+
+  .leaflet-control-zoom-in {
+    right: 55px;
   }
 
   @media (max-width: ${config.mobileDeviceWidth}px) {

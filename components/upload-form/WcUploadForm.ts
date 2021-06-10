@@ -52,7 +52,7 @@ export class WcUploadForm extends LitElement {
 
     try {
       await this.getPics(foldername)
-      setTimeout(() => createTravelDocument(this.state, this.images), 30000);
+      setTimeout(() => createTravelDocument(this.state, this.images), 60000);
 
     } catch (error) {
       console.log(error);

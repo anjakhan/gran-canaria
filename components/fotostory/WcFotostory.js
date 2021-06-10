@@ -23,7 +23,7 @@ let WcFotostory = class WcFotostory extends LitElement {
     ${this.fotostory ? html `
       <div class="fotostory-container">
         <h1 class="title">${this.fotostory.headline}</h1>
-        ${this.fotostory.story ? html `<p>${this.fotostory.story}</p>` : ''}
+        ${this.fotostory.story ? html `<p style="text-align: justify;">${this.fotostory.story}</p>` : ''}
         <div class="image-container">
           ${(_a = this.fotostory.images) === null || _a === void 0 ? void 0 : _a.map((img) => html `<img src=${img} alt="fuerte">`)}
         </div>

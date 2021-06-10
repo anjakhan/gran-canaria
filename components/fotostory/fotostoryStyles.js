@@ -26,6 +26,7 @@ export const fotostoryStyles = css `
     height: 250px;
     box-shadow: var(--fuerte-box-shadow);
     margin: 20px;
+    cursor: pointer;
   }
 
   .lottie {
@@ -46,6 +47,7 @@ export const fotostoryStyles = css `
       width: 100%;
       height: auto;
       margin: 10px;
+      cursor: default;
     }
 
     .lottie {

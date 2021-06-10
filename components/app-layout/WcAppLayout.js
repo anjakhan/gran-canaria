@@ -15,10 +15,11 @@ import { WcUploadPage } from "../../pages/fotoupload-page/WcUploadPage";
 import { WcFotoPreview } from "../../pages/fotopreview-page/WcFotoPreview";
 import { WcTraveldetailsPage } from "../../pages/traveldetails-page/WcTraveldetailsPage";
 import { WcFuerteMapPage } from "../../pages/fuerte-map/WcFuerteMapPage";
+import { WcLatestStory } from "../../pages/latest-story/WcLatestStory";
 let WcAppLayout = class WcAppLayout extends LitElement {
     constructor() {
         super(...arguments);
-        this.selectedDrawer = 'foto-preview';
+        this.selectedDrawer = 'latest-story';
     }
     static get styles() {
         return [layoutStyles, navbarStyles];
@@ -53,6 +54,7 @@ let WcAppLayout = class WcAppLayout extends LitElement {
     ;
     getUserContent() {
         switch (this.selectedDrawer) {
+            case ('latest-story'): return new WcLatestStory();
             case ('trip-details'): return new WcTraveldetailsPage();
             case ('foto-preview'): return new WcFotoPreview();
             case ('upload'): return new WcUploadPage();

@@ -73,15 +73,14 @@ export async function signinUser(email: string, password: string) {
   }
 };
 
-export const createTravelDocument = (traveldoc: FotoUploadDto, images: Array<string>) => {
+export const createTravelDocument = (traveldoc: FotoUploadDto) => {
   firestore.collection("fuerte").add({
     id: '',
     headline: traveldoc.headline ?? '',
     story: traveldoc.story || '',
     foldername: traveldoc.date + '_' + traveldoc.foldername,
     date: traveldoc.date,
-    location: traveldoc.location,
-    images: images
+    location: traveldoc.location
   })
     .then((docRef: any) => {
       console.log("Document written with ID: ", docRef.id);

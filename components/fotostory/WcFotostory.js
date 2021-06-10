@@ -6,6 +6,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 import { LitElement, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
+import { firebase } from "../../code/firebase";
+import { config } from "../../config";
+import { WcDialogImage } from "../dialogs/WcDialogImages";
 import { fotostoryStyles } from "./fotostoryStyles";
 let WcFotostory = class WcFotostory extends LitElement {
     constructor(fotostory) {
@@ -17,21 +20,46 @@ let WcFotostory = class WcFotostory extends LitElement {
     }
     ;
     ;
+    connectedCallback() {
+        super.connectedCallback();
+        this.fotostory && this.getPics(this.fotostory.foldername);
+    }
+    ;
+    getPics(foldername) {
+        let listUrls = [];
+        let storageRef = firebase.storage().ref(foldername);
+        storageRef.listAll().then(function (res) {
+            res.items.forEach((imageRef) => {
+                imageRef.getDownloadURL().then((url) => {
+                    listUrls = [...listUrls, url];
+                });
+            });
+        })
+            .catch(function (error) {
+            console.log(error);
+        });
+        setTimeout(() => this.images = listUrls, 2000);
+    }
+    ;
+    renderImage(idx) {
+        const td = new WcDialogImage(idx, this.images);
+        td.showDialog();
+    }
+    ;
     render() {
-        var _a;
         return html `
     ${this.fotostory ? html `
       <div class="fotostory-container">
         <h1 class="title">${this.fotostory.headline}</h1>
         ${this.fotostory.story.map((story) => html `<p style="text-align: justify;">${story}</p>`)}
         <div class="image-container">
-          ${(_a = this.fotostory.images) === null || _a === void 0 ? void 0 : _a.map((img) => html `<img src=${img} alt="fuerte">`)}
+          ${this.images && this.images.length > 0 ? this.images.sort((a, b) => a < b ? -1 : 1).map((img, idx) => html `<img @click=${() => !config.isMobile && this.renderImage(idx)} src=${img} alt="fuerte">`) : html `<lottie-player class="lottie" src="https://assets9.lottiefiles.com/packages/lf20_mg67wxfu.json"  background="transparent"  speed="1"  loop  autoplay></lottie-player>`}
         </div>
         
         
       </div>
     ` : html `
-      <div style="margin-top: 50px;">
+      <div style="display: flex; justify-content: center; align-items: center; margin-top: 50px;">
         <lottie-player class="lottie" src="https://assets1.lottiefiles.com/packages/lf20_ORPnX5.json"  background="transparent"  speed="1"  loop  autoplay></lottie-player>
       </div>`}      
     `;
@@ -41,6 +69,9 @@ let WcFotostory = class WcFotostory extends LitElement {
 __decorate([
     property({ type: Object })
 ], WcFotostory.prototype, "fotostory", void 0);
+__decorate([
+    property({ type: Array })
+], WcFotostory.prototype, "images", void 0);
 WcFotostory = __decorate([
     customElement("wc-fotostory")
 ], WcFotostory);

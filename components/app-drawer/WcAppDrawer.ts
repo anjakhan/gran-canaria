@@ -21,9 +21,13 @@ export class WcAppDrawer extends LitElement {
   callback: callbackType | undefined;
 
   drawers: Array<{ name: string, title: string, icon: iconName }> = [{
-    name: 'foto-preview',
+    name: 'latest-story',
     title: 'Fotos',
     icon: 'camera-retro-duotone'
+  }, {
+    name: 'foto-preview',
+    title: 'Kalender',
+    icon: 'calendar-alt'
   }, {
     name: 'map',
     title: 'Karte',

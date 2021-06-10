@@ -12,10 +12,11 @@ import { WcUploadPage } from "../../pages/fotoupload-page/WcUploadPage";
 import { WcFotoPreview } from "../../pages/fotopreview-page/WcFotoPreview";
 import { WcTraveldetailsPage } from "../../pages/traveldetails-page/WcTraveldetailsPage";
 import { WcFuerteMapPage } from "../../pages/fuerte-map/WcFuerteMapPage";
+import { WcLatestStory } from "../../pages/latest-story/WcLatestStory";
 
 @customElement("wc-app-layout")
 export class WcAppLayout extends LitElement {
-    @property({ type: String }) selectedDrawer: string = 'foto-preview';
+    @property({ type: String }) selectedDrawer: string = 'latest-story';
 
     static get styles() {
         return [layoutStyles, navbarStyles];
@@ -50,6 +51,7 @@ export class WcAppLayout extends LitElement {
 
     getUserContent(): LitElement | TemplateResult | void {
         switch (this.selectedDrawer) {
+            case ('latest-story'): return new WcLatestStory();
             case ('trip-details'): return new WcTraveldetailsPage();
             case ('foto-preview'): return new WcFotoPreview();
             case ('upload'): return new WcUploadPage();

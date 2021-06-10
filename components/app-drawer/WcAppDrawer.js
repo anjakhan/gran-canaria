@@ -16,9 +16,13 @@ let WcAppDrawer = class WcAppDrawer extends LitElement {
         this.selectedDrawer = '';
         this.drawerOpen = false;
         this.drawers = [{
-                name: 'foto-preview',
+                name: 'latest-story',
                 title: 'Fotos',
                 icon: 'camera-retro-duotone'
+            }, {
+                name: 'foto-preview',
+                title: 'Kalender',
+                icon: 'calendar-alt'
             }, {
                 name: 'map',
                 title: 'Karte',

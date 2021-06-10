@@ -1,7 +1,7 @@
 import { LitElement, html, TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { Nobs } from "../../classes/helpers/Nobs";
-import { createTravelDocument, firebase } from "../../code/firebase";
+import { createTravelDocument } from "../../code/firebase";
 import { UploadNobs } from "../../code/nobs/UploadNobs";
 import { WcUploadFotos } from "../upload-fotos/WcUploadFotos";
 import { formStyles } from "./form-styles";
@@ -13,7 +13,6 @@ export class WcUploadForm extends LitElement {
   };
 
   @property({ type: Object }) state: UploadNobs;
-  @property({ type: Object }) images: any = [];
 
   setState(nobs: Nobs): void {
     this.state = new UploadNobs(nobs, this.state);
@@ -27,32 +26,11 @@ export class WcUploadForm extends LitElement {
 
   };
 
-  getPics(foldername: string) {
-    let listUrls: Array<string> = [];
-    let storageRef = firebase.storage().ref(foldername);
-    //2.
-    storageRef.listAll().then(function (res: any) {
-      //3.
-      res.items.forEach((imageRef: any) => {
-        imageRef.getDownloadURL().then((url: any) => {
-          listUrls = [...listUrls, url]
-          console.log(listUrls);
-        });
-      });
-    })
-      .catch(function (error: string) {
-        console.log(error);
-      });
-    setTimeout(() => this.images = listUrls, 2000)
-  };
-
   async handleSubmit(e: any) {
     e.preventDefault();
-    const foldername = this.state.date + '_' + this.state.foldername;
 
     try {
-      await this.getPics(foldername)
-      setTimeout(() => createTravelDocument(this.state, this.images), 60000);
+      await createTravelDocument(this.state);
 
     } catch (error) {
       console.log(error);
@@ -63,6 +41,15 @@ export class WcUploadForm extends LitElement {
     const nobs = new Nobs();
     const name = e.target.name;
     const value = e.target.value;
+
+    nobs.setProperty(this.state, name, value);
+    this.setState(nobs);
+  };
+
+  handleStory(e: { target: HTMLInputElement }): void {
+    const nobs = new Nobs();
+    const name = e.target.name;
+    const value = e.target.value.split('_b');
 
     nobs.setProperty(this.state, name, value);
     this.setState(nobs);
@@ -88,7 +75,7 @@ export class WcUploadForm extends LitElement {
       <div class="upload-form">
         <form @submit=${this.handleSubmit}>
           <input name="headline" type="text" placeholder="headline" @change=${this.handleChange} required>
-          <textarea name="story" placeholder="story about the day ..." @change=${this.handleChange}></textarea>
+          <textarea name="story" placeholder="story about the day ..." @change=${this.handleStory}></textarea>
           <input name="date" type="date" @change=${this.handleChange} required>
           <input name="location" type="text" placeholder="location" @change=${this.handleLocation} required>
           <input name="foldername" type="text" placeholder="folder name" @change=${this.handleChange} required>

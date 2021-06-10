@@ -35,10 +35,10 @@ let WcDialogImage = class WcDialogImage extends LitElement {
       <div class="modal">
       
         <div class="modal-wrapper">
-          <wc-icon class="close-button" primaryColor="arrows" icon="close" @click=${() => this.closeDialog()}></wc-icon>
-          <wc-icon class="prev" primaryColor="arrows" icon="chevron-left" @click=${() => this.idx > 0 && this.idx--}></wc-icon>
+          <wc-icon class="close-button" primaryColor="island" icon="close" @click=${() => this.closeDialog()}></wc-icon>
+          <wc-icon class="prev" primaryColor="island" icon="chevron-left" @click=${() => this.idx > 0 && this.idx--}></wc-icon>
           <img src=${this.images[this.idx]} alt="fuerte">
-          <wc-icon class="next" primaryColor="arrows" icon="chevron-right" @click=${() => this.idx < this.images.length - 1 && this.idx++}></wc-icon>
+          <wc-icon class="next" primaryColor="island" icon="chevron-right" @click=${() => this.idx < this.images.length - 1 && this.idx++}></wc-icon>
         </div>
 
       </div>

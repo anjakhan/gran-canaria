@@ -46,7 +46,7 @@ export class WcFotostory extends LitElement {
     return html`
     ${this.fotostory ? html`
       <div class="fotostory-container">
-        <h1 class="title">${this.fotostory.headline}</h1>
+        <h1 class="title">${this.fotostory.date} - ${this.fotostory.headline}</h1>
         ${this.fotostory.story.map((story: string) => html`<p style="text-align: justify;">${story}</p>`)}
         <div class="image-container">
           ${this.images && this.images.length > 0 ? this.images.sort((a: any, b: any) => a < b ? -1 : 1).map((img: string, idx: number) => html`<img @click=${() => !config.isMobile && this.renderImage(idx)} src=${img} alt="fuerte">`) : html`<lottie-player class="lottie" src="https://assets9.lottiefiles.com/packages/lf20_mg67wxfu.json"  background="transparent"  speed="1"  loop  autoplay></lottie-player>`}

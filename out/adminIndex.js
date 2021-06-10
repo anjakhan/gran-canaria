@@ -1,4 +1,4 @@
-var __awaiter$3 = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+var __awaiter$4 = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -41,7 +41,7 @@ const checkErrorCode = (errorCode) => {
     }
 };
 function signinWithGoogle() {
-    return __awaiter$3(this, void 0, void 0, function* () {
+    return __awaiter$4(this, void 0, void 0, function* () {
         const provider = new firebase.auth.GoogleAuthProvider();
         provider.setCustomParameters({ prompt: 'select_account' });
         try {
@@ -56,7 +56,7 @@ function signinWithGoogle() {
     });
 }
 function signinUser(email, password) {
-    return __awaiter$3(this, void 0, void 0, function* () {
+    return __awaiter$4(this, void 0, void 0, function* () {
         try {
             const userCredential = yield firebase.auth().signInWithEmailAndPassword(email, password);
             return userCredential;
@@ -68,7 +68,7 @@ function signinUser(email, password) {
         }
     });
 }
-const createTravelDocument = (traveldoc, images) => {
+const createTravelDocument = (traveldoc) => {
     var _a;
     firestore.collection("fuerte").add({
         id: '',
@@ -76,8 +76,7 @@ const createTravelDocument = (traveldoc, images) => {
         story: traveldoc.story || '',
         foldername: traveldoc.date + '_' + traveldoc.foldername,
         date: traveldoc.date,
-        location: traveldoc.location,
-        images: images
+        location: traveldoc.location
     })
         .then((docRef) => {
         console.log("Document written with ID: ", docRef.id);
@@ -189,7 +188,7 @@ const t={ATTRIBUTE:1,CHILD:2,PROPERTY:3,BOOLEAN_ATTRIBUTE:4,EVENT:5,ELEMENT:6},i
  * SPDX-License-Identifier: BSD-3-Clause
  */class n extends s{constructor(i){if(super(i),this.vt=A,i.type!==t.CHILD)throw Error(this.constructor.directiveName+"() can only be used in child bindings")}render(r){if(r===A)return this.Vt=void 0,this.vt=r;if(r===w)return r;if("string"!=typeof r)throw Error(this.constructor.directiveName+"() called with a non-string value");if(r===this.vt)return this.Vt;this.vt=r;const s=[r];return s.raw=s,this.Vt={_$litType$:this.constructor.resultType,strings:s,values:[]}}}n.directiveName="unsafeHTML",n.resultType=1;const o=i(n);
 
-var __decorate$9 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+var __decorate$c = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
@@ -914,13 +913,13 @@ svg.color-head-toolbar:hover {
         return T `${o(getIcon(this.icon).replace('<svg ', ' <svg class="' + cl + '"'))}`;
     }
 };
-__decorate$9([
+__decorate$c([
     e()
 ], WcIcon.prototype, "primaryColor", void 0);
-__decorate$9([
+__decorate$c([
     e()
 ], WcIcon.prototype, "icon", void 0);
-WcIcon = __decorate$9([
+WcIcon = __decorate$c([
     n$1("wc-icon")
 ], WcIcon);
 
@@ -1282,7 +1281,7 @@ const drawerStyles = r$1 `
   }
 `;
 
-var __decorate$8 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+var __decorate$b = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
@@ -1294,9 +1293,13 @@ let WcAppDrawer = class WcAppDrawer extends h {
         this.selectedDrawer = '';
         this.drawerOpen = false;
         this.drawers = [{
-                name: 'foto-preview',
+                name: 'latest-story',
                 title: 'Fotos',
                 icon: 'camera-retro-duotone'
+            }, {
+                name: 'foto-preview',
+                title: 'Kalender',
+                icon: 'calendar-alt'
             }, {
                 name: 'map',
                 title: 'Karte',
@@ -1347,10 +1350,10 @@ let WcAppDrawer = class WcAppDrawer extends h {
     }
     ;
 };
-__decorate$8([
+__decorate$b([
     e({ type: String })
 ], WcAppDrawer.prototype, "selectedDrawer", void 0);
-WcAppDrawer = __decorate$8([
+WcAppDrawer = __decorate$b([
     n$1("wc-app-drawer")
 ], WcAppDrawer);
 
@@ -1730,7 +1733,7 @@ const fotoUploadStyles = r$1 `
   }
 `;
 
-var __decorate$7 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+var __decorate$a = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
@@ -1787,19 +1790,19 @@ let WcUploadFotos = class WcUploadFotos extends h {
     }
     ;
 };
-__decorate$7([
+__decorate$a([
     e({ type: String })
 ], WcUploadFotos.prototype, "foldername", void 0);
-__decorate$7([
+__decorate$a([
     e({ type: String })
 ], WcUploadFotos.prototype, "date", void 0);
-__decorate$7([
+__decorate$a([
     o$1('.preview')
 ], WcUploadFotos.prototype, "preview", void 0);
-__decorate$7([
+__decorate$a([
     o$1('.file-input')
 ], WcUploadFotos.prototype, "fileInput", void 0);
-WcUploadFotos = __decorate$7([
+WcUploadFotos = __decorate$a([
     n$1("wc-upload-fotos")
 ], WcUploadFotos);
 
@@ -1854,13 +1857,13 @@ const formStyles = r$1 `
   }
 `;
 
-var __decorate$6 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+var __decorate$9 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-var __awaiter$2 = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+var __awaiter$3 = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -1870,10 +1873,6 @@ var __awaiter$2 = (undefined && undefined.__awaiter) || function (thisArg, _argu
     });
 };
 let WcUploadForm = class WcUploadForm extends h {
-    constructor() {
-        super(...arguments);
-        this.images = [];
-    }
     static get styles() {
         return [formStyles];
     }
@@ -1889,30 +1888,11 @@ let WcUploadForm = class WcUploadForm extends h {
         this.setState(nobs);
     }
     ;
-    getPics(foldername) {
-        let listUrls = [];
-        let storageRef = firebase.storage().ref(foldername);
-        storageRef.listAll().then(function (res) {
-            res.items.forEach((imageRef) => {
-                imageRef.getDownloadURL().then((url) => {
-                    listUrls = [...listUrls, url];
-                    console.log(listUrls);
-                });
-            });
-        })
-            .catch(function (error) {
-            console.log(error);
-        });
-        setTimeout(() => this.images = listUrls, 2000);
-    }
-    ;
     handleSubmit(e) {
-        return __awaiter$2(this, void 0, void 0, function* () {
+        return __awaiter$3(this, void 0, void 0, function* () {
             e.preventDefault();
-            const foldername = this.state.date + '_' + this.state.foldername;
             try {
-                yield this.getPics(foldername);
-                setTimeout(() => createTravelDocument(this.state, this.images), 60000);
+                yield createTravelDocument(this.state);
             }
             catch (error) {
                 console.log(error);
@@ -1924,6 +1904,14 @@ let WcUploadForm = class WcUploadForm extends h {
         const nobs = new Nobs();
         const name = e.target.name;
         const value = e.target.value;
+        nobs.setProperty(this.state, name, value);
+        this.setState(nobs);
+    }
+    ;
+    handleStory(e) {
+        const nobs = new Nobs();
+        const name = e.target.name;
+        const value = e.target.value.split('_b');
         nobs.setProperty(this.state, name, value);
         this.setState(nobs);
     }
@@ -1947,7 +1935,7 @@ let WcUploadForm = class WcUploadForm extends h {
       <div class="upload-form">
         <form @submit=${this.handleSubmit}>
           <input name="headline" type="text" placeholder="headline" @change=${this.handleChange} required>
-          <textarea name="story" placeholder="story about the day ..." @change=${this.handleChange}></textarea>
+          <textarea name="story" placeholder="story about the day ..." @change=${this.handleStory}></textarea>
           <input name="date" type="date" @change=${this.handleChange} required>
           <input name="location" type="text" placeholder="location" @change=${this.handleLocation} required>
           <input name="foldername" type="text" placeholder="folder name" @change=${this.handleChange} required>
@@ -1961,17 +1949,14 @@ let WcUploadForm = class WcUploadForm extends h {
     }
     ;
 };
-__decorate$6([
+__decorate$9([
     e({ type: Object })
 ], WcUploadForm.prototype, "state", void 0);
-__decorate$6([
-    e({ type: Object })
-], WcUploadForm.prototype, "images", void 0);
-WcUploadForm = __decorate$6([
+WcUploadForm = __decorate$9([
     n$1("wc-upload-form")
 ], WcUploadForm);
 
-var __decorate$5 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+var __decorate$8 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
@@ -1992,9 +1977,202 @@ let WcUploadPage = class WcUploadPage extends h {
     }
     ;
 };
-WcUploadPage = __decorate$5([
+WcUploadPage = __decorate$8([
     n$1("wc-upload-page")
 ], WcUploadPage);
+
+const dialogStyles = r$1 `
+  .modal {
+    font-family: var(--printess-text-font);
+    color: #555555;
+    display: block;
+    position: fixed;
+    z-index: 100;
+    padding-top: 70px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+  }
+
+  .modal-wrapper {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    background-color: black;
+    margin: auto;
+    height: 80vh;
+    width: 67vw;
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.2), 0px 4px 20px rgba(0,0,0,0.2);
+  }
+
+  .close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 10;
+  }
+
+  .prev {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+  }
+
+  .next {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+  }
+
+  img {
+    width: auto;
+    height: 100%;
+  }
+
+  @media (max-width: ${config.mobileDeviceWidth}px) {
+    .modal {
+      padding-top: 45px;
+    }
+
+    .modal-wrapper {
+      width: 70vmin;
+    }
+  }
+
+  wc-icon {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    margin: 15px 20px;
+  }
+
+  button.submit {
+    width: 100%;
+    padding: 10px;
+    margin-top: 15px;
+    color: white;
+    cursor: pointer;
+    outline: none;
+    border: none;
+    border-radius: 4px;
+    background-color: #e35fbc;
+    font-family: var(--printess-button-font);
+    font-size: 14px;
+    font-weight: 400;
+  }
+`;
+
+var __decorate$7 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+let WcBackdrop = class WcBackdrop extends h {
+    constructor() {
+        super();
+    }
+    ;
+    static get styles() {
+        return r$1 `
+      :host, :host * {
+          box-sizing: border-box;
+      }
+      :host  {
+          position: absolute;
+          left:0;
+          top:0;
+          width: 100vw;
+          height: 100vh;
+          background: rgba(0,0,0,0.5);
+          z-index: 89;
+      }
+    `;
+    }
+    ;
+    cancelMouse(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+    ;
+    connectedCallback() {
+        super.connectedCallback();
+        this.addEventListener("mousedown", this.cancelMouse);
+        this.addEventListener("mouseup", this.cancelMouse);
+        this.addEventListener("mousemove", this.cancelMouse);
+    }
+    ;
+    disconnectedCallback() {
+        this.removeEventListener("mousedown", this.cancelMouse);
+        this.removeEventListener("mouseup", this.cancelMouse);
+        this.removeEventListener("mousemove", this.cancelMouse);
+        super.disconnectedCallback();
+    }
+    ;
+    render() {
+        return T ``;
+    }
+    ;
+};
+WcBackdrop = __decorate$7([
+    n$1("wc-backdrop")
+], WcBackdrop);
+
+var __decorate$6 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+let WcDialogImage = class WcDialogImage extends h {
+    constructor(idx, images) {
+        super();
+        this.backdrop = new WcBackdrop();
+        this.idx = idx;
+        this.images = images;
+    }
+    static get styles() {
+        return [dialogStyles];
+    }
+    ;
+    ;
+    showDialog() {
+        document.body.appendChild(this.backdrop);
+        document.body.appendChild(this);
+    }
+    ;
+    closeDialog() {
+        document.body.removeChild(this.backdrop);
+        document.body.removeChild(this);
+    }
+    ;
+    render() {
+        return T `
+      <div class="modal">
+      
+        <div class="modal-wrapper">
+          <wc-icon class="close-button" primaryColor="arrows" icon="close" @click=${() => this.closeDialog()}></wc-icon>
+          <wc-icon class="prev" primaryColor="arrows" icon="chevron-left" @click=${() => this.idx > 0 && this.idx--}></wc-icon>
+          <img src=${this.images[this.idx]} alt="fuerte">
+          <wc-icon class="next" primaryColor="arrows" icon="chevron-right" @click=${() => this.idx < this.images.length - 1 && this.idx++}></wc-icon>
+        </div>
+
+      </div>
+    `;
+    }
+    ;
+};
+__decorate$6([
+    e({ attribute: false, type: Number })
+], WcDialogImage.prototype, "idx", void 0);
+__decorate$6([
+    e({ attribute: false, type: Array })
+], WcDialogImage.prototype, "images", void 0);
+WcDialogImage = __decorate$6([
+    n$1("wc-dialog-image")
+], WcDialogImage);
 
 const fotostoryStyles = r$1 `
   .fotostory-container {
@@ -2022,6 +2200,7 @@ const fotostoryStyles = r$1 `
     height: 250px;
     box-shadow: var(--fuerte-box-shadow);
     margin: 20px;
+    cursor: pointer;
   }
 
   .lottie {
@@ -2042,6 +2221,7 @@ const fotostoryStyles = r$1 `
       width: 100%;
       height: auto;
       margin: 10px;
+      cursor: default;
     }
 
     .lottie {
@@ -2050,7 +2230,7 @@ const fotostoryStyles = r$1 `
   }
 `;
 
-var __decorate$4 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+var __decorate$5 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
@@ -2066,31 +2246,59 @@ let WcFotostory = class WcFotostory extends h {
     }
     ;
     ;
+    connectedCallback() {
+        super.connectedCallback();
+        this.fotostory && this.getPics(this.fotostory.foldername);
+    }
+    ;
+    getPics(foldername) {
+        let listUrls = [];
+        let storageRef = firebase.storage().ref(foldername);
+        storageRef.listAll().then(function (res) {
+            res.items.forEach((imageRef) => {
+                imageRef.getDownloadURL().then((url) => {
+                    listUrls = [...listUrls, url];
+                });
+            });
+        })
+            .catch(function (error) {
+            console.log(error);
+        });
+        setTimeout(() => this.images = listUrls, 2000);
+    }
+    ;
+    renderImage(idx) {
+        const td = new WcDialogImage(idx, this.images);
+        td.showDialog();
+    }
+    ;
     render() {
-        var _a;
         return T `
     ${this.fotostory ? T `
       <div class="fotostory-container">
         <h1 class="title">${this.fotostory.headline}</h1>
         ${this.fotostory.story.map((story) => T `<p style="text-align: justify;">${story}</p>`)}
         <div class="image-container">
-          ${(_a = this.fotostory.images) === null || _a === void 0 ? void 0 : _a.map((img) => T `<img src=${img} alt="fuerte">`)}
+          ${this.images && this.images.length > 0 ? this.images.sort((a, b) => a < b ? -1 : 1).map((img, idx) => T `<img @click=${() => !config.isMobile && this.renderImage(idx)} src=${img} alt="fuerte">`) : T `<lottie-player class="lottie" src="https://assets9.lottiefiles.com/packages/lf20_mg67wxfu.json"  background="transparent"  speed="1"  loop  autoplay></lottie-player>`}
         </div>
         
         
       </div>
     ` : T `
-      <div style="margin-top: 50px;">
+      <div style="display: flex; justify-content: center; align-items: center; margin-top: 50px;">
         <lottie-player class="lottie" src="https://assets1.lottiefiles.com/packages/lf20_ORPnX5.json"  background="transparent"  speed="1"  loop  autoplay></lottie-player>
       </div>`}      
     `;
     }
     ;
 };
-__decorate$4([
+__decorate$5([
     e({ type: Object })
 ], WcFotostory.prototype, "fotostory", void 0);
-WcFotostory = __decorate$4([
+__decorate$5([
+    e({ type: Array })
+], WcFotostory.prototype, "images", void 0);
+WcFotostory = __decorate$5([
     n$1("wc-fotostory")
 ], WcFotostory);
 
@@ -2281,13 +2489,13 @@ const fotoPreviewStyles = r$1 `
   }
 `;
 
-var __decorate$3 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+var __decorate$4 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-var __awaiter$1 = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+var __awaiter$2 = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -2313,7 +2521,7 @@ let WcFotoPreview = class WcFotoPreview extends h {
     }
     ;
     loadFotos() {
-        return __awaiter$1(this, void 0, void 0, function* () {
+        return __awaiter$2(this, void 0, void 0, function* () {
             const fotos = [];
             try {
                 yield getTravelDocs()
@@ -2415,22 +2623,22 @@ let WcFotoPreview = class WcFotoPreview extends h {
     }
     ;
 };
-__decorate$3([
+__decorate$4([
     e({ type: Array })
 ], WcFotoPreview.prototype, "fotos", void 0);
-__decorate$3([
+__decorate$4([
     e({ type: Object })
 ], WcFotoPreview.prototype, "fotostory", void 0);
-__decorate$3([
+__decorate$4([
     e({ type: Object })
 ], WcFotoPreview.prototype, "date", void 0);
-__decorate$3([
+__decorate$4([
     e({ type: String })
 ], WcFotoPreview.prototype, "month", void 0);
-__decorate$3([
+__decorate$4([
     e({ type: Boolean })
 ], WcFotoPreview.prototype, "showStory", void 0);
-WcFotoPreview = __decorate$3([
+WcFotoPreview = __decorate$4([
     n$1("wc-foto-preview")
 ], WcFotoPreview);
 
@@ -2497,7 +2705,7 @@ const traveldetailsStyles = r$1 `
   }
 `;
 
-var __decorate$2 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+var __decorate$3 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
@@ -2536,7 +2744,7 @@ let WcTraveldetailsPage = class WcTraveldetailsPage extends h {
     }
     ;
 };
-WcTraveldetailsPage = __decorate$2([
+WcTraveldetailsPage = __decorate$3([
     n$1("wc-traveldetails-page")
 ], WcTraveldetailsPage);
 
@@ -2607,7 +2815,7 @@ const mapStyles = r$1 `
   }
 `;
 
-var __decorate$1 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+var __decorate$2 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
@@ -2635,12 +2843,88 @@ let WcFuerteMapPage = class WcFuerteMapPage extends h {
     }
     ;
 };
-__decorate$1([
+__decorate$2([
     o$1('#mapid')
 ], WcFuerteMapPage.prototype, "mapid", void 0);
-WcFuerteMapPage = __decorate$1([
+WcFuerteMapPage = __decorate$2([
     n$1("wc-fuerte-map-page")
 ], WcFuerteMapPage);
+
+var __decorate$1 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __awaiter$1 = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+let WcLatestStory = class WcLatestStory extends h {
+    constructor() {
+        super(...arguments);
+        this.date = new Date().getDate();
+        this.month = new Date().getMonth() + 1;
+    }
+    static get styles() {
+        return [];
+    }
+    ;
+    connectedCallback() {
+        super.connectedCallback();
+        this.loadFotos();
+    }
+    ;
+    loadFotos() {
+        return __awaiter$1(this, void 0, void 0, function* () {
+            const fotos = [];
+            try {
+                yield getTravelDocs()
+                    .then((data) => {
+                    data.forEach((doc) => fotos.push(doc));
+                })
+                    .catch((error) => console.log('no traveldocs found', error));
+            }
+            catch (error) {
+                console.log(error);
+            }
+            this.fotos = fotos;
+            this.getLatestFotos();
+        });
+    }
+    ;
+    getLatestFotos() {
+        const filter = this.fotos.filter((story) => new Date(story.date).getDate() === this.date - 1 && new Date(story.date).getMonth() + 1 === this.month);
+        this.fotostory = filter[0];
+    }
+    ;
+    renderFotostory() {
+        return new WcFotostory(this.fotostory);
+    }
+    ;
+    render() {
+        return T `
+      <div>
+        ${this.renderFotostory()}
+      </div>
+    `;
+    }
+    ;
+};
+__decorate$1([
+    e({ type: Array })
+], WcLatestStory.prototype, "fotos", void 0);
+__decorate$1([
+    e({ type: Object })
+], WcLatestStory.prototype, "fotostory", void 0);
+WcLatestStory = __decorate$1([
+    n$1("wc-latest-story")
+], WcLatestStory);
 
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -2651,7 +2935,7 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 let WcAppLayout = class WcAppLayout extends h {
     constructor() {
         super(...arguments);
-        this.selectedDrawer = 'foto-preview';
+        this.selectedDrawer = 'latest-story';
     }
     static get styles() {
         return [layoutStyles, navbarStyles];
@@ -2686,6 +2970,7 @@ let WcAppLayout = class WcAppLayout extends h {
     ;
     getUserContent() {
         switch (this.selectedDrawer) {
+            case ('latest-story'): return new WcLatestStory();
             case ('trip-details'): return new WcTraveldetailsPage();
             case ('foto-preview'): return new WcFotoPreview();
             case ('upload'): return new WcUploadPage();

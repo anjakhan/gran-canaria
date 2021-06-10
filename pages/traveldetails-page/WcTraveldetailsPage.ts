@@ -23,7 +23,7 @@ export class WcTraveldetailsPage extends LitElement {
           <p class="flex"><wc-icon primaryColor="gray" icon="clock-light"></wc-icon>11:30 (12:30 DE) - 17:15</p>
         </div>
         <div class="apartment">
-          <img src="https://firebasestorage.googleapis.com/v0/b/fuerteventura-d4e75.appspot.com/o/CallePuntaPesebre.png?alt=media&token=12872362-5c82-436d-af72-d83ec671ae74" alt="apartment">
+          <img src="https://raw.githubusercontent.com/anjakhan/fuerteventura/main/assets/CallePuntaPesebre.png" alt="apartment">
           <div class="apartment-info">
             <h3 class="flex">Casa Luciano</h3>
             <p class="flex">Calle Punta Pesebre, 8, Jardin del Sol</p>

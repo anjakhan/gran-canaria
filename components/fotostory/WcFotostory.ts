@@ -1,6 +1,5 @@
 import { LitElement, html, TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { firebase } from "../../code/firebase";
 import { FotoUploadDto } from "../../code/nobs/UploadNobs";
 import { config } from "../../config";
 import { WcDialogImage } from "../dialogs/WcDialogImages";
@@ -28,21 +27,12 @@ export class WcFotostory extends LitElement {
   };
 
   getPics(foldername: string) {
-    let listUrls: Array<string> = [];
-    let storageRef = firebase.storage().ref(foldername);
-    //2.
-    storageRef.listAll().then(function (res: any) {
-      //3.
-      res.items.forEach((imageRef: any) => {
-        imageRef.getDownloadURL().then((url: any) => {
-          listUrls = [...listUrls, url];
-        });
-      });
-    })
-      .catch(function (error: string) {
-        console.log(error);
-      });
-    setTimeout(() => this.images = listUrls, 2000)
+    fetch(`https://api.github.com/repos/anjakhan/fuerteventura/contents/assets/${foldername}`)
+      .then(response => response.json())
+      .then(data => {
+        data.forEach((foto: { download_url: string }) => this.images.push(foto.download_url)) // Prints result from `response.json()` in getRequest
+      })
+      .catch(error => console.error(error))
   };
 
   renderImage(idx: number) {

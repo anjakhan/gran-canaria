@@ -6,7 +6,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 import { LitElement, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { firebase } from "../../code/firebase";
 import { config } from "../../config";
 import { WcDialogImage } from "../dialogs/WcDialogImages";
 import { fotostoryStyles } from "./fotostoryStyles";
@@ -26,19 +25,12 @@ let WcFotostory = class WcFotostory extends LitElement {
     }
     ;
     getPics(foldername) {
-        let listUrls = [];
-        let storageRef = firebase.storage().ref(foldername);
-        storageRef.listAll().then(function (res) {
-            res.items.forEach((imageRef) => {
-                imageRef.getDownloadURL().then((url) => {
-                    listUrls = [...listUrls, url];
-                });
-            });
+        fetch(`https://api.github.com/repos/anjakhan/fuerteventura/contents/assets/${foldername}`)
+            .then(response => response.json())
+            .then(data => {
+            data.forEach((foto) => this.images.push(foto.download_url));
         })
-            .catch(function (error) {
-            console.log(error);
-        });
-        setTimeout(() => this.images = listUrls, 2000);
+            .catch(error => console.error(error));
     }
     ;
     renderImage(idx) {

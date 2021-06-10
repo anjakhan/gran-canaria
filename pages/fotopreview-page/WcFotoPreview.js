@@ -55,6 +55,7 @@ let WcFotoPreview = class WcFotoPreview extends LitElement {
     renderFotostory() {
         return new WcFotostory(this.fotostory);
     }
+    ;
     renderFotos(daySelected, monthSelected) {
         const filter = this.fotos.filter((story) => new Date(story.date).getDate() === daySelected && new Date(story.date).getMonth() + 1 === monthSelected);
         this.fotostory = filter[0];
@@ -109,7 +110,7 @@ let WcFotoPreview = class WcFotoPreview extends LitElement {
           </div>
         </div>
         <div class="foto-calendar ${this.showStory ? 'hidden' : ''}">
-          <img src=${this.month === 'Juni' ? "https://firebasestorage.googleapis.com/v0/b/fuerteventura-d4e75.appspot.com/o/fuerteventura_551.jpeg?alt=media&token=5660bdc4-9f90-4a28-9898-f2865ef4ac60" : "https://firebasestorage.googleapis.com/v0/b/fuerteventura-d4e75.appspot.com/o/fuerteventura-3-playa-cofete.jpeg?alt=media&token=ee0a5768-73b6-4b92-9a79-cb2ccd7a9a5f"} alt="fuerte">
+          <img src=${this.month === 'Juni' ? "https://raw.githubusercontent.com/anjakhan/fuerteventura/main/assets/fuerteventura_1.jpeg" : "https://raw.githubusercontent.com/anjakhan/fuerteventura/main/assets/fuerteventura_2.jpeg"} alt="fuerte">
           <div class="calendar-month">
             <wc-icon primaryColor=${this.month === 'Juli' ? "warning" : "ocher"} icon="angle-left" style=${this.month === 'Juli' && 'cursor: pointer'} @click=${() => this.month = 'Juni'}></wc-icon>
             ${this.month} 2021

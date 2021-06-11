@@ -1182,19 +1182,6 @@ const navbarStyles = r$1 `
     align-items: center;
     box-shadow: var(--fuerte-box-shadow);
   }
-  header::before {
-    content: "";
-    position: absolute;
-    top: 0px;
-    right: 0px;
-    bottom: 0px;
-    left: 0px;
-    background-image: url("https://firebasestorage.googleapis.com/v0/b/fuerteventura-d4e75.appspot.com/o/fuerteventura_551.jpeg?alt=media&token=5660bdc4-9f90-4a28-9898-f2865ef4ac60");
-    opacity: 0.2;
-    background-repeat: no-repeat;
-    background-size: cover;
-    z-index: 1;
-  }
 
   .island {
     width: 20px;
@@ -2153,10 +2140,10 @@ let WcDialogImage = class WcDialogImage extends h {
       <div class="modal">
       
         <div class="modal-wrapper">
-          <wc-icon class="close-button" primaryColor="arrows" icon="close" @click=${() => this.closeDialog()}></wc-icon>
-          <wc-icon class="prev" primaryColor="arrows" icon="chevron-left" @click=${() => this.idx > 0 && this.idx--}></wc-icon>
+          <wc-icon class="close-button" primaryColor="island" icon="close" @click=${() => this.closeDialog()}></wc-icon>
+          <wc-icon class="prev" primaryColor="island" icon="chevron-left" @click=${() => this.idx > 0 && this.idx--}></wc-icon>
           <img src=${this.images[this.idx]} alt="fuerte">
-          <wc-icon class="next" primaryColor="arrows" icon="chevron-right" @click=${() => this.idx < this.images.length - 1 && this.idx++}></wc-icon>
+          <wc-icon class="next" primaryColor="island" icon="chevron-right" @click=${() => this.idx < this.images.length - 1 && this.idx++}></wc-icon>
         </div>
 
       </div>
@@ -2252,19 +2239,14 @@ let WcFotostory = class WcFotostory extends h {
     }
     ;
     getPics(foldername) {
-        let listUrls = [];
-        let storageRef = firebase.storage().ref(foldername);
-        storageRef.listAll().then(function (res) {
-            res.items.forEach((imageRef) => {
-                imageRef.getDownloadURL().then((url) => {
-                    listUrls = [...listUrls, url];
-                });
-            });
+        let urlList = [];
+        fetch(`https://api.github.com/repos/anjakhan/fuerteventura/contents/assets/${foldername}`)
+            .then(response => response.json())
+            .then(data => {
+            data.forEach((foto) => urlList.push(foto.download_url));
         })
-            .catch(function (error) {
-            console.log(error);
-        });
-        setTimeout(() => this.images = listUrls, 2000);
+            .catch(error => console.error(error));
+        setTimeout(() => this.images = urlList, 2000);
     }
     ;
     renderImage(idx) {
@@ -2276,7 +2258,7 @@ let WcFotostory = class WcFotostory extends h {
         return T `
     ${this.fotostory ? T `
       <div class="fotostory-container">
-        <h1 class="title">${this.fotostory.headline}</h1>
+        <h1 class="title">${this.fotostory.date} - ${this.fotostory.headline}</h1>
         ${this.fotostory.story.map((story) => T `<p style="text-align: justify;">${story}</p>`)}
         <div class="image-container">
           ${this.images && this.images.length > 0 ? this.images.sort((a, b) => a < b ? -1 : 1).map((img, idx) => T `<img @click=${() => !config.isMobile && this.renderImage(idx)} src=${img} alt="fuerte">`) : T `<lottie-player class="lottie" src="https://assets9.lottiefiles.com/packages/lf20_mg67wxfu.json"  background="transparent"  speed="1"  loop  autoplay></lottie-player>`}
@@ -2541,6 +2523,7 @@ let WcFotoPreview = class WcFotoPreview extends h {
     renderFotostory() {
         return new WcFotostory(this.fotostory);
     }
+    ;
     renderFotos(daySelected, monthSelected) {
         const filter = this.fotos.filter((story) => new Date(story.date).getDate() === daySelected && new Date(story.date).getMonth() + 1 === monthSelected);
         this.fotostory = filter[0];
@@ -2595,7 +2578,7 @@ let WcFotoPreview = class WcFotoPreview extends h {
           </div>
         </div>
         <div class="foto-calendar ${this.showStory ? 'hidden' : ''}">
-          <img src=${this.month === 'Juni' ? "https://firebasestorage.googleapis.com/v0/b/fuerteventura-d4e75.appspot.com/o/fuerteventura_551.jpeg?alt=media&token=5660bdc4-9f90-4a28-9898-f2865ef4ac60" : "https://firebasestorage.googleapis.com/v0/b/fuerteventura-d4e75.appspot.com/o/fuerteventura-3-playa-cofete.jpeg?alt=media&token=ee0a5768-73b6-4b92-9a79-cb2ccd7a9a5f"} alt="fuerte">
+          <img src=${this.month === 'Juni' ? "https://raw.githubusercontent.com/anjakhan/fuerteventura/main/assets/fuerteventura_1.jpeg" : "https://raw.githubusercontent.com/anjakhan/fuerteventura/main/assets/fuerteventura_2.jpeg"} alt="fuerte">
           <div class="calendar-month">
             <wc-icon primaryColor=${this.month === 'Juli' ? "warning" : "ocher"} icon="angle-left" style=${this.month === 'Juli' && 'cursor: pointer'} @click=${() => this.month = 'Juni'}></wc-icon>
             ${this.month} 2021
@@ -2731,7 +2714,7 @@ let WcTraveldetailsPage = class WcTraveldetailsPage extends h {
           <p class="flex"><wc-icon primaryColor="gray" icon="clock-light"></wc-icon>11:30 (12:30 DE) - 17:15</p>
         </div>
         <div class="apartment">
-          <img src="https://firebasestorage.googleapis.com/v0/b/fuerteventura-d4e75.appspot.com/o/CallePuntaPesebre.png?alt=media&token=12872362-5c82-436d-af72-d83ec671ae74" alt="apartment">
+          <img src="https://raw.githubusercontent.com/anjakhan/fuerteventura/main/assets/CallePuntaPesebre.png" alt="apartment">
           <div class="apartment-info">
             <h3 class="flex">Casa Luciano</h3>
             <p class="flex">Calle Punta Pesebre, 8, Jardin del Sol</p>
@@ -2761,6 +2744,7 @@ const createMap = (mapid) => {
     L.marker([28.421440804718152, -13.853181596486714]).addTo(map);
     L.marker([28.05377973446309, -14.323536843021353]).addTo(map);
     L.marker([28.05291287531432, -14.320408750097652]).addTo(map);
+    L.marker([28.163999231637778, -14.220967957002108]).addTo(map);
 };
 
 const mapStyles = r$1 `

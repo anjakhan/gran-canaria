@@ -246,19 +246,6 @@ svg.color-head-toolbar:hover {
     align-items: center;
     box-shadow: var(--fuerte-box-shadow);
   }
-  header::before {
-    content: "";
-    position: absolute;
-    top: 0px;
-    right: 0px;
-    bottom: 0px;
-    left: 0px;
-    background-image: url("https://firebasestorage.googleapis.com/v0/b/fuerteventura-d4e75.appspot.com/o/fuerteventura_551.jpeg?alt=media&token=5660bdc4-9f90-4a28-9898-f2865ef4ac60");
-    opacity: 0.2;
-    background-repeat: no-repeat;
-    background-size: cover;
-    z-index: 1;
-  }
 
   .island {
     width: 20px;
@@ -595,10 +582,10 @@ svg.color-head-toolbar:hover {
       <div class="modal">
       
         <div class="modal-wrapper">
-          <wc-icon class="close-button" primaryColor="arrows" icon="close" @click=${()=>this.closeDialog()}></wc-icon>
-          <wc-icon class="prev" primaryColor="arrows" icon="chevron-left" @click=${()=>this.idx>0&&this.idx--}></wc-icon>
+          <wc-icon class="close-button" primaryColor="island" icon="close" @click=${()=>this.closeDialog()}></wc-icon>
+          <wc-icon class="prev" primaryColor="island" icon="chevron-left" @click=${()=>this.idx>0&&this.idx--}></wc-icon>
           <img src=${this.images[this.idx]} alt="fuerte">
-          <wc-icon class="next" primaryColor="arrows" icon="chevron-right" @click=${()=>this.idx<this.images.length-1&&this.idx++}></wc-icon>
+          <wc-icon class="next" primaryColor="island" icon="chevron-right" @click=${()=>this.idx<this.images.length-1&&this.idx++}></wc-icon>
         </div>
 
       </div>
@@ -656,10 +643,10 @@ svg.color-head-toolbar:hover {
       width: 100%;
     }
   }
-`;var __decorate$5=function(t,e,r,o){var s,a=arguments.length,i=a<3?e:null===o?o=Object.getOwnPropertyDescriptor(e,r):o;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)i=Reflect.decorate(t,e,r,o);else for(var n=t.length-1;n>=0;n--)(s=t[n])&&(i=(a<3?s(i):a>3?s(e,r,i):s(e,r))||i);return a>3&&i&&Object.defineProperty(e,r,i),i};let WcFotostory=class extends h{constructor(t){super(),this.fotostory=t}static get styles(){return[fotostoryStyles]}connectedCallback(){super.connectedCallback(),this.fotostory&&this.getPics(this.fotostory.foldername)}getPics(t){let e=[];firebase.storage().ref(t).listAll().then((function(t){t.items.forEach((t=>{t.getDownloadURL().then((t=>{e=[...e,t]}))}))})).catch((function(t){console.log(t)})),setTimeout((()=>this.images=e),2e3)}renderImage(t){new WcDialogImage(t,this.images).showDialog()}render(){return T`
+`;var __decorate$5=function(t,e,r,o){var s,a=arguments.length,i=a<3?e:null===o?o=Object.getOwnPropertyDescriptor(e,r):o;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)i=Reflect.decorate(t,e,r,o);else for(var n=t.length-1;n>=0;n--)(s=t[n])&&(i=(a<3?s(i):a>3?s(e,r,i):s(e,r))||i);return a>3&&i&&Object.defineProperty(e,r,i),i};let WcFotostory=class extends h{constructor(t){super(),this.fotostory=t}static get styles(){return[fotostoryStyles]}connectedCallback(){super.connectedCallback(),this.fotostory&&this.getPics(this.fotostory.foldername)}getPics(t){let e=[];fetch(`https://api.github.com/repos/anjakhan/fuerteventura/contents/assets/${t}`).then((t=>t.json())).then((t=>{t.forEach((t=>e.push(t.download_url)))})).catch((t=>console.error(t))),setTimeout((()=>this.images=e),2e3)}renderImage(t){new WcDialogImage(t,this.images).showDialog()}render(){return T`
     ${this.fotostory?T`
       <div class="fotostory-container">
-        <h1 class="title">${this.fotostory.headline}</h1>
+        <h1 class="title">${this.fotostory.date} - ${this.fotostory.headline}</h1>
         ${this.fotostory.story.map((t=>T`<p style="text-align: justify;">${t}</p>`))}
         <div class="image-container">
           ${this.images&&this.images.length>0?this.images.sort(((t,e)=>t<e?-1:1)).map(((t,e)=>T`<img @click=${()=>!config.isMobile&&this.renderImage(e)} src=${t} alt="fuerte">`)):T`<lottie-player class="lottie" src="https://assets9.lottiefiles.com/packages/lf20_mg67wxfu.json"  background="transparent"  speed="1"  loop  autoplay></lottie-player>`}
@@ -888,7 +875,7 @@ svg.color-head-toolbar:hover {
           </div>
         </div>
         <div class="foto-calendar ${this.showStory?"hidden":""}">
-          <img src=${"Juni"===this.month?"https://firebasestorage.googleapis.com/v0/b/fuerteventura-d4e75.appspot.com/o/fuerteventura_551.jpeg?alt=media&token=5660bdc4-9f90-4a28-9898-f2865ef4ac60":"https://firebasestorage.googleapis.com/v0/b/fuerteventura-d4e75.appspot.com/o/fuerteventura-3-playa-cofete.jpeg?alt=media&token=ee0a5768-73b6-4b92-9a79-cb2ccd7a9a5f"} alt="fuerte">
+          <img src=${"Juni"===this.month?"https://raw.githubusercontent.com/anjakhan/fuerteventura/main/assets/fuerteventura_1.jpeg":"https://raw.githubusercontent.com/anjakhan/fuerteventura/main/assets/fuerteventura_2.jpeg"} alt="fuerte">
           <div class="calendar-month">
             <wc-icon primaryColor=${"Juli"===this.month?"warning":"ocher"} icon="angle-left" style=${"Juli"===this.month&&"cursor: pointer"} @click=${()=>this.month="Juni"}></wc-icon>
             ${this.month} 2021
@@ -987,7 +974,7 @@ svg.color-head-toolbar:hover {
           <p class="flex"><wc-icon primaryColor="gray" icon="clock-light"></wc-icon>11:30 (12:30 DE) - 17:15</p>
         </div>
         <div class="apartment">
-          <img src="https://firebasestorage.googleapis.com/v0/b/fuerteventura-d4e75.appspot.com/o/CallePuntaPesebre.png?alt=media&token=12872362-5c82-436d-af72-d83ec671ae74" alt="apartment">
+          <img src="https://raw.githubusercontent.com/anjakhan/fuerteventura/main/assets/CallePuntaPesebre.png" alt="apartment">
           <div class="apartment-info">
             <h3 class="flex">Casa Luciano</h3>
             <p class="flex">Calle Punta Pesebre, 8, Jardin del Sol</p>
@@ -996,7 +983,7 @@ svg.color-head-toolbar:hover {
           </div>
         </div>
       </div>
-    `}};WcTraveldetailsPage=__decorate$3([n$1("wc-traveldetails-page")],WcTraveldetailsPage);const L=window.L,createMap=t=>{const e=config.isMobile?9:10,r=L.map(t).setView([28.378412972969333,-14.015175194361001],e);L.tileLayer("http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",{attribution:'&copy;<a href="http://www.esri.com/">Esri</a>i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',maxZoom:18}).addTo(r),L.marker([28.173903183892257,-14.224354511395132]).addTo(r),L.marker([28.219257523446036,-14.221378929709454]).addTo(r),L.marker([28.421440804718152,-13.853181596486714]).addTo(r),L.marker([28.05377973446309,-14.323536843021353]).addTo(r),L.marker([28.05291287531432,-14.320408750097652]).addTo(r)},mapStyles=r$1`
+    `}};WcTraveldetailsPage=__decorate$3([n$1("wc-traveldetails-page")],WcTraveldetailsPage);const L=window.L,createMap=t=>{const e=config.isMobile?9:10,r=L.map(t).setView([28.378412972969333,-14.015175194361001],e);L.tileLayer("http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",{attribution:'&copy;<a href="http://www.esri.com/">Esri</a>i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',maxZoom:18}).addTo(r),L.marker([28.173903183892257,-14.224354511395132]).addTo(r),L.marker([28.219257523446036,-14.221378929709454]).addTo(r),L.marker([28.421440804718152,-13.853181596486714]).addTo(r),L.marker([28.05377973446309,-14.323536843021353]).addTo(r),L.marker([28.05291287531432,-14.320408750097652]).addTo(r),L.marker([28.163999231637778,-14.220967957002108]).addTo(r)},mapStyles=r$1`
   .leaflet-map-pane {
     position: absolute;
     top: 0;

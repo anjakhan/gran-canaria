@@ -2749,6 +2749,7 @@ const createMap = (mapid) => {
     L.marker([28.384905315405938, -13.863943972471807]).addTo(map);
     L.marker([28.392091960114943, -13.853954683945577]).addTo(map);
     L.marker([28.424407208910573, -14.057227882030535]).addTo(map);
+    L.marker([28.403508295007967, -14.15554652495963]).addTo(map);
 };
 
 const mapStyles = r$1 `

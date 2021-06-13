@@ -17,5 +17,6 @@ export const createMap = (mapid) => {
     L.marker([28.392091960114943, -13.853954683945577]).addTo(map);
     L.marker([28.424407208910573, -14.057227882030535]).addTo(map);
     L.marker([28.403508295007967, -14.15554652495963]).addTo(map);
+    L.marker([28.388711737434996, -14.10026879269423]).addTo(map);
 };
 //# sourceMappingURL=leaflet.js.map

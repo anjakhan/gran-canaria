@@ -20,4 +20,5 @@ export const createMap = (mapid: HTMLDivElement) => {
   L.marker([28.163999231637778, -14.220967957002108]).addTo(map);
   L.marker([28.384905315405938, -13.863943972471807]).addTo(map);
   L.marker([28.392091960114943, -13.853954683945577]).addTo(map);
+  L.marker([28.424407208910573, -14.057227882030535]).addTo(map);
 }

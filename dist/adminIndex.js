@@ -646,7 +646,8 @@ svg.color-head-toolbar:hover {
 `;var __decorate$5=function(t,e,r,o){var s,a=arguments.length,i=a<3?e:null===o?o=Object.getOwnPropertyDescriptor(e,r):o;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)i=Reflect.decorate(t,e,r,o);else for(var n=t.length-1;n>=0;n--)(s=t[n])&&(i=(a<3?s(i):a>3?s(e,r,i):s(e,r))||i);return a>3&&i&&Object.defineProperty(e,r,i),i};let WcFotostory=class extends h{constructor(t){super(),this.fotostory=t}static get styles(){return[fotostoryStyles]}connectedCallback(){super.connectedCallback(),this.fotostory&&this.getPics(this.fotostory.foldername)}getPics(t){let e=[];fetch(`https://api.github.com/repos/anjakhan/fuerteventura/contents/assets/${t}`).then((t=>t.json())).then((t=>{t.forEach((t=>e.push(t.download_url)))})).catch((t=>console.error(t))),setTimeout((()=>this.images=e),2e3)}renderImage(t){new WcDialogImage(t,this.images).showDialog()}render(){return T`
     ${this.fotostory?T`
       <div class="fotostory-container">
-        <h1 class="title">${this.fotostory.date} - ${this.fotostory.headline}</h1>
+      <p>${this.fotostory.date}</p>
+        <h1 class="title">${this.fotostory.headline}</h1>
         ${this.fotostory.story.map((t=>T`<p style="text-align: justify;">${t}</p>`))}
         <div class="image-container">
           ${this.images&&this.images.length>0?this.images.sort(((t,e)=>t<e?-1:1)).map(((t,e)=>T`<img @click=${()=>!config.isMobile&&this.renderImage(e)} src=${t} alt="fuerte">`)):T`<lottie-player class="lottie" src="https://assets9.lottiefiles.com/packages/lf20_mg67wxfu.json"  background="transparent"  speed="1"  loop  autoplay></lottie-player>`}
@@ -983,7 +984,7 @@ svg.color-head-toolbar:hover {
           </div>
         </div>
       </div>
-    `}};WcTraveldetailsPage=__decorate$3([n$1("wc-traveldetails-page")],WcTraveldetailsPage);const L=window.L,createMap=t=>{const e=config.isMobile?9:10,r=L.map(t).setView([28.378412972969333,-14.015175194361001],e);L.tileLayer("http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",{attribution:'&copy;<a href="http://www.esri.com/">Esri</a>i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',maxZoom:18}).addTo(r),L.marker([28.173903183892257,-14.224354511395132]).addTo(r),L.marker([28.219257523446036,-14.221378929709454]).addTo(r),L.marker([28.421440804718152,-13.853181596486714]).addTo(r),L.marker([28.05377973446309,-14.323536843021353]).addTo(r),L.marker([28.05291287531432,-14.320408750097652]).addTo(r),L.marker([28.163999231637778,-14.220967957002108]).addTo(r)},mapStyles=r$1`
+    `}};WcTraveldetailsPage=__decorate$3([n$1("wc-traveldetails-page")],WcTraveldetailsPage);const L=window.L,createMap=t=>{const e=config.isMobile?9:10,r=L.map(t).setView([28.378412972969333,-14.015175194361001],e);L.tileLayer("http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",{attribution:'&copy;<a href="http://www.esri.com/">Esri</a>i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',maxZoom:18}).addTo(r),L.marker([28.173903183892257,-14.224354511395132]).addTo(r),L.marker([28.219257523446036,-14.221378929709454]).addTo(r),L.marker([28.421440804718152,-13.853181596486714]).addTo(r),L.marker([28.05377973446309,-14.323536843021353]).addTo(r),L.marker([28.05291287531432,-14.320408750097652]).addTo(r),L.marker([28.163999231637778,-14.220967957002108]).addTo(r),L.marker([28.384905315405938,-13.863943972471807]).addTo(r),L.marker([28.392091960114943,-13.853954683945577]).addTo(r),L.marker([28.424407208910573,-14.057227882030535]).addTo(r)},mapStyles=r$1`
   .leaflet-map-pane {
     position: absolute;
     top: 0;

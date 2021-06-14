@@ -78,6 +78,8 @@ export class WcUploadForm extends LitElement {
           <textarea name="story" placeholder="story about the day ..." @change=${this.handleStory}></textarea>
           <input name="date" type="date" @change=${this.handleChange} required>
           <input name="location" type="text" placeholder="location" @change=${this.handleLocation} required>
+          <input name="popup" type="text" placeholder="popup" @change=${this.handleChange} required>
+          <input name="image" type="text" placeholder="image" @change=${this.handleChange} required>
           <input name="foldername" type="text" placeholder="folder name" @change=${this.handleChange} required>
 
           ${this.renderFileLoader()}

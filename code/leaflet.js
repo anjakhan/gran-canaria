@@ -1,24 +1,25 @@
 import { config } from '../config';
 export const L = window.L;
-export const createMap = (mapid) => {
+export const createMap = (mapid, fotostory) => {
     const zoom = config.isMobile ? 9 : 10;
     const map = L.map(mapid).setView([28.378412972969333, -14.115175194361001], zoom);
+    const date = new Date().getDate();
+    const month = new Date().getMonth() + 1;
     L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
         attribution: '&copy;<a href="http://www.esri.com/">Esri</a>i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
         maxZoom: 18,
     }).addTo(map);
+    fotostory && fotostory.map((story) => {
+        const marker = L.marker([parseFloat(story.location[0]), parseFloat(story.location[1])]).addTo(map).bindPopup(`<b>${story.popup}</b><br>${story.date}`);
+        new Date(story.date).getDate() === date - 1 && new Date(story.date).getMonth() + 1 === month && marker.openPopup();
+    });
     L.marker([28.173903183892257, -14.224354511395132]).addTo(map).bindPopup("<b>Casa Luciano</b>");
-    L.marker([28.219257523446036, -14.221378929709454]).addTo(map).bindPopup("<b>La Pared</b><br>08.06.2021");
     L.marker([28.421440804718152, -13.853181596486714]).addTo(map).bindPopup("<b>Camino Costa Ballena</b><br>08.06.2021");
     L.marker([28.05377973446309, -14.323536843021353]).addTo(map).bindPopup("<b>Ventura Shopping Center</b><br>09.06.2021");
-    L.marker([28.05291287531432, -14.320408750097652]).addTo(map).bindPopup("<b>Playa de Jandia</b><br>09.06.2021");
-    L.marker([28.163999231637778, -14.220967957002108]).addTo(map).bindPopup("<b>Playa de Costa Calma</b><br>10.06.2021");
     L.marker([28.384905315405938, -13.863943972471807]).addTo(map).bindPopup("<b>La Guirra Beach</b><br>11.06.2021");
     L.marker([28.392091960114943, -13.853954683945577]).addTo(map).bindPopup("<b>Punta del Bajo</b><br>11.06.2021");
-    L.marker([28.424407208910573, -14.057227882030535]).addTo(map).bindPopup("<b>Betancuria</b><br>12.06.2021");
     L.marker([28.403508295007967, -14.15554652495963]).addTo(map).bindPopup("<b>Cuevas de Ajuy</b><br>12.06.2021");
     L.marker([28.388711737434996, -14.10026879269423]).addTo(map).bindPopup("<b>Barranco de las Peñitas</b><br>12.06.2021");
-    L.marker([28.70145018706374, -13.835220707010928]).addTo(map).bindPopup("<b>Corralejo Dünen</b><br>13.06.2021").openPopup();
     L.marker([28.49820981705814, -13.857695606907182]).addTo(map).bindPopup("<b>Puerto del Rosario</b><br>13.06.2021");
 };
 //# sourceMappingURL=leaflet.js.map

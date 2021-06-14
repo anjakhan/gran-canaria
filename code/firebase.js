@@ -85,14 +85,15 @@ export function signinUser(email, password) {
 }
 ;
 export const createTravelDocument = (traveldoc) => {
-    var _a;
     firestore.collection("fuerte").add({
         id: '',
-        headline: (_a = traveldoc.headline) !== null && _a !== void 0 ? _a : '',
-        story: traveldoc.story || '',
+        headline: traveldoc.headline,
+        story: traveldoc.story,
         foldername: traveldoc.date + '_' + traveldoc.foldername,
         date: traveldoc.date,
-        location: traveldoc.location
+        location: traveldoc.location,
+        popup: traveldoc.popup,
+        image: traveldoc.image
     })
         .then((docRef) => {
         console.log("Document written with ID: ", docRef.id);

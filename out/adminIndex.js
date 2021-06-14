@@ -1,4 +1,4 @@
-var __awaiter$4 = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+var __awaiter$5 = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -41,7 +41,7 @@ const checkErrorCode = (errorCode) => {
     }
 };
 function signinWithGoogle() {
-    return __awaiter$4(this, void 0, void 0, function* () {
+    return __awaiter$5(this, void 0, void 0, function* () {
         const provider = new firebase.auth.GoogleAuthProvider();
         provider.setCustomParameters({ prompt: 'select_account' });
         try {
@@ -56,7 +56,7 @@ function signinWithGoogle() {
     });
 }
 function signinUser(email, password) {
-    return __awaiter$4(this, void 0, void 0, function* () {
+    return __awaiter$5(this, void 0, void 0, function* () {
         try {
             const userCredential = yield firebase.auth().signInWithEmailAndPassword(email, password);
             return userCredential;
@@ -69,14 +69,15 @@ function signinUser(email, password) {
     });
 }
 const createTravelDocument = (traveldoc) => {
-    var _a;
     firestore.collection("fuerte").add({
         id: '',
-        headline: (_a = traveldoc.headline) !== null && _a !== void 0 ? _a : '',
-        story: traveldoc.story || '',
+        headline: traveldoc.headline,
+        story: traveldoc.story,
         foldername: traveldoc.date + '_' + traveldoc.foldername,
         date: traveldoc.date,
-        location: traveldoc.location
+        location: traveldoc.location,
+        popup: traveldoc.popup,
+        image: traveldoc.image
     })
         .then((docRef) => {
         console.log("Document written with ID: ", docRef.id);
@@ -1636,7 +1637,7 @@ class Nobs {
 
 class UploadNobs extends NobsBase {
     constructor(nobs_or_dto, source) {
-        var _a, _b, _c, _d, _e;
+        var _a, _b, _c, _d, _e, _f, _g;
         super(nobs_or_dto, source);
         if (!(nobs_or_dto instanceof Nobs) && !(source instanceof UploadNobs)) {
             const model = nobs_or_dto;
@@ -1646,6 +1647,8 @@ class UploadNobs extends NobsBase {
             this.date = (_c = model.date) !== null && _c !== void 0 ? _c : new Date();
             this.location = (_d = model.location) !== null && _d !== void 0 ? _d : [];
             this.foldername = (_e = model.foldername) !== null && _e !== void 0 ? _e : "";
+            this.popup = (_f = model.popup) !== null && _f !== void 0 ? _f : "";
+            this.image = (_g = model.image) !== null && _g !== void 0 ? _g : "";
         }
     }
     ;
@@ -1656,7 +1659,9 @@ class UploadNobs extends NobsBase {
             story: this.story,
             date: this.date,
             location: this.location,
-            foldername: this.foldername
+            foldername: this.foldername,
+            popup: this.popup,
+            image: this.image
         };
     }
     ;
@@ -1851,7 +1856,7 @@ var __decorate$9 = (undefined && undefined.__decorate) || function (decorators, 
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-var __awaiter$3 = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+var __awaiter$4 = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -1877,7 +1882,7 @@ let WcUploadForm = class WcUploadForm extends h {
     }
     ;
     handleSubmit(e) {
-        return __awaiter$3(this, void 0, void 0, function* () {
+        return __awaiter$4(this, void 0, void 0, function* () {
             e.preventDefault();
             try {
                 yield createTravelDocument(this.state);
@@ -1926,6 +1931,8 @@ let WcUploadForm = class WcUploadForm extends h {
           <textarea name="story" placeholder="story about the day ..." @change=${this.handleStory}></textarea>
           <input name="date" type="date" @change=${this.handleChange} required>
           <input name="location" type="text" placeholder="location" @change=${this.handleLocation} required>
+          <input name="popup" type="text" placeholder="popup" @change=${this.handleChange} required>
+          <input name="image" type="text" placeholder="image" @change=${this.handleChange} required>
           <input name="foldername" type="text" placeholder="folder name" @change=${this.handleChange} required>
 
           ${this.renderFileLoader()}
@@ -2479,7 +2486,7 @@ var __decorate$4 = (undefined && undefined.__decorate) || function (decorators, 
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-var __awaiter$2 = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+var __awaiter$3 = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -2505,7 +2512,7 @@ let WcFotoPreview = class WcFotoPreview extends h {
     }
     ;
     loadFotos() {
-        return __awaiter$2(this, void 0, void 0, function* () {
+        return __awaiter$3(this, void 0, void 0, function* () {
             const fotos = [];
             try {
                 yield getTravelDocs()
@@ -2734,25 +2741,26 @@ WcTraveldetailsPage = __decorate$3([
 ], WcTraveldetailsPage);
 
 const L = window.L;
-const createMap = (mapid) => {
+const createMap = (mapid, fotostory) => {
     const zoom = config.isMobile ? 9 : 10;
     const map = L.map(mapid).setView([28.378412972969333, -14.115175194361001], zoom);
+    const date = new Date().getDate();
+    const month = new Date().getMonth() + 1;
     L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
         attribution: '&copy;<a href="http://www.esri.com/">Esri</a>i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
         maxZoom: 18,
     }).addTo(map);
+    fotostory && fotostory.map((story) => {
+        const marker = L.marker([parseFloat(story.location[0]), parseFloat(story.location[1])]).addTo(map).bindPopup(`<b>${story.popup}</b><br>${story.date}`);
+        new Date(story.date).getDate() === date - 1 && new Date(story.date).getMonth() + 1 === month && marker.openPopup();
+    });
     L.marker([28.173903183892257, -14.224354511395132]).addTo(map).bindPopup("<b>Casa Luciano</b>");
-    L.marker([28.219257523446036, -14.221378929709454]).addTo(map).bindPopup("<b>La Pared</b><br>08.06.2021");
     L.marker([28.421440804718152, -13.853181596486714]).addTo(map).bindPopup("<b>Camino Costa Ballena</b><br>08.06.2021");
     L.marker([28.05377973446309, -14.323536843021353]).addTo(map).bindPopup("<b>Ventura Shopping Center</b><br>09.06.2021");
-    L.marker([28.05291287531432, -14.320408750097652]).addTo(map).bindPopup("<b>Playa de Jandia</b><br>09.06.2021");
-    L.marker([28.163999231637778, -14.220967957002108]).addTo(map).bindPopup("<b>Playa de Costa Calma</b><br>10.06.2021");
     L.marker([28.384905315405938, -13.863943972471807]).addTo(map).bindPopup("<b>La Guirra Beach</b><br>11.06.2021");
     L.marker([28.392091960114943, -13.853954683945577]).addTo(map).bindPopup("<b>Punta del Bajo</b><br>11.06.2021");
-    L.marker([28.424407208910573, -14.057227882030535]).addTo(map).bindPopup("<b>Betancuria</b><br>12.06.2021");
     L.marker([28.403508295007967, -14.15554652495963]).addTo(map).bindPopup("<b>Cuevas de Ajuy</b><br>12.06.2021");
     L.marker([28.388711737434996, -14.10026879269423]).addTo(map).bindPopup("<b>Barranco de las Peñitas</b><br>12.06.2021");
-    L.marker([28.70145018706374, -13.835220707010928]).addTo(map).bindPopup("<b>Corralejo Dünen</b><br>13.06.2021").openPopup();
     L.marker([28.49820981705814, -13.857695606907182]).addTo(map).bindPopup("<b>Puerto del Rosario</b><br>13.06.2021");
 };
 
@@ -3468,9 +3476,42 @@ var __decorate$2 = (undefined && undefined.__decorate) || function (decorators, 
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var __awaiter$2 = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 let WcFuerteMapPage = class WcFuerteMapPage extends h {
     static get styles() {
         return [mapStyles];
+    }
+    ;
+    ;
+    connectedCallback() {
+        super.connectedCallback();
+        this.loadFotos();
+    }
+    ;
+    loadFotos() {
+        return __awaiter$2(this, void 0, void 0, function* () {
+            const fotos = [];
+            try {
+                yield getTravelDocs()
+                    .then((data) => {
+                    data.forEach((doc) => fotos.push(doc));
+                })
+                    .catch((error) => console.log('no traveldocs found', error));
+            }
+            catch (error) {
+                console.log(error);
+            }
+            this.fotos = fotos;
+            console.log(this.fotos);
+        });
     }
     ;
     renderMap() {
@@ -3480,7 +3521,7 @@ let WcFuerteMapPage = class WcFuerteMapPage extends h {
         mapContainer.style.height = '100vh';
         mapContainer.style.width = '100vw';
         (_a = this.shadowRoot) === null || _a === void 0 ? void 0 : _a.append(mapContainer);
-        createMap(mapContainer);
+        createMap(mapContainer, this.fotos);
     }
     ;
     render() {
@@ -3490,6 +3531,9 @@ let WcFuerteMapPage = class WcFuerteMapPage extends h {
     }
     ;
 };
+__decorate$2([
+    e({ type: Array })
+], WcFuerteMapPage.prototype, "fotos", void 0);
 __decorate$2([
     o$1('#mapid')
 ], WcFuerteMapPage.prototype, "mapid", void 0);

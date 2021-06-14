@@ -7,7 +7,8 @@ export type FotoUploadDto = {
   date: Date;
   location: Array<string>;
   foldername: string;
-  images?: Array<string>;
+  popup?: string;
+  image?: string;
 };
 
 export class UploadNobs extends NobsBase {
@@ -17,6 +18,8 @@ export class UploadNobs extends NobsBase {
   readonly date: Date
   readonly location: Array<string>
   readonly foldername: string
+  readonly popup: string
+  readonly image: string
 
   constructor(model: FotoUploadDto)
   constructor(nobs: Nobs, source: UploadNobs)
@@ -31,6 +34,8 @@ export class UploadNobs extends NobsBase {
       this.date = model.date ?? new Date();
       this.location = model.location ?? [];
       this.foldername = model.foldername ?? "";
+      this.popup = model.popup ?? "";
+      this.image = model.image ?? "";
     }
   };
 
@@ -41,7 +46,9 @@ export class UploadNobs extends NobsBase {
       story: this.story,
       date: this.date,
       location: this.location,
-      foldername: this.foldername
+      foldername: this.foldername,
+      popup: this.popup,
+      image: this.image
     };
   };
 };

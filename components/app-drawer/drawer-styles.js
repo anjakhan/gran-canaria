@@ -1,6 +1,6 @@
 import { css } from 'lit';
 import { config } from '../../config';
-export const drawerStyles = css `  
+export const drawerStyles = css `
   .tab {
     cursor: pointer;
     font-family: var(--printess-font);

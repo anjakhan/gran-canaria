@@ -17,8 +17,8 @@ let WcFuerteMapPage = class WcFuerteMapPage extends LitElement {
         var _a;
         const mapContainer = document.createElement('div');
         mapContainer.setAttribute('id', 'mapid');
-        mapContainer.style.height = '100%';
-        mapContainer.style.width = '130%';
+        mapContainer.style.height = '100vh';
+        mapContainer.style.width = '100vw';
         (_a = this.shadowRoot) === null || _a === void 0 ? void 0 : _a.append(mapContainer);
         createMap(mapContainer);
     }

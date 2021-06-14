@@ -1,7 +1,7 @@
 import { css, CSSResultGroup } from 'lit';
 import { config } from '../../config';
 
-export const drawerStyles: CSSResultGroup = css`  
+export const drawerStyles: CSSResultGroup = css`
   .tab {
     cursor: pointer;
     font-family: var(--printess-font);

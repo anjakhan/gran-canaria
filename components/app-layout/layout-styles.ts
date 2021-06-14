@@ -48,11 +48,12 @@ export const layoutStyles: CSSResultGroup = css`
       top: 50;
       left: 0;
       right: 0;
+      bottom: auto;
       display: flex;
       flex-direction: column;
       height: auto;
       padding: 0;
-      z-index: 10;
+      z-index: 1;
     }
   }
 `;

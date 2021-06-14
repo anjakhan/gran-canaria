@@ -24,6 +24,7 @@ export const createMap = (mapid: HTMLDivElement) => {
   L.marker([28.424407208910573, -14.057227882030535]).addTo(map).bindPopup("<b>Betancuria</b><br>12.06.2021");
   L.marker([28.403508295007967, -14.15554652495963]).addTo(map).bindPopup("<b>Cuevas de Ajuy</b><br>12.06.2021");
   L.marker([28.388711737434996, -14.10026879269423]).addTo(map).bindPopup("<b>Barranco de las Peñitas</b><br>12.06.2021");
-  L.marker([28.70145018706374, -13.835220707010928]).addTo(map).bindPopup("<b>Corralejo Dünen</b><br>13.06.2021").openPopup();
+  L.marker([28.70145018706374, -13.835220707010928]).addTo(map).bindPopup("<b>Corralejo Dünen</b><br>13.06.2021");
   L.marker([28.49820981705814, -13.857695606907182]).addTo(map).bindPopup("<b>Puerto del Rosario</b><br>13.06.2021");
+  L.marker([28.165317347366404, -14.2191245622619]).addTo(map).bindPopup("<b>Playa de Costa Calma</b><br>14.06.2021").openPopup();
 };

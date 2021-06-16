@@ -13,6 +13,7 @@ import { WcFotoPreview } from "../../pages/fotopreview-page/WcFotoPreview";
 import { WcTraveldetailsPage } from "../../pages/traveldetails-page/WcTraveldetailsPage";
 import { WcFuerteMapPage } from "../../pages/fuerte-map/WcFuerteMapPage";
 import { WcLatestStory } from "../../pages/latest-story/WcLatestStory";
+import { WcSightseeingPage } from "../../pages/sightseeing-page/WcSightseeingPage";
 
 @customElement("wc-app-layout")
 export class WcAppLayout extends LitElement {
@@ -56,6 +57,7 @@ export class WcAppLayout extends LitElement {
             case ('foto-preview'): return new WcFotoPreview();
             case ('upload'): return new WcUploadPage();
             case ('map'): return new WcFuerteMapPage();
+            case ('sightseeing'): return new WcSightseeingPage();
             default: ('welcome');
         };
     };

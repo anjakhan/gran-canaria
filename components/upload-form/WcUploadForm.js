@@ -90,7 +90,7 @@ let WcUploadForm = class WcUploadForm extends LitElement {
           <input name="image" type="text" placeholder="image" @change=${this.handleChange} required>
           <input name="foldername" type="text" placeholder="folder name" @change=${this.handleChange} required>
 
-          ${this.renderFileLoader()}
+          <!-- ${this.renderFileLoader()} -->
 
           <button type="submit">ADD FOTO STORY</button>
         </form>

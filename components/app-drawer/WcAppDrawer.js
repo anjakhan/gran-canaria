@@ -66,6 +66,9 @@ let WcAppDrawer = class WcAppDrawer extends LitElement {
       <aside class="drawer ${!this.drawerOpen && config.isMobile ? 'hidden' : ''}">
         ${appUser === 'admin' ? html `<div class="tab ${this.selectedDrawer === 'upload' ? "selected" : ""}" style="display: flex; align-items: center;"
           @click=${() => this.setDrawerSelection('upload')}>Foto Upload</div>` : ''}
+        
+        ${appUser === 'admin' ? html `<div class="tab ${this.selectedDrawer === 'sightseeing' ? "selected" : ""}" style="display: flex; align-items: center;"
+          @click=${() => this.setDrawerSelection('sightseeing')}>Sightseeing</div>` : ''}
 
         ${this.drawers.map(d => html `<div class="tab ${this.selectedDrawer === d.name ? "selected" : ""}" style="display: flex; align-items: center;"
           @click=${() => this.setDrawerSelection(d.name)}><wc-icon primaryColor=${this.selectedDrawer === d.name ? "green" : "toolbar"} icon=${d.icon}></wc-icon>${d.title}</div>`)}

@@ -189,7 +189,7 @@ const t={ATTRIBUTE:1,CHILD:2,PROPERTY:3,BOOLEAN_ATTRIBUTE:4,EVENT:5,ELEMENT:6},i
  * SPDX-License-Identifier: BSD-3-Clause
  */class n extends s{constructor(i){if(super(i),this.vt=A,i.type!==t.CHILD)throw Error(this.constructor.directiveName+"() can only be used in child bindings")}render(r){if(r===A)return this.Vt=void 0,this.vt=r;if(r===w)return r;if("string"!=typeof r)throw Error(this.constructor.directiveName+"() called with a non-string value");if(r===this.vt)return this.Vt;this.vt=r;const s=[r];return s.raw=s,this.Vt={_$litType$:this.constructor.resultType,strings:s,values:[]}}}n.directiveName="unsafeHTML",n.resultType=1;const o=i(n);
 
-var __decorate$c = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+var __decorate$d = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
@@ -914,13 +914,13 @@ svg.color-head-toolbar:hover {
         return T `${o(getIcon(this.icon).replace('<svg ', ' <svg class="' + cl + '"'))}`;
     }
 };
-__decorate$c([
+__decorate$d([
     e()
 ], WcIcon.prototype, "primaryColor", void 0);
-__decorate$c([
+__decorate$d([
     e()
 ], WcIcon.prototype, "icon", void 0);
-WcIcon = __decorate$c([
+WcIcon = __decorate$d([
     n$1("wc-icon")
 ], WcIcon);
 
@@ -1270,7 +1270,7 @@ const drawerStyles = r$1 `
   }
 `;
 
-var __decorate$b = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+var __decorate$c = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
@@ -1331,6 +1331,9 @@ let WcAppDrawer = class WcAppDrawer extends h {
       <aside class="drawer ${!this.drawerOpen && config.isMobile ? 'hidden' : ''}">
         ${appUser === 'admin' ? T `<div class="tab ${this.selectedDrawer === 'upload' ? "selected" : ""}" style="display: flex; align-items: center;"
           @click=${() => this.setDrawerSelection('upload')}>Foto Upload</div>` : ''}
+        
+        ${appUser === 'admin' ? T `<div class="tab ${this.selectedDrawer === 'sightseeing' ? "selected" : ""}" style="display: flex; align-items: center;"
+          @click=${() => this.setDrawerSelection('sightseeing')}>Sightseeing</div>` : ''}
 
         ${this.drawers.map(d => T `<div class="tab ${this.selectedDrawer === d.name ? "selected" : ""}" style="display: flex; align-items: center;"
           @click=${() => this.setDrawerSelection(d.name)}><wc-icon primaryColor=${this.selectedDrawer === d.name ? "green" : "toolbar"} icon=${d.icon}></wc-icon>${d.title}</div>`)}
@@ -1339,10 +1342,10 @@ let WcAppDrawer = class WcAppDrawer extends h {
     }
     ;
 };
-__decorate$b([
+__decorate$c([
     e({ type: String })
 ], WcAppDrawer.prototype, "selectedDrawer", void 0);
-WcAppDrawer = __decorate$b([
+WcAppDrawer = __decorate$c([
     n$1("wc-app-drawer")
 ], WcAppDrawer);
 
@@ -1726,7 +1729,7 @@ const fotoUploadStyles = r$1 `
   }
 `;
 
-var __decorate$a = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+var __decorate$b = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
@@ -1783,19 +1786,19 @@ let WcUploadFotos = class WcUploadFotos extends h {
     }
     ;
 };
-__decorate$a([
+__decorate$b([
     e({ type: String })
 ], WcUploadFotos.prototype, "foldername", void 0);
-__decorate$a([
+__decorate$b([
     e({ type: String })
 ], WcUploadFotos.prototype, "date", void 0);
-__decorate$a([
+__decorate$b([
     o$1('.preview')
 ], WcUploadFotos.prototype, "preview", void 0);
-__decorate$a([
+__decorate$b([
     o$1('.file-input')
 ], WcUploadFotos.prototype, "fileInput", void 0);
-WcUploadFotos = __decorate$a([
+WcUploadFotos = __decorate$b([
     n$1("wc-upload-fotos")
 ], WcUploadFotos);
 
@@ -1850,7 +1853,7 @@ const formStyles = r$1 `
   }
 `;
 
-var __decorate$9 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+var __decorate$a = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
@@ -1935,7 +1938,7 @@ let WcUploadForm = class WcUploadForm extends h {
           <input name="image" type="text" placeholder="image" @change=${this.handleChange} required>
           <input name="foldername" type="text" placeholder="folder name" @change=${this.handleChange} required>
 
-          ${this.renderFileLoader()}
+          <!-- ${this.renderFileLoader()} -->
 
           <button type="submit">ADD FOTO STORY</button>
         </form>
@@ -1944,14 +1947,14 @@ let WcUploadForm = class WcUploadForm extends h {
     }
     ;
 };
-__decorate$9([
+__decorate$a([
     e({ type: Object })
 ], WcUploadForm.prototype, "state", void 0);
-WcUploadForm = __decorate$9([
+WcUploadForm = __decorate$a([
     n$1("wc-upload-form")
 ], WcUploadForm);
 
-var __decorate$8 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+var __decorate$9 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
@@ -1972,7 +1975,7 @@ let WcUploadPage = class WcUploadPage extends h {
     }
     ;
 };
-WcUploadPage = __decorate$8([
+WcUploadPage = __decorate$9([
     n$1("wc-upload-page")
 ], WcUploadPage);
 
@@ -2059,7 +2062,7 @@ const dialogStyles = r$1 `
   }
 `;
 
-var __decorate$7 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+var __decorate$8 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
@@ -2111,11 +2114,11 @@ let WcBackdrop = class WcBackdrop extends h {
     }
     ;
 };
-WcBackdrop = __decorate$7([
+WcBackdrop = __decorate$8([
     n$1("wc-backdrop")
 ], WcBackdrop);
 
-var __decorate$6 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+var __decorate$7 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
@@ -2159,13 +2162,13 @@ let WcDialogImage = class WcDialogImage extends h {
     }
     ;
 };
-__decorate$6([
+__decorate$7([
     e({ attribute: false, type: Number })
 ], WcDialogImage.prototype, "idx", void 0);
-__decorate$6([
+__decorate$7([
     e({ attribute: false, type: Array })
 ], WcDialogImage.prototype, "images", void 0);
-WcDialogImage = __decorate$6([
+WcDialogImage = __decorate$7([
     n$1("wc-dialog-image")
 ], WcDialogImage);
 
@@ -2225,7 +2228,7 @@ const fotostoryStyles = r$1 `
   }
 `;
 
-var __decorate$5 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+var __decorate$6 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
@@ -2283,13 +2286,13 @@ let WcFotostory = class WcFotostory extends h {
     }
     ;
 };
-__decorate$5([
+__decorate$6([
     e({ type: Object })
 ], WcFotostory.prototype, "fotostory", void 0);
-__decorate$5([
+__decorate$6([
     e({ type: Array })
 ], WcFotostory.prototype, "images", void 0);
-WcFotostory = __decorate$5([
+WcFotostory = __decorate$6([
     n$1("wc-fotostory")
 ], WcFotostory);
 
@@ -2480,7 +2483,7 @@ const fotoPreviewStyles = r$1 `
   }
 `;
 
-var __decorate$4 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+var __decorate$5 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
@@ -2615,22 +2618,22 @@ let WcFotoPreview = class WcFotoPreview extends h {
     }
     ;
 };
-__decorate$4([
+__decorate$5([
     e({ type: Array })
 ], WcFotoPreview.prototype, "fotos", void 0);
-__decorate$4([
+__decorate$5([
     e({ type: Object })
 ], WcFotoPreview.prototype, "fotostory", void 0);
-__decorate$4([
+__decorate$5([
     e({ type: Object })
 ], WcFotoPreview.prototype, "date", void 0);
-__decorate$4([
+__decorate$5([
     e({ type: String })
 ], WcFotoPreview.prototype, "month", void 0);
-__decorate$4([
+__decorate$5([
     e({ type: Boolean })
 ], WcFotoPreview.prototype, "showStory", void 0);
-WcFotoPreview = __decorate$4([
+WcFotoPreview = __decorate$5([
     n$1("wc-foto-preview")
 ], WcFotoPreview);
 
@@ -2697,7 +2700,7 @@ const traveldetailsStyles = r$1 `
   }
 `;
 
-var __decorate$3 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+var __decorate$4 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
@@ -2736,7 +2739,7 @@ let WcTraveldetailsPage = class WcTraveldetailsPage extends h {
     }
     ;
 };
-WcTraveldetailsPage = __decorate$3([
+WcTraveldetailsPage = __decorate$4([
     n$1("wc-traveldetails-page")
 ], WcTraveldetailsPage);
 
@@ -2754,7 +2757,6 @@ const createMap = (mapid, fotostory) => {
         const marker = L.marker([parseFloat(story.location[0]), parseFloat(story.location[1])]).addTo(map).bindPopup(`<b>${story.popup}</b><br>${story.date}`);
         new Date(story.date).getDate() === date - 1 && new Date(story.date).getMonth() + 1 === month && marker.openPopup();
     });
-    L.marker([28.173903183892257, -14.224354511395132]).addTo(map).bindPopup("<b>Casa Luciano</b>");
     L.marker([28.421440804718152, -13.853181596486714]).addTo(map).bindPopup("<b>Camino Costa Ballena</b><br>2021-06-08");
     L.marker([28.05377973446309, -14.323536843021353]).addTo(map).bindPopup("<b>Ventura Shopping Center</b><br>2021-06-09");
     L.marker([28.384905315405938, -13.863943972471807]).addTo(map).bindPopup("<b>La Guirra Beach</b><br>2021-06-11");
@@ -2764,6 +2766,978 @@ const createMap = (mapid, fotostory) => {
     L.marker([28.49820981705814, -13.857695606907182]).addTo(map).bindPopup("<b>Puerto del Rosario</b><br>2021-06-13");
     L.marker([28.211533376782686, -14.021162616671948]).addTo(map).bindPopup("<b>Gran Tarajal</b><br>2021-06-15");
 };
+const sightseeings = [{
+        name: "Playa de Cofete",
+        location: [28.11379522157828, -14.379502833804084]
+    }, {
+        name: "Casa Winter",
+        location: [28.101984775647256, -14.374352992864585]
+    }, {
+        name: "Alter Flughafen",
+        location: [28.088355722481484, -14.490396075367913]
+    }, {
+        name: "Faro Punta Pesebre",
+        location: [28.10895006773368, -14.49108272082651]
+    }, {
+        name: "Playa El Puertito / Calle Piragua",
+        location: [28.072240170400036, -14.501630074702538]
+    }, {
+        name: "Leuchtturm Punta Jandia",
+        location: [28.065916895878154, -14.507115275995393]
+    }, {
+        name: "Playa de La Señora",
+        location: [28.05506304878142, -14.385447896561574]
+    }, {
+        name: "Puerto Morro Jable",
+        location: [28.04925525097606, -14.358251774389876]
+    }, {
+        name: "Playa & Faro de Morro Jable",
+        location: [28.045649107870403, -14.33409757065514]
+    }, {
+        name: "Playa de Sotavento de Jandía (Risco del Paso)",
+        location: [28.111445623239355, -14.263561462164526]
+    }, {
+        name: "El Cotillo Beach",
+        location: [28.690498290344827, -14.012006573483601]
+    }, {
+        name: "Faro del Taston",
+        location: [28.715918564960514, -14.013894141895339]
+    }, {
+        name: "Majanicho (Popcornstrand)",
+        location: [28.743867423297875, -13.940907127283767]
+    }, {
+        name: "Corralejo City, Promenade, Glockenturm, Strandfiguren, Centro Commercial Shopping Center",
+        location: [28.728652508179927, -13.864722454465213]
+    }, {
+        name: "La Lajita & Oasis Park",
+        location: [28.18751635455114, -14.156881222877573]
+    }, {
+        name: "Pozo Negro von Klippen aus",
+        location: [28.32364665275606, -13.8956818333923]
+    }, {
+        name: "Playa de Esquinzo (Süd) - Butihondom",
+        location: [28.06896669729653, -14.305984029258461]
+    }, {
+        name: "Sugarhouse Oceania Fuerteventura",
+        location: [28.079850172259125, -14.295569603694068]
+    }, {
+        name: "Playa de Garcey",
+        location: [28.34465358106306, -14.178945913729404]
+    }, {
+        name: "Playa de la Solapa",
+        location: [28.364255577905794, -14.165528766748274]
+    }, {
+        name: "Playa de Tebeto",
+        location: [28.59043711382251, -14.034491306410063]
+    }, {
+        name: "Playa de los Mozos",
+        location: [28.494250744508356, -14.089520973244307]
+    }, {
+        name: "Playa de los Molinos",
+        location: [28.543041483673917, -14.06324981603934]
+    }, {
+        name: "Playa de Jarubio",
+        location: [28.571466079367408, -14.047987991584325]
+    }, {
+        name: "Playa de Esquinzo",
+        location: [28.635045753245446, -14.02650183365281]
+    }, {
+        name: "La Pared Beach - Playa del Viejo Rey (andere Seite)",
+        location: [28.214773147724674, -14.222053986142976]
+    }, {
+        name: "Piedra Playa",
+        location: [28.665503322445627, -14.012452738522926]
+    }, {
+        name: "Playa de los Verilitos und Playa de Viejo (Corralejo)",
+        location: [28.735037873613198, -13.86696250741795]
+    }, {
+        name: "Faro de La Entallada",
+        location: [28.230186008337327, -13.948505129072634]
+    }, {
+        name: "Salt Museum Salinas del Carmen",
+        location: [28.36751277996282, -13.870040205775991]
+    }, {
+        name: "Museo del Queso Majorero & Windmill at Cactus Garden",
+        location: [28.431295609244707, -14.012616205774854]
+    }, {
+        name: "Centro de Interpretacion de los Molinos",
+        location: [28.352985591513775, -14.03526101434743]
+    }, {
+        name: "Molino de viento histórico",
+        location: [28.42140752547901, -13.989244030916215]
+    }, {
+        name: "Playa & Cueva de Playa en Tarajalejo & Tuineje mirador terraza",
+        location: [28.19059836096522, -14.111664362247657]
+    }, {
+        name: "Volcan Calderon Hondo",
+        location: [28.703214296392897, -13.914806335677875]
+    }, {
+        name: "Montaña de Tindaya",
+        location: [28.583962147073578, -13.96742533840112]
+    }];
+const createToDoMap = (mapid) => {
+    const zoom = config.isMobile ? 9 : 10;
+    const map = L.map(mapid).setView([28.378412972969333, -14.115175194361001], zoom);
+    L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+        attribution: '&copy;<a href="http://www.esri.com/">Esri</a>i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
+        maxZoom: 18,
+    }).addTo(map);
+    sightseeings.map((s) => {
+        L.marker(s.location).addTo(map).bindPopup(`<b>${s.name}</b><br>${s.location}`);
+    });
+};
+
+const mapStyles$1 = r$1 `
+  /* .leaflet-map-pane {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  } */
+
+  img {
+    position: absolute;
+  }
+  /* .leaflet-control-container {
+    position: fixed;
+    bottom: 10px;
+    right: 20px;
+    padding: 10px 20px;
+    z-index: 10;
+    font-size: 10px;
+    color: white;
+  }
+
+  .leaflet-control-container a {
+    color: var(--fuerte-aqua);
+  }
+
+  .leaflet-control-zoom-out, .leaflet-control-zoom-in {
+    position: fixed;
+    background-color: white;
+    border-radius: 4px;
+    color: #555;
+    padding: 5px 7px;
+    top: 70;
+    right: 30;
+    text-decoration: none;
+  }
+
+  .leaflet-control-zoom-out a, .leaflet-control-zoom-in a {
+    color: #555;
+  }
+
+  .leaflet-control-zoom-in {
+    right: 55px;
+  } */
+
+  /* required styles */
+
+.leaflet-pane,
+.leaflet-tile,
+.leaflet-marker-icon,
+.leaflet-marker-shadow,
+.leaflet-tile-container,
+.leaflet-pane > svg,
+.leaflet-pane > canvas,
+.leaflet-zoom-box,
+.leaflet-image-layer,
+.leaflet-layer {
+	position: absolute;
+	left: 0;
+	top: 0;
+	}
+.leaflet-container {
+	overflow: hidden;
+	}
+.leaflet-tile,
+.leaflet-marker-icon,
+.leaflet-marker-shadow {
+	-webkit-user-select: none;
+	   -moz-user-select: none;
+	        user-select: none;
+	  -webkit-user-drag: none;
+	}
+/* Prevents IE11 from highlighting tiles in blue */
+.leaflet-tile::selection {
+	background: transparent;
+}
+/* Safari renders non-retina tile on retina better with this, but Chrome is worse */
+.leaflet-safari .leaflet-tile {
+	image-rendering: -webkit-optimize-contrast;
+	}
+/* hack that prevents hw layers "stretching" when loading new tiles */
+.leaflet-safari .leaflet-tile-container {
+	width: 1600px;
+	height: 1600px;
+	-webkit-transform-origin: 0 0;
+	}
+.leaflet-marker-icon,
+.leaflet-marker-shadow {
+	display: block;
+	}
+/* .leaflet-container svg: reset svg max-width decleration shipped in Joomla! (joomla.org) 3.x */
+/* .leaflet-container img: map is broken in FF if you have max-width: 100% on tiles */
+.leaflet-container .leaflet-overlay-pane svg,
+.leaflet-container .leaflet-marker-pane img,
+.leaflet-container .leaflet-shadow-pane img,
+.leaflet-container .leaflet-tile-pane img,
+.leaflet-container img.leaflet-image-layer,
+.leaflet-container .leaflet-tile {
+	max-width: none !important;
+	max-height: none !important;
+	}
+
+.leaflet-container.leaflet-touch-zoom {
+	-ms-touch-action: pan-x pan-y;
+	touch-action: pan-x pan-y;
+	}
+.leaflet-container.leaflet-touch-drag {
+	-ms-touch-action: pinch-zoom;
+	/* Fallback for FF which doesn't support pinch-zoom */
+	touch-action: none;
+	touch-action: pinch-zoom;
+}
+.leaflet-container.leaflet-touch-drag.leaflet-touch-zoom {
+	-ms-touch-action: none;
+	touch-action: none;
+}
+.leaflet-container {
+	-webkit-tap-highlight-color: transparent;
+}
+.leaflet-container a {
+	-webkit-tap-highlight-color: rgba(51, 181, 229, 0.4);
+}
+.leaflet-tile {
+	filter: inherit;
+	visibility: hidden;
+	}
+.leaflet-tile-loaded {
+	visibility: inherit;
+	}
+.leaflet-zoom-box {
+	width: 0;
+	height: 0;
+	-moz-box-sizing: border-box;
+	     box-sizing: border-box;
+	z-index: 800;
+	}
+/* workaround for https://bugzilla.mozilla.org/show_bug.cgi?id=888319 */
+.leaflet-overlay-pane svg {
+	-moz-user-select: none;
+	}
+
+.leaflet-pane         { z-index: 400; }
+
+.leaflet-tile-pane    { z-index: 200; }
+.leaflet-overlay-pane { z-index: 400; }
+.leaflet-shadow-pane  { z-index: 500; }
+.leaflet-marker-pane  { z-index: 600; }
+.leaflet-tooltip-pane   { z-index: 650; }
+.leaflet-popup-pane   { z-index: 700; }
+
+.leaflet-map-pane canvas { z-index: 100; }
+.leaflet-map-pane svg    { z-index: 200; }
+
+.leaflet-vml-shape {
+	width: 1px;
+	height: 1px;
+	}
+.lvml {
+	behavior: url(#default#VML);
+	display: inline-block;
+	position: absolute;
+	}
+
+
+/* control positioning */
+
+.leaflet-control {
+	position: relative;
+	z-index: 800;
+	pointer-events: visiblePainted; /* IE 9-10 doesn't have auto */
+	pointer-events: auto;
+	}
+.leaflet-top,
+.leaflet-bottom {
+	position: absolute;
+	z-index: 1000;
+	pointer-events: none;
+	}
+.leaflet-top {
+	top: 60;
+	}
+.leaflet-right {
+	right: 0;
+	}
+.leaflet-bottom {
+	bottom: 0;
+	}
+.leaflet-left {
+	left: 10;
+	}
+.leaflet-control {
+	float: right;
+	clear: both;
+	}
+.leaflet-right .leaflet-control {
+	float: right;
+	}
+.leaflet-top .leaflet-control {
+	margin-top: 10px;
+	}
+.leaflet-bottom .leaflet-control {
+	margin-bottom: 10px;
+	}
+.leaflet-left .leaflet-control {
+	margin-left: 10px;
+	}
+.leaflet-right .leaflet-control {
+	margin-right: 10px;
+	}
+
+
+/* zoom and fade animations */
+
+.leaflet-fade-anim .leaflet-tile {
+	will-change: opacity;
+	}
+.leaflet-fade-anim .leaflet-popup {
+	opacity: 0;
+	-webkit-transition: opacity 0.2s linear;
+	   -moz-transition: opacity 0.2s linear;
+	        transition: opacity 0.2s linear;
+	}
+.leaflet-fade-anim .leaflet-map-pane .leaflet-popup {
+	opacity: 1;
+	}
+.leaflet-zoom-animated {
+	-webkit-transform-origin: 0 0;
+	    -ms-transform-origin: 0 0;
+	        transform-origin: 0 0;
+	}
+.leaflet-zoom-anim .leaflet-zoom-animated {
+	will-change: transform;
+	}
+.leaflet-zoom-anim .leaflet-zoom-animated {
+	-webkit-transition: -webkit-transform 0.25s cubic-bezier(0,0,0.25,1);
+	   -moz-transition:    -moz-transform 0.25s cubic-bezier(0,0,0.25,1);
+	        transition:         transform 0.25s cubic-bezier(0,0,0.25,1);
+	}
+.leaflet-zoom-anim .leaflet-tile,
+.leaflet-pan-anim .leaflet-tile {
+	-webkit-transition: none;
+	   -moz-transition: none;
+	        transition: none;
+	}
+
+.leaflet-zoom-anim .leaflet-zoom-hide {
+	visibility: hidden;
+	}
+
+
+/* cursors */
+
+.leaflet-interactive {
+	cursor: pointer;
+	}
+.leaflet-grab {
+	cursor: -webkit-grab;
+	cursor:    -moz-grab;
+	cursor:         grab;
+	}
+.leaflet-crosshair,
+.leaflet-crosshair .leaflet-interactive {
+	cursor: crosshair;
+	}
+.leaflet-popup-pane,
+.leaflet-control {
+	cursor: auto;
+	}
+.leaflet-dragging .leaflet-grab,
+.leaflet-dragging .leaflet-grab .leaflet-interactive,
+.leaflet-dragging .leaflet-marker-draggable {
+	cursor: move;
+	cursor: -webkit-grabbing;
+	cursor:    -moz-grabbing;
+	cursor:         grabbing;
+	}
+
+/* marker & overlays interactivity */
+.leaflet-marker-icon,
+.leaflet-marker-shadow,
+.leaflet-image-layer,
+.leaflet-pane > svg path,
+.leaflet-tile-container {
+	pointer-events: none;
+	}
+
+.leaflet-marker-icon.leaflet-interactive,
+.leaflet-image-layer.leaflet-interactive,
+.leaflet-pane > svg path.leaflet-interactive,
+svg.leaflet-image-layer.leaflet-interactive path {
+	pointer-events: visiblePainted; /* IE 9-10 doesn't have auto */
+	pointer-events: auto;
+	}
+
+/* visual tweaks */
+
+.leaflet-container {
+	background: #ddd;
+	outline: 0;
+	}
+.leaflet-container a {
+	color: #0078A8;
+	}
+.leaflet-container a.leaflet-active {
+	outline: 2px solid orange;
+	}
+.leaflet-zoom-box {
+	border: 2px dotted #38f;
+	background: rgba(255,255,255,0.5);
+	}
+
+
+/* general typography */
+.leaflet-container {
+	font: 12px/1.5 "Helvetica Neue", Arial, Helvetica, sans-serif;
+	}
+
+
+/* general toolbar styles */
+
+.leaflet-bar {
+	box-shadow: 0 1px 5px rgba(0,0,0,0.65);
+	border-radius: 4px;
+	}
+.leaflet-bar a,
+.leaflet-bar a:hover {
+	background-color: #fff;
+	border-bottom: 1px solid #ccc;
+	width: 26px;
+	height: 26px;
+	line-height: 26px;
+	display: block;
+	text-align: center;
+	text-decoration: none;
+	color: black;
+	}
+.leaflet-bar a,
+.leaflet-control-layers-toggle {
+	background-position: 50% 50%;
+	background-repeat: no-repeat;
+	display: block;
+	}
+.leaflet-bar a:hover {
+	background-color: #f4f4f4;
+	}
+.leaflet-bar a:first-child {
+	border-top-left-radius: 4px;
+	border-top-right-radius: 4px;
+	}
+.leaflet-bar a:last-child {
+	border-bottom-left-radius: 4px;
+	border-bottom-right-radius: 4px;
+	border-bottom: none;
+	}
+.leaflet-bar a.leaflet-disabled {
+	cursor: default;
+	background-color: #f4f4f4;
+	color: #bbb;
+	}
+
+.leaflet-touch .leaflet-bar a {
+	width: 30px;
+	height: 30px;
+	line-height: 30px;
+	}
+.leaflet-touch .leaflet-bar a:first-child {
+	border-top-left-radius: 2px;
+	border-top-right-radius: 2px;
+	}
+.leaflet-touch .leaflet-bar a:last-child {
+	border-bottom-left-radius: 2px;
+	border-bottom-right-radius: 2px;
+	}
+
+/* zoom control */
+
+.leaflet-control-zoom-in,
+.leaflet-control-zoom-out {
+	font: bold 18px 'Lucida Console', Monaco, monospace;
+	text-indent: 1px;
+	}
+
+.leaflet-touch .leaflet-control-zoom-in, .leaflet-touch .leaflet-control-zoom-out  {
+	font-size: 22px;
+	}
+
+
+/* layers control */
+
+.leaflet-control-layers {
+	box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+	background: #fff;
+	border-radius: 5px;
+	}
+.leaflet-control-layers-toggle {
+	background-image: url(images/layers.png);
+	width: 36px;
+	height: 36px;
+	}
+.leaflet-retina .leaflet-control-layers-toggle {
+	background-image: url(images/layers-2x.png);
+	background-size: 26px 26px;
+	}
+.leaflet-touch .leaflet-control-layers-toggle {
+	width: 44px;
+	height: 44px;
+	}
+.leaflet-control-layers .leaflet-control-layers-list,
+.leaflet-control-layers-expanded .leaflet-control-layers-toggle {
+	display: none;
+	}
+.leaflet-control-layers-expanded .leaflet-control-layers-list {
+	display: block;
+	position: relative;
+	}
+.leaflet-control-layers-expanded {
+	padding: 6px 10px 6px 6px;
+	color: #333;
+	background: #fff;
+	}
+.leaflet-control-layers-scrollbar {
+	overflow-y: scroll;
+	overflow-x: hidden;
+	padding-right: 5px;
+	}
+.leaflet-control-layers-selector {
+	margin-top: 2px;
+	position: relative;
+	top: 1px;
+	}
+.leaflet-control-layers label {
+	display: block;
+	}
+.leaflet-control-layers-separator {
+	height: 0;
+	border-top: 1px solid #ddd;
+	margin: 5px -10px 5px -6px;
+	}
+
+/* Default icon URLs */
+.leaflet-default-icon-path {
+	background-image: url(images/marker-icon.png);
+	}
+
+
+/* attribution and scale controls */
+
+.leaflet-container .leaflet-control-attribution {
+	background: #fff;
+	background: rgba(255, 255, 255, 0.7);
+	margin: 0;
+	}
+.leaflet-control-attribution,
+.leaflet-control-scale-line {
+	padding: 0 5px;
+	color: #333;
+	}
+.leaflet-control-attribution a {
+	text-decoration: none;
+	}
+.leaflet-control-attribution a:hover {
+	text-decoration: underline;
+	}
+.leaflet-container .leaflet-control-attribution,
+.leaflet-container .leaflet-control-scale {
+	font-size: 11px;
+	}
+.leaflet-left .leaflet-control-scale {
+	margin-left: 5px;
+	}
+.leaflet-bottom .leaflet-control-scale {
+	margin-bottom: 5px;
+	}
+.leaflet-control-scale-line {
+	border: 2px solid #777;
+	border-top: none;
+	line-height: 1.1;
+	padding: 2px 5px 1px;
+	font-size: 11px;
+	white-space: nowrap;
+	overflow: hidden;
+	-moz-box-sizing: border-box;
+	     box-sizing: border-box;
+
+	background: #fff;
+	background: rgba(255, 255, 255, 0.5);
+	}
+.leaflet-control-scale-line:not(:first-child) {
+	border-top: 2px solid #777;
+	border-bottom: none;
+	margin-top: -2px;
+	}
+.leaflet-control-scale-line:not(:first-child):not(:last-child) {
+	border-bottom: 2px solid #777;
+	}
+
+.leaflet-touch .leaflet-control-attribution,
+.leaflet-touch .leaflet-control-layers,
+.leaflet-touch .leaflet-bar {
+	box-shadow: none;
+	}
+.leaflet-touch .leaflet-control-layers,
+.leaflet-touch .leaflet-bar {
+	border: 2px solid rgba(0,0,0,0.2);
+	background-clip: padding-box;
+	}
+
+
+/* popup */
+
+.leaflet-popup {
+	position: absolute;
+	text-align: center;
+	margin-bottom: 20px;
+	}
+.leaflet-popup-content-wrapper {
+	padding: 1px;
+	text-align: left;
+	border-radius: 12px;
+	}
+.leaflet-popup-content {
+	margin: 13px 19px;
+	line-height: 1.4;
+	}
+.leaflet-popup-content p {
+	margin: 18px 0;
+	}
+.leaflet-popup-tip-container {
+	width: 40px;
+	height: 20px;
+	position: absolute;
+	left: 50%;
+	margin-left: -20px;
+	overflow: hidden;
+	pointer-events: none;
+	}
+.leaflet-popup-tip {
+	width: 17px;
+	height: 17px;
+	padding: 1px;
+
+	margin: -10px auto 0;
+
+	-webkit-transform: rotate(45deg);
+	   -moz-transform: rotate(45deg);
+	    -ms-transform: rotate(45deg);
+	        transform: rotate(45deg);
+	}
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+	background: white;
+	color: #333;
+	box-shadow: 0 3px 14px rgba(0,0,0,0.4);
+	}
+.leaflet-container a.leaflet-popup-close-button {
+	position: absolute;
+	top: 0;
+	right: 0;
+	padding: 4px 4px 0 0;
+	border: none;
+	text-align: center;
+	width: 18px;
+	height: 14px;
+	font: 16px/14px Tahoma, Verdana, sans-serif;
+	color: #c3c3c3;
+	text-decoration: none;
+	font-weight: bold;
+	background: transparent;
+	}
+.leaflet-container a.leaflet-popup-close-button:hover {
+	color: #999;
+	}
+.leaflet-popup-scrolled {
+	overflow: auto;
+	border-bottom: 1px solid #ddd;
+	border-top: 1px solid #ddd;
+	}
+
+.leaflet-oldie .leaflet-popup-content-wrapper {
+	-ms-zoom: 1;
+	}
+.leaflet-oldie .leaflet-popup-tip {
+	width: 24px;
+	margin: 0 auto;
+
+	-ms-filter: "progid:DXImageTransform.Microsoft.Matrix(M11=0.70710678, M12=0.70710678, M21=-0.70710678, M22=0.70710678)";
+	filter: progid:DXImageTransform.Microsoft.Matrix(M11=0.70710678, M12=0.70710678, M21=-0.70710678, M22=0.70710678);
+	}
+.leaflet-oldie .leaflet-popup-tip-container {
+	margin-top: -1px;
+	}
+
+.leaflet-oldie .leaflet-control-zoom,
+.leaflet-oldie .leaflet-control-layers,
+.leaflet-oldie .leaflet-popup-content-wrapper,
+.leaflet-oldie .leaflet-popup-tip {
+	border: 1px solid #999;
+	}
+
+
+/* div icon */
+
+.leaflet-div-icon {
+	background: #fff;
+	border: 1px solid #666;
+	}
+
+
+/* Tooltip */
+/* Base styles for the element that has a tooltip */
+.leaflet-tooltip {
+	position: absolute;
+	padding: 6px;
+	background-color: #fff;
+	border: 1px solid #fff;
+	border-radius: 3px;
+	color: #222;
+	white-space: nowrap;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	pointer-events: none;
+	box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+	}
+.leaflet-tooltip.leaflet-clickable {
+	cursor: pointer;
+	pointer-events: auto;
+	}
+.leaflet-tooltip-top:before,
+.leaflet-tooltip-bottom:before,
+.leaflet-tooltip-left:before,
+.leaflet-tooltip-right:before {
+	position: absolute;
+	pointer-events: none;
+	border: 6px solid transparent;
+	background: transparent;
+	content: "";
+	}
+
+/* Directions */
+
+.leaflet-tooltip-bottom {
+	margin-top: 6px;
+}
+.leaflet-tooltip-top {
+	margin-top: -6px;
+}
+.leaflet-tooltip-bottom:before,
+.leaflet-tooltip-top:before {
+	left: 50%;
+	margin-left: -6px;
+	}
+.leaflet-tooltip-top:before {
+	bottom: 0;
+	margin-bottom: -12px;
+	border-top-color: #fff;
+	}
+.leaflet-tooltip-bottom:before {
+	top: 0;
+	margin-top: -12px;
+	margin-left: -6px;
+	border-bottom-color: #fff;
+	}
+.leaflet-tooltip-left {
+	margin-left: -6px;
+}
+.leaflet-tooltip-right {
+	margin-left: 6px;
+}
+.leaflet-tooltip-left:before,
+.leaflet-tooltip-right:before {
+	top: 50%;
+	margin-top: -6px;
+	}
+.leaflet-tooltip-left:before {
+	right: 0;
+	margin-right: -12px;
+	border-left-color: #fff;
+	}
+.leaflet-tooltip-right:before {
+	left: 0;
+	margin-left: -12px;
+	border-right-color: #fff;
+	}
+
+  #mapid {
+    position: fixed;
+    top: 0;
+    left: 200;
+  }
+
+  @media (max-width: ${config.mobileDeviceWidth}px) {
+    #mapid {
+      height: 100vh!important;
+			left: 0;
+    }
+.leaflet-left {
+	left: 0;
+	}
+.leaflet-top {
+	top: 60;
+	}
+  }
+`;
+
+var __decorate$3 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __awaiter$2 = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+let WcFuerteMapPage = class WcFuerteMapPage extends h {
+    static get styles() {
+        return [mapStyles$1];
+    }
+    ;
+    connectedCallback() {
+        super.connectedCallback();
+        this.loadFotos();
+    }
+    ;
+    loadFotos() {
+        return __awaiter$2(this, void 0, void 0, function* () {
+            const fotos = [];
+            try {
+                yield getTravelDocs()
+                    .then((data) => {
+                    data.forEach((doc) => fotos.push(doc));
+                })
+                    .catch((error) => console.log('no traveldocs found', error));
+            }
+            catch (error) {
+                console.log(error);
+            }
+            this.fotos = fotos;
+            console.log(this.fotos);
+        });
+    }
+    ;
+    renderMap() {
+        var _a;
+        const mapContainer = document.createElement('div');
+        mapContainer.setAttribute('id', 'mapid');
+        mapContainer.style.height = '100vh';
+        mapContainer.style.width = '100vw';
+        (_a = this.shadowRoot) === null || _a === void 0 ? void 0 : _a.append(mapContainer);
+        createMap(mapContainer, this.fotos);
+    }
+    ;
+    render() {
+        return T `
+        ${this.renderMap()}
+    `;
+    }
+    ;
+};
+__decorate$3([
+    e({ type: Array })
+], WcFuerteMapPage.prototype, "fotos", void 0);
+__decorate$3([
+    o$1('#mapid')
+], WcFuerteMapPage.prototype, "mapid", void 0);
+WcFuerteMapPage = __decorate$3([
+    n$1("wc-fuerte-map-page")
+], WcFuerteMapPage);
+
+var __decorate$2 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __awaiter$1 = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+let WcLatestStory = class WcLatestStory extends h {
+    constructor() {
+        super(...arguments);
+        this.date = new Date().getDate();
+        this.month = new Date().getMonth() + 1;
+    }
+    static get styles() {
+        return [];
+    }
+    ;
+    connectedCallback() {
+        super.connectedCallback();
+        this.loadFotos();
+    }
+    ;
+    loadFotos() {
+        return __awaiter$1(this, void 0, void 0, function* () {
+            const fotos = [];
+            try {
+                yield getTravelDocs()
+                    .then((data) => {
+                    data.forEach((doc) => fotos.push(doc));
+                })
+                    .catch((error) => console.log('no traveldocs found', error));
+            }
+            catch (error) {
+                console.log(error);
+            }
+            this.fotos = fotos;
+            this.getLatestFotos();
+        });
+    }
+    ;
+    getLatestFotos() {
+        const filter = this.fotos.filter((story) => new Date(story.date).getDate() === this.date - 1 && new Date(story.date).getMonth() + 1 === this.month);
+        this.fotostory = filter[0];
+    }
+    ;
+    renderFotostory() {
+        return new WcFotostory(this.fotostory);
+    }
+    ;
+    render() {
+        return T `
+      <div>
+        ${this.renderFotostory()}
+      </div>
+    `;
+    }
+    ;
+};
+__decorate$2([
+    e({ type: Array })
+], WcLatestStory.prototype, "fotos", void 0);
+__decorate$2([
+    e({ type: Object })
+], WcLatestStory.prototype, "fotostory", void 0);
+WcLatestStory = __decorate$2([
+    n$1("wc-latest-story")
+], WcLatestStory);
 
 const mapStyles = r$1 `
   /* .leaflet-map-pane {
@@ -3471,48 +4445,19 @@ svg.leaflet-image-layer.leaflet-interactive path {
   }
 `;
 
-var __decorate$2 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+var __decorate$1 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-var __awaiter$2 = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-let WcFuerteMapPage = class WcFuerteMapPage extends h {
+let WcSightseeingPage = class WcSightseeingPage extends h {
     static get styles() {
         return [mapStyles];
     }
     ;
-    ;
     connectedCallback() {
         super.connectedCallback();
-        this.loadFotos();
-    }
-    ;
-    loadFotos() {
-        return __awaiter$2(this, void 0, void 0, function* () {
-            const fotos = [];
-            try {
-                yield getTravelDocs()
-                    .then((data) => {
-                    data.forEach((doc) => fotos.push(doc));
-                })
-                    .catch((error) => console.log('no traveldocs found', error));
-            }
-            catch (error) {
-                console.log(error);
-            }
-            this.fotos = fotos;
-            console.log(this.fotos);
-        });
     }
     ;
     renderMap() {
@@ -3522,7 +4467,7 @@ let WcFuerteMapPage = class WcFuerteMapPage extends h {
         mapContainer.style.height = '100vh';
         mapContainer.style.width = '100vw';
         (_a = this.shadowRoot) === null || _a === void 0 ? void 0 : _a.append(mapContainer);
-        createMap(mapContainer, this.fotos);
+        createToDoMap(mapContainer);
     }
     ;
     render() {
@@ -3532,91 +4477,12 @@ let WcFuerteMapPage = class WcFuerteMapPage extends h {
     }
     ;
 };
-__decorate$2([
-    e({ type: Array })
-], WcFuerteMapPage.prototype, "fotos", void 0);
-__decorate$2([
+__decorate$1([
     o$1('#mapid')
-], WcFuerteMapPage.prototype, "mapid", void 0);
-WcFuerteMapPage = __decorate$2([
-    n$1("wc-fuerte-map-page")
-], WcFuerteMapPage);
-
-var __decorate$1 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __awaiter$1 = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-let WcLatestStory = class WcLatestStory extends h {
-    constructor() {
-        super(...arguments);
-        this.date = new Date().getDate();
-        this.month = new Date().getMonth() + 1;
-    }
-    static get styles() {
-        return [];
-    }
-    ;
-    connectedCallback() {
-        super.connectedCallback();
-        this.loadFotos();
-    }
-    ;
-    loadFotos() {
-        return __awaiter$1(this, void 0, void 0, function* () {
-            const fotos = [];
-            try {
-                yield getTravelDocs()
-                    .then((data) => {
-                    data.forEach((doc) => fotos.push(doc));
-                })
-                    .catch((error) => console.log('no traveldocs found', error));
-            }
-            catch (error) {
-                console.log(error);
-            }
-            this.fotos = fotos;
-            this.getLatestFotos();
-        });
-    }
-    ;
-    getLatestFotos() {
-        const filter = this.fotos.filter((story) => new Date(story.date).getDate() === this.date - 1 && new Date(story.date).getMonth() + 1 === this.month);
-        this.fotostory = filter[0];
-    }
-    ;
-    renderFotostory() {
-        return new WcFotostory(this.fotostory);
-    }
-    ;
-    render() {
-        return T `
-      <div>
-        ${this.renderFotostory()}
-      </div>
-    `;
-    }
-    ;
-};
-__decorate$1([
-    e({ type: Array })
-], WcLatestStory.prototype, "fotos", void 0);
-__decorate$1([
-    e({ type: Object })
-], WcLatestStory.prototype, "fotostory", void 0);
-WcLatestStory = __decorate$1([
-    n$1("wc-latest-story")
-], WcLatestStory);
+], WcSightseeingPage.prototype, "mapid", void 0);
+WcSightseeingPage = __decorate$1([
+    n$1("wc-sightseeing-page")
+], WcSightseeingPage);
 
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -3667,6 +4533,7 @@ let WcAppLayout = class WcAppLayout extends h {
             case ('foto-preview'): return new WcFotoPreview();
             case ('upload'): return new WcUploadPage();
             case ('map'): return new WcFuerteMapPage();
+            case ('sightseeing'): return new WcSightseeingPage();
         }
     }
     ;

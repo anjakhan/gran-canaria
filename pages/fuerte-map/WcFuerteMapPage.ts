@@ -11,7 +11,7 @@ export class WcFuerteMapPage extends LitElement {
     return [mapStyles];
   };
 
-  @property({ type: Array }) fotos: Array<FotoUploadDto>;;
+  @property({ type: Array }) fotos: Array<FotoUploadDto>;
   @query('#mapid') mapid: HTMLDivElement;
 
   connectedCallback() {

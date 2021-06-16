@@ -23,7 +23,6 @@ let WcFuerteMapPage = class WcFuerteMapPage extends LitElement {
         return [mapStyles];
     }
     ;
-    ;
     connectedCallback() {
         super.connectedCallback();
         this.loadFotos();

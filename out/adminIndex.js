@@ -2763,7 +2763,6 @@ const createMap = (mapid, fotostory) => {
     L.marker([28.392091960114943, -13.853954683945577]).addTo(map).bindPopup("<b>Punta del Bajo</b><br>2021-06-11");
     L.marker([28.403508295007967, -14.15554652495963]).addTo(map).bindPopup("<b>Cuevas de Ajuy</b><br>2021-06-12");
     L.marker([28.388711737434996, -14.10026879269423]).addTo(map).bindPopup("<b>Barranco de las Peñitas</b><br>2021-06-12");
-    L.marker([28.49820981705814, -13.857695606907182]).addTo(map).bindPopup("<b>Puerto del Rosario</b><br>2021-06-13");
     L.marker([28.211533376782686, -14.021162616671948]).addTo(map).bindPopup("<b>Gran Tarajal</b><br>2021-06-15");
 };
 const sightseeings = [{
@@ -2874,6 +2873,9 @@ const sightseeings = [{
     }, {
         name: "Montaña de Tindaya",
         location: [28.583962147073578, -13.96742533840112]
+    }, {
+        name: "Barranco Encantado",
+        location: [28.62997718488728, -14.004527277154441]
     }];
 const createToDoMap = (mapid) => {
     const zoom = config.isMobile ? 9 : 10;

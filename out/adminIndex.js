@@ -2764,26 +2764,13 @@ const createMap = (mapid, fotostory) => {
     L.marker([28.403508295007967, -14.15554652495963]).addTo(map).bindPopup("<b>Cuevas de Ajuy</b><br>2021-06-12");
     L.marker([28.388711737434996, -14.10026879269423]).addTo(map).bindPopup("<b>Barranco de las Peñitas</b><br>2021-06-12");
     L.marker([28.211533376782686, -14.021162616671948]).addTo(map).bindPopup("<b>Gran Tarajal</b><br>2021-06-15");
+    L.marker([28.08815093604716, -14.491244940249455]).addTo(map).bindPopup("<b>Aeródromo Abandonado</b><br>2021-06-18");
+    L.marker([28.065974396783957, -14.507462812109857]).addTo(map).bindPopup("<b>Faro de Punta Jandía</b><br>2021-06-18");
+    L.marker([28.07315393494029, -14.50021239147925]).addTo(map).bindPopup("<b>El Puertito</b><br>2021-06-18");
+    L.marker([28.102345138975522, -14.37578766980999]).addTo(map).bindPopup("<b>Casa Winter</b><br>2021-06-18");
+    L.marker([28.11044360840116, -14.387941738698748]).addTo(map).bindPopup("<b>Playa de Cofete</b><br>2021-06-18");
 };
 const sightseeings = [{
-        name: "Playa de Cofete",
-        location: [28.11379522157828, -14.379502833804084]
-    }, {
-        name: "Casa Winter",
-        location: [28.101984775647256, -14.374352992864585]
-    }, {
-        name: "Alter Flughafen",
-        location: [28.088355722481484, -14.490396075367913]
-    }, {
-        name: "Faro Punta Pesebre",
-        location: [28.10895006773368, -14.49108272082651]
-    }, {
-        name: "Playa El Puertito / Calle Piragua",
-        location: [28.072240170400036, -14.501630074702538]
-    }, {
-        name: "Leuchtturm Punta Jandia",
-        location: [28.065916895878154, -14.507115275995393]
-    }, {
         name: "Playa de La Señora",
         location: [28.05506304878142, -14.385447896561574]
     }, {

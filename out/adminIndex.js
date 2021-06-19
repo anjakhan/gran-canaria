@@ -2769,6 +2769,9 @@ const createMap = (mapid, fotostory) => {
     L.marker([28.07315393494029, -14.50021239147925]).addTo(map).bindPopup("<b>El Puertito</b><br>2021-06-18");
     L.marker([28.102345138975522, -14.37578766980999]).addTo(map).bindPopup("<b>Casa Winter</b><br>2021-06-18");
     L.marker([28.11044360840116, -14.387941738698748]).addTo(map).bindPopup("<b>Playa de Cofete</b><br>2021-06-18");
+    L.marker([28.59043711382251, -14.034491306410063]).addTo(map).bindPopup("<b>Playa de Tebeto</b><br>2021-06-19");
+    L.marker([28.431295609244707, -14.012616205774854]).addTo(map).bindPopup("<b>Museo del Queso Majorero & Windmill at Cactus Garden</b><br>2021-06-19");
+    L.marker([28.352985591513775, -14.03526101434743]).addTo(map).bindPopup("<b>Centro de Interpretacion de los Molinos</b><br>2021-06-19");
 };
 const sightseeings = [{
         name: "Playa de La Señora",
@@ -2813,9 +2816,6 @@ const sightseeings = [{
         name: "Playa de la Solapa",
         location: [28.364255577905794, -14.165528766748274]
     }, {
-        name: "Playa de Tebeto",
-        location: [28.59043711382251, -14.034491306410063]
-    }, {
         name: "Playa de los Mozos",
         location: [28.494250744508356, -14.089520973244307]
     }, {
@@ -2824,9 +2824,6 @@ const sightseeings = [{
     }, {
         name: "Playa de Jarubio",
         location: [28.571466079367408, -14.047987991584325]
-    }, {
-        name: "Playa de Esquinzo",
-        location: [28.635045753245446, -14.02650183365281]
     }, {
         name: "La Pared Beach - Playa del Viejo Rey (andere Seite)",
         location: [28.214773147724674, -14.222053986142976]
@@ -2843,15 +2840,6 @@ const sightseeings = [{
         name: "Salt Museum Salinas del Carmen",
         location: [28.36751277996282, -13.870040205775991]
     }, {
-        name: "Museo del Queso Majorero & Windmill at Cactus Garden",
-        location: [28.431295609244707, -14.012616205774854]
-    }, {
-        name: "Centro de Interpretacion de los Molinos",
-        location: [28.352985591513775, -14.03526101434743]
-    }, {
-        name: "Molino de viento histórico",
-        location: [28.42140752547901, -13.989244030916215]
-    }, {
         name: "Playa & Cueva de Playa en Tarajalejo & Tuineje mirador terraza",
         location: [28.19059836096522, -14.111664362247657]
     }, {
@@ -2860,9 +2848,6 @@ const sightseeings = [{
     }, {
         name: "Montaña de Tindaya",
         location: [28.583962147073578, -13.96742533840112]
-    }, {
-        name: "Barranco Encantado",
-        location: [28.62997718488728, -14.004527277154441]
     }];
 const createToDoMap = (mapid) => {
     const zoom = config.isMobile ? 9 : 10;

@@ -2839,6 +2839,9 @@ const sightseeings = [{
     }, {
         name: "Montaña de Tindaya",
         location: [28.583962147073578, -13.96742533840112]
+    }, {
+        name: "Mirador Atlántico",
+        location: [28.16713752105845, -14.207592644441318]
     }];
 const createToDoMap = (mapid) => {
     const zoom = config.isMobile ? 9 : 10;

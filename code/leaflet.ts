@@ -76,6 +76,15 @@ const seenSightseeings: Array<{ name: string, location: Array<number> }> = [{
 }, {
   name: "Playa de Esquinzo",
   location: [28.635045753245446, -14.02650183365281]
+}, {
+  name: "Playa de los Verilitos und Playa de Viejo (Corralejo)",
+  location: [28.735037873613198, -13.86696250741795]
+}, {
+  name: "Corralejo City, Promenade, Glockenturm, Strandfiguren, Centro Commercial Shopping Center",
+  location: [28.728652508179927, -13.864722454465213]
+}, {
+  name: "Playa de Sotavento de Jandía (Risco del Paso)",
+  location: [28.111445623239355, -14.263561462164526]
 }];
 
 if (seenSightseeings) { };
@@ -90,9 +99,6 @@ const sightseeings: Array<{ name: string, location: Array<number> }> = [{
   name: "Playa & Faro de Morro Jable",
   location: [28.045649107870403, -14.33409757065514]
 }, {
-  name: "Playa de Sotavento de Jandía (Risco del Paso)",
-  location: [28.111445623239355, -14.263561462164526]
-}, {
   name: "El Cotillo Beach",
   location: [28.690498290344827, -14.012006573483601]
 }, {
@@ -101,9 +107,6 @@ const sightseeings: Array<{ name: string, location: Array<number> }> = [{
 }, {
   name: "Majanicho (Popcornstrand)",
   location: [28.743867423297875, -13.940907127283767]
-}, {
-  name: "Corralejo City, Promenade, Glockenturm, Strandfiguren, Centro Commercial Shopping Center",
-  location: [28.728652508179927, -13.864722454465213]
 }, {
   name: "La Lajita & Oasis Park",
   location: [28.18751635455114, -14.156881222877573]
@@ -137,9 +140,6 @@ const sightseeings: Array<{ name: string, location: Array<number> }> = [{
 }, {
   name: "Piedra Playa",
   location: [28.665503322445627, -14.012452738522926]
-}, {
-  name: "Playa de los Verilitos und Playa de Viejo (Corralejo)",
-  location: [28.735037873613198, -13.86696250741795]
 }, {
   name: "Faro de La Entallada",
   location: [28.230186008337327, -13.948505129072634]

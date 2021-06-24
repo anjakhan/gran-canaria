@@ -158,6 +158,9 @@ const sightseeings: Array<{ name: string, location: Array<number> }> = [{
 }, {
   name: "Mirador Atlántico",
   location: [28.16713752105845, -14.207592644441318]
+}, {
+  name: "Isla de Lobos",
+  location: [28.751735636622836, -13.821098187940857]
 }];
 
 

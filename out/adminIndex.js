@@ -2842,6 +2842,9 @@ const sightseeings = [{
     }, {
         name: "Mirador Atlántico",
         location: [28.16713752105845, -14.207592644441318]
+    }, {
+        name: "Isla de Lobos",
+        location: [28.751735636622836, -13.821098187940857]
     }];
 const createToDoMap = (mapid) => {
     const zoom = config.isMobile ? 9 : 10;

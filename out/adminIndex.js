@@ -2798,12 +2798,6 @@ const sightseeings = [{
         name: "Pozo Negro von Klippen aus",
         location: [28.32364665275606, -13.8956818333923]
     }, {
-        name: "Playa de Esquinzo (Süd) - Butihondom",
-        location: [28.06896669729653, -14.305984029258461]
-    }, {
-        name: "Sugarhouse Oceania Fuerteventura",
-        location: [28.079850172259125, -14.295569603694068]
-    }, {
         name: "Playa de Garcey",
         location: [28.34465358106306, -14.178945913729404]
     }, {

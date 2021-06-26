@@ -80,6 +80,9 @@ const seenSightseeings = [{
     }, {
         name: "Sugarhouse Oceania Fuerteventura",
         location: [28.079850172259125, -14.295569603694068]
+    }, {
+        name: "La Lajita & Oasis Park",
+        location: [28.18751635455114, -14.156881222877573]
     }];
 if (seenSightseeings) { }
 ;
@@ -101,9 +104,6 @@ const sightseeings = [{
     }, {
         name: "Majanicho (Popcornstrand)",
         location: [28.743867423297875, -13.940907127283767]
-    }, {
-        name: "La Lajita & Oasis Park",
-        location: [28.18751635455114, -14.156881222877573]
     }, {
         name: "Pozo Negro von Klippen aus",
         location: [28.32364665275606, -13.8956818333923]

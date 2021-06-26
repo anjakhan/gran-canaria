@@ -632,6 +632,7 @@ svg.color-head-toolbar:hover {
   @media (max-width: ${config.mobileDeviceWidth}px) {
     .title {
       margin-bottom: 0;
+      text-align: center;
     }
 
     .image-container {

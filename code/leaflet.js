@@ -1,5 +1,78 @@
 import { config } from '../config';
 export const L = window.L;
+const travelledPlaces = [{
+        name: "Camino Costa Ballena",
+        location: [28.421440804718152, -13.853181596486714],
+        date: "2021-06-08"
+    }, {
+        name: "Ventura Shopping Center",
+        location: [28.05377973446309, -14.323536843021353],
+        date: "2021-06-09"
+    }, {
+        name: "La Guirra Beach",
+        location: [28.384905315405938, -13.863943972471807],
+        date: "2021-06-11"
+    }, {
+        name: "Punta del Bajo",
+        location: [28.392091960114943, -13.853954683945577],
+        date: "2021-06-11"
+    }, {
+        name: "Cuevas de Ajuy",
+        location: [28.403508295007967, -14.15554652495963],
+        date: "2021-06-12"
+    }, {
+        name: "Barranco de las Peñitas",
+        location: [28.388711737434996, -14.10026879269423],
+        date: "2021-06-12"
+    }, {
+        name: "Gran Tarajal",
+        location: [28.211533376782686, -14.021162616671948],
+        date: "2021-06-15"
+    }, {
+        name: "Aeródromo Abandonado",
+        location: [28.08815093604716, -14.491244940249455],
+        date: "2021-06-18"
+    }, {
+        name: "Faro de Punta Jandía",
+        location: [28.065974396783957, -14.507462812109857],
+        date: "2021-06-18"
+    }, {
+        name: "El Puertito",
+        location: [28.07315393494029, -14.50021239147925],
+        date: "2021-06-18"
+    }, {
+        name: "Casa Winter",
+        location: [28.102345138975522, -14.37578766980999],
+        date: "2021-06-18"
+    }, {
+        name: "Playa de Cofete",
+        location: [28.11044360840116, -14.387941738698748],
+        date: "2021-06-18"
+    }, {
+        name: "Playa de Tebeto",
+        location: [28.59043711382251, -14.034491306410063],
+        date: "2021-06-19"
+    }, {
+        name: "Museo del Queso Majorero & Windmill at Cactus Garden",
+        location: [28.431295609244707, -14.012616205774854],
+        date: "2021-06-19"
+    }, {
+        name: "Centro de Interpretacion de los Molinos",
+        location: [28.352985591513775, -14.03526101434743],
+        date: "2021-06-19"
+    }, {
+        name: "El Cotillo Beach",
+        location: [28.690498290344827, -14.012006573483601],
+        date: "2021-06-27"
+    }, {
+        name: "Faro del Taston",
+        location: [28.715918564960514, -14.013894141895339],
+        date: "2021-06-27"
+    }, {
+        name: "Majanicho (Popcornstrand)",
+        location: [28.743867423297875, -13.940907127283767],
+        date: "2021-06-27"
+    }];
 export const createMap = (mapid, fotostory) => {
     const zoom = config.isMobile ? 9 : 10;
     const map = L.map(mapid).setView([28.378412972969333, -14.115175194361001], zoom);
@@ -13,21 +86,9 @@ export const createMap = (mapid, fotostory) => {
         const marker = L.marker([parseFloat(story.location[0]), parseFloat(story.location[1])]).addTo(map).bindPopup(`<b>${story.popup}</b><br>${story.date}`);
         new Date(story.date).getDate() === date - 1 && new Date(story.date).getMonth() + 1 === month && marker.openPopup();
     });
-    L.marker([28.421440804718152, -13.853181596486714]).addTo(map).bindPopup("<b>Camino Costa Ballena</b><br>2021-06-08");
-    L.marker([28.05377973446309, -14.323536843021353]).addTo(map).bindPopup("<b>Ventura Shopping Center</b><br>2021-06-09");
-    L.marker([28.384905315405938, -13.863943972471807]).addTo(map).bindPopup("<b>La Guirra Beach</b><br>2021-06-11");
-    L.marker([28.392091960114943, -13.853954683945577]).addTo(map).bindPopup("<b>Punta del Bajo</b><br>2021-06-11");
-    L.marker([28.403508295007967, -14.15554652495963]).addTo(map).bindPopup("<b>Cuevas de Ajuy</b><br>2021-06-12");
-    L.marker([28.388711737434996, -14.10026879269423]).addTo(map).bindPopup("<b>Barranco de las Peñitas</b><br>2021-06-12");
-    L.marker([28.211533376782686, -14.021162616671948]).addTo(map).bindPopup("<b>Gran Tarajal</b><br>2021-06-15");
-    L.marker([28.08815093604716, -14.491244940249455]).addTo(map).bindPopup("<b>Aeródromo Abandonado</b><br>2021-06-18");
-    L.marker([28.065974396783957, -14.507462812109857]).addTo(map).bindPopup("<b>Faro de Punta Jandía</b><br>2021-06-18");
-    L.marker([28.07315393494029, -14.50021239147925]).addTo(map).bindPopup("<b>El Puertito</b><br>2021-06-18");
-    L.marker([28.102345138975522, -14.37578766980999]).addTo(map).bindPopup("<b>Casa Winter</b><br>2021-06-18");
-    L.marker([28.11044360840116, -14.387941738698748]).addTo(map).bindPopup("<b>Playa de Cofete</b><br>2021-06-18");
-    L.marker([28.59043711382251, -14.034491306410063]).addTo(map).bindPopup("<b>Playa de Tebeto</b><br>2021-06-19");
-    L.marker([28.431295609244707, -14.012616205774854]).addTo(map).bindPopup("<b>Museo del Queso Majorero & Windmill at Cactus Garden</b><br>2021-06-19");
-    L.marker([28.352985591513775, -14.03526101434743]).addTo(map).bindPopup("<b>Centro de Interpretacion de los Molinos</b><br>2021-06-19");
+    travelledPlaces.map(p => {
+        L.marker(p.location).addTo(map).bindPopup(`<b>${p.name}</b><br>${p.date}`);
+    });
 };
 const seenSightseeings = [{
         name: "Playa de Cofete",
@@ -83,6 +144,18 @@ const seenSightseeings = [{
     }, {
         name: "La Lajita & Oasis Park",
         location: [28.18751635455114, -14.156881222877573]
+    }, {
+        name: "El Cotillo Beach",
+        location: [28.690498290344827, -14.012006573483601]
+    }, {
+        name: "Faro del Taston",
+        location: [28.715918564960514, -14.013894141895339]
+    }, {
+        name: "Majanicho (Popcornstrand)",
+        location: [28.743867423297875, -13.940907127283767]
+    }, {
+        name: "Volcan Calderon Hondo",
+        location: [28.703214296392897, -13.914806335677875]
     }];
 if (seenSightseeings) { }
 ;
@@ -96,17 +169,11 @@ const sightseeings = [{
         name: "Playa & Faro de Morro Jable",
         location: [28.045649107870403, -14.33409757065514]
     }, {
-        name: "El Cotillo Beach",
-        location: [28.690498290344827, -14.012006573483601]
-    }, {
-        name: "Faro del Taston",
-        location: [28.715918564960514, -14.013894141895339]
-    }, {
-        name: "Majanicho (Popcornstrand)",
-        location: [28.743867423297875, -13.940907127283767]
-    }, {
         name: "Pozo Negro von Klippen aus",
         location: [28.32364665275606, -13.8956818333923]
+    }, {
+        name: "Faro de La Entallada",
+        location: [28.230186008337327, -13.948505129072634]
     }, {
         name: "Playa de Garcey",
         location: [28.34465358106306, -14.178945913729404]
@@ -129,17 +196,11 @@ const sightseeings = [{
         name: "Piedra Playa",
         location: [28.665503322445627, -14.012452738522926]
     }, {
-        name: "Faro de La Entallada",
-        location: [28.230186008337327, -13.948505129072634]
-    }, {
         name: "Salt Museum Salinas del Carmen",
         location: [28.36751277996282, -13.870040205775991]
     }, {
         name: "Playa & Cueva de Playa en Tarajalejo & Tuineje mirador terraza",
         location: [28.19059836096522, -14.111664362247657]
-    }, {
-        name: "Volcan Calderon Hondo",
-        location: [28.703214296392897, -13.914806335677875]
     }, {
         name: "Montaña de Tindaya",
         location: [28.583962147073578, -13.96742533840112]

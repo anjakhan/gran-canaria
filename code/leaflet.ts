@@ -64,8 +64,8 @@ const travelledPlaces: Array<{ name: string, location: Array<number>, date: stri
   location: [28.352985591513775, -14.03526101434743],
   date: "2021-06-19"
 }, {
-  name: "El Cotillo Beach",
-  location: [28.690498290344827, -14.012006573483601],
+  name: "El Cotillo",
+  location: [28.679841817744123, -14.01047660295504],
   date: "2021-06-27"
 }, {
   name: "Faro del Taston",
@@ -73,7 +73,7 @@ const travelledPlaces: Array<{ name: string, location: Array<number>, date: stri
   date: "2021-06-27"
 }, {
   name: "Majanicho (Popcornstrand)",
-  location: [28.743867423297875, -13.940907127283767],
+  location: [28.738853756396498, -13.937284246969872],
   date: "2021-06-27"
 }];
 

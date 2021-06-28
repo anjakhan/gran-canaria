@@ -156,6 +156,9 @@ const seenSightseeings = [{
     }, {
         name: "Volcan Calderon Hondo",
         location: [28.703214296392897, -13.914806335677875]
+    }, {
+        name: "Mirador Atlántico",
+        location: [28.16713752105845, -14.207592644441318]
     }];
 if (seenSightseeings) { }
 ;
@@ -204,9 +207,6 @@ const sightseeings = [{
     }, {
         name: "Montaña de Tindaya",
         location: [28.583962147073578, -13.96742533840112]
-    }, {
-        name: "Mirador Atlántico",
-        location: [28.16713752105845, -14.207592644441318]
     }, {
         name: "Isla de Lobos",
         location: [28.751735636622836, -13.821098187940857]

@@ -68,7 +68,7 @@ const travelledPlaces: Array<{ name: string, location: Array<number>, date: stri
   location: [28.679841817744123, -14.01047660295504],
   date: "2021-06-27"
 }, {
-  name: "Faro del Taston",
+  name: "Faro del Tostón",
   location: [28.715918564960514, -14.013894141895339],
   date: "2021-06-27"
 }, {
@@ -160,7 +160,7 @@ const seenSightseeings: Array<{ name: string, location: Array<number> }> = [{
   name: "El Cotillo Beach",
   location: [28.690498290344827, -14.012006573483601]
 }, {
-  name: "Faro del Taston",
+  name: "Faro del Tostón",
   location: [28.715918564960514, -14.013894141895339]
 }, {
   name: "Majanicho (Popcornstrand)",
@@ -168,6 +168,9 @@ const seenSightseeings: Array<{ name: string, location: Array<number> }> = [{
 }, {
   name: "Volcan Calderon Hondo",
   location: [28.703214296392897, -13.914806335677875]
+}, {
+  name: "Mirador Atlántico",
+  location: [28.16713752105845, -14.207592644441318]
 }];
 
 if (seenSightseeings) { };
@@ -217,9 +220,6 @@ const sightseeings: Array<{ name: string, location: Array<number> }> = [{
 }, {
   name: "Montaña de Tindaya",
   location: [28.583962147073578, -13.96742533840112]
-}, {
-  name: "Mirador Atlántico",
-  location: [28.16713752105845, -14.207592644441318]
 }, {
   name: "Isla de Lobos",
   location: [28.751735636622836, -13.821098187940857]

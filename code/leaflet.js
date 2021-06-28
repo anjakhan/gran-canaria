@@ -65,7 +65,7 @@ const travelledPlaces = [{
         location: [28.679841817744123, -14.01047660295504],
         date: "2021-06-27"
     }, {
-        name: "Faro del Taston",
+        name: "Faro del Tostón",
         location: [28.715918564960514, -14.013894141895339],
         date: "2021-06-27"
     }, {
@@ -148,7 +148,7 @@ const seenSightseeings = [{
         name: "El Cotillo Beach",
         location: [28.690498290344827, -14.012006573483601]
     }, {
-        name: "Faro del Taston",
+        name: "Faro del Tostón",
         location: [28.715918564960514, -14.013894141895339]
     }, {
         name: "Majanicho (Popcornstrand)",

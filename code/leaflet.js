@@ -72,6 +72,10 @@ const travelledPlaces = [{
         name: "Majanicho (Popcornstrand)",
         location: [28.738853756396498, -13.937284246969872],
         date: "2021-06-27"
+    }, {
+        name: "Faro de La Entallada",
+        location: [28.230186008337327, -13.948505129072634],
+        date: "2021-06-29"
     }];
 export const createMap = (mapid, fotostory) => {
     const zoom = config.isMobile ? 9 : 10;
@@ -159,6 +163,9 @@ const seenSightseeings = [{
     }, {
         name: "Mirador Atlántico",
         location: [28.16713752105845, -14.207592644441318]
+    }, {
+        name: "Faro de La Entallada",
+        location: [28.230186008337327, -13.948505129072634]
     }];
 if (seenSightseeings) { }
 ;
@@ -174,9 +181,6 @@ const sightseeings = [{
     }, {
         name: "Pozo Negro von Klippen aus",
         location: [28.32364665275606, -13.8956818333923]
-    }, {
-        name: "Faro de La Entallada",
-        location: [28.230186008337327, -13.948505129072634]
     }, {
         name: "Playa de Garcey",
         location: [28.34465358106306, -14.178945913729404]

@@ -12,8 +12,8 @@ export class WcLatestStory extends LitElement {
 
   @property({ type: Array }) fotos: Array<FotoUploadDto>;
   @property({ type: Object }) fotostory: FotoUploadDto;
-  date: number = new Date().getDate();
-  month: number = new Date().getMonth() + 1;
+  date: number = new Date(new Date().setDate(new Date().getDate() - 1)).getDate();
+  month: number = new Date().getDate() === 1 ? new Date().getMonth() : new Date().getMonth() + 1;
 
   connectedCallback() {
     super.connectedCallback();
@@ -37,7 +37,7 @@ export class WcLatestStory extends LitElement {
   };
 
   getLatestFotos(): void {
-    const filter = this.fotos.filter((story: FotoUploadDto) => new Date(story.date).getDate() === this.date - 1 && new Date(story.date).getMonth() + 1 === this.month);
+    const filter = this.fotos.filter((story: FotoUploadDto) => new Date(story.date).getDate() === this.date && new Date(story.date).getMonth() + 1 === this.month);
     this.fotostory = filter[0];
   };
 
@@ -46,6 +46,7 @@ export class WcLatestStory extends LitElement {
   };
 
   render(): TemplateResult {
+    console.log(this.date, this.month)
     return html`
       <div>
         ${this.renderFotostory()}

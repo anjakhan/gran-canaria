@@ -3691,8 +3691,8 @@ var __awaiter$1 = (undefined && undefined.__awaiter) || function (thisArg, _argu
 let WcLatestStory = class WcLatestStory extends h {
     constructor() {
         super(...arguments);
-        this.date = new Date().getDate();
-        this.month = new Date().getMonth() + 1;
+        this.date = new Date(new Date().setDate(new Date().getDate() - 1)).getDate();
+        this.month = new Date().getDate() === 1 ? new Date().getMonth() : new Date().getMonth() + 1;
     }
     static get styles() {
         return [];
@@ -3722,7 +3722,7 @@ let WcLatestStory = class WcLatestStory extends h {
     }
     ;
     getLatestFotos() {
-        const filter = this.fotos.filter((story) => new Date(story.date).getDate() === this.date - 1 && new Date(story.date).getMonth() + 1 === this.month);
+        const filter = this.fotos.filter((story) => new Date(story.date).getDate() === this.date && new Date(story.date).getMonth() + 1 === this.month);
         this.fotostory = filter[0];
     }
     ;
@@ -3731,6 +3731,7 @@ let WcLatestStory = class WcLatestStory extends h {
     }
     ;
     render() {
+        console.log(this.date, this.month);
         return T `
       <div>
         ${this.renderFotostory()}

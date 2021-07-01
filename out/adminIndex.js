@@ -2503,7 +2503,7 @@ let WcFotoPreview = class WcFotoPreview extends h {
     constructor() {
         super(...arguments);
         this.date = new Date();
-        this.month = 'Juni';
+        this.month = 'Juli';
         this.showStory = false;
     }
     static get styles() {
@@ -3731,7 +3731,6 @@ let WcLatestStory = class WcLatestStory extends h {
     }
     ;
     render() {
-        console.log(this.date, this.month);
         return T `
       <div>
         ${this.renderFotostory()}

@@ -60,7 +60,6 @@ let WcLatestStory = class WcLatestStory extends LitElement {
     }
     ;
     render() {
-        console.log(this.date, this.month);
         return html `
       <div>
         ${this.renderFotostory()}

@@ -22,7 +22,7 @@ let WcFotoPreview = class WcFotoPreview extends LitElement {
     constructor() {
         super(...arguments);
         this.date = new Date();
-        this.month = 'Juni';
+        this.month = 'Juli';
         this.showStory = false;
     }
     static get styles() {

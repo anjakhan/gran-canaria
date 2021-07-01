@@ -14,7 +14,7 @@ export class WcFotoPreview extends LitElement {
   @property({ type: Array }) fotos: Array<FotoUploadDto>;
   @property({ type: Object }) fotostory: FotoUploadDto;
   @property({ type: Object }) date: Date = new Date();
-  @property({ type: String }) month: string = 'Juni';
+  @property({ type: String }) month: string = 'Juli';
   @property({ type: Boolean }) showStory: boolean = false;
 
   connectedCallback() {

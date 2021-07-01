@@ -46,7 +46,6 @@ export class WcLatestStory extends LitElement {
   };
 
   render(): TemplateResult {
-    console.log(this.date, this.month)
     return html`
       <div>
         ${this.renderFotostory()}

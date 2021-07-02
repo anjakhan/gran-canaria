@@ -79,6 +79,10 @@ const travelledPlaces: Array<{ name: string, location: Array<number>, date: stri
   name: "Faro de La Entallada",
   location: [28.230186008337327, -13.948505129072634],
   date: "2021-06-29"
+}, {
+  name: "Playa de los Molinos",
+  location: [28.543041483673917, -14.06324981603934],
+  date: "2021-07-02"
 }];
 
 export const createMap = (mapid: HTMLDivElement, fotostory: Array<FotoUploadDto>) => {
@@ -178,6 +182,18 @@ const seenSightseeings: Array<{ name: string, location: Array<number> }> = [{
 }, {
   name: "Faro de La Entallada",
   location: [28.230186008337327, -13.948505129072634]
+}, {
+  name: "Playa & Faro de Morro Jable",
+  location: [28.045649107870403, -14.33409757065514]
+}, {
+  name: "Playa de los Molinos",
+  location: [28.543041483673917, -14.06324981603934]
+}, {
+  name: "Salt Museum Salinas del Carmen",
+  location: [28.36751277996282, -13.870040205775991]
+}, {
+  name: "Isla de Lobos",
+  location: [28.751735636622836, -13.821098187940857]
 }];
 
 if (seenSightseeings) { };
@@ -188,9 +204,6 @@ const sightseeings: Array<{ name: string, location: Array<number> }> = [{
 }, {
   name: "Puerto Morro Jable",
   location: [28.04925525097606, -14.358251774389876]
-}, {
-  name: "Playa & Faro de Morro Jable",
-  location: [28.045649107870403, -14.33409757065514]
 }, {
   name: "Pozo Negro von Klippen aus",
   location: [28.32364665275606, -13.8956818333923]
@@ -204,9 +217,6 @@ const sightseeings: Array<{ name: string, location: Array<number> }> = [{
   name: "Playa de los Mozos",
   location: [28.494250744508356, -14.089520973244307]
 }, {
-  name: "Playa de los Molinos",
-  location: [28.543041483673917, -14.06324981603934]
-}, {
   name: "Playa de Jarubio",
   location: [28.571466079367408, -14.047987991584325]
 }, {
@@ -216,17 +226,11 @@ const sightseeings: Array<{ name: string, location: Array<number> }> = [{
   name: "Piedra Playa",
   location: [28.665503322445627, -14.012452738522926]
 }, {
-  name: "Salt Museum Salinas del Carmen",
-  location: [28.36751277996282, -13.870040205775991]
-}, {
   name: "Playa & Cueva de Playa en Tarajalejo & Tuineje mirador terraza",
   location: [28.19059836096522, -14.111664362247657]
 }, {
   name: "Montaña de Tindaya",
   location: [28.583962147073578, -13.96742533840112]
-}, {
-  name: "Isla de Lobos",
-  location: [28.751735636622836, -13.821098187940857]
 }];
 
 

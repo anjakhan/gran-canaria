@@ -80,6 +80,10 @@ const travelledPlaces = [{
         name: "Playa de los Molinos",
         location: [28.543041483673917, -14.06324981603934],
         date: "2021-07-02"
+    }, {
+        name: "The Crunch",
+        location: [28.159049607129603, -14.228790129156828],
+        date: "2021-07-04"
     }];
 export const createMap = (mapid, fotostory) => {
     const zoom = config.isMobile ? 9 : 10;
@@ -182,6 +186,9 @@ const seenSightseeings = [{
     }, {
         name: "Isla de Lobos",
         location: [28.751735636622836, -13.821098187940857]
+    }, {
+        name: "La Pared Beach - Playa del Viejo Rey (andere Seite)",
+        location: [28.214773147724674, -14.222053986142976]
     }];
 if (seenSightseeings) { }
 ;
@@ -206,9 +213,6 @@ const sightseeings = [{
     }, {
         name: "Playa de Jarubio",
         location: [28.571466079367408, -14.047987991584325]
-    }, {
-        name: "La Pared Beach - Playa del Viejo Rey (andere Seite)",
-        location: [28.214773147724674, -14.222053986142976]
     }, {
         name: "Piedra Playa",
         location: [28.665503322445627, -14.012452738522926]

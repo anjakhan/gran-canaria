@@ -44,7 +44,7 @@ let WcFotostory = class WcFotostory extends LitElement {
         return html `
     ${this.fotostory ? html `
       <div class="fotostory-container">
-      <p>${this.fotostory.date}</p>
+        <!-- <p>${this.fotostory.date}</p> -->
         <h1 class="title">${this.fotostory.headline}</h1>
         ${this.fotostory.story.map((story) => html `<p style="text-align: justify;">${story}</p>`)}
         <div class="image-container">

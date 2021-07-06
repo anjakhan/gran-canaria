@@ -603,7 +603,6 @@ svg.color-head-toolbar:hover {
     align-items: center;
     width: 100%;
     color: #555;
-    padding-top: 30px;
   }
 
   .image-container {
@@ -653,7 +652,7 @@ svg.color-head-toolbar:hover {
 `;var __decorate$6=function(e,t,o,r){var a,i=arguments.length,n=i<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,o):r;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)n=Reflect.decorate(e,t,o,r);else for(var s=e.length-1;s>=0;s--)(a=e[s])&&(n=(i<3?a(n):i>3?a(t,o,n):a(t,o))||n);return i>3&&n&&Object.defineProperty(t,o,n),n};let WcFotostory=class extends h{constructor(e){super(),this.fotostory=e}static get styles(){return[fotostoryStyles]}connectedCallback(){super.connectedCallback(),this.fotostory&&this.getPics(this.fotostory.foldername)}getPics(e){let t=[];fetch(`https://api.github.com/repos/anjakhan/fuerteventura/contents/assets/${e}`).then((e=>e.json())).then((e=>{e.forEach((e=>t.push(e.download_url)))})).catch((e=>console.error(e))),setTimeout((()=>this.images=t),2e3)}renderImage(e){new WcDialogImage(e,this.images).showDialog()}render(){return T`
     ${this.fotostory?T`
       <div class="fotostory-container">
-      <p>${this.fotostory.date}</p>
+        <!-- <p>${this.fotostory.date}</p> -->
         <h1 class="title">${this.fotostory.headline}</h1>
         ${this.fotostory.story.map((e=>T`<p style="text-align: justify;">${e}</p>`))}
         <div class="image-container">
@@ -1697,11 +1696,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
   }
 `;var __decorate$3=function(e,t,o,r){var a,i=arguments.length,n=i<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,o):r;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)n=Reflect.decorate(e,t,o,r);else for(var s=e.length-1;s>=0;s--)(a=e[s])&&(n=(i<3?a(n):i>3?a(t,o,n):a(t,o))||n);return i>3&&n&&Object.defineProperty(t,o,n),n},__awaiter$2=function(e,t,o,r){return new(o||(o=Promise))((function(a,i){function n(e){try{l(r.next(e))}catch(e){i(e)}}function s(e){try{l(r.throw(e))}catch(e){i(e)}}function l(e){var t;e.done?a(e.value):(t=e.value,t instanceof o?t:new o((function(e){e(t)}))).then(n,s)}l((r=r.apply(e,t||[])).next())}))};let WcFuerteMapPage=class extends h{static get styles(){return[mapStyles$1]}connectedCallback(){super.connectedCallback(),this.loadFotos()}loadFotos(){return __awaiter$2(this,void 0,void 0,(function*(){const e=[];try{yield getTravelDocs().then((t=>{t.forEach((t=>e.push(t)))})).catch((e=>console.log("no traveldocs found",e)))}catch(e){console.log(e)}this.fotos=e,console.log(this.fotos)}))}renderMap(){var e;const t=document.createElement("div");t.setAttribute("id","mapid"),t.style.height="100vh",t.style.width="100vw",null===(e=this.shadowRoot)||void 0===e||e.append(t),createMap(t,this.fotos)}render(){return T`
         ${this.renderMap()}
-    `}};__decorate$3([e({type:Array})],WcFuerteMapPage.prototype,"fotos",void 0),__decorate$3([o$1("#mapid")],WcFuerteMapPage.prototype,"mapid",void 0),WcFuerteMapPage=__decorate$3([n$1("wc-fuerte-map-page")],WcFuerteMapPage);var __decorate$2=function(e,t,o,r){var a,i=arguments.length,n=i<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,o):r;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)n=Reflect.decorate(e,t,o,r);else for(var s=e.length-1;s>=0;s--)(a=e[s])&&(n=(i<3?a(n):i>3?a(t,o,n):a(t,o))||n);return i>3&&n&&Object.defineProperty(t,o,n),n},__awaiter$1=function(e,t,o,r){return new(o||(o=Promise))((function(a,i){function n(e){try{l(r.next(e))}catch(e){i(e)}}function s(e){try{l(r.throw(e))}catch(e){i(e)}}function l(e){var t;e.done?a(e.value):(t=e.value,t instanceof o?t:new o((function(e){e(t)}))).then(n,s)}l((r=r.apply(e,t||[])).next())}))};let WcLatestStory=class extends h{constructor(){super(...arguments),this.date=new Date((new Date).setDate((new Date).getDate()-1)).getDate(),this.month=1===(new Date).getDate()?(new Date).getMonth():(new Date).getMonth()+1}static get styles(){return[]}connectedCallback(){super.connectedCallback(),this.loadFotos()}loadFotos(){return __awaiter$1(this,void 0,void 0,(function*(){const e=[];try{yield getTravelDocs().then((t=>{t.forEach((t=>e.push(t)))})).catch((e=>console.log("no traveldocs found",e)))}catch(e){console.log(e)}this.fotos=e,this.getLatestFotos()}))}getLatestFotos(){const e=this.fotos.filter((e=>new Date(e.date).getDate()===this.date&&new Date(e.date).getMonth()+1===this.month));this.fotostory=e[0]}renderFotostory(){return new WcFotostory(this.fotostory)}render(){return T`
-      <div>
-        ${this.renderFotostory()}
-      </div>
-    `}};__decorate$2([e({type:Array})],WcLatestStory.prototype,"fotos",void 0),__decorate$2([e({type:Object})],WcLatestStory.prototype,"fotostory",void 0),WcLatestStory=__decorate$2([n$1("wc-latest-story")],WcLatestStory);const mapStyles=r$1`
+    `}};__decorate$3([e({type:Array})],WcFuerteMapPage.prototype,"fotos",void 0),__decorate$3([o$1("#mapid")],WcFuerteMapPage.prototype,"mapid",void 0),WcFuerteMapPage=__decorate$3([n$1("wc-fuerte-map-page")],WcFuerteMapPage);const mapStyles=r$1`
   /* .leaflet-map-pane {
     position: absolute;
     top: 0;
@@ -2405,9 +2400,76 @@ svg.leaflet-image-layer.leaflet-interactive path {
 	top: 60;
 	}
   }
-`;var __decorate$1=function(e,t,o,r){var a,i=arguments.length,n=i<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,o):r;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)n=Reflect.decorate(e,t,o,r);else for(var s=e.length-1;s>=0;s--)(a=e[s])&&(n=(i<3?a(n):i>3?a(t,o,n):a(t,o))||n);return i>3&&n&&Object.defineProperty(t,o,n),n};let WcSightseeingPage=class extends h{static get styles(){return[mapStyles]}connectedCallback(){super.connectedCallback()}renderMap(){var e;const t=document.createElement("div");t.setAttribute("id","mapid"),t.style.height="100vh",t.style.width="100vw",null===(e=this.shadowRoot)||void 0===e||e.append(t),createToDoMap(t)}render(){return T`
+`;var __decorate$2=function(e,t,o,r){var a,i=arguments.length,n=i<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,o):r;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)n=Reflect.decorate(e,t,o,r);else for(var s=e.length-1;s>=0;s--)(a=e[s])&&(n=(i<3?a(n):i>3?a(t,o,n):a(t,o))||n);return i>3&&n&&Object.defineProperty(t,o,n),n};let WcSightseeingPage=class extends h{static get styles(){return[mapStyles]}connectedCallback(){super.connectedCallback()}renderMap(){var e;const t=document.createElement("div");t.setAttribute("id","mapid"),t.style.height="100vh",t.style.width="100vw",null===(e=this.shadowRoot)||void 0===e||e.append(t),createToDoMap(t)}render(){return T`
         ${this.renderMap()}
-    `}};__decorate$1([o$1("#mapid")],WcSightseeingPage.prototype,"mapid",void 0),WcSightseeingPage=__decorate$1([n$1("wc-sightseeing-page")],WcSightseeingPage);var __decorate=function(e,t,o,r){var a,i=arguments.length,n=i<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,o):r;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)n=Reflect.decorate(e,t,o,r);else for(var s=e.length-1;s>=0;s--)(a=e[s])&&(n=(i<3?a(n):i>3?a(t,o,n):a(t,o))||n);return i>3&&n&&Object.defineProperty(t,o,n),n};let WcAppLayout=class extends h{constructor(){super(...arguments),this.selectedDrawer="latest-story"}static get styles(){return[layoutStyles,navbarStyles]}render(){return T`
+    `}};__decorate$2([o$1("#mapid")],WcSightseeingPage.prototype,"mapid",void 0),WcSightseeingPage=__decorate$2([n$1("wc-sightseeing-page")],WcSightseeingPage);const fotosFoldersStyles=r$1`
+  .folder-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-top: 30px;
+  }
+
+  .folder {
+    margin: 10px;
+    border-radius: 4px;
+    box-shadow: var(--fuerte-box-shadow);
+    cursor: pointer;
+  }
+
+  img {
+    width: auto;
+    height: 200px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+  }
+
+  .subtitle {
+    font-family: var(--fuerte-text-font);
+    background-color: var(--fuerte-brown);
+    padding: 7px 10px;
+    word-wrap: break-word;
+    font-size: 12px;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    text-align: center;
+  }
+
+  .back-to-fotos {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  @media (max-width: ${config.mobileDeviceWidth}px) {
+    img {
+      width: auto;
+      height: 100px;
+    }
+  }
+`;var __decorate$1=function(e,t,o,r){var a,i=arguments.length,n=i<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,o):r;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)n=Reflect.decorate(e,t,o,r);else for(var s=e.length-1;s>=0;s--)(a=e[s])&&(n=(i<3?a(n):i>3?a(t,o,n):a(t,o))||n);return i>3&&n&&Object.defineProperty(t,o,n),n},__awaiter$1=function(e,t,o,r){return new(o||(o=Promise))((function(a,i){function n(e){try{l(r.next(e))}catch(e){i(e)}}function s(e){try{l(r.throw(e))}catch(e){i(e)}}function l(e){var t;e.done?a(e.value):(t=e.value,t instanceof o?t:new o((function(e){e(t)}))).then(n,s)}l((r=r.apply(e,t||[])).next())}))};let WcFotosFolders=class extends h{constructor(){super(...arguments),this.showFotostory=!1}static get styles(){return[fotosFoldersStyles]}connectedCallback(){super.connectedCallback(),this.loadFotos()}loadFotos(){return __awaiter$1(this,void 0,void 0,(function*(){const e=[];try{yield getTravelDocs().then((t=>{t.forEach((t=>e.push(t)))})).catch((e=>console.log("no traveldocs found",e)))}catch(e){console.log(e)}this.fotos=e}))}renderFotostory(e){this.fotostory=e,this.showFotostory=!0}render(){return T`
+      ${this.showFotostory?T`
+        <p style="display: flex; flex-direction: row; align-items: center; justify-content: center; padding-top: 30px; color: #555">
+          <wc-icon @click=${()=>this.showFotostory=!1} primaryColor="gray" icon="angle-left" style="cursor: pointer; width: 25px; height: 25px; margin-right: 10px;"></wc-icon>
+          ${this.fotostory.date}
+        </p>
+        ${new WcFotostory(this.fotostory)}
+        <div class="back-to-fotos" @click=${()=>this.showFotostory=!1}>
+          <wc-icon primaryColor="gray" icon="angle-left" style="width: 25px; height: 25px; margin-right: 10px;"></wc-icon>
+          Zurück zu Fotos
+        </div>
+        `:T`
+        <div class="folder-container">
+        ${this.fotos.sort(((e,t)=>new Date(e.date).getTime()-new Date(t.date).getTime())).map((e=>T`
+          <div class="folder" @click=${()=>this.renderFotostory(e)}>
+            <img src="https://raw.githubusercontent.com/anjakhan/fuerteventura/main/assets/${e.foldername}/${e.image}" alt="folder">
+            <div class="subtitle">${config.isMobile?e.date:e.foldername}</div>
+          </div>
+        `))}
+      </div>`}
+    `}};__decorate$1([e({type:Array})],WcFotosFolders.prototype,"fotos",void 0),__decorate$1([e({type:Object})],WcFotosFolders.prototype,"fotostory",void 0),__decorate$1([e({type:Boolean})],WcFotosFolders.prototype,"showFotostory",void 0),WcFotosFolders=__decorate$1([n$1("wc-fotos-folders")],WcFotosFolders);var __decorate=function(e,t,o,r){var a,i=arguments.length,n=i<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,o):r;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)n=Reflect.decorate(e,t,o,r);else for(var s=e.length-1;s>=0;s--)(a=e[s])&&(n=(i<3?a(n):i>3?a(t,o,n):a(t,o))||n);return i>3&&n&&Object.defineProperty(t,o,n),n};let WcAppLayout=class extends h{constructor(){super(...arguments),this.selectedDrawer="latest-story"}static get styles(){return[layoutStyles,navbarStyles]}render(){return T`
         <div class="account-layout">
             <header>
                 <wc-icon primaryColor="island" icon="island" class="island"></wc-icon><h3>Fuerteventura</h3><div style="min-width: 60px;"></div>
@@ -2422,7 +2484,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
                 ${this.getUserContent()}
             </div>
         </div>
-        `}renderDrawer(){const e=new WcAppDrawer(this.selectedDrawer);return e.getDrawerSelection((e=>{this.selectedDrawer=e})),e}getUserContent(){switch(this.selectedDrawer){case"latest-story":return new WcLatestStory;case"trip-details":return new WcTraveldetailsPage;case"foto-preview":return new WcFotoPreview;case"upload":return new WcUploadPage;case"map":return new WcFuerteMapPage;case"sightseeing":return new WcSightseeingPage}}userClick(e){showCtxMenu(e,[{caption:"Log out",callback:()=>{this.logoutUser()}}])}logoutUser(){logoutFunc()}};__decorate([e({type:String})],WcAppLayout.prototype,"selectedDrawer",void 0),WcAppLayout=__decorate([n$1("wc-app-layout")],WcAppLayout),r$1`
+        `}renderDrawer(){const e=new WcAppDrawer(this.selectedDrawer);return e.getDrawerSelection((e=>{this.selectedDrawer=e})),e}getUserContent(){switch(this.selectedDrawer){case"latest-story":return new WcFotosFolders;case"trip-details":return new WcTraveldetailsPage;case"foto-preview":return new WcFotoPreview;case"upload":return new WcUploadPage;case"map":return new WcFuerteMapPage;case"sightseeing":return new WcSightseeingPage}}userClick(e){showCtxMenu(e,[{caption:"Log out",callback:()=>{this.logoutUser()}}])}logoutUser(){logoutFunc()}};__decorate([e({type:String})],WcAppLayout.prototype,"selectedDrawer",void 0),WcAppLayout=__decorate([n$1("wc-app-layout")],WcAppLayout),r$1`
   :host, :host * {
     box-sizing: border-box; 
   }

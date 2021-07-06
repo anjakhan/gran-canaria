@@ -8,7 +8,6 @@ export const fotostoryStyles = css `
     align-items: center;
     width: 100%;
     color: #555;
-    padding-top: 30px;
   }
 
   .image-container {

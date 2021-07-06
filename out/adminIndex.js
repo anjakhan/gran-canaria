@@ -2180,7 +2180,6 @@ const fotostoryStyles = r$1 `
     align-items: center;
     width: 100%;
     color: #555;
-    padding-top: 30px;
   }
 
   .image-container {
@@ -2270,7 +2269,7 @@ let WcFotostory = class WcFotostory extends h {
         return T `
     ${this.fotostory ? T `
       <div class="fotostory-container">
-      <p>${this.fotostory.date}</p>
+        <!-- <p>${this.fotostory.date}</p> -->
         <h1 class="title">${this.fotostory.headline}</h1>
         ${this.fotostory.story.map((story) => T `<p style="text-align: justify;">${story}</p>`)}
         <div class="image-container">
@@ -3670,82 +3669,6 @@ WcFuerteMapPage = __decorate$3([
     n$1("wc-fuerte-map-page")
 ], WcFuerteMapPage);
 
-var __decorate$2 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __awaiter$1 = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-let WcLatestStory = class WcLatestStory extends h {
-    constructor() {
-        super(...arguments);
-        this.date = new Date(new Date().setDate(new Date().getDate() - 1)).getDate();
-        this.month = new Date().getDate() === 1 ? new Date().getMonth() : new Date().getMonth() + 1;
-    }
-    static get styles() {
-        return [];
-    }
-    ;
-    connectedCallback() {
-        super.connectedCallback();
-        this.loadFotos();
-    }
-    ;
-    loadFotos() {
-        return __awaiter$1(this, void 0, void 0, function* () {
-            const fotos = [];
-            try {
-                yield getTravelDocs()
-                    .then((data) => {
-                    data.forEach((doc) => fotos.push(doc));
-                })
-                    .catch((error) => console.log('no traveldocs found', error));
-            }
-            catch (error) {
-                console.log(error);
-            }
-            this.fotos = fotos;
-            this.getLatestFotos();
-        });
-    }
-    ;
-    getLatestFotos() {
-        const filter = this.fotos.filter((story) => new Date(story.date).getDate() === this.date && new Date(story.date).getMonth() + 1 === this.month);
-        this.fotostory = filter[0];
-    }
-    ;
-    renderFotostory() {
-        return new WcFotostory(this.fotostory);
-    }
-    ;
-    render() {
-        return T `
-      <div>
-        ${this.renderFotostory()}
-      </div>
-    `;
-    }
-    ;
-};
-__decorate$2([
-    e({ type: Array })
-], WcLatestStory.prototype, "fotos", void 0);
-__decorate$2([
-    e({ type: Object })
-], WcLatestStory.prototype, "fotostory", void 0);
-WcLatestStory = __decorate$2([
-    n$1("wc-latest-story")
-], WcLatestStory);
-
 const mapStyles = r$1 `
   /* .leaflet-map-pane {
     position: absolute;
@@ -4452,7 +4375,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
   }
 `;
 
-var __decorate$1 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+var __decorate$2 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
@@ -4484,12 +4407,150 @@ let WcSightseeingPage = class WcSightseeingPage extends h {
     }
     ;
 };
-__decorate$1([
+__decorate$2([
     o$1('#mapid')
 ], WcSightseeingPage.prototype, "mapid", void 0);
-WcSightseeingPage = __decorate$1([
+WcSightseeingPage = __decorate$2([
     n$1("wc-sightseeing-page")
 ], WcSightseeingPage);
+
+const fotosFoldersStyles = r$1 `
+  .folder-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-top: 30px;
+  }
+
+  .folder {
+    margin: 10px;
+    border-radius: 4px;
+    box-shadow: var(--fuerte-box-shadow);
+    cursor: pointer;
+  }
+
+  img {
+    width: auto;
+    height: 200px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+  }
+
+  .subtitle {
+    font-family: var(--fuerte-text-font);
+    background-color: var(--fuerte-brown);
+    padding: 7px 10px;
+    word-wrap: break-word;
+    font-size: 12px;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    text-align: center;
+  }
+
+  .back-to-fotos {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  @media (max-width: ${config.mobileDeviceWidth}px) {
+    img {
+      width: auto;
+      height: 100px;
+    }
+  }
+`;
+
+var __decorate$1 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __awaiter$1 = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+let WcFotosFolders = class WcFotosFolders extends h {
+    constructor() {
+        super(...arguments);
+        this.showFotostory = false;
+    }
+    static get styles() {
+        return [fotosFoldersStyles];
+    }
+    ;
+    connectedCallback() {
+        super.connectedCallback();
+        this.loadFotos();
+    }
+    ;
+    loadFotos() {
+        return __awaiter$1(this, void 0, void 0, function* () {
+            const fotos = [];
+            try {
+                yield getTravelDocs()
+                    .then((data) => {
+                    data.forEach((doc) => fotos.push(doc));
+                })
+                    .catch((error) => console.log('no traveldocs found', error));
+            }
+            catch (error) {
+                console.log(error);
+            }
+            this.fotos = fotos;
+        });
+    }
+    ;
+    renderFotostory(fotostory) {
+        this.fotostory = fotostory;
+        this.showFotostory = true;
+    }
+    ;
+    render() {
+        return T `
+      ${this.showFotostory ? T `
+        <p style="display: flex; flex-direction: row; align-items: center; justify-content: center; padding-top: 30px; color: #555">
+          <wc-icon @click=${() => this.showFotostory = false} primaryColor="gray" icon="angle-left" style="cursor: pointer; width: 25px; height: 25px; margin-right: 10px;"></wc-icon>
+          ${this.fotostory.date}
+        </p>
+        ${new WcFotostory(this.fotostory)}
+        <div class="back-to-fotos" @click=${() => this.showFotostory = false}>
+          <wc-icon primaryColor="gray" icon="angle-left" style="width: 25px; height: 25px; margin-right: 10px;"></wc-icon>
+          Zurück zu Fotos
+        </div>
+        ` : T `
+        <div class="folder-container">
+        ${this.fotos.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()).map(f => T `
+          <div class="folder" @click=${() => this.renderFotostory(f)}>
+            <img src="https://raw.githubusercontent.com/anjakhan/fuerteventura/main/assets/${f.foldername}/${f.image}" alt="folder">
+            <div class="subtitle">${config.isMobile ? f.date : f.foldername}</div>
+          </div>
+        `)}
+      </div>`}
+    `;
+    }
+    ;
+};
+__decorate$1([
+    e({ type: Array })
+], WcFotosFolders.prototype, "fotos", void 0);
+__decorate$1([
+    e({ type: Object })
+], WcFotosFolders.prototype, "fotostory", void 0);
+__decorate$1([
+    e({ type: Boolean })
+], WcFotosFolders.prototype, "showFotostory", void 0);
+WcFotosFolders = __decorate$1([
+    n$1("wc-fotos-folders")
+], WcFotosFolders);
 
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -4535,7 +4596,7 @@ let WcAppLayout = class WcAppLayout extends h {
     ;
     getUserContent() {
         switch (this.selectedDrawer) {
-            case ('latest-story'): return new WcLatestStory();
+            case ('latest-story'): return new WcFotosFolders();
             case ('trip-details'): return new WcTraveldetailsPage();
             case ('foto-preview'): return new WcFotoPreview();
             case ('upload'): return new WcUploadPage();

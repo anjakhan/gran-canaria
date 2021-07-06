@@ -14,6 +14,7 @@ import { WcTraveldetailsPage } from "../../pages/traveldetails-page/WcTraveldeta
 import { WcFuerteMapPage } from "../../pages/fuerte-map/WcFuerteMapPage";
 import { WcLatestStory } from "../../pages/latest-story/WcLatestStory";
 import { WcSightseeingPage } from "../../pages/sightseeing-page/WcSightseeingPage";
+import { WcFotosFolders } from "../../pages/latest-story/WcFotosFolders";
 
 @customElement("wc-app-layout")
 export class WcAppLayout extends LitElement {
@@ -52,7 +53,7 @@ export class WcAppLayout extends LitElement {
 
     getUserContent(): LitElement | TemplateResult | void {
         switch (this.selectedDrawer) {
-            case ('latest-story'): return new WcLatestStory();
+            case ('latest-story'): return new WcFotosFolders();
             case ('trip-details'): return new WcTraveldetailsPage();
             case ('foto-preview'): return new WcFotoPreview();
             case ('upload'): return new WcUploadPage();

@@ -55,7 +55,7 @@ export class WcFotosFolders extends LitElement {
         </div>
         ` : html`
         <div class="folder-container">
-        ${this.fotos.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()).map(f => html`
+        ${this.fotos.sort((b, a) => new Date(a.date).getTime() - new Date(b.date).getTime()).map(f => html`
           <div class="folder" @click=${() => this.renderFotostory(f)}>
             <img src="https://raw.githubusercontent.com/anjakhan/fuerteventura/main/assets/${f.foldername}/${f.image}" alt="folder">
             <div class="subtitle">${config.isMobile ? f.date : f.foldername}</div>

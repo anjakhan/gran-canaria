@@ -4528,7 +4528,7 @@ let WcFotosFolders = class WcFotosFolders extends h {
         </div>
         ` : T `
         <div class="folder-container">
-        ${this.fotos.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()).map(f => T `
+        ${this.fotos.sort((b, a) => new Date(a.date).getTime() - new Date(b.date).getTime()).map(f => T `
           <div class="folder" @click=${() => this.renderFotostory(f)}>
             <img src="https://raw.githubusercontent.com/anjakhan/fuerteventura/main/assets/${f.foldername}/${f.image}" alt="folder">
             <div class="subtitle">${config.isMobile ? f.date : f.foldername}</div>

@@ -2462,7 +2462,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
         </div>
         `:T`
         <div class="folder-container">
-        ${this.fotos.sort(((e,t)=>new Date(e.date).getTime()-new Date(t.date).getTime())).map((e=>T`
+        ${this.fotos.sort(((e,t)=>new Date(t.date).getTime()-new Date(e.date).getTime())).map((e=>T`
           <div class="folder" @click=${()=>this.renderFotostory(e)}>
             <img src="https://raw.githubusercontent.com/anjakhan/fuerteventura/main/assets/${e.foldername}/${e.image}" alt="folder">
             <div class="subtitle">${config.isMobile?e.date:e.foldername}</div>

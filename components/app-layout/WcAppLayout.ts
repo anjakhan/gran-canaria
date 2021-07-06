@@ -12,7 +12,6 @@ import { WcUploadPage } from "../../pages/fotoupload-page/WcUploadPage";
 import { WcFotoPreview } from "../../pages/fotopreview-page/WcFotoPreview";
 import { WcTraveldetailsPage } from "../../pages/traveldetails-page/WcTraveldetailsPage";
 import { WcFuerteMapPage } from "../../pages/fuerte-map/WcFuerteMapPage";
-import { WcLatestStory } from "../../pages/latest-story/WcLatestStory";
 import { WcSightseeingPage } from "../../pages/sightseeing-page/WcSightseeingPage";
 import { WcFotosFolders } from "../../pages/latest-story/WcFotosFolders";
 

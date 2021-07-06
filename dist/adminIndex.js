@@ -2408,6 +2408,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
     flex-direction: row;
     flex-wrap: wrap;
     margin-top: 30px;
+    justify-content: center;
   }
 
   .folder {

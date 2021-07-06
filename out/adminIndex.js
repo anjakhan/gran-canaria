@@ -4420,6 +4420,7 @@ const fotosFoldersStyles = r$1 `
     flex-direction: row;
     flex-wrap: wrap;
     margin-top: 30px;
+    justify-content: center;
   }
 
   .folder {

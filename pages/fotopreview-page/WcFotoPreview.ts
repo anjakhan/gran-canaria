@@ -43,6 +43,9 @@ export class WcFotoPreview extends LitElement {
   };
 
   renderFotos(daySelected: number, monthSelected: number): void {
+    if (this.month === 'Juni' && daySelected < 8) return;
+    if (this.month === 'Juli' && daySelected > 6) return;
+
     const filter = this.fotos.filter((story: FotoUploadDto) => new Date(story.date).getDate() === daySelected && new Date(story.date).getMonth() + 1 === monthSelected);
     this.fotostory = filter[0];
     this.showStory = true;
@@ -56,7 +59,7 @@ export class WcFotoPreview extends LitElement {
     return html`
       <div class="date-box disabled"></div>
       ${array.map((x, idx) => html`
-      <div class="date-box" @click=${(): void => this.renderFotos(idx + 1, 6)}>
+      <div class="date-box" @click=${(): void => this.renderFotos(idx + 1, 6)} style="cursor: ${idx < 7 ? 'default' : 'cursor'}">
         <span class="date-text ${this.date.getDate() === idx + 1 && this.date.getMonth() === 5 ? 'today' : ''}">${idx + 1}</span>
       </div>`)}
       <div class="date-box disabled"></div><div class="date-box disabled"></div>
@@ -74,7 +77,7 @@ export class WcFotoPreview extends LitElement {
       <div class="date-box disabled"></div>
       <div class="date-box disabled"></div>
       ${array.map((x, idx) => html`
-      <div class="date-box" @click=${(): void => this.renderFotos(idx + 1, 7)}>
+      <div class="date-box" @click=${(): void => this.renderFotos(idx + 1, 7)} style="cursor: ${idx > 5 ? 'default' : 'cursor'}">
         <span class="date-text ${this.date.getDate() === idx + 1 && this.date.getMonth() === 6 ? 'today' : ''}">${idx + 1}</span>
       </div>`)}
       <div class="date-box disabled"></div>

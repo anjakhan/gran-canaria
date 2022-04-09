@@ -1,14 +1,15 @@
 import { FotoUploadDto } from '../code/nobs/UploadNobs';
+import { Sightseeing } from '../pages/all-island-page/WcAllIslandPage';
 
 export const firebase = (<any>window).firebase;
 
 const config = {
-  apiKey: "AIzaSyBUbyQiqE7TSAS2J5iIVII1Z99tKdd0AuE",
-  authDomain: "fuerteventura-d4e75.firebaseapp.com",
-  projectId: "fuerteventura-d4e75",
-  storageBucket: "fuerteventura-d4e75.appspot.com",
-  messagingSenderId: "378393506142",
-  appId: "1:378393506142:web:4d16e60264d0388a685fcf"
+  apiKey: "AIzaSyAuvLTt0pKvS5Vy3WH7p7s9OR4E8y5VlCA",
+  authDomain: "gran-canaria-4e556.firebaseapp.com",
+  projectId: "gran-canaria-4e556",
+  storageBucket: "gran-canaria-4e556.appspot.com",
+  messagingSenderId: "805514539725",
+  appId: "1:805514539725:web:9fbe21d95fc47ba9372f84"
 };
 
 firebase.initializeApp(config);
@@ -73,8 +74,39 @@ export async function signinUser(email: string, password: string) {
   }
 };
 
+export const createSightseeingDocument = (sightseeingdoc: Sightseeing) => {
+  firestore.collection("sightseeings").add({
+    id: '',
+    name: sightseeingdoc.name,
+    image: sightseeingdoc.image,
+    foldername: sightseeingdoc.foldername,
+    orientation: sightseeingdoc.orientation,
+    location: sightseeingdoc.location,
+    tags: sightseeingdoc.tags,
+    topic: sightseeingdoc.topic
+  })
+    .then((docRef: any) => {
+      console.log("Document written with ID: ", docRef.id);
+      console.log('Sightseeing added');
+      firestore.collection('sightseeings').doc(`${docRef.id}`).set({
+        id: docRef.id
+      }, { merge: true });
+    })
+    .catch((error: string) => {
+      console.error("Error adding document: ", error);
+    });
+};
+
+export const geSightseeingDocs = () => {
+  const docs = firestore.collection("sightseeings").get()
+    .then((querySnapshot: any) => {
+      return querySnapshot.docs.map((doc: any) => doc.data());
+    })
+  return docs;
+};
+
 export const createTravelDocument = (traveldoc: FotoUploadDto) => {
-  firestore.collection("fuerte").add({
+  firestore.collection("grancanaria").add({
     id: '',
     headline: traveldoc.headline,
     story: traveldoc.story,
@@ -87,7 +119,7 @@ export const createTravelDocument = (traveldoc: FotoUploadDto) => {
     .then((docRef: any) => {
       console.log("Document written with ID: ", docRef.id);
       alert('Fotostory created');
-      firestore.collection('fuerte').doc(`${docRef.id}`).set({
+      firestore.collection('grancanaria').doc(`${docRef.id}`).set({
         id: docRef.id
       }, { merge: true });
     })
@@ -97,7 +129,7 @@ export const createTravelDocument = (traveldoc: FotoUploadDto) => {
 };
 
 export const getTravelDocs = () => {
-  const docs = firestore.collection("fuerte").get()
+  const docs = firestore.collection("grancanaria").get()
     .then((querySnapshot: any) => {
       return querySnapshot.docs.map((doc: any) => doc.data());
     })
@@ -127,20 +159,13 @@ export const dowloadFile = (filename: string) => {
 //   return pictures;
 // };
 
-export async function downloadImageURL(foldername: string = '2021-06-06_costa_testing') {
+export async function downloadImageURL(foldername: string) {
   const listOfUrls: any = [];
-  var storageRef = firebase.storage().ref(foldername);
+  var storageRef = firebase.storage().refFromURL(foldername);
   storageRef.listAll().then((res: any) => {
-    let promises = res.items.forEach((item: any) => item.getDownloadURL());
-
-    Promise.all(promises).then((downloadURLs) => {
-      console.log('res 1', downloadURLs)
-      listOfUrls.push(downloadURLs);
-    });
+    res.items.forEach((item: any) => item.getDownloadURL().then((downloadURLs: any) => console.log(downloadURLs)));
   })
   return listOfUrls;
 }
-
-//gs://fuerteventura-d4e75.appspot.com/2021-06-06_costa_testing/fuerteventura-3-playa-cofete.jpeg
 
 export const firestore = firebase.firestore();

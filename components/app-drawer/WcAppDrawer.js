@@ -9,29 +9,40 @@ import { customElement, property } from "lit/decorators.js";
 import "../icons/WcIcon";
 import { drawerStyles } from './drawer-styles';
 import { config } from "../../config";
-import { appUser } from "../../adminIndex";
+export const canariaMenu = [{
+        name: 'all-island',
+        title: 'All Island',
+        icon: 'camera-retro-duotone'
+    }, {
+        name: 'cities',
+        title: 'Städte',
+        icon: 'calendar-alt'
+    }, {
+        name: 'mountains',
+        title: 'Berge',
+        icon: 'map-duotone'
+    }, {
+        name: 'caves',
+        title: 'Höhlen',
+        icon: 'plane-duotone'
+    }, {
+        name: 'water',
+        title: 'Wasser',
+        icon: 'plane-duotone'
+    }, {
+        name: 'parks',
+        title: 'Parks',
+        icon: 'plane-duotone'
+    }, {
+        name: 'adventure',
+        title: 'Erlebnisse',
+        icon: 'plane-duotone'
+    }];
 let WcAppDrawer = class WcAppDrawer extends LitElement {
     constructor(selectedDrawer) {
         super();
-        this.selectedDrawer = '';
+        this.selectedDrawer = 'all-island';
         this.drawerOpen = false;
-        this.drawers = [{
-                name: 'latest-story',
-                title: 'Fotos',
-                icon: 'camera-retro-duotone'
-            }, {
-                name: 'foto-preview',
-                title: 'Kalender',
-                icon: 'calendar-alt'
-            }, {
-                name: 'map',
-                title: 'Karte',
-                icon: 'map-duotone'
-            }, {
-                name: 'trip-details',
-                title: 'Reisedaten',
-                icon: 'plane-duotone'
-            }];
         this.selectedDrawer = selectedDrawer;
     }
     static get styles() {
@@ -64,13 +75,7 @@ let WcAppDrawer = class WcAppDrawer extends LitElement {
         return html `
       ${config.isMobile ? html `<wc-icon @click=${this.openDrawer} class="menu-icon" primaryColor="toolbar" icon=${this.drawerOpen ? 'close' : 'bars-light'}></wc-icon>` : ''} 
       <aside class="drawer ${!this.drawerOpen && config.isMobile ? 'hidden' : ''}">
-        ${appUser === 'admin' ? html `<div class="tab ${this.selectedDrawer === 'upload' ? "selected" : ""}" style="display: flex; align-items: center;"
-          @click=${() => this.setDrawerSelection('upload')}>Foto Upload</div>` : ''}
-        
-        ${appUser === 'admin' ? html `<div class="tab ${this.selectedDrawer === 'sightseeing' ? "selected" : ""}" style="display: flex; align-items: center;"
-          @click=${() => this.setDrawerSelection('sightseeing')}>Sightseeing</div>` : ''}
-
-        ${this.drawers.map(d => html `<div class="tab ${this.selectedDrawer === d.name ? "selected" : ""}" style="display: flex; align-items: center;"
+        ${canariaMenu.map(d => html `<div class="tab ${this.selectedDrawer === d.name ? "selected" : ""}" style="display: flex; align-items: center;"
           @click=${() => this.setDrawerSelection(d.name)}><wc-icon primaryColor=${this.selectedDrawer === d.name ? "green" : "toolbar"} icon=${d.icon}></wc-icon>${d.title}</div>`)}
       </aside>
     `;

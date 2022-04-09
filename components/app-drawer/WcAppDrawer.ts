@@ -5,10 +5,42 @@ import "../icons/WcIcon";
 
 import { drawerStyles } from './drawer-styles';
 import { config } from "../../config";
-import { appUser } from "../../adminIndex";
 import { iconName } from "../icons/WcIcon";
+import { Topic } from "../../code/leaflet";
+import { SelectedTopic } from "../app-layout/WcAppLayout";
 
-type callbackType = (selectedDrawer: string) => void;
+type callbackType = (selectedDrawer: SelectedTopic) => void;
+type CanariaMenu = Array<{ name: SelectedTopic, title: Topic, icon: iconName }>
+
+export const canariaMenu: CanariaMenu = [{
+  name: 'all-island',
+  title: 'All Island',
+  icon: 'camera-retro-duotone'
+}, {
+  name: 'cities',
+  title: 'Städte',
+  icon: 'calendar-alt'
+}, {
+  name: 'mountains',
+  title: 'Berge',
+  icon: 'map-duotone'
+}, {
+  name: 'caves',
+  title: 'Höhlen',
+  icon: 'plane-duotone'
+}, {
+  name: 'water',
+  title: 'Wasser',
+  icon: 'plane-duotone'
+}, {
+  name: 'parks',
+  title: 'Parks',
+  icon: 'plane-duotone'
+}, {
+  name: 'adventure',
+  title: 'Erlebnisse',
+  icon: 'plane-duotone'
+}];
 
 @customElement("wc-app-drawer")
 export class WcAppDrawer extends LitElement {
@@ -16,29 +48,11 @@ export class WcAppDrawer extends LitElement {
     return [drawerStyles];
   };
 
-  @property({ type: String }) selectedDrawer: string = '';
+  @property({ type: String }) selectedDrawer: SelectedTopic = 'all-island';
   private drawerOpen: boolean = false;
   callback: callbackType | undefined;
 
-  drawers: Array<{ name: string, title: string, icon: iconName }> = [{
-    name: 'latest-story',
-    title: 'Fotos',
-    icon: 'camera-retro-duotone'
-  }, {
-    name: 'foto-preview',
-    title: 'Kalender',
-    icon: 'calendar-alt'
-  }, {
-    name: 'map',
-    title: 'Karte',
-    icon: 'map-duotone'
-  }, {
-    name: 'trip-details',
-    title: 'Reisedaten',
-    icon: 'plane-duotone'
-  }];
-
-  constructor(selectedDrawer: string) {
+  constructor(selectedDrawer: SelectedTopic) {
     super();
 
     this.selectedDrawer = selectedDrawer;
@@ -57,7 +71,7 @@ export class WcAppDrawer extends LitElement {
     this.requestUpdate();
   };
 
-  setDrawerSelection(name: string): void {
+  setDrawerSelection(name: SelectedTopic): void {
     this.selectedDrawer = name;
     if (this.callback) {
       this.callback(this.selectedDrawer);
@@ -68,13 +82,7 @@ export class WcAppDrawer extends LitElement {
     return html`
       ${config.isMobile ? html`<wc-icon @click=${this.openDrawer} class="menu-icon" primaryColor="toolbar" icon=${this.drawerOpen ? 'close' : 'bars-light'}></wc-icon>` : ''} 
       <aside class="drawer ${!this.drawerOpen && config.isMobile ? 'hidden' : ''}">
-        ${appUser === 'admin' ? html`<div class="tab ${this.selectedDrawer === 'upload' ? "selected" : ""}" style="display: flex; align-items: center;"
-          @click=${(): void => this.setDrawerSelection('upload')}>Foto Upload</div>` : ''}
-        
-        ${appUser === 'admin' ? html`<div class="tab ${this.selectedDrawer === 'sightseeing' ? "selected" : ""}" style="display: flex; align-items: center;"
-          @click=${(): void => this.setDrawerSelection('sightseeing')}>Sightseeing</div>` : ''}
-
-        ${this.drawers.map(d => html`<div class="tab ${this.selectedDrawer === d.name ? "selected" : ""}" style="display: flex; align-items: center;"
+        ${canariaMenu.map(d => html`<div class="tab ${this.selectedDrawer === d.name ? "selected" : ""}" style="display: flex; align-items: center;"
           @click=${(): void => this.setDrawerSelection(d.name)}><wc-icon primaryColor=${this.selectedDrawer === d.name ? "green" : "toolbar"} icon=${d.icon}></wc-icon>${d.title}</div>`)}
       </aside>
     `;

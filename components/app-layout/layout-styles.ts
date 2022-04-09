@@ -14,7 +14,7 @@ export const layoutStyles: CSSResultGroup = css`
   #user-content {
     grid-column: 2/3;
     grid-row: 2/3;
-    padding: 10px 250px 40px 50px;
+    padding: 10px 50px 40px 50px;
     overflow-y: scroll;
   }
 

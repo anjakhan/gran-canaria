@@ -4,22 +4,12 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 import { LitElement, html, css } from "lit";
 import { customElement, property, query } from "lit/decorators.js";
 import { createToDoMap } from "../../code/leaflet";
 import { mapStyles } from "./map-styles";
 import '../../components/map-component/WcMapComponent';
 import { WcImageCard } from "../../components/image-card/WcImageCard";
-import { downloadImageURL } from "../../code/firebase";
 let WcDetailsPage = class WcDetailsPage extends LitElement {
     constructor(sightseeing) {
         super();
@@ -77,28 +67,12 @@ let WcDetailsPage = class WcDetailsPage extends LitElement {
     ;
     connectedCallback() {
         super.connectedCallback();
-        this.sightseeing && this.getImagesFromFolder(this.sightseeing.foldername);
+        this.sightseeing && this.getPics(this.sightseeing.foldername);
     }
-    getImagesFromFolder(foldername) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const imageUrls = [];
-            try {
-                yield downloadImageURL("https://firebasestorage.googleapis.com/v0/b/gran-canaria-4e556.appspot.com/o/sightseeings/cities/arucas")
-                    .then((data) => {
-                    data.forEach((doc) => console.log(doc));
-                })
-                    .catch((error) => console.log('no images found', error));
-            }
-            catch (error) {
-                console.log(error);
-            }
-            this.images = imageUrls;
-        });
-    }
-    ;
     getPics(foldername) {
+        console.log(foldername);
         let urlList = [];
-        fetch(`https://api.github.com/repos/anjakhan/fuerteventura/contents/assets/${foldername}`)
+        fetch(`https://api.github.com/repos/anjakhan/gran-canaria/contents/assets/${foldername}`)
             .then(response => response.json())
             .then(data => {
             data.forEach((foto) => urlList.push(foto.download_url));
@@ -114,7 +88,6 @@ let WcDetailsPage = class WcDetailsPage extends LitElement {
     render() {
         const sightseeing = this.sightseeing;
         const images = this.images;
-        console.log(images);
         return html `
       <div class="details-page">
         <h1 class="title">${sightseeing.name}</h1>

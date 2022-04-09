@@ -160,12 +160,18 @@ export const dowloadFile = (filename: string) => {
 // };
 
 export async function downloadImageURL(foldername: string) {
-  const listOfUrls: any = [];
+  let listOfUrls: any = [];
   var storageRef = firebase.storage().refFromURL(foldername);
   storageRef.listAll().then((res: any) => {
-    res.items.forEach((item: any) => item.getDownloadURL().then((downloadURLs: any) => console.log(downloadURLs)));
+    listOfUrls = res.items.map((item: any) => item.getDownloadURL().then((downloadURLs: any) => downloadURLs));
+    //console.log(listOfUrls)
   })
-  return listOfUrls;
+  if (listOfUrls.length === 0) {
+    window.setTimeout(() => console.log(listOfUrls), 2000)
+    return listOfUrls;
+  } else {
+    return listOfUrls;
+  }
 }
 
 export const firestore = firebase.firestore();

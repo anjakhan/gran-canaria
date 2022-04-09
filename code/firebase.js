@@ -152,12 +152,18 @@ export const dowloadFile = (filename) => {
 };
 export function downloadImageURL(foldername) {
     return __awaiter(this, void 0, void 0, function* () {
-        const listOfUrls = [];
+        let listOfUrls = [];
         var storageRef = firebase.storage().refFromURL(foldername);
         storageRef.listAll().then((res) => {
-            res.items.forEach((item) => item.getDownloadURL().then((downloadURLs) => console.log(downloadURLs)));
+            listOfUrls = res.items.map((item) => item.getDownloadURL().then((downloadURLs) => downloadURLs));
         });
-        return listOfUrls;
+        if (listOfUrls.length === 0) {
+            window.setTimeout(() => console.log(listOfUrls), 2000);
+            return listOfUrls;
+        }
+        else {
+            return listOfUrls;
+        }
     });
 }
 export const firestore = firebase.firestore();

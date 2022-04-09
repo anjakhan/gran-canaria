@@ -5,7 +5,6 @@ import { createToDoMap } from "../../code/leaflet";
 import { mapStyles } from "./map-styles";
 import '../../components/map-component/WcMapComponent';
 import { WcImageCard } from "../../components/image-card/WcImageCard";
-import { downloadImageURL } from "../../code/firebase";
 
 @customElement("wc-details-page")
 export class WcDetailsPage extends LitElement {
@@ -75,26 +74,13 @@ export class WcDetailsPage extends LitElement {
   connectedCallback(): void {
     super.connectedCallback();
 
-    this.sightseeing && this.getImagesFromFolder(this.sightseeing.foldername);
+    this.sightseeing && this.getPics(this.sightseeing.foldername);
   }
 
-  async getImagesFromFolder(foldername: string) {
-    const imageUrls: Array<string> = [];
-    try {
-      await downloadImageURL("https://firebasestorage.googleapis.com/v0/b/gran-canaria-4e556.appspot.com/o/sightseeings/cities/arucas")
-        .then((data: any) => {
-          data.forEach((doc: any) => console.log(doc));
-        })
-        .catch((error: string) => console.log('no images found', error));
-    } catch (error) {
-      console.log(error);
-    }
-    this.images = imageUrls;
-  };
-
   getPics(foldername: string) {
+    console.log(foldername)
     let urlList: Array<string> = [];
-    fetch(`https://api.github.com/repos/anjakhan/fuerteventura/contents/assets/${foldername}`)
+    fetch(`https://api.github.com/repos/anjakhan/gran-canaria/contents/assets/${foldername}`)
       .then(response => response.json())
       .then(data => {
         data.forEach((foto: { download_url: string }) => urlList.push(foto.download_url)) // Prints result from `response.json()` in getRequest
@@ -111,7 +97,6 @@ export class WcDetailsPage extends LitElement {
   render(): TemplateResult {
     const sightseeing = this.sightseeing;
     const images = this.images;
-    console.log(images)
     return html`
       <div class="details-page">
         <h1 class="title">${sightseeing.name}</h1>

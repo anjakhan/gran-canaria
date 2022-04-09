@@ -99,7 +99,7 @@ export type Sightseeing = {
 const cities: Sightseeing[] = [{
   name: "Las Palmas de Gran Canaria",
   image: "https://firebasestorage.googleapis.com/v0/b/gran-canaria-4e556.appspot.com/o/sightseeings%2Fcities%2Flaspalmas%2FPlaya-Las-Canteras-Las-Palmas-de-Gran-Canaria.webp?alt=media&token=f774e8c7-e311-4712-9d00-26c570ca599d",
-  foldername: "https://firebasestorage.googleapis.com/v0/b/gran-canaria-4e556.appspot.com/o/sightseeings/cities/laspalmas/",
+  foldername: "cities/laspalmas/",
   location: [28.124169202574212, -15.43635597886297],
   orientation: "north",
   tags: ["Catedral de Santa Ana", "Casa de Colon (Kolumbushaus)", "Museo Canario", "Mercado de Vegueta (Markt)", "Auditorio Alfredo Kraus", "Hafen mit Kreuzfahrtschiffen", "Altstadt Vegueta", "Poema del Mar (Aquarium)", "Castillo de la Luz", "Jardin Canario", "Naturpark Bandama", "Teror"],
@@ -107,7 +107,7 @@ const cities: Sightseeing[] = [{
 }, {
   name: "Maspalomas",
   image: "https://firebasestorage.googleapis.com/v0/b/gran-canaria-4e556.appspot.com/o/sightseeings%2Fcities%2Fmaspalomas%2FMaspalomas-Duenen-Gran-Canaria.webp?alt=media&token=3adb0b0d-09da-4bbc-b759-a32b58f4b7f1",
-  foldername: "https://firebasestorage.googleapis.com/v0/b/gran-canaria-4e556.appspot.com/o/sightseeings/cities/maspalomas/",
+  foldername: "cities/maspalomas/",
   location: [27.761848689915524, -15.586680204960945],
   orientation: "south",
   tags: ["Bike Tour", "Kamelreiten", "Delfin Tour", "Sanddünen", "Palmitos Park", "Faro de Maspalomas", "Faro de Meloneras", "Playa de Maspalomas", "Playa del Ingles"],
@@ -115,7 +115,7 @@ const cities: Sightseeing[] = [{
 }, {
   name: "Puerto de Mogan",
   image: "https://firebasestorage.googleapis.com/v0/b/gran-canaria-4e556.appspot.com/o/sightseeings%2Fcities%2Fmogan%2FGran-Canaria-Puerto-de-Mogan-Blumengasse.webp?alt=media&token=e9a102b6-c7e2-46ab-8229-fdc475c40aab",
-  foldername: "https://firebasestorage.googleapis.com/v0/b/gran-canaria-4e556.appspot.com/o/sightseeings/cities/mogan/",
+  foldername: "cities/mogan/",
   location: [27.791766618649017, -15.712254276823437],
   orientation: "south",
   tags: ["Blumengassen", "Hafen", "Playa de Mogan", "Aussichtspunkt", "U-Boot", "Canada de Los Gatos", "Markt am Freitag"],
@@ -123,7 +123,7 @@ const cities: Sightseeing[] = [{
 }, {
   name: "Arucas",
   image: "https://firebasestorage.googleapis.com/v0/b/gran-canaria-4e556.appspot.com/o/sightseeings%2Fcities%2Farucas%2FParroquia-de-San-Juan-Bautista-Gran-Canaria.webp?alt=media&token=cf048116-6463-4b90-92d3-271430d0444b",
-  foldername: "https://firebasestorage.googleapis.com/v0/b/gran-canaria-4e556.appspot.com/o/sightseeings/cities/arucas/",
+  foldername: "cities/arucas/",
   location: [28.12049491415551, -15.521058975899761],
   orientation: "north",
   tags: ["Parroquia de San Juan Bautista de Arucas", "Jardin de la Marquesa", "Parque Municipal"],

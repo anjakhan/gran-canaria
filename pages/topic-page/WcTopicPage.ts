@@ -1,15 +1,16 @@
 import { LitElement, html, TemplateResult, css } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { customElement, property, query } from "lit/decorators.js";
 import { geSightseeingDocs } from "../../code/firebase";
-import { Topic } from "../../code/leaflet";
+import { createToDoMap, Topic } from "../../code/leaflet";
 import { WcSightseeingCard } from "../../components/sightseeing-card/WcSightseeingCard";
+import { mapStyles } from "../all-island-page/map-styles";
 import { Sightseeing } from "../all-island-page/WcAllIslandPage";
 import { WcDetailsPage } from "../details-page/WcDetailsPage";
 
 @customElement("wc-topic-page")
 export class WcTopicPage extends LitElement {
   static get styles() {
-    return [css`
+    return [mapStyles, css`
       .topic-page {
         display: flex;
         flex-direction: column;
@@ -28,6 +29,14 @@ export class WcTopicPage extends LitElement {
         grid-gap: 20px;
         grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
       }
+
+      .map-container {
+        position: relative;
+        height: 450px;
+        width: 100%;
+        grid-row: 2;
+        grid-column: 1;
+      }
     `];
   };
 
@@ -35,6 +44,9 @@ export class WcTopicPage extends LitElement {
   @property({ type: Object }) sightseeing: Sightseeing;
   @property({ type: Boolean }) showDetails: boolean = false;
   @property({ type: String }) topic: Topic;
+
+  @query('#mapid') mapid: HTMLDivElement;
+  @query('.map-container') mapContainer: HTMLDivElement;
 
   async getSightseeingsFromFirebase() {
     const sightseeings: Array<Sightseeing> = [];
@@ -74,8 +86,26 @@ export class WcTopicPage extends LitElement {
 
   renderSightseeingPage(): LitElement {
     const td = new WcDetailsPage(this.sightseeing);
+    td.getDetailsPage(backToSightseeings => this.showDetails = !backToSightseeings);
     return td;
   }
+
+  renderMap() {
+    const mapContainer = document.createElement('div');
+    mapContainer.setAttribute('id', 'mapid');
+    mapContainer.style.height = '100%';
+    mapContainer.style.width = '100%';
+
+    if (!this.mapContainer) {
+      setTimeout(() => {
+        !this.showDetails && this.mapContainer?.appendChild(mapContainer);
+        createToDoMap(mapContainer, this.sightseeings, 10);
+      }, 100);
+    } else {
+      this.mapContainer?.appendChild(mapContainer);
+      createToDoMap(mapContainer, this.sightseeings, 10);
+    }
+  };
 
   render(): TemplateResult {
     return html`
@@ -83,7 +113,7 @@ export class WcTopicPage extends LitElement {
         <div class="topic-page">
           <h1 class="title">${this.topic} auf Gran Canaria</h1>
 
-          <p>map with cities comes here ...</p>
+          <div class="map-container">${this.renderMap()}</div>
           
           <div class="topic-container">${this.sightseeings?.map(c => this.renderSightseeingCard(c))}</div>
         </div>

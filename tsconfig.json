@@ -2,8 +2,8 @@
   "compileOnSave": true,
   "compilerOptions": {
     "experimentalDecorators": true,
-    "module": "ES6",
-    "target": "ES6",
+    "module": "esnext",
+    "target": "esnext",
     "jsx": "preserve",
     "strictNullChecks": true,
     "skipLibCheck": true,

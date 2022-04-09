@@ -1,12 +1,3 @@
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 export const firebase = window.firebase;
 const config = {
     apiKey: "AIzaSyAuvLTt0pKvS5Vy3WH7p7s9OR4E8y5VlCA",
@@ -40,48 +31,42 @@ const checkErrorCode = (errorCode) => {
         errorWrapper ? errorWrapper.innerHTML = "Access to this account has been temporarily <br>disabled due to many failed login attempts." : "";
     }
 };
-export function signinWithGoogle() {
-    return __awaiter(this, void 0, void 0, function* () {
-        const provider = new firebase.auth.GoogleAuthProvider();
-        provider.setCustomParameters({ prompt: 'select_account' });
-        try {
-            const userCredential = yield firebase.auth().signInWithPopup(provider);
-            return userCredential;
-        }
-        catch (error) {
-            const errorCode = error.code;
-            checkErrorCode(errorCode);
-            throw error;
-        }
-    });
+export async function signinWithGoogle() {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    provider.setCustomParameters({ prompt: 'select_account' });
+    try {
+        const userCredential = await firebase.auth().signInWithPopup(provider);
+        return userCredential;
+    }
+    catch (error) {
+        const errorCode = error.code;
+        checkErrorCode(errorCode);
+        throw error;
+    }
 }
-export function createUser(name, email, password) {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            const userCredential = yield firebase.auth().createUserWithEmailAndPassword(email, password);
-            userCredential.user.updateProfile({ displayName: name });
-            return userCredential;
-        }
-        catch (error) {
-            const errorCode = error.code;
-            checkErrorCode(errorCode);
-            throw error;
-        }
-    });
+export async function createUser(name, email, password) {
+    try {
+        const userCredential = await firebase.auth().createUserWithEmailAndPassword(email, password);
+        userCredential.user.updateProfile({ displayName: name });
+        return userCredential;
+    }
+    catch (error) {
+        const errorCode = error.code;
+        checkErrorCode(errorCode);
+        throw error;
+    }
 }
 ;
-export function signinUser(email, password) {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            const userCredential = yield firebase.auth().signInWithEmailAndPassword(email, password);
-            return userCredential;
-        }
-        catch (error) {
-            const errorCode = error.code;
-            checkErrorCode(errorCode);
-            throw error;
-        }
-    });
+export async function signinUser(email, password) {
+    try {
+        const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
+        return userCredential;
+    }
+    catch (error) {
+        const errorCode = error.code;
+        checkErrorCode(errorCode);
+        throw error;
+    }
 }
 ;
 export const createSightseeingDocument = (sightseeingdoc) => {
@@ -150,21 +135,19 @@ export const dowloadFile = (filename) => {
     const storageRef = firebase.storage().ref();
     return storageRef.child(filename).getDownloadURL();
 };
-export function downloadImageURL(foldername) {
-    return __awaiter(this, void 0, void 0, function* () {
-        let listOfUrls = [];
-        var storageRef = firebase.storage().refFromURL(foldername);
-        storageRef.listAll().then((res) => {
-            listOfUrls = res.items.map((item) => item.getDownloadURL().then((downloadURLs) => downloadURLs));
-        });
-        if (listOfUrls.length === 0) {
-            window.setTimeout(() => console.log(listOfUrls), 2000);
-            return listOfUrls;
-        }
-        else {
-            return listOfUrls;
-        }
+export async function downloadImageURL(foldername) {
+    let listOfUrls = [];
+    var storageRef = firebase.storage().refFromURL(foldername);
+    storageRef.listAll().then((res) => {
+        listOfUrls = res.items.map((item) => item.getDownloadURL().then((downloadURLs) => downloadURLs));
     });
+    if (listOfUrls.length === 0) {
+        window.setTimeout(() => console.log(listOfUrls), 2000);
+        return listOfUrls;
+    }
+    else {
+        return listOfUrls;
+    }
 }
 export const firestore = firebase.firestore();
 //# sourceMappingURL=firebase.js.map

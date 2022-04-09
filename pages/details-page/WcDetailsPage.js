@@ -7,8 +7,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 import { LitElement, html, css } from "lit";
 import { customElement, property, query } from "lit/decorators.js";
 import { createToDoMap } from "../../code/leaflet";
-import { mapStyles } from "./map-styles";
-import '../../components/map-component/WcMapComponent';
+import { mapStyles } from "../all-island-page/map-styles";
 import { WcImageCard } from "../../components/image-card/WcImageCard";
 let WcDetailsPage = class WcDetailsPage extends LitElement {
     constructor(sightseeing) {
@@ -19,7 +18,7 @@ let WcDetailsPage = class WcDetailsPage extends LitElement {
         return [mapStyles, css `
       .details-page {
         display: grid;
-        grid-template-columns: 500px auto;
+        grid-template-columns: 40% auto;
         grid-template-rows: auto auto 1fr;
         grid-gap: 20px;
         width: 100%;
@@ -27,6 +26,7 @@ let WcDetailsPage = class WcDetailsPage extends LitElement {
       }
 
       .title {
+        position: relative;
         text-align: center;
         padding-right: 150px;
         grid-row: 1;
@@ -36,7 +36,7 @@ let WcDetailsPage = class WcDetailsPage extends LitElement {
       .map-container {
         position: relative;
         height: 300px;
-        width: 500px;
+        width: 100%;
         grid-row: 2;
         grid-column: 1;
       }
@@ -53,7 +53,42 @@ let WcDetailsPage = class WcDetailsPage extends LitElement {
         grid-gap: 20px;
         grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
       }
+
+      .back-icon {
+        position: absolute;
+        width: 30px;
+        height: 100%;
+        margin-right: 10px;
+        cursor: pointer;
+      }
     `];
+    }
+    ;
+    connectedCallback() {
+        super.connectedCallback();
+        this.sightseeing && this.getPics(this.sightseeing.foldername);
+        this.renderMap();
+    }
+    getPics(foldername) {
+        let urlList = [];
+        fetch(`https://api.github.com/repos/anjakhan/gran-canaria/contents/assets/sightseeings/${foldername}?ref=main`)
+            .then(response => response.json())
+            .then(data => {
+            data.forEach((foto) => urlList.push(foto.download_url));
+        })
+            .catch(error => console.error(error));
+        setTimeout(() => this.images = urlList, 1000);
+    }
+    ;
+    getDetailsPage(callback) {
+        this.callback = callback;
+    }
+    ;
+    goBackToSightseeings() {
+        if (this.callback) {
+            this.callback(true);
+        }
+        ;
     }
     ;
     renderMap() {
@@ -61,36 +96,22 @@ let WcDetailsPage = class WcDetailsPage extends LitElement {
         mapContainer.setAttribute('id', 'mapid');
         mapContainer.style.height = '100%';
         mapContainer.style.width = '100%';
-        createToDoMap(mapContainer);
-        return mapContainer;
-    }
-    ;
-    connectedCallback() {
-        super.connectedCallback();
-        this.sightseeing && this.getPics(this.sightseeing.foldername);
-    }
-    getPics(foldername) {
-        console.log(foldername);
-        let urlList = [];
-        fetch(`https://api.github.com/repos/anjakhan/gran-canaria/contents/assets/${foldername}`)
-            .then(response => response.json())
-            .then(data => {
-            data.forEach((foto) => urlList.push(foto.download_url));
-        })
-            .catch(error => console.error(error));
-        setTimeout(() => this.images = urlList, 2000);
+        this.mapContainer?.appendChild(mapContainer);
+        createToDoMap(mapContainer, [this.sightseeing]);
     }
     ;
     renderImageCard(imageUrl) {
-        const td = new WcImageCard(imageUrl);
+        const td = new WcImageCard(imageUrl, this.sightseeing.foldername);
         return td;
     }
     render() {
         const sightseeing = this.sightseeing;
-        const images = this.images;
         return html `
       <div class="details-page">
-        <h1 class="title">${sightseeing.name}</h1>
+        <h1 class="title">
+          <wc-icon icon="arrow-left" primaryColor="gray" class="back-icon" @click=${this.goBackToSightseeings}></wc-icon>
+          ${sightseeing.name}
+        </h1>
 
         <div class="map-container">${this.renderMap()}</div>
 
@@ -99,7 +120,7 @@ let WcDetailsPage = class WcDetailsPage extends LitElement {
         </div>
 
         <div class="cards-container">
-          ${images === null || images === void 0 ? void 0 : images.map(c => this.renderImageCard(c))}
+          ${this.images?.map(c => this.renderImageCard(c))}
         </div>
         
         
@@ -117,6 +138,9 @@ __decorate([
 __decorate([
     query('#mapid')
 ], WcDetailsPage.prototype, "mapid", void 0);
+__decorate([
+    query('.map-container')
+], WcDetailsPage.prototype, "mapContainer", void 0);
 WcDetailsPage = __decorate([
     customElement("wc-details-page")
 ], WcDetailsPage);

@@ -1,6 +1,7 @@
-import { css } from 'lit';
+import { css, CSSResultGroup } from 'lit';
 import { config } from '../../config';
-export const mapStyles = css `
+
+export const mapStyles: CSSResultGroup = css`
   /* .leaflet-map-pane {
     position: absolute;
     top: 0;
@@ -179,7 +180,7 @@ export const mapStyles = css `
 	pointer-events: none;
 	}
 .leaflet-top {
-	top: 60;
+	top: 10;
 	}
 .leaflet-right {
 	right: 0;
@@ -684,25 +685,11 @@ svg.leaflet-image-layer.leaflet-interactive path {
 	left: 0;
 	margin-left: -12px;
 	border-right-color: #fff;
-	}
+}
 
-  #mapid {
-    position: absolute;
-    top: 0;
-    left: 0;
-  }
-
-  @media (max-width: ${config.mobileDeviceWidth}px) {
-    #mapid {
-      height: 100vh!important;
-			left: 0;
-    }
-.leaflet-left {
+#mapid {
+	position: absolute;
+	top: 0;
 	left: 0;
-	}
-.leaflet-top {
-	top: 60;
-	}
-  }
+}
 `;
-//# sourceMappingURL=map-styles.js.map

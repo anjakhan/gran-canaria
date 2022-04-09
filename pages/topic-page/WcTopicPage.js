@@ -4,19 +4,12 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 import { LitElement, html, css } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { customElement, property, query } from "lit/decorators.js";
 import { geSightseeingDocs } from "../../code/firebase";
+import { createToDoMap } from "../../code/leaflet";
 import { WcSightseeingCard } from "../../components/sightseeing-card/WcSightseeingCard";
+import { mapStyles } from "../all-island-page/map-styles";
 import { WcDetailsPage } from "../details-page/WcDetailsPage";
 let WcTopicPage = class WcTopicPage extends LitElement {
     constructor(topic) {
@@ -25,7 +18,7 @@ let WcTopicPage = class WcTopicPage extends LitElement {
         this.topic = topic;
     }
     static get styles() {
-        return [css `
+        return [mapStyles, css `
       .topic-page {
         display: flex;
         flex-direction: column;
@@ -44,24 +37,30 @@ let WcTopicPage = class WcTopicPage extends LitElement {
         grid-gap: 20px;
         grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
       }
+
+      .map-container {
+        position: relative;
+        height: 450px;
+        width: 100%;
+        grid-row: 2;
+        grid-column: 1;
+      }
     `];
     }
     ;
-    getSightseeingsFromFirebase() {
-        return __awaiter(this, void 0, void 0, function* () {
-            const sightseeings = [];
-            try {
-                yield geSightseeingDocs()
-                    .then((data) => {
-                    data.filter((d) => d.topic === this.topic).forEach((doc) => sightseeings.push(doc));
-                })
-                    .catch((error) => console.log('no city docs found', error));
-            }
-            catch (error) {
-                console.log(error);
-            }
-            this.sightseeings = sightseeings;
-        });
+    async getSightseeingsFromFirebase() {
+        const sightseeings = [];
+        try {
+            await geSightseeingDocs()
+                .then((data) => {
+                data.filter((d) => d.topic === this.topic).forEach((doc) => sightseeings.push(doc));
+            })
+                .catch((error) => console.log('no city docs found', error));
+        }
+        catch (error) {
+            console.log(error);
+        }
+        this.sightseeings = sightseeings;
     }
     ;
     connectedCallback() {
@@ -79,18 +78,35 @@ let WcTopicPage = class WcTopicPage extends LitElement {
     }
     renderSightseeingPage() {
         const td = new WcDetailsPage(this.sightseeing);
+        td.getDetailsPage(backToSightseeings => this.showDetails = !backToSightseeings);
         return td;
     }
+    renderMap() {
+        const mapContainer = document.createElement('div');
+        mapContainer.setAttribute('id', 'mapid');
+        mapContainer.style.height = '100%';
+        mapContainer.style.width = '100%';
+        if (!this.mapContainer) {
+            setTimeout(() => {
+                !this.showDetails && this.mapContainer?.appendChild(mapContainer);
+                createToDoMap(mapContainer, this.sightseeings, 10);
+            }, 100);
+        }
+        else {
+            this.mapContainer?.appendChild(mapContainer);
+            createToDoMap(mapContainer, this.sightseeings, 10);
+        }
+    }
+    ;
     render() {
-        var _a;
         return html `
       ${this.showDetails ? this.renderSightseeingPage() : html `
         <div class="topic-page">
           <h1 class="title">${this.topic} auf Gran Canaria</h1>
 
-          <p>map with cities comes here ...</p>
+          <div class="map-container">${this.renderMap()}</div>
           
-          <div class="topic-container">${(_a = this.sightseeings) === null || _a === void 0 ? void 0 : _a.map(c => this.renderSightseeingCard(c))}</div>
+          <div class="topic-container">${this.sightseeings?.map(c => this.renderSightseeingCard(c))}</div>
         </div>
       `}
     `;
@@ -109,6 +125,12 @@ __decorate([
 __decorate([
     property({ type: String })
 ], WcTopicPage.prototype, "topic", void 0);
+__decorate([
+    query('#mapid')
+], WcTopicPage.prototype, "mapid", void 0);
+__decorate([
+    query('.map-container')
+], WcTopicPage.prototype, "mapContainer", void 0);
 WcTopicPage = __decorate([
     customElement("wc-topic-page")
 ], WcTopicPage);

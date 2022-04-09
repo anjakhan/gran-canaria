@@ -56,7 +56,7 @@ let WcFotostory = class WcFotostory extends LitElement {
     ` : html `
       <div style="display: flex; justify-content: center; align-items: center; margin-top: 50px;">
         <lottie-player class="lottie" src="https://assets1.lottiefiles.com/packages/lf20_ORPnX5.json"  background="transparent"  speed="1"  loop  autoplay></lottie-player>
-      </div>`}      
+      </div>`}
     `;
     }
     ;

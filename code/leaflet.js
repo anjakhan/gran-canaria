@@ -37,9 +37,8 @@ const sightseeings = [{
         topic: "",
         color: ""
     }];
-export const createToDoMap = (mapid) => {
-    const zoom = config.isMobile ? 9 : 10;
-    const map = L.map(mapid).setView([28.378412972969333, -14.115175194361001], zoom);
+export const createToDoMap = (mapid, sightseeings, zoom = 9) => {
+    const map = L.map(mapid).setView([27.930669242389122, -15.58718600810936], zoom);
     L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
         attribution: '&copy;<a href="http://www.esri.com/">Esri</a>i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
         maxZoom: 18,

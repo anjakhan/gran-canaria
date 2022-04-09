@@ -24,7 +24,6 @@ let WcSightseeingCard = class WcSightseeingCard extends LitElement {
         background-color: white;
         cursor: pointer;
         min-width: 300px;
-        border: 1px solid #555;
       }
       .card-container:hover {
         box-shadow: 5px 5px 8px #888888;
@@ -37,6 +36,7 @@ let WcSightseeingCard = class WcSightseeingCard extends LitElement {
         margin-bottom: 10px;
         background-repeat: no-repeat;
         content: cover;
+        border: 1px solid #ccc;
       }
 
       .bullet-point {

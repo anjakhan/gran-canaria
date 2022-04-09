@@ -7,9 +7,10 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 import { LitElement, html, css } from "lit";
 import { customElement, property } from "lit/decorators.js";
 let WcImageCard = class WcImageCard extends LitElement {
-    constructor(imageUrl) {
+    constructor(imageUrl, sightseeing) {
         super(),
             this.imageUrl = imageUrl;
+        this.sightseeing = sightseeing;
     }
     static get styles() {
         return [css `
@@ -22,13 +23,8 @@ let WcImageCard = class WcImageCard extends LitElement {
         border: 1px solid #ccc;
         border-radius: 4px;
         background-color: white;
-        cursor: pointer;
         min-width: 300px;
-        border: 1px solid #555;
-      }
-      .card-container:hover {
-        box-shadow: 5px 5px 8px #888888;
-        transform: scale(1.01);
+        border: 1px solid #ccc;
       }
 
       .sightseeing-image {
@@ -37,26 +33,7 @@ let WcImageCard = class WcImageCard extends LitElement {
         margin-bottom: 10px;
         background-repeat: no-repeat;
         content: cover;
-      }
-
-      .bullet-point {
-        margin-bottom: 10px;
-      }
-      .bullet-point-title {
-        font-weight: bold;
-      }
-
-      .map-info {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 1em;
-      }
-      .map-icon {
-        width: 30px;
-        height: 30px;
-        margin-right: 10px;
+        border: 1px solid #ccc;
       }
     `];
     }
@@ -66,7 +43,7 @@ let WcImageCard = class WcImageCard extends LitElement {
       <div class="card-container">
         <div class="sightseeing-image" style="background: url(${this.imageUrl}); background-size: cover"></div>
 
-        <h3>${this.imageUrl}</h3>
+        <p>${this.imageUrl.split(this.sightseeing + "/")[1].split(".")[0].split("-600")[0].replaceAll("-", " ")}</p>
       </div>
     `;
     }
@@ -75,6 +52,9 @@ let WcImageCard = class WcImageCard extends LitElement {
 __decorate([
     property({ type: String })
 ], WcImageCard.prototype, "imageUrl", void 0);
+__decorate([
+    property({ type: String })
+], WcImageCard.prototype, "sightseeing", void 0);
 WcImageCard = __decorate([
     customElement("wc-image-card")
 ], WcImageCard);

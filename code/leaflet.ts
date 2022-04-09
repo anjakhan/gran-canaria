@@ -1,4 +1,5 @@
 import { config } from '../config';
+import { Sightseeing } from '../pages/all-island-page/WcAllIslandPage';
 import { FotoUploadDto } from './nobs/UploadNobs';
 
 export const L = (<any>window).L;
@@ -55,9 +56,8 @@ const sightseeings: Array<{ name: string, location: Array<number>, topic: string
 }];
 
 
-export const createToDoMap = (mapid: HTMLDivElement) => {
-  const zoom = config.isMobile ? 9 : 10;
-  const map = L.map(mapid).setView([28.378412972969333, -14.115175194361001], zoom);
+export const createToDoMap = (mapid: HTMLDivElement, sightseeings: Sightseeing[], zoom: number = 9) => {
+  const map = L.map(mapid).setView([27.930669242389122, -15.58718600810936], zoom);
 
   L.tileLayer(
     'http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {

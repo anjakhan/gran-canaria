@@ -15,13 +15,8 @@ export class WcImageCard extends LitElement {
         border: 1px solid #ccc;
         border-radius: 4px;
         background-color: white;
-        cursor: pointer;
         min-width: 300px;
-        border: 1px solid #555;
-      }
-      .card-container:hover {
-        box-shadow: 5px 5px 8px #888888;
-        transform: scale(1.01);
+        border: 1px solid #ccc;
       }
 
       .sightseeing-image {
@@ -30,36 +25,19 @@ export class WcImageCard extends LitElement {
         margin-bottom: 10px;
         background-repeat: no-repeat;
         content: cover;
-      }
-
-      .bullet-point {
-        margin-bottom: 10px;
-      }
-      .bullet-point-title {
-        font-weight: bold;
-      }
-
-      .map-info {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 1em;
-      }
-      .map-icon {
-        width: 30px;
-        height: 30px;
-        margin-right: 10px;
+        border: 1px solid #ccc;
       }
     `];
   };
 
   @property({ type: String }) imageUrl: string;
+  @property({ type: String }) sightseeing: string;
 
-  constructor(imageUrl: string) {
+  constructor(imageUrl: string, sightseeing: string) {
     super(),
 
       this.imageUrl = imageUrl;
+    this.sightseeing = sightseeing;
   }
 
   render(): TemplateResult {
@@ -67,7 +45,7 @@ export class WcImageCard extends LitElement {
       <div class="card-container">
         <div class="sightseeing-image" style="background: url(${this.imageUrl}); background-size: cover"></div>
 
-        <h3>${this.imageUrl}</h3>
+        <p>${this.imageUrl.split(this.sightseeing + "/")[1].split(".")[0].split("-600")[0].replaceAll("-", " ")}</p>
       </div>
     `;
   };

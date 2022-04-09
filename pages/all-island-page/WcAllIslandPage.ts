@@ -1,14 +1,15 @@
 import { LitElement, html, TemplateResult, css } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { customElement, property, query } from "lit/decorators.js";
 import { createSightseeingDocument } from "../../code/firebase";
-import { Topic } from "../../code/leaflet";
+import { createToDoMap, Topic } from "../../code/leaflet";
 import { WcSightseeingCard } from "../../components/sightseeing-card/WcSightseeingCard";
 import { WcDetailsPage } from "../details-page/WcDetailsPage";
+import { mapStyles } from "./map-styles";
 
 @customElement("wc-all-island-page")
 export class WcAllIslandPage extends LitElement {
   static get styles() {
-    return [css`
+    return [mapStyles, css`
       .all-island-page {
         display: flex;
         flex-direction: column;
@@ -32,14 +33,25 @@ export class WcAllIslandPage extends LitElement {
         grid-gap: 20px;
         grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
       }
+
+      .map-container {
+        position: relative;
+        height: 450px;
+        width: 100%;
+        grid-row: 2;
+        grid-column: 1;
+      }
     `];
   };
 
   @property({ type: Boolean }) showDetails: boolean = false;
   @property({ type: Object }) sightseeing: Sightseeing;
 
-  async addSightseeingsToFirebase(sightseeing: Sightseeing[]) {
-    sightseeing.forEach(async c => {
+  @query('#mapid') mapid: HTMLDivElement;
+  @query('.map-container') mapContainer: HTMLDivElement;
+
+  async addSightseeingsToFirebase(sightseeings: Sightseeing[]) {
+    sightseeings.forEach(async c => {
       try {
         await createSightseeingDocument(c);
       } catch (error) {
@@ -66,8 +78,26 @@ export class WcAllIslandPage extends LitElement {
 
   renderSightseeingPage(): LitElement {
     const td = new WcDetailsPage(this.sightseeing);
+    td.getDetailsPage(backToSightseeings => this.showDetails = !backToSightseeings);
     return td;
   }
+
+  renderMap() {
+    const mapContainer = document.createElement('div');
+    mapContainer.setAttribute('id', 'mapid');
+    mapContainer.style.height = '100%';
+    mapContainer.style.width = '100%';
+
+    if (!this.mapContainer) {
+      setTimeout(() => {
+        !this.showDetails && this.mapContainer?.appendChild(mapContainer);
+        createToDoMap(mapContainer, cities, 10);
+      }, 100);
+    } else {
+      this.mapContainer?.appendChild(mapContainer);
+      createToDoMap(mapContainer, cities, 10);
+    }
+  };
 
   render(): TemplateResult {
     return html`
@@ -75,7 +105,7 @@ export class WcAllIslandPage extends LitElement {
         <div class="all-island-page">
           <h1 class="title">Gran Canaria - Sehenswürdigkeiten</h1>
 
-          <p>map with cities comes here ...</p>
+          <div class="map-container">${this.renderMap()}</div>
 
           <h2>Städte auf Gran Canaria</h2>
           <div class="all-island-container">${cities.map(c => this.renderSightseeingCard(c))}</div>
@@ -99,7 +129,7 @@ export type Sightseeing = {
 const cities: Sightseeing[] = [{
   name: "Las Palmas de Gran Canaria",
   image: "https://firebasestorage.googleapis.com/v0/b/gran-canaria-4e556.appspot.com/o/sightseeings%2Fcities%2Flaspalmas%2FPlaya-Las-Canteras-Las-Palmas-de-Gran-Canaria.webp?alt=media&token=f774e8c7-e311-4712-9d00-26c570ca599d",
-  foldername: "cities/laspalmas/",
+  foldername: "cities/Las%20Palmas",
   location: [28.124169202574212, -15.43635597886297],
   orientation: "north",
   tags: ["Catedral de Santa Ana", "Casa de Colon (Kolumbushaus)", "Museo Canario", "Mercado de Vegueta (Markt)", "Auditorio Alfredo Kraus", "Hafen mit Kreuzfahrtschiffen", "Altstadt Vegueta", "Poema del Mar (Aquarium)", "Castillo de la Luz", "Jardin Canario", "Naturpark Bandama", "Teror"],
@@ -107,7 +137,7 @@ const cities: Sightseeing[] = [{
 }, {
   name: "Maspalomas",
   image: "https://firebasestorage.googleapis.com/v0/b/gran-canaria-4e556.appspot.com/o/sightseeings%2Fcities%2Fmaspalomas%2FMaspalomas-Duenen-Gran-Canaria.webp?alt=media&token=3adb0b0d-09da-4bbc-b759-a32b58f4b7f1",
-  foldername: "cities/maspalomas/",
+  foldername: "cities/Maspalomas",
   location: [27.761848689915524, -15.586680204960945],
   orientation: "south",
   tags: ["Bike Tour", "Kamelreiten", "Delfin Tour", "Sanddünen", "Palmitos Park", "Faro de Maspalomas", "Faro de Meloneras", "Playa de Maspalomas", "Playa del Ingles"],
@@ -115,7 +145,7 @@ const cities: Sightseeing[] = [{
 }, {
   name: "Puerto de Mogan",
   image: "https://firebasestorage.googleapis.com/v0/b/gran-canaria-4e556.appspot.com/o/sightseeings%2Fcities%2Fmogan%2FGran-Canaria-Puerto-de-Mogan-Blumengasse.webp?alt=media&token=e9a102b6-c7e2-46ab-8229-fdc475c40aab",
-  foldername: "cities/mogan/",
+  foldername: "cities/Mogan",
   location: [27.791766618649017, -15.712254276823437],
   orientation: "south",
   tags: ["Blumengassen", "Hafen", "Playa de Mogan", "Aussichtspunkt", "U-Boot", "Canada de Los Gatos", "Markt am Freitag"],
@@ -123,7 +153,7 @@ const cities: Sightseeing[] = [{
 }, {
   name: "Arucas",
   image: "https://firebasestorage.googleapis.com/v0/b/gran-canaria-4e556.appspot.com/o/sightseeings%2Fcities%2Farucas%2FParroquia-de-San-Juan-Bautista-Gran-Canaria.webp?alt=media&token=cf048116-6463-4b90-92d3-271430d0444b",
-  foldername: "cities/arucas/",
+  foldername: "cities/Arucas",
   location: [28.12049491415551, -15.521058975899761],
   orientation: "north",
   tags: ["Parroquia de San Juan Bautista de Arucas", "Jardin de la Marquesa", "Parque Municipal"],

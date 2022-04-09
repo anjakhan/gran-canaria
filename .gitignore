@@ -1,3 +1,15 @@
 node_modules
 
 .DS_Store
+
+
+components/*.js
+components/*.map
+shared/*.js
+shared/*.map
+index.js
+index.map
+adminIndex.js
+adminIndex.js.map
+createUser.js
+createUser.js.map

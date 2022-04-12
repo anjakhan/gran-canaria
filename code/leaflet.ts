@@ -39,25 +39,10 @@ export const createMap = (mapid: HTMLDivElement, fotostory: Array<FotoUploadDto>
   // L.marker([28.49820981705814, -13.857695606907182]).addTo(map).bindPopup("<b>Puerto del Rosario</b><br>2021-06-13");
 };
 
-const seenSightseeings: Array<{ name: string, location: Array<number>, topic: string, color: string }> = [{
-  name: "Playa de Cofete",
-  location: [28.11379522157828, -14.379502833804084],
-  topic: "",
-  color: ""
-}];
 
-if (seenSightseeings) { };
-
-const sightseeings: Array<{ name: string, location: Array<number>, topic: string, color: string }> = [{
-  name: "Playa de La Señora",
-  location: [28.05506304878142, -14.385447896561574],
-  topic: "",
-  color: ""
-}];
-
-
-export const createToDoMap = (mapid: HTMLDivElement, sightseeings: Sightseeing[], zoom: number = 9) => {
-  const map = L.map(mapid).setView([27.930669242389122, -15.58718600810936], zoom);
+export const createToDoMap = (mapid: HTMLDivElement, sightseeings: Sightseeing[], location: [number, number] = [27.930669242389122, -15.58718600810936], zoom: number = 9) => {
+  location = location || [27.930669242389122, -15.58718600810936];
+  const map = L.map(mapid).setView(location, zoom);
 
   L.tileLayer(
     'http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
@@ -66,7 +51,7 @@ export const createToDoMap = (mapid: HTMLDivElement, sightseeings: Sightseeing[]
   }).addTo(map);
 
   //L.marker([28.173903183892257, -14.224354511395132]).addTo(map);
-  sightseeings.map((s: { name: string, location: Array<number> }) => {
+  sightseeings?.map((s: { name: string, location: Array<number> }) => {
     L.marker(s.location).addTo(map).bindPopup(`<b>${s.name}</b><br>${s.location}`);
   });
 };

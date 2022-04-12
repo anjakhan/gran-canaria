@@ -97,7 +97,7 @@ let WcDetailsPage = class WcDetailsPage extends LitElement {
         mapContainer.style.height = '100%';
         mapContainer.style.width = '100%';
         this.mapContainer?.appendChild(mapContainer);
-        createToDoMap(mapContainer, [this.sightseeing]);
+        createToDoMap(mapContainer, [this.sightseeing], this.sightseeing.location, 15);
     }
     ;
     renderImageCard(imageUrl) {

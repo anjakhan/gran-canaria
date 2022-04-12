@@ -99,11 +99,11 @@ export class WcTopicPage extends LitElement {
     if (!this.mapContainer) {
       setTimeout(() => {
         !this.showDetails && this.mapContainer?.appendChild(mapContainer);
-        createToDoMap(mapContainer, this.sightseeings, 10);
+        createToDoMap(mapContainer, this.sightseeings, undefined, 10);
       }, 100);
     } else {
       this.mapContainer?.appendChild(mapContainer);
-      createToDoMap(mapContainer, this.sightseeings, 10);
+      createToDoMap(mapContainer, this.sightseeings, undefined, 10);
     }
   };
 

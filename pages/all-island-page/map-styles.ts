@@ -1,5 +1,4 @@
 import { css, CSSResultGroup } from 'lit';
-import { config } from '../../config';
 
 export const mapStyles: CSSResultGroup = css`
   /* .leaflet-map-pane {

@@ -110,7 +110,7 @@ export class WcDetailsPage extends LitElement {
 
     this.mapContainer?.appendChild(mapContainer);
 
-    createToDoMap(mapContainer, [this.sightseeing]);
+    createToDoMap(mapContainer, [this.sightseeing], this.sightseeing.location, 15);
   };
 
   renderImageCard(imageUrl: string): LitElement {

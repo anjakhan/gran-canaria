@@ -36,6 +36,7 @@ export class WcTopicPage extends LitElement {
         width: 100%;
         grid-row: 2;
         grid-column: 1;
+        margin-bottom: 20px;
       }
     `];
   };
@@ -99,11 +100,11 @@ export class WcTopicPage extends LitElement {
     if (!this.mapContainer) {
       setTimeout(() => {
         !this.showDetails && this.mapContainer?.appendChild(mapContainer);
-        createToDoMap(mapContainer, this.sightseeings, undefined, 10);
+        createToDoMap(mapContainer, "satellite", this.sightseeings, undefined, 10);
       }, 100);
     } else {
       this.mapContainer?.appendChild(mapContainer);
-      createToDoMap(mapContainer, this.sightseeings, undefined, 10);
+      createToDoMap(mapContainer, "satellite", this.sightseeings, undefined, 10);
     }
   };
 

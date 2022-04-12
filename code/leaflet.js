@@ -23,11 +23,21 @@ export const createMap = (mapid, fotostory) => {
         L.marker(p.location).addTo(map).bindPopup(`<b>${p.name}</b><br>${p.date}`);
     });
 };
-export const createToDoMap = (mapid, sightseeings, location = [27.930669242389122, -15.58718600810936], zoom = 9) => {
+export const createToDoMap = (mapid, mapType, sightseeings, location = [27.930669242389122, -15.58718600810936], zoom = 9) => {
     location = location || [27.930669242389122, -15.58718600810936];
     const map = L.map(mapid).setView(location, zoom);
-    L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-        attribution: '&copy;<a href="http://www.esri.com/">Esri</a>i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
+    let link;
+    let attribution;
+    if (mapType === "streetmap") {
+        link = "https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png";
+        attribution = '<a href="https://github.com/cyclosm/cyclosm-cartocss-style/releases" title="CyclOSM - Open Bicycle render">CyclOSM</a> | Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+    }
+    else {
+        link = 'http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
+        attribution = '&copy;<a href="http://www.esri.com/">Esri</a>i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community';
+    }
+    L.tileLayer(link, {
+        attribution: attribution,
         maxZoom: 18,
     }).addTo(map);
     sightseeings?.map((s) => {

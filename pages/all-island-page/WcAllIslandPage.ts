@@ -41,11 +41,19 @@ export class WcAllIslandPage extends LitElement {
         grid-row: 2;
         grid-column: 1;
       }
+
+      .filter-container {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        grid-gap: 10px;
+        padding: 20px 10px;
+      }
     `];
   };
 
   @property({ type: Boolean }) showDetails: boolean = false;
   @property({ type: Object }) sightseeing: Sightseeing;
+  @property({ type: Array }) filteredSightseeings: Sightseeing[];
 
   @query('#mapid') mapid: HTMLDivElement;
   @query('.map-container') mapContainer: HTMLDivElement;
@@ -60,9 +68,11 @@ export class WcAllIslandPage extends LitElement {
     })
   };
 
-  connectedCallback(): void {
+  async connectedCallback(): Promise<void> {
     super.connectedCallback();
-    //this.addSightseeingsToFirebase(sightseeings);
+    //await this.addSightseeingsToFirebase(sightseeings);
+
+    this.filteredSightseeings = sightseeings;
 
     location.hash = "#all-island";
   }
@@ -91,13 +101,24 @@ export class WcAllIslandPage extends LitElement {
     if (!this.mapContainer) {
       setTimeout(() => {
         !this.showDetails && this.mapContainer?.appendChild(mapContainer);
-        createToDoMap(mapContainer, sightseeings, undefined, 10);
+        createToDoMap(mapContainer, "satellite", this.filteredSightseeings, undefined, 10);
       }, 100);
     } else {
       this.mapContainer?.appendChild(mapContainer);
-      createToDoMap(mapContainer, sightseeings, undefined, 10);
+      createToDoMap(mapContainer, "satellite", this.filteredSightseeings, undefined, 10);
     }
   };
+
+  filterSightseeings(e: { target: HTMLSelectElement }): void {
+    const name = <"topic" | "orientation">e.target.name;
+    const value = <Topic | Orientation>e.target.value;
+
+    if (value === "All Island") {
+      this.filteredSightseeings = sightseeings;
+    } else {
+      this.filteredSightseeings = sightseeings.filter(s => s[name] === value);
+    }
+  }
 
   render(): TemplateResult {
     return html`
@@ -107,20 +128,46 @@ export class WcAllIslandPage extends LitElement {
 
           <div class="map-container">${this.renderMap()}</div>
 
-          <h2>Städte auf Gran Canaria</h2>
-          <div class="all-island-container">${sightseeings.map(c => this.renderSightseeingCard(c))}</div>
+          <div class="filter-container">
+            <label for="topic">Kategorie:</label>
+            <select name="topic" id="topic" @change=${(e: { target: HTMLSelectElement }) => this.filterSightseeings(e)}>
+              <option value="All Island">Ganze Insel</option>
+              <option value="Städte">Städte</option>
+              <option value="Berge">Berge</option>
+              <option value="Höhlen">Höhlen</option>
+              <option value="Parks">Parks</option>
+              <option value="Erlebnisse">Erlebnisse</option>
+            </select>
+
+            <label for="orientation">Lage:</label>
+            <select name="orientation" id="orientation" @change=${(e: { target: HTMLSelectElement }) => this.filterSightseeings(e)}>
+              <option value="All Island">Ganze Insel</option>
+              <option value="Norden">Norden</option>
+              <option value="Osten">Osten</option>
+              <option value="Süden">Süden</option>
+              <option value="Westen">Westen</option>
+              <option value="Zentrum">Zentrum</option>
+            </select>
+          </div>
+          
+
+          
+
+          <div class="all-island-container">${this.filteredSightseeings?.map(c => this.renderSightseeingCard(c))}</div>
         </div>
       `}
     `;
   };
 };
 
+type Orientation = "Norden" | "Osten" | "Süden" | "Westen" | "Zentrum";
+
 export type Sightseeing = {
   name: string,
   image: string,
   foldername: string,
   location: [number, number],
-  orientation: "Norden" | "Osten" | "Süden" | "Westen" | "Zentrum",
+  orientation: Orientation,
   tags: string[],
   topic: Topic,
   info?: string
@@ -152,7 +199,8 @@ const sightseeings: Sightseeing[] = [{
   location: [27.761848689915524, -15.586680204960945],
   orientation: "Süden",
   tags: ["Bike Tour", "Kamelreiten", "Delfin Tour", "Sanddünen von Maspalomas", "Palmitos Park", "Faro de Maspalomas", "Faro de Meloneras", "Playa de Maspalomas", "Playa del Ingles", "Yacimiento Punta Mujeres"],
-  topic: "Städte"
+  topic: "Städte",
+  info: "Maspalomas bezeichnet übrigens eine ganze Region im Südzipfel der Insel. Sie erstreckt sich von Meloneras bis San Agustín und beherbergt auch den bekanntesten Ortsteil Playa del Inglés. Hier befinden sich besonders viele Hotels und Ferienwohnungen. Da die Region vor allem bei deutschsprachigen Urlaubsgästen sehr beliebt ist, gibt es mittlerweile auch viele deutsche Restaurants und Kneipen vor Ort. Ein weiterer Vorteil ist die Nähe zum Flughafen. Die Fahrtzeit mit dem Auto oder Bus liegt bei gerade einmal 20 bis 25 Minuten. Vor Ort erwartet dich dann eine große Dünen-Landschaft. Die Dünen erstrecken sich knapp 6 Kilometer an der Südküste entlang und erreichen eine Breite von bis zu 1,4 Kilometern."
 }, {
   name: "Sanddünen von Maspalomas",
   image: "https://firebasestorage.googleapis.com/v0/b/gran-canaria-4e556.appspot.com/o/sightseeings%2Fadventure%2FSandd%C3%BCnenMaspalomas%2FGran-Canaria-Highlights-Sandduenen-Maspalomas.webp?alt=media&token=77aceae2-9434-44c2-b82f-ea12d0e0426c",
@@ -414,14 +462,14 @@ const sightseeings: Sightseeing[] = [{
   topic: "Wasser",
   info: "Die meisten Charcos oder Piscinas Naturales, wie sie im Spanischen heißen, sind natürlich entstanden. Ins Meer geflossene Lava ist erkaltet und hat natürliche Badebecken hinterlassen. Teilweise wurden die Lavabecken mit Mauern noch vervollständigt oder zusätzlich gesichert. Besonders ausgefallen und wenig bekannt ist die Cueva de la Reina. Sie liegt im Ort La Garita. Die Wohnsiedlung oberhalb des Naturpools lässt zunächst nicht vermuten, dass sich hier ein wahres Highlight auf Gran Canaria befindet. Es handelt sich um eine Höhle, in der sich ein kleiner Naturpool befindet. Um dorthin zu kommen, musst du zunächst eine Stelle finden, um die Felsen hinabzuklettern. Möglich ist der Abstieg z.B. neben dem Felsloch zur linken Seite."
 }, {
-  name: "Bodega Los Berrazales – Europas einzige Kaffeeplantage und Weingut",
+  name: "Bodega Los Berrazales",
   image: "https://firebasestorage.googleapis.com/v0/b/gran-canaria-4e556.appspot.com/o/sightseeings%2Fadventure%2FBodegaLosBerrazales%2FGran-Canaria-Sehenswuerdigkeiten-Kaffeeplantage.webp?alt=media&token=6481b039-f16c-48fc-b813-1f2d27e50662",
   foldername: "adventure/BodegaLosBerrazales",
   location: [28.074985878378598, -15.668812585954884],
   orientation: "Westen",
   tags: ["Agaete"],
   topic: "Erlebnisse",
-  info: "In der Berglandschaft Gran Canarias existieren gute Bedingungen zum Anbau von Kaffee, Wein und Obst. Daher ist im westlichen Teil Gran Canarias die bislang einzige Kaffeeplantage Europas entstanden. Wenn du in deinem Leben noch nie eine Kaffeeplantage gesehen hast, ist ein Besuch hier besonders interessant. Die jährliche Erntemenge liegt bei ca. 1.500 Kilogramm. Der Name “Bodega” bedeutet aus dem Spanischen übersetzt übrigens auch Weinkeller. Zum Probieren werden dir neben Kaffee auch Wein bzw. ein alkoholfreies Getränk für Kinder, Käse und Brot mit Aufstrich gereicht. Je nach Saison kannst du zudem das erntefrische Obst probieren. Auf der Plantage wachsen z.B. Orangen, Mangos, Guaven und Avocados."
+  info: "Europas einzige Kaffeeplantage und Weingut! In der Berglandschaft Gran Canarias existieren gute Bedingungen zum Anbau von Kaffee, Wein und Obst. Daher ist im westlichen Teil Gran Canarias die bislang einzige Kaffeeplantage Europas entstanden. Wenn du in deinem Leben noch nie eine Kaffeeplantage gesehen hast, ist ein Besuch hier besonders interessant. Die jährliche Erntemenge liegt bei ca. 1.500 Kilogramm. Der Name “Bodega” bedeutet aus dem Spanischen übersetzt übrigens auch Weinkeller. Zum Probieren werden dir neben Kaffee auch Wein bzw. ein alkoholfreies Getränk für Kinder, Käse und Brot mit Aufstrich gereicht. Je nach Saison kannst du zudem das erntefrische Obst probieren. Auf der Plantage wachsen z.B. Orangen, Mangos, Guaven und Avocados."
 }, {
   name: "Museo y Parque Arqueológico Cueva Pintada",
   image: "https://firebasestorage.googleapis.com/v0/b/gran-canaria-4e556.appspot.com/o/sightseeings%2Fcaves%2FCuevaPintada%2FMuseo%20y%20Parque-Arqueolo%CC%81gico%20Cueva%20Pintada.jpeg?alt=media&token=701a50f9-6221-4ff2-ab50-5346dc329de4",

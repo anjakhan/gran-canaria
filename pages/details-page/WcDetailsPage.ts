@@ -40,6 +40,9 @@ export class WcDetailsPage extends LitElement {
         grid-row: 2;
         grid-column: 2;
       }
+      .details-container > span {
+        font-weight: bold;
+      }
 
       .cards-container {
         grid-row: 3;
@@ -55,6 +58,11 @@ export class WcDetailsPage extends LitElement {
         height: 100%;
         margin-right: 10px;
         cursor: pointer;
+      }
+      .map-icon {
+        width: 30px;
+        height: 30px;
+        margin: 0px 10px;
       }
     `];
   };
@@ -110,7 +118,7 @@ export class WcDetailsPage extends LitElement {
 
     this.mapContainer?.appendChild(mapContainer);
 
-    createToDoMap(mapContainer, [this.sightseeing], this.sightseeing.location, 15);
+    createToDoMap(mapContainer, "streetmap", [this.sightseeing], this.sightseeing.location, 15);
   };
 
   renderImageCard(imageUrl: string): LitElement {
@@ -130,7 +138,18 @@ export class WcDetailsPage extends LitElement {
         <div class="map-container">${this.renderMap()}</div>
 
         <div class="details-container">
-          Name: ${sightseeing.name}
+          <span>Name:</span> ${sightseeing.name}
+          <br><br>
+          <div style="display: flex; flex-direction: row; align-items: center;">
+            <span style="font-weight: bold;">Standort: </span>
+            <wc-icon icon="map-duotone" primaryColor="gray" class="map-icon"></wc-icon>
+            [${sightseeing.location[0].toFixed(4)}, ${sightseeing.location[1].toFixed(4)}]
+            - ${sightseeing.orientation}
+          </div>
+          <br>
+          <span>In der Nähe:</span> ${sightseeing.tags.join(", ")}
+          <br><br>
+          <span>Wissenswertes:</span> ${sightseeing.info || ""}
         </div>
 
         <div class="cards-container">

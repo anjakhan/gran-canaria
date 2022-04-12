@@ -83,7 +83,8 @@ export const createSightseeingDocument = (sightseeingdoc: Sightseeing) => {
     orientation: sightseeingdoc.orientation,
     location: sightseeingdoc.location,
     tags: sightseeingdoc.tags,
-    topic: sightseeingdoc.topic
+    topic: sightseeingdoc.topic,
+    info: sightseeingdoc.info || ""
   })
     .then((docRef: any) => {
       console.log("Document written with ID: ", docRef.id);
@@ -114,7 +115,7 @@ export const createTravelDocument = (traveldoc: FotoUploadDto) => {
     date: traveldoc.date,
     location: traveldoc.location,
     popup: traveldoc.popup,
-    image: traveldoc.image
+    image: traveldoc.image,
   })
     .then((docRef: any) => {
       console.log("Document written with ID: ", docRef.id);

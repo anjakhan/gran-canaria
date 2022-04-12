@@ -40,13 +40,24 @@ export const createMap = (mapid: HTMLDivElement, fotostory: Array<FotoUploadDto>
 };
 
 
-export const createToDoMap = (mapid: HTMLDivElement, sightseeings: Sightseeing[], location: [number, number] = [27.930669242389122, -15.58718600810936], zoom: number = 9) => {
+export const createToDoMap = (mapid: HTMLDivElement, mapType: "satellite" | "streetmap", sightseeings: Sightseeing[], location: [number, number] = [27.930669242389122, -15.58718600810936], zoom: number = 9) => {
   location = location || [27.930669242389122, -15.58718600810936];
   const map = L.map(mapid).setView(location, zoom);
 
+  let link: string;
+  let attribution: string;
+
+  if (mapType === "streetmap") {
+    link = "https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png"
+    attribution = '<a href="https://github.com/cyclosm/cyclosm-cartocss-style/releases" title="CyclOSM - Open Bicycle render">CyclOSM</a> | Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+  } else {
+    link = 'http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'
+    attribution = '&copy;<a href="http://www.esri.com/">Esri</a>i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+  }
+
   L.tileLayer(
-    'http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-    attribution: '&copy;<a href="http://www.esri.com/">Esri</a>i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
+    link, {
+    attribution: attribution,
     maxZoom: 18,
   }).addTo(map);
 

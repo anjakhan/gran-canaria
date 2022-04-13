@@ -23,23 +23,44 @@ export const createMap = (mapid, fotostory) => {
         L.marker(p.location).addTo(map).bindPopup(`<b>${p.name}</b><br>${p.date}`);
     });
 };
-export const createToDoMap = (mapid, mapType, sightseeings, location = [27.930669242389122, -15.58718600810936], zoom = 9) => {
-    location = location || [27.930669242389122, -15.58718600810936];
+export const createToDoMap = (mapid, mapType, sightseeings, location, zoom = 9) => {
+    location = location || [27.960669242389122, -15.58718600810936];
     const map = L.map(mapid).setView(location, zoom);
-    let link;
-    let attribution;
-    if (mapType === "streetmap") {
-        link = "https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png";
-        attribution = '<a href="https://github.com/cyclosm/cyclosm-cartocss-style/releases" title="CyclOSM - Open Bicycle render">CyclOSM</a> | Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+    const streets = L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/streets-v10/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+        id: 'mapbox.streets',
+        attribution: 'Map data © OpenStreetMap contributors, CC-BY-SA, Imagery © CloudMade'
+    });
+    const roads = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        id: 'mapbox.hiking',
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    });
+    const hiking = L.tileLayer('https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png', {
+        id: 'mapbox.hiking',
+        attribution: '<a href="https://github.com/cyclosm/cyclosm-cartocss-style/releases" title="CyclOSM - Open Bicycle render">CyclOSM</a> | Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    });
+    const satellite = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+        id: 'mapbox.hiking',
+        attribution: '&copy;<a href="http://www.esri.com/">Esri</a>i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+    });
+    const baseMaps = {
+        "Streets": streets,
+        "Roadmap": roads,
+        "Satellite": satellite,
+        "Hiking": hiking
+    };
+    if (mapType === "hikingmap") {
+        hiking.addTo(map);
+    }
+    else if (mapType === "roadmap") {
+        roads.addTo(map);
+    }
+    else if (mapType === "streets") {
+        streets.addTo(map);
     }
     else {
-        link = 'http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
-        attribution = '&copy;<a href="http://www.esri.com/">Esri</a>i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community';
+        satellite.addTo(map);
     }
-    L.tileLayer(link, {
-        attribution: attribution,
-        maxZoom: 18,
-    }).addTo(map);
+    L.control.layers(baseMaps).addTo(map);
     sightseeings?.map((s) => {
         L.marker(s.location).addTo(map).bindPopup(`<b>${s.name}</b><br>${s.location}`);
     });

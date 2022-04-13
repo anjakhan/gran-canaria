@@ -1,10 +1,10 @@
 import { LitElement, html, TemplateResult, css } from "lit";
 import { customElement, property, query } from "lit/decorators.js";
 import { geSightseeingDocs } from "../../code/firebase";
-import { createToDoMap, Topic } from "../../code/leaflet";
+import { createToDoMap } from "../../code/leaflet";
 import { WcSightseeingCard } from "../../components/sightseeing-card/WcSightseeingCard";
 import { mapStyles } from "../all-island-page/map-styles";
-import { Sightseeing } from "../all-island-page/WcAllIslandPage";
+import { Sightseeing, Topic } from "../all-island-page/sightseeings";
 import { WcDetailsPage } from "../details-page/WcDetailsPage";
 
 @customElement("wc-topic-page")
@@ -100,11 +100,11 @@ export class WcTopicPage extends LitElement {
     if (!this.mapContainer) {
       setTimeout(() => {
         !this.showDetails && this.mapContainer?.appendChild(mapContainer);
-        createToDoMap(mapContainer, "satellite", this.sightseeings, undefined, 10);
+        createToDoMap(mapContainer, "streets", this.sightseeings, undefined, 10);
       }, 100);
     } else {
       this.mapContainer?.appendChild(mapContainer);
-      createToDoMap(mapContainer, "satellite", this.sightseeings, undefined, 10);
+      createToDoMap(mapContainer, "streets", this.sightseeings, undefined, 10);
     }
   };
 

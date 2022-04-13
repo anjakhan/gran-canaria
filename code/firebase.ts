@@ -1,5 +1,5 @@
 import { FotoUploadDto } from '../code/nobs/UploadNobs';
-import { Sightseeing } from '../pages/all-island-page/WcAllIslandPage';
+import { Sightseeing } from '../pages/all-island-page/sightseeings';
 
 export const firebase = (<any>window).firebase;
 
@@ -85,6 +85,7 @@ export const createSightseeingDocument = (sightseeingdoc: Sightseeing) => {
     location: sightseeingdoc.location,
     tags: sightseeingdoc.tags,
     topic: sightseeingdoc.topic,
+    type: sightseeingdoc.type,
     info: sightseeingdoc.info || ""
   })
     .then((docRef: any) => {

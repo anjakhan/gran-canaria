@@ -6,7 +6,7 @@ import "../icons/WcIcon";
 import { drawerStyles } from './drawer-styles';
 import { config } from "../../config";
 import { iconName } from "../icons/WcIcon";
-import { Topic } from "../../code/leaflet";
+import { Topic } from "../../pages/all-island-page/sightseeings";
 
 type callbackType = (selectedDrawer: Topic) => void;
 type CanariaMenu = Array<{ title: Topic, icon: iconName }>

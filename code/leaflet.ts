@@ -1,11 +1,8 @@
 import { config } from '../config';
-import { Sightseeing } from '../pages/all-island-page/WcAllIslandPage';
+import { Sightseeing } from '../pages/all-island-page/sightseeings';
 import { FotoUploadDto } from './nobs/UploadNobs';
 
 export const L = (<any>window).L;
-
-export type Topic = "Gran-Canaria" | "Städte" | "Berge" | "Höhlen" | "Wasser" | "Parks" | "Erlebnisse";
-export type Color = "black" | "green" | "sandybrown" | "aquamarine" | "olivedrab" | "magenta";
 
 const travelledPlaces: Array<{ name: string, location: Array<number>, date: string, topic: string }> = [{
   name: "Camino Costa Ballena",
@@ -40,26 +37,48 @@ export const createMap = (mapid: HTMLDivElement, fotostory: Array<FotoUploadDto>
 };
 
 
-export const createToDoMap = (mapid: HTMLDivElement, mapType: "satellite" | "streetmap", sightseeings: Sightseeing[], location: [number, number] = [27.930669242389122, -15.58718600810936], zoom: number = 9) => {
-  location = location || [27.930669242389122, -15.58718600810936];
+export const createToDoMap = (mapid: HTMLDivElement, mapType: "satellite" | "streets" | "roadmap" | "hikingmap", sightseeings: Sightseeing[], location?: [number, number], zoom: number = 9) => {
+  location = location || [27.960669242389122, -15.58718600810936];
   const map = L.map(mapid).setView(location, zoom);
 
-  let link: string;
-  let attribution: string;
+  const streets = L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/streets-v10/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+    id: 'mapbox.streets',
+    attribution: 'Map data © OpenStreetMap contributors, CC-BY-SA, Imagery © CloudMade'
+  })
 
-  if (mapType === "streetmap") {
-    link = "https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png"
-    attribution = '<a href="https://github.com/cyclosm/cyclosm-cartocss-style/releases" title="CyclOSM - Open Bicycle render">CyclOSM</a> | Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+  const roads = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    id: 'mapbox.hiking',
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+  })
+
+  const hiking = L.tileLayer('https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png', {
+    id: 'mapbox.hiking',
+    attribution: '<a href="https://github.com/cyclosm/cyclosm-cartocss-style/releases" title="CyclOSM - Open Bicycle render">CyclOSM</a> | Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+  })
+
+  const satellite = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+    id: 'mapbox.hiking',
+    attribution: '&copy;<a href="http://www.esri.com/">Esri</a>i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+  })
+
+  const baseMaps = {
+    "Streets": streets,
+    "Roadmap": roads,
+    "Satellite": satellite,
+    "Hiking": hiking
+  };
+
+  if (mapType === "hikingmap") {
+    hiking.addTo(map);
+  } else if (mapType === "roadmap") {
+    roads.addTo(map);
+  } else if (mapType === "streets") {
+    streets.addTo(map);
   } else {
-    link = 'http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'
-    attribution = '&copy;<a href="http://www.esri.com/">Esri</a>i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+    satellite.addTo(map);
   }
 
-  L.tileLayer(
-    link, {
-    attribution: attribution,
-    maxZoom: 18,
-  }).addTo(map);
+  L.control.layers(baseMaps).addTo(map);
 
   //L.marker([28.173903183892257, -14.224354511395132]).addTo(map);
   sightseeings?.map((s: { name: string, location: Array<number> }) => {

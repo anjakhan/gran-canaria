@@ -6,13 +6,12 @@ import { showCtxMenu } from "../../shared/contextMenu";
 
 import { layoutStyles, navbarStyles } from './layout-styles';
 import { WcAppDrawer, canariaMenu } from "../app-drawer/WcAppDrawer";
-import { sightseeings, WcAllIslandPage } from "../../pages/all-island-page/WcAllIslandPage";
+import { WcAllIslandPage } from "../../pages/all-island-page/WcAllIslandPage";
 import { WcTopicPage } from "../../pages/topic-page/WcTopicPage";
+import { WcDetailsPage } from "../../pages/details-page/WcDetailsPage";
 
 import "../icons/WcIcon";
-import { assertNever } from "../../shared/tools";
-import { WcDetailsPage } from "../../pages/details-page/WcDetailsPage";
-import { Topic } from "../../code/leaflet";
+import { sightseeings, Topic } from "../../pages/all-island-page/sightseeings";
 
 @customElement("wc-app-layout")
 export class WcAppLayout extends LitElement {

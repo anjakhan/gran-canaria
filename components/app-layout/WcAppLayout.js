@@ -10,10 +10,11 @@ import { logoutFunc } from '../../adminIndex';
 import { showCtxMenu } from "../../shared/contextMenu";
 import { layoutStyles, navbarStyles } from './layout-styles';
 import { WcAppDrawer, canariaMenu } from "../app-drawer/WcAppDrawer";
-import { sightseeings, WcAllIslandPage } from "../../pages/all-island-page/WcAllIslandPage";
+import { WcAllIslandPage } from "../../pages/all-island-page/WcAllIslandPage";
 import { WcTopicPage } from "../../pages/topic-page/WcTopicPage";
-import "../icons/WcIcon";
 import { WcDetailsPage } from "../../pages/details-page/WcDetailsPage";
+import "../icons/WcIcon";
+import { sightseeings } from "../../pages/all-island-page/sightseeings";
 let WcAppLayout = class WcAppLayout extends LitElement {
     constructor() {
         super(...arguments);

@@ -65,7 +65,7 @@ let WcDetailsPage = class WcDetailsPage extends LitElement {
         margin-right: 10px;
         cursor: pointer;
       }
-      
+
       .map-icon {
         width: 30px;
         height: 30px;
@@ -108,7 +108,7 @@ let WcDetailsPage = class WcDetailsPage extends LitElement {
         mapContainer.style.height = '100%';
         mapContainer.style.width = '100%';
         this.mapContainer?.appendChild(mapContainer);
-        createToDoMap(mapContainer, "streetmap", [this.sightseeing], this.sightseeing?.location, 15);
+        createToDoMap(mapContainer, "hikingmap", [this.sightseeing], this.sightseeing?.location, 15);
     }
     ;
     renderImageCard(imageUrl) {
@@ -136,9 +136,11 @@ let WcDetailsPage = class WcDetailsPage extends LitElement {
             - ${sightseeing.orientation}
           </div>
           <br>
-          <span>In der Nähe:</span> ${sightseeing.tags.join(", ")}
+          ${sightseeing.tags.length === 0 ? '' : html `
+            <span>In der Nähe:</span> ${sightseeing.tags.join(", ")}
+          `}
           <br><br>
-          <span>Wissenswertes:</span> ${sightseeing.info || ""}
+          ${sightseeing.info ? html `<span>Wissenswertes:</span> ${sightseeing.info || ""}` : ''}
         </div>
 
         <div class="cards-container">

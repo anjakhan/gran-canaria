@@ -80,6 +80,7 @@ export const createSightseeingDocument = (sightseeingdoc) => {
         location: sightseeingdoc.location,
         tags: sightseeingdoc.tags,
         topic: sightseeingdoc.topic,
+        type: sightseeingdoc.type,
         info: sightseeingdoc.info || ""
     })
         .then((docRef) => {

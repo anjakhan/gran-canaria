@@ -1,9 +1,9 @@
 import { LitElement, html, TemplateResult, css } from "lit";
 import { customElement, property, query } from "lit/decorators.js";
-import { Sightseeing } from "../all-island-page/WcAllIslandPage";
 import { createToDoMap } from "../../code/leaflet";
 import { mapStyles } from "../all-island-page/map-styles";
 import { WcImageCard } from "../../components/image-card/WcImageCard";
+import { Sightseeing } from "../all-island-page/sightseeings";
 
 type callbackType = (showAll: boolean) => void;
 
@@ -60,7 +60,7 @@ export class WcDetailsPage extends LitElement {
         margin-right: 10px;
         cursor: pointer;
       }
-      
+
       .map-icon {
         width: 30px;
         height: 30px;
@@ -121,7 +121,7 @@ export class WcDetailsPage extends LitElement {
 
     this.mapContainer?.appendChild(mapContainer);
 
-    createToDoMap(mapContainer, "streetmap", [this.sightseeing], this.sightseeing?.location, 15);
+    createToDoMap(mapContainer, "hikingmap", [this.sightseeing], this.sightseeing?.location, 15);
   };
 
   renderImageCard(imageUrl: string): LitElement {
@@ -150,9 +150,11 @@ export class WcDetailsPage extends LitElement {
             - ${sightseeing.orientation}
           </div>
           <br>
-          <span>In der Nähe:</span> ${sightseeing.tags.join(", ")}
+          ${sightseeing.tags.length === 0 ? '' : html`
+            <span>In der Nähe:</span> ${sightseeing.tags.join(", ")}
+          `}
           <br><br>
-          <span>Wissenswertes:</span> ${sightseeing.info || ""}
+          ${sightseeing.info ? html`<span>Wissenswertes:</span> ${sightseeing.info || ""}` : ''}
         </div>
 
         <div class="cards-container">

@@ -10,38 +10,31 @@ import "../icons/WcIcon";
 import { drawerStyles } from './drawer-styles';
 import { config } from "../../config";
 export const canariaMenu = [{
-        name: 'all-island',
-        title: 'All Island',
-        icon: 'camera-retro-duotone'
+        title: 'Gran-Canaria',
+        icon: 'umbrella-beach'
     }, {
-        name: 'cities',
         title: 'Städte',
-        icon: 'calendar-alt'
+        icon: 'house-tree'
     }, {
-        name: 'mountains',
         title: 'Berge',
-        icon: 'map-duotone'
+        icon: 'volcano'
     }, {
-        name: 'caves',
         title: 'Höhlen',
-        icon: 'plane-duotone'
+        icon: 'dungeon'
     }, {
-        name: 'water',
         title: 'Wasser',
-        icon: 'plane-duotone'
+        icon: 'water'
     }, {
-        name: 'parks',
         title: 'Parks',
-        icon: 'plane-duotone'
+        icon: 'trees'
     }, {
-        name: 'adventure',
         title: 'Erlebnisse',
-        icon: 'plane-duotone'
+        icon: 'person-biking-mountain'
     }];
 let WcAppDrawer = class WcAppDrawer extends LitElement {
     constructor(selectedDrawer) {
         super();
-        this.selectedDrawer = 'all-island';
+        this.selectedDrawer = 'Gran-Canaria';
         this.drawerOpen = false;
         this.selectedDrawer = selectedDrawer;
     }
@@ -75,8 +68,8 @@ let WcAppDrawer = class WcAppDrawer extends LitElement {
         return html `
       ${config.isMobile ? html `<wc-icon @click=${this.openDrawer} class="menu-icon" primaryColor="toolbar" icon=${this.drawerOpen ? 'close' : 'bars-light'}></wc-icon>` : ''} 
       <aside class="drawer ${!this.drawerOpen && config.isMobile ? 'hidden' : ''}">
-        ${canariaMenu.map(d => html `<div class="tab ${this.selectedDrawer === d.name ? "selected" : ""}" style="display: flex; align-items: center;"
-          @click=${() => this.setDrawerSelection(d.name)}><wc-icon primaryColor=${this.selectedDrawer === d.name ? "green" : "toolbar"} icon=${d.icon}></wc-icon>${d.title}</div>`)}
+        ${canariaMenu.map(d => html `<div class="tab ${this.selectedDrawer === d.title ? "selected" : ""}" style="display: flex; align-items: center;"
+          @click=${() => this.setDrawerSelection(d.title)}><wc-icon primaryColor=${this.selectedDrawer === d.title ? "darkblue" : "toolbar"} icon=${d.icon}></wc-icon>${d.title}</div>`)}
       </aside>
     `;
     }

@@ -6,24 +6,24 @@ import { showCtxMenu } from "../../shared/contextMenu";
 
 import { layoutStyles, navbarStyles } from './layout-styles';
 import { WcAppDrawer, canariaMenu } from "../app-drawer/WcAppDrawer";
-import { WcAllIslandPage } from "../../pages/all-island-page/WcAllIslandPage";
+import { sightseeings, WcAllIslandPage } from "../../pages/all-island-page/WcAllIslandPage";
 import { WcTopicPage } from "../../pages/topic-page/WcTopicPage";
 
 import "../icons/WcIcon";
 import { assertNever } from "../../shared/tools";
-
-export type SelectedTopic = "all-island" | "cities" | "mountains" | "caves" | "water" | "parks" | "adventure";
+import { WcDetailsPage } from "../../pages/details-page/WcDetailsPage";
+import { Topic } from "../../code/leaflet";
 
 @customElement("wc-app-layout")
 export class WcAppLayout extends LitElement {
-    @property({ type: String }) selectedDrawer: SelectedTopic = 'all-island';
+    @property({ type: String }) selectedDrawer: Topic = 'Gran-Canaria';
 
     static get styles() {
         return [layoutStyles, navbarStyles];
     };
 
     private _handleHashChange = () => {
-        this.selectedDrawer = <SelectedTopic>this.setSelectedDrawer();
+        this.selectedDrawer = <Topic>this.setSelectedDrawer();
         this.requestUpdate();
     }
 
@@ -31,16 +31,19 @@ export class WcAppLayout extends LitElement {
         super.connectedCallback();
 
         window.addEventListener('hashchange', this._handleHashChange);
-        this.selectedDrawer = <SelectedTopic>this.setSelectedDrawer();
+        this.selectedDrawer = <Topic>this.setSelectedDrawer();
     }
 
     setSelectedDrawer(): string {
         const hash = location.hash;
-        const idx = canariaMenu.findIndex(pd => pd.name === hash.slice(1));
+        const idx = canariaMenu.findIndex(pd => pd.title === hash.slice(1));
+        const ss = sightseeings.findIndex(ss => ss.hash === hash.slice(1));
 
         if (hash === '#' || hash === '') {
-            return 'all-island'
+            return 'Gran-Canaria';
         } else if (idx > -1) {
+            return hash.slice(1);
+        } else if (ss > -1) {
             return hash.slice(1);
         } else {
             return this.selectedDrawer;
@@ -56,15 +59,17 @@ export class WcAppLayout extends LitElement {
     };
 
     getUserContent(): LitElement | TemplateResult | void {
+        const sightseeing = sightseeings.filter(s => s.hash === this.selectedDrawer)[0];
         switch (this.selectedDrawer) {
-            case ('all-island'): return new WcAllIslandPage();
-            case ('cities'): return new WcTopicPage('Städte');
-            case ('mountains'): return new WcTopicPage('Berge');
-            case ('water'): return new WcTopicPage('Wasser');
-            case ('parks'): return new WcTopicPage('Parks');
-            case ('adventure'): return new WcTopicPage('Erlebnisse');
-            case ('caves'): return new WcTopicPage('Höhlen');
-            default: assertNever(this.selectedDrawer);
+            case ('Gran-Canaria'): return new WcAllIslandPage();
+            case ('Städte'): return new WcTopicPage('Städte');
+            case ('Berge'): return new WcTopicPage('Berge');
+            case ('Wasser'): return new WcTopicPage('Wasser');
+            case ('Parks'): return new WcTopicPage('Parks');
+            case ('Erlebnisse'): return new WcTopicPage('Erlebnisse');
+            case ('Höhlen'): return new WcTopicPage('Höhlen');
+            case (sightseeing?.hash): this.selectedDrawer = sightseeing.topic; return new WcDetailsPage(sightseeing);
+            default: this.selectedDrawer;
         };
     };
 

@@ -7,39 +7,31 @@ import { drawerStyles } from './drawer-styles';
 import { config } from "../../config";
 import { iconName } from "../icons/WcIcon";
 import { Topic } from "../../code/leaflet";
-import { SelectedTopic } from "../app-layout/WcAppLayout";
 
-type callbackType = (selectedDrawer: SelectedTopic) => void;
-type CanariaMenu = Array<{ name: SelectedTopic, title: Topic, icon: iconName }>
+type callbackType = (selectedDrawer: Topic) => void;
+type CanariaMenu = Array<{ title: Topic, icon: iconName }>
 
 export const canariaMenu: CanariaMenu = [{
-  name: 'all-island',
-  title: 'All Island',
-  icon: 'camera-retro-duotone'
+  title: 'Gran-Canaria',
+  icon: 'umbrella-beach'
 }, {
-  name: 'cities',
   title: 'Städte',
-  icon: 'calendar-alt'
+  icon: 'house-tree'
 }, {
-  name: 'mountains',
   title: 'Berge',
-  icon: 'map-duotone'
+  icon: 'volcano'
 }, {
-  name: 'caves',
   title: 'Höhlen',
-  icon: 'plane-duotone'
+  icon: 'dungeon'
 }, {
-  name: 'water',
   title: 'Wasser',
-  icon: 'plane-duotone'
+  icon: 'water'
 }, {
-  name: 'parks',
   title: 'Parks',
-  icon: 'plane-duotone'
+  icon: 'trees'
 }, {
-  name: 'adventure',
   title: 'Erlebnisse',
-  icon: 'plane-duotone'
+  icon: 'person-biking-mountain'
 }];
 
 @customElement("wc-app-drawer")
@@ -48,11 +40,11 @@ export class WcAppDrawer extends LitElement {
     return [drawerStyles];
   };
 
-  @property({ type: String }) selectedDrawer: SelectedTopic = 'all-island';
+  @property({ type: String }) selectedDrawer: Topic = 'Gran-Canaria';
   private drawerOpen: boolean = false;
   callback: callbackType | undefined;
 
-  constructor(selectedDrawer: SelectedTopic) {
+  constructor(selectedDrawer: Topic) {
     super();
 
     this.selectedDrawer = selectedDrawer;
@@ -71,7 +63,7 @@ export class WcAppDrawer extends LitElement {
     this.requestUpdate();
   };
 
-  setDrawerSelection(name: SelectedTopic): void {
+  setDrawerSelection(name: Topic): void {
     this.selectedDrawer = name;
     if (this.callback) {
       this.callback(this.selectedDrawer);
@@ -82,8 +74,8 @@ export class WcAppDrawer extends LitElement {
     return html`
       ${config.isMobile ? html`<wc-icon @click=${this.openDrawer} class="menu-icon" primaryColor="toolbar" icon=${this.drawerOpen ? 'close' : 'bars-light'}></wc-icon>` : ''} 
       <aside class="drawer ${!this.drawerOpen && config.isMobile ? 'hidden' : ''}">
-        ${canariaMenu.map(d => html`<div class="tab ${this.selectedDrawer === d.name ? "selected" : ""}" style="display: flex; align-items: center;"
-          @click=${(): void => this.setDrawerSelection(d.name)}><wc-icon primaryColor=${this.selectedDrawer === d.name ? "green" : "toolbar"} icon=${d.icon}></wc-icon>${d.title}</div>`)}
+        ${canariaMenu.map(d => html`<div class="tab ${this.selectedDrawer === d.title ? "selected" : ""}" style="display: flex; align-items: center;"
+          @click=${(): void => this.setDrawerSelection(d.title)}><wc-icon primaryColor=${this.selectedDrawer === d.title ? "darkblue" : "toolbar"} icon=${d.icon}></wc-icon>${d.title}</div>`)}
       </aside>
     `;
   };

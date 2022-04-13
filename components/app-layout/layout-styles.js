@@ -6,7 +6,7 @@ export const layoutStyles = css `
     height: 100vh;
     display: grid;
     grid-template-rows: 50px 1fr;
-    grid-template-columns: 200px 1fr;
+    grid-template-columns: 210px 1fr;
     background-color: var(--fuerte-light);
   }
 

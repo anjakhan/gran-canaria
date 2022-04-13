@@ -73,6 +73,7 @@ export const createSightseeingDocument = (sightseeingdoc) => {
     firestore.collection("sightseeings").add({
         id: '',
         name: sightseeingdoc.name,
+        hash: sightseeingdoc.hash,
         image: sightseeingdoc.image,
         foldername: sightseeingdoc.foldername,
         orientation: sightseeingdoc.orientation,

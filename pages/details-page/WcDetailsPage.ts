@@ -34,6 +34,7 @@ export class WcDetailsPage extends LitElement {
         width: 100%;
         grid-row: 2;
         grid-column: 1;
+        border: 1px solid #ccc;
       }
 
       .details-container {
@@ -54,11 +55,12 @@ export class WcDetailsPage extends LitElement {
 
       .back-icon {
         position: absolute;
-        width: 30px;
+        width: 40px;
         height: 100%;
         margin-right: 10px;
         cursor: pointer;
       }
+      
       .map-icon {
         width: 30px;
         height: 30px;
@@ -105,6 +107,7 @@ export class WcDetailsPage extends LitElement {
   };
 
   goBackToSightseeings(): void {
+    location.hash = "#" + this.sightseeing.topic;
     if (this.callback) {
       this.callback(true);
     };
@@ -118,7 +121,7 @@ export class WcDetailsPage extends LitElement {
 
     this.mapContainer?.appendChild(mapContainer);
 
-    createToDoMap(mapContainer, "streetmap", [this.sightseeing], this.sightseeing.location, 15);
+    createToDoMap(mapContainer, "streetmap", [this.sightseeing], this.sightseeing?.location, 15);
   };
 
   renderImageCard(imageUrl: string): LitElement {
@@ -131,7 +134,7 @@ export class WcDetailsPage extends LitElement {
     return html`
       <div class="details-page">
         <h1 class="title">
-          <wc-icon icon="arrow-left" primaryColor="gray" class="back-icon" @click=${this.goBackToSightseeings}></wc-icon>
+          <wc-icon icon="square-arrow-left" primaryColor="hovergray" class="back-icon" @click=${this.goBackToSightseeings}></wc-icon>
           ${sightseeing.name}
         </h1>
 

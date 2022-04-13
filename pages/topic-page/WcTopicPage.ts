@@ -110,15 +110,13 @@ export class WcTopicPage extends LitElement {
 
   render(): TemplateResult {
     return html`
-      ${this.showDetails ? this.renderSightseeingPage() : html`
-        <div class="topic-page">
-          <h1 class="title">${this.topic} auf Gran Canaria</h1>
+      <div class="topic-page">
+        <h1 class="title">${this.topic === "Berge" ? "Berglandschaften" : this.topic} auf Gran Canaria</h1>
 
-          <div class="map-container">${this.renderMap()}</div>
-          
-          <div class="topic-container">${this.sightseeings?.map(c => this.renderSightseeingCard(c))}</div>
-        </div>
-      `}
+        <div class="map-container">${this.renderMap()}</div>
+        
+        <div class="topic-container">${this.sightseeings?.map(c => this.renderSightseeingCard(c))}</div>
+      </div>
     `;
   };
 };

@@ -4,7 +4,7 @@ import { FotoUploadDto } from './nobs/UploadNobs';
 
 export const L = (<any>window).L;
 
-export type Topic = "All Island" | "Städte" | "Berge" | "Höhlen" | "Wasser" | "Parks" | "Erlebnisse";
+export type Topic = "Gran-Canaria" | "Städte" | "Berge" | "Höhlen" | "Wasser" | "Parks" | "Erlebnisse";
 export type Color = "black" | "green" | "sandybrown" | "aquamarine" | "olivedrab" | "magenta";
 
 const travelledPlaces: Array<{ name: string, location: Array<number>, date: string, topic: string }> = [{

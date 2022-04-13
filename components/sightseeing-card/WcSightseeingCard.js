@@ -26,7 +26,7 @@ let WcSightseeingCard = class WcSightseeingCard extends LitElement {
         min-width: 300px;
       }
       .card-container:hover {
-        box-shadow: 5px 5px 8px #888888;
+        box-shadow: 5px 5px 8px #ccc;
         transform: scale(1.01);
       }
 
@@ -64,7 +64,7 @@ let WcSightseeingCard = class WcSightseeingCard extends LitElement {
     render() {
         const sightseeing = this.sightseeing;
         return html `
-      <div class="card-container">
+      <div class="card-container" @click=${() => location.hash = "#" + this.sightseeing.hash}>
         <div class="sightseeing-image" style="background: url(${sightseeing.image}); background-size: cover"></div>
         <!-- <img src=${sightseeing.image} alt=${sightseeing.name}> -->
 

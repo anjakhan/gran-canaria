@@ -33,9 +33,9 @@ export const sightseeings = [{
         info: "Maspalomas bezeichnet übrigens eine ganze Region im Südzipfel der Insel. Sie erstreckt sich von Meloneras bis San Agustín und beherbergt auch den bekanntesten Ortsteil Playa del Inglés. Hier befinden sich besonders viele Hotels und Ferienwohnungen. Da die Region vor allem bei deutschsprachigen Urlaubsgästen sehr beliebt ist, gibt es mittlerweile auch viele deutsche Restaurants und Kneipen vor Ort. Ein weiterer Vorteil ist die Nähe zum Flughafen. Die Fahrtzeit mit dem Auto oder Bus liegt bei gerade einmal 20 bis 25 Minuten. Vor Ort erwartet dich dann eine große Dünen-Landschaft. Die Dünen erstrecken sich knapp 6 Kilometer an der Südküste entlang und erreichen eine Breite von bis zu 1,4 Kilometern."
     }, {
         name: "Sanddünen von Maspalomas",
-        hash: "Sanddünen",
+        hash: "Sandduenen",
         image: "https://firebasestorage.googleapis.com/v0/b/gran-canaria-4e556.appspot.com/o/sightseeings%2Fadventure%2FSandd%C3%BCnenMaspalomas%2FGran-Canaria-Highlights-Sandduenen-Maspalomas.webp?alt=media&token=77aceae2-9434-44c2-b82f-ea12d0e0426c",
-        foldername: "adventure/SanddünenMaspalomas",
+        foldername: "adventure/SandduenenMaspalomas",
         location: [27.745299697744375, -15.576656034595045],
         orientation: "Süden",
         tags: ["Maspalomas", "Bike Tour", "Kamelreiten", "Delfin Tour", "Sanddünen von Maspalomas", "Palmitos Park", "Faro de Maspalomas", "Faro de Meloneras", "Playa de Maspalomas", "Playa del Ingles", "Yacimiento Punta Mujeres"],

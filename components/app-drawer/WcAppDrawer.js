@@ -6,9 +6,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 import { LitElement, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import "../icons/WcIcon";
 import { drawerStyles } from './drawer-styles';
 import { config } from "../../config";
+import "../icons/WcIcon";
 export const canariaMenu = [{
         title: 'Gran-Canaria',
         icon: 'umbrella-beach'
@@ -66,10 +66,26 @@ let WcAppDrawer = class WcAppDrawer extends LitElement {
     ;
     render() {
         return html `
-      ${config.isMobile ? html `<wc-icon @click=${this.openDrawer} class="menu-icon" primaryColor="toolbar" icon=${this.drawerOpen ? 'close' : 'bars-light'}></wc-icon>` : ''} 
+      ${config.isMobile ? html `
+        <wc-icon 
+          @click=${this.openDrawer} 
+          class="menu-icon" 
+          primaryColor="toolbar" 
+          icon=${this.drawerOpen ? 'close' : 'bars-light'}
+        ></wc-icon>
+      ` : ''} 
+
       <aside class="drawer ${!this.drawerOpen && config.isMobile ? 'hidden' : ''}">
-        ${canariaMenu.map(d => html `<div class="tab ${this.selectedDrawer === d.title ? "selected" : ""}" style="display: flex; align-items: center;"
-          @click=${() => this.setDrawerSelection(d.title)}><wc-icon primaryColor=${this.selectedDrawer === d.title ? "darkblue" : "toolbar"} icon=${d.icon}></wc-icon>${d.title}</div>`)}
+        ${canariaMenu.map(d => html `
+          <div 
+            class="tab ${this.selectedDrawer === d.title ? "selected" : ""}" 
+            style="display: flex; align-items: center;"
+            @click=${() => this.setDrawerSelection(d.title)}
+          >
+            <wc-icon primaryColor=${this.selectedDrawer === d.title ? "darkblue" : "toolbar"} icon=${d.icon}></wc-icon>
+            ${d.title === "Gran-Canaria" ? "Gran Canaria" : d.title}
+          </div>
+        `)}
       </aside>
     `;
     }

@@ -45,7 +45,7 @@ export class WcImageCard extends LitElement {
       <div class="card-container">
         <div class="sightseeing-image" style="background: url(${this.imageUrl}); background-size: cover"></div>
 
-        <p>${this.imageUrl.split(this.sightseeing + "/")[1].split(".")[0].split("-600")[0].replaceAll("-", " ").replaceAll("%C3%B6", "ö").replaceAll("%20", " ")}</p>
+        <p>${this.imageUrl?.split(this.sightseeing + "/")[1].split(".")[0].split("-600")[0].replaceAll("-", " ").replaceAll("%C3%B6", "ö").replaceAll("%20", " ")}</p>
       </div>
     `;
   };

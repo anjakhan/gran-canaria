@@ -1,6 +1,6 @@
 import { LitElement, html, TemplateResult, css } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { Sightseeing } from "../../pages/all-island-page/WcAllIslandPage";
+import { Sightseeing } from "../../pages/all-island-page/sightseeings";
 
 
 @customElement("wc-sightseeing-card")

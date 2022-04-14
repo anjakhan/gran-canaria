@@ -1,16 +1,14 @@
 import { LitElement, html, TemplateResult, css } from "lit";
-import { customElement, property, query } from "lit/decorators.js";
+import { customElement, property } from "lit/decorators.js";
 import { geSightseeingDocs } from "../../code/firebase";
-import { createToDoMap } from "../../code/leaflet";
-import { WcIcon } from "../../components/icons/WcIcon";
+import { updateMap } from "../../code/leaflet";
 import { WcSightseeingCard } from "../../components/sightseeing-card/WcSightseeingCard";
-import { mapStyles } from "../all-island-page/map-styles";
-import { Sightseeing, Topic } from "../all-island-page/sightseeings";
+import { Sightseeing, sightseeings, Topic } from "../all-island-page/sightseeings";
 
 @customElement("wc-topic-page")
 export class WcTopicPage extends LitElement {
   static get styles() {
-    return [mapStyles, css`
+    return [css`
       .topic-page {
         display: flex;
         flex-direction: column;
@@ -19,36 +17,16 @@ export class WcTopicPage extends LitElement {
         color: #555;
       }
 
-      .title {
-        text-align: center;
-        padding-right: 150px;
-      }
-
       .topic-container {
         display: grid;
         grid-gap: 20px;
         grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
       }
-
-      .map-container {
-        position: relative;
-        height: 450px;
-        width: 100%;
-        grid-row: 2;
-        grid-column: 1;
-        margin-bottom: 20px;
-        border: 1px solid var(--fuerte-background-color);
-        border-radius: 4px;
-      }
     `];
   };
 
   @property({ type: Array }) sightseeings: Sightseeing[];
-  @property({ type: Object }) sightseeing: Sightseeing;
   @property({ type: String }) topic: Topic;
-
-  @query('#mapid') mapid: HTMLDivElement;
-  @query('.map-container') mapContainer: HTMLDivElement;
 
   async getSightseeingsFromFirebase() {
     const sightseeings: Array<Sightseeing> = [];
@@ -62,6 +40,7 @@ export class WcTopicPage extends LitElement {
       console.log(error);
     }
     this.sightseeings = sightseeings;
+    updateMap(this.sightseeings);
   };
 
   constructor(topic: Topic) {
@@ -72,52 +51,20 @@ export class WcTopicPage extends LitElement {
   connectedCallback(): void {
     super.connectedCallback();
 
-    this.getSightseeingsFromFirebase();
-
     location.hash = "#" + this.topic;
+
+    window.setTimeout(() => updateMap(sightseeings.filter(s => s.topic === this.topic)), 0);
   }
 
   renderSightseeingCard(sightseeing: Sightseeing): LitElement {
     const td = new WcSightseeingCard(sightseeing);
-    td.onclick = () => {
-      this.sightseeing = sightseeing;
-    }
     return td;
   }
-
-  renderMap() {
-    const mapContainer = document.createElement('div');
-    mapContainer.setAttribute('id', 'mapid');
-    mapContainer.style.height = '100%';
-    mapContainer.style.width = '100%';
-    mapContainer.style.borderRadius = "4px";
-
-    this.mapContainer?.appendChild(mapContainer);
-
-    createToDoMap(mapContainer, "streets", this.sightseeings, undefined, 10);
-
-    const layerBtn = <HTMLLinkElement>mapContainer.querySelector("a.leaflet-control-layers-toggle");
-    if (layerBtn) {
-      layerBtn.style.width = "30px";
-      layerBtn.style.height = "35px";
-      layerBtn.style.padding = "5px 7px";
-
-      const icon = new WcIcon();
-      icon.primaryColor = "black";
-      icon.icon = "layer-group";
-
-      layerBtn.appendChild(icon);
-    }
-  };
 
   render(): TemplateResult {
     return html`
       <div class="topic-page">
-        <h1 class="title">${this.topic === "Berge" ? "Berglandschaften" : this.topic} auf Gran Canaria</h1>
-
-        <div class="map-container">${this.renderMap()}</div>
-        
-        <div class="topic-container">${this.sightseeings?.map(c => this.renderSightseeingCard(c))}</div>
+        <div class="topic-container">${sightseeings?.filter(s => s.topic === this.topic).map(c => this.renderSightseeingCard(c))}</div>
       </div>
     `;
   };

@@ -4,7 +4,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-import { LitElement, html } from "lit";
+import { LitElement, html, css } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { logoutFunc } from '../../adminIndex';
 import { showCtxMenu } from "../../shared/contextMenu";
@@ -13,19 +13,38 @@ import { WcAppDrawer, canariaMenu } from "../app-drawer/WcAppDrawer";
 import { WcAllIslandPage } from "../../pages/all-island-page/WcAllIslandPage";
 import { WcTopicPage } from "../../pages/topic-page/WcTopicPage";
 import { WcDetailsPage } from "../../pages/details-page/WcDetailsPage";
-import "../icons/WcIcon";
 import { sightseeings } from "../../pages/all-island-page/sightseeings";
+import { WcMapComponent } from "../map-component/WcMapComponent";
+import "../icons/WcIcon";
 let WcAppLayout = class WcAppLayout extends LitElement {
     constructor() {
         super(...arguments);
         this.selectedDrawer = 'Gran-Canaria';
+        this.showTitleAndMap = true;
         this._handleHashChange = () => {
             this.selectedDrawer = this.setSelectedDrawer();
             this.requestUpdate();
         };
     }
     static get styles() {
-        return [layoutStyles, navbarStyles];
+        return [layoutStyles, navbarStyles, css `
+            .title {
+                text-align: center;
+                padding-right: 150px;
+                color: #555;
+            }
+
+            .map-container {
+                position: relative;
+                height: 450px;
+                width: 100%;
+                grid-row: 2;
+                grid-column: 1;
+                border: 1px solid var(--fuerte-background-color);
+                border-radius: 4px;
+                margin-bottom: 20px;
+            }
+        `];
     }
     ;
     connectedCallback() {
@@ -35,6 +54,7 @@ let WcAppLayout = class WcAppLayout extends LitElement {
     }
     setSelectedDrawer() {
         const hash = location.hash;
+        this.showTitleAndMap = true;
         const idx = canariaMenu.findIndex(pd => pd.title === hash.slice(1));
         const ss = sightseeings.findIndex(ss => ss.hash === hash.slice(1));
         if (hash === '#' || hash === '') {
@@ -44,6 +64,7 @@ let WcAppLayout = class WcAppLayout extends LitElement {
             return hash.slice(1);
         }
         else if (ss > -1) {
+            this.showTitleAndMap = false;
             return hash.slice(1);
         }
         else {
@@ -91,6 +112,10 @@ let WcAppLayout = class WcAppLayout extends LitElement {
         logoutFunc();
     }
     ;
+    renderMap() {
+        const td = new WcMapComponent("streets", sightseeings, undefined, 10);
+        return td;
+    }
     render() {
         return html `
         <div class="account-layout">
@@ -104,6 +129,14 @@ let WcAppLayout = class WcAppLayout extends LitElement {
             <div class="drawer">${this.renderDrawer()}</div>  
             
             <div id="user-content">
+                ${this.showTitleAndMap ? html `
+                    <h1 class="title">${this.selectedDrawer === "Gran-Canaria" ? "Sehenswürdigkeiten" : this.selectedDrawer === "Berge" ? "Berglandschaften auf Gran Canaria" : this.selectedDrawer + " auf Gran Canaria"}</h1>
+                    
+                    <div class="map-container">
+                        ${this.renderMap()}
+                    </div>
+                ` : ''}
+                
                 ${this.getUserContent()}
             </div>
         </div>
@@ -114,6 +147,9 @@ let WcAppLayout = class WcAppLayout extends LitElement {
 __decorate([
     property({ type: String })
 ], WcAppLayout.prototype, "selectedDrawer", void 0);
+__decorate([
+    property({ type: Boolean })
+], WcAppLayout.prototype, "showTitleAndMap", void 0);
 WcAppLayout = __decorate([
     customElement("wc-app-layout")
 ], WcAppLayout);

@@ -1,16 +1,14 @@
 import { LitElement, html, TemplateResult, css } from "lit";
 import { customElement, property, query } from "lit/decorators.js";
 import { createSightseeingDocument } from "../../code/firebase";
-import { createToDoMap } from "../../code/leaflet";
-import { WcIcon } from "../../components/icons/WcIcon";
+import { updateMap } from "../../code/leaflet";
 import { WcSightseeingCard } from "../../components/sightseeing-card/WcSightseeingCard";
-import { mapStyles } from "./map-styles";
 import { Orientation, Sightseeing, sightseeings, Topic, TripType } from "./sightseeings";
 
 @customElement("wc-all-island-page")
 export class WcAllIslandPage extends LitElement {
   static get styles() {
-    return [mapStyles, css`
+    return [css`
       .all-island-page {
         display: flex;
         flex-direction: column;
@@ -19,30 +17,10 @@ export class WcAllIslandPage extends LitElement {
         color: #555;
       }
 
-      .title {
-        text-align: center;
-        padding-right: 150px;
-      }
-
-      h2 {
-        border-bottom: 1px solid #555;
-        padding-bottom: 5px;
-      }
-
       .all-island-container {
         display: grid;
         grid-gap: 20px;
         grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-      }
-
-      .map-container {
-        position: relative;
-        height: 450px;
-        width: 100%;
-        grid-row: 2;
-        grid-column: 1;
-        border: 1px solid var(--fuerte-background-color);
-        border-radius: 4px;
       }
 
       .filter-container {
@@ -50,7 +28,7 @@ export class WcAllIslandPage extends LitElement {
         grid-template-columns: auto 1fr 1fr 1fr 1fr auto;
         grid-column-gap: 10px;
         padding: 10px 15px;
-        margin: 20px 0;
+        margin: 0 0 20px 0;
         align-items: center;
         background-color: var(--fuerte-aqua);
         border-radius: 4px;
@@ -81,8 +59,6 @@ export class WcAllIslandPage extends LitElement {
   @property({ type: String }) orientationFilter: Orientation = "Insel";
   @property({ type: String }) triptypeFilter: TripType = "Alle";
 
-  @query('#mapid') mapid: HTMLDivElement;
-  @query('.map-container') mapContainer: HTMLDivElement;
   @query('#searchInput') searchInput: HTMLInputElement;
 
   async addSightseeingsToFirebase(sightseeings: Sightseeing[]) {
@@ -101,7 +77,7 @@ export class WcAllIslandPage extends LitElement {
 
     this.filteredSightseeings = sightseeings;
 
-    location.hash = "#Gran Canaria";
+    location.hash = "#Gran-Canaria";
   }
 
   renderSightseeingCard(sightseeing: Sightseeing): LitElement {
@@ -110,57 +86,6 @@ export class WcAllIslandPage extends LitElement {
       this.sightseeing = sightseeing;
     }
     return td;
-  }
-
-  renderMap() {
-    let mapContainer: HTMLDivElement | null = this.mapContainer?.querySelector("#mapid");
-    if (!mapContainer) {
-      mapContainer = document.createElement('div');
-      mapContainer.setAttribute('id', 'mapid');
-      mapContainer.style.height = '100%';
-      mapContainer.style.width = '100%';
-      mapContainer.style.borderRadius = "4px";
-
-      if (!this.mapContainer) {
-        setTimeout(() => {
-          mapContainer && this.mapContainer?.appendChild(mapContainer);
-          mapContainer && createToDoMap(mapContainer, "streets", this.filteredSightseeings, undefined, 10);
-          const layerBtn = <HTMLLinkElement>mapContainer?.querySelector("a.leaflet-control-layers-toggle");
-          if (layerBtn) {
-            layerBtn.style.width = "30px";
-            layerBtn.style.height = "30px";
-            layerBtn.style.padding = "5px 7px";
-
-            const icon = new WcIcon();
-            icon.primaryColor = "black";
-            icon.icon = "layer-group";
-
-            layerBtn.appendChild(icon);
-          }
-        }, 100);
-      }
-    } else {
-      const newMap = document.createElement('div');
-      newMap.setAttribute('id', 'mapid');
-      newMap.style.height = '100%';
-      newMap.style.width = '100%';
-      newMap.style.borderRadius = "4px";
-      newMap.replaceWith(newMap);
-      mapContainer.replaceWith(newMap);
-      createToDoMap(newMap, "streets", this.filteredSightseeings, undefined, 10);
-      const layerBtn = <HTMLLinkElement>newMap?.querySelector("a.leaflet-control-layers-toggle");
-      if (layerBtn) {
-        layerBtn.style.width = "30px";
-        layerBtn.style.height = "30px";
-        layerBtn.style.padding = "5px 7px";
-
-        const icon = new WcIcon();
-        icon.primaryColor = "black";
-        icon.icon = "layer-group";
-
-        layerBtn.appendChild(icon);
-      }
-    }
   }
 
   filterByCategories(name: "topic" | "orientation" | "triptype", value: Topic | Orientation | TripType): void {
@@ -180,6 +105,8 @@ export class WcAllIslandPage extends LitElement {
     if (this.triptypeFilter !== "Alle") {
       this.filteredSightseeings = this.filteredSightseeings.filter(s => s.type === this.triptypeFilter);
     }
+
+    updateMap(this.filteredSightseeings);
   }
 
   searchThroughSightseeings(search: string): void {
@@ -194,6 +121,8 @@ export class WcAllIslandPage extends LitElement {
       || s.type?.toLowerCase().includes(search)
       || s.tags.filter(t => t.toLowerCase().includes(search)).length > 0
     )
+
+    updateMap(this.filteredSightseeings);
   }
 
   resetFilter(): void {
@@ -202,17 +131,13 @@ export class WcAllIslandPage extends LitElement {
     this.orientationFilter = "Insel";
     this.triptypeFilter = "Alle";
     this.searchInput.value = "";
+
+    updateMap(sightseeings);
   }
 
   render(): TemplateResult {
     return html`      
       <div class="all-island-page">
-        <h1 class="title">Sehenswürdigkeiten</h1>
-
-        <div class="map-container">
-          ${this.renderMap()}
-        </div>
-
         <div class="filter-container">
           <div style="color: white;">Filter:</div>
 

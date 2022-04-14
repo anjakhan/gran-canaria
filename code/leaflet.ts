@@ -92,7 +92,7 @@ export const createToDoMap = (mapid: HTMLDivElement, mapType: "satellite" | "str
 };
 
 export const updateMap = (sightseeings: Sightseeing[]) => {
-  if (map & markers.length) {
+  if (map) {
     markers?.forEach(m => map.removeLayer(m));
     markers = [];
 

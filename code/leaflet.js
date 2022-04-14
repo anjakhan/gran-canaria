@@ -70,7 +70,7 @@ export const createToDoMap = (mapid, mapType, sightseeings, location, zoom = 9) 
     });
 };
 export const updateMap = (sightseeings) => {
-    if (map & markers.length) {
+    if (map) {
         markers?.forEach(m => map.removeLayer(m));
         markers = [];
         sightseeings?.map((s) => {

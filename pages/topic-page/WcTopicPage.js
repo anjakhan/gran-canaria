@@ -5,19 +5,18 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 import { LitElement, html, css } from "lit";
-import { customElement, property, query } from "lit/decorators.js";
+import { customElement, property } from "lit/decorators.js";
 import { geSightseeingDocs } from "../../code/firebase";
-import { createToDoMap } from "../../code/leaflet";
-import { WcIcon } from "../../components/icons/WcIcon";
+import { updateMap } from "../../code/leaflet";
 import { WcSightseeingCard } from "../../components/sightseeing-card/WcSightseeingCard";
-import { mapStyles } from "../all-island-page/map-styles";
+import { sightseeings } from "../all-island-page/sightseeings";
 let WcTopicPage = class WcTopicPage extends LitElement {
     constructor(topic) {
         super();
         this.topic = topic;
     }
     static get styles() {
-        return [mapStyles, css `
+        return [css `
       .topic-page {
         display: flex;
         flex-direction: column;
@@ -26,26 +25,10 @@ let WcTopicPage = class WcTopicPage extends LitElement {
         color: #555;
       }
 
-      .title {
-        text-align: center;
-        padding-right: 150px;
-      }
-
       .topic-container {
         display: grid;
         grid-gap: 20px;
         grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-      }
-
-      .map-container {
-        position: relative;
-        height: 450px;
-        width: 100%;
-        grid-row: 2;
-        grid-column: 1;
-        margin-bottom: 20px;
-        border: 1px solid var(--fuerte-background-color);
-        border-radius: 4px;
       }
     `];
     }
@@ -63,48 +46,22 @@ let WcTopicPage = class WcTopicPage extends LitElement {
             console.log(error);
         }
         this.sightseeings = sightseeings;
+        updateMap(this.sightseeings);
     }
     ;
     connectedCallback() {
         super.connectedCallback();
-        this.getSightseeingsFromFirebase();
         location.hash = "#" + this.topic;
+        window.setTimeout(() => updateMap(sightseeings.filter(s => s.topic === this.topic)), 0);
     }
     renderSightseeingCard(sightseeing) {
         const td = new WcSightseeingCard(sightseeing);
-        td.onclick = () => {
-            this.sightseeing = sightseeing;
-        };
         return td;
     }
-    renderMap() {
-        const mapContainer = document.createElement('div');
-        mapContainer.setAttribute('id', 'mapid');
-        mapContainer.style.height = '100%';
-        mapContainer.style.width = '100%';
-        mapContainer.style.borderRadius = "4px";
-        this.mapContainer?.appendChild(mapContainer);
-        createToDoMap(mapContainer, "streets", this.sightseeings, undefined, 10);
-        const layerBtn = mapContainer.querySelector("a.leaflet-control-layers-toggle");
-        if (layerBtn) {
-            layerBtn.style.width = "30px";
-            layerBtn.style.height = "35px";
-            layerBtn.style.padding = "5px 7px";
-            const icon = new WcIcon();
-            icon.primaryColor = "black";
-            icon.icon = "layer-group";
-            layerBtn.appendChild(icon);
-        }
-    }
-    ;
     render() {
         return html `
       <div class="topic-page">
-        <h1 class="title">${this.topic === "Berge" ? "Berglandschaften" : this.topic} auf Gran Canaria</h1>
-
-        <div class="map-container">${this.renderMap()}</div>
-        
-        <div class="topic-container">${this.sightseeings?.map(c => this.renderSightseeingCard(c))}</div>
+        <div class="topic-container">${sightseeings?.filter(s => s.topic === this.topic).map(c => this.renderSightseeingCard(c))}</div>
       </div>
     `;
     }
@@ -114,17 +71,8 @@ __decorate([
     property({ type: Array })
 ], WcTopicPage.prototype, "sightseeings", void 0);
 __decorate([
-    property({ type: Object })
-], WcTopicPage.prototype, "sightseeing", void 0);
-__decorate([
     property({ type: String })
 ], WcTopicPage.prototype, "topic", void 0);
-__decorate([
-    query('#mapid')
-], WcTopicPage.prototype, "mapid", void 0);
-__decorate([
-    query('.map-container')
-], WcTopicPage.prototype, "mapContainer", void 0);
 WcTopicPage = __decorate([
     customElement("wc-topic-page")
 ], WcTopicPage);

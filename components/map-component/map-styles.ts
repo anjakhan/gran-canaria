@@ -40,7 +40,6 @@ export const mapStyles: CSSResultGroup = css`
 .leaflet-safari .leaflet-tile-container {
 	width: 1600px;
 	height: 1600px;
-	-webkit-transform-origin: 0 0;
 	}
 .leaflet-marker-icon,
 .leaflet-marker-shadow {
@@ -533,10 +532,6 @@ svg.leaflet-image-layer.leaflet-interactive path {
 	border-bottom: 1px solid #ddd;
 	border-top: 1px solid #ddd;
 	}
-
-.leaflet-oldie .leaflet-popup-content-wrapper {
-	-ms-zoom: 1;
-	}
 .leaflet-oldie .leaflet-popup-tip {
 	width: 24px;
 	margin: 0 auto;
@@ -724,7 +719,6 @@ svg.leaflet-image-layer.leaflet-interactive path {
 .leaflet-safari .leaflet-tile-container {
 	width: 1600px;
 	height: 1600px;
-	-webkit-transform-origin: 0 0;
 	}
 .leaflet-marker-icon,
 .leaflet-marker-shadow {
@@ -1216,10 +1210,6 @@ svg.leaflet-image-layer.leaflet-interactive path {
 	overflow: auto;
 	border-bottom: 1px solid #ddd;
 	border-top: 1px solid #ddd;
-	}
-
-.leaflet-oldie .leaflet-popup-content-wrapper {
-	-ms-zoom: 1;
 	}
 .leaflet-oldie .leaflet-popup-tip {
 	width: 24px;

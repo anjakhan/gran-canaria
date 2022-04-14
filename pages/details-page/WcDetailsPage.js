@@ -7,7 +7,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 import { LitElement, html, css } from "lit";
 import { customElement, property, query } from "lit/decorators.js";
 import { createToDoMap } from "../../code/leaflet";
-import { mapStyles } from "../all-island-page/map-styles";
+import { mapStyles } from "../../components/map-component/map-styles";
 import { WcImageCard } from "../../components/image-card/WcImageCard";
 import { WcIcon } from "../../components/icons/WcIcon";
 let WcDetailsPage = class WcDetailsPage extends LitElement {

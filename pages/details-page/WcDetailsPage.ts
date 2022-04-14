@@ -41,6 +41,7 @@ export class WcDetailsPage extends LitElement {
       .details-container {
         grid-row: 2;
         grid-column: 2;
+        text-align: justify;
       }
       .details-container > span {
         font-weight: bold;
@@ -56,6 +57,16 @@ export class WcDetailsPage extends LitElement {
 
       .back-icon {
         position: absolute;
+        width: 40px;
+        height: 100%;
+        margin-right: 10px;
+        cursor: pointer;
+      }
+
+      .link-icon {
+        position: absolute;
+        top: 0;
+        right: 0;
         width: 40px;
         height: 100%;
         margin-right: 10px;
@@ -150,6 +161,9 @@ export class WcDetailsPage extends LitElement {
         <h1 class="title">
           <wc-icon icon="square-arrow-left" primaryColor="hovergray" class="back-icon" @click=${this.goBackToSightseeings}></wc-icon>
           ${sightseeing.name}
+          ${sightseeing.link ? html`
+            <wc-icon icon="arrow-up-right-from-square" primaryColor="hovergray" class="link-icon" @click=${() => window.open(sightseeing.link, "_blank")}></wc-icon></span>
+          ` : ''}
         </h1>
 
         <div class="map-container">${this.renderMap()}</div>

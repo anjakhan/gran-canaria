@@ -176,6 +176,7 @@ export const sightseeings = [{
         tags: ["Firgas", "Arucas", "Mirador Barranco de Azuaje"],
         topic: "Wasser",
         type: "Wanderung",
+        link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/gran-canaria-highlights/#barranco-de-azuaje",
         info: "Ein Ort, um auf Gran Canaria ganzjährig Wasserfälle und grüne Natur zu erleben, ist der Barranco de Azuaje. Von der asphaltierten Straße führt ein teils gepflasterter Schotterweg hierher. Er endet an einem Parkplatz, von dem aus du nach kurzer Zeit eine Ruine erreichst. Hier gab es früher ein Hotel mit Spa-Bereich. Das verlassene Hotel wird von der Natur mehr und mehr zurückerobert. Zudem gibt es hier zahlreiche Graffitis. Seitlich der Ruine führt ein Wanderweg in den Barranco hinein. Es gibt einen ca. 8 Kilometer langen Rundweg, bei dem du stellenweise auch klettern musst. Entlang des Wegs sind einige kleinere Wasserfälle zu sehen."
     }, {
         name: "El Bufadero in La Garita",
@@ -295,6 +296,7 @@ export const sightseeings = [{
         tags: ["Pico de las Nieves", "Roque Nublo", "Mirador de Cruz de Tejeda"],
         topic: "Berge",
         type: "Kurze Wanderung",
+        link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/gran-canaria-highlights/#cruz-de-tejeda",
         info: "Ein weiteres lohnenswertes Ausflugsziel in der Bergwelt auf Gran Canaria ist Cruz de Tejeda. Der kleine Ort bietet eine schöne Sicht auf das Bergpanorama. Vor allem zum Sonnenuntergang ist der Blick in die Berge ein echtes Highlight! Nahe dem Aussichtspunkt gibt es auch Restaurants und Cafés."
     }, {
         name: "Barranco de las Vacas",

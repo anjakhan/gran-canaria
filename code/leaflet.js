@@ -23,9 +23,10 @@ export const createMap = (mapid, fotostory) => {
         L.marker(p.location).addTo(map).bindPopup(`<b>${p.name}</b><br>${p.date}`);
     });
 };
+let map;
+let markers = [];
 export const createToDoMap = (mapid, mapType, sightseeings, location, zoom = 9) => {
     location = location || [27.960669242389122, -15.58718600810936];
-    const map = L.map(mapid).setView(location, zoom);
     const streets = L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/streets-v10/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
         id: 'mapbox.streets',
         attribution: 'Map data © OpenStreetMap contributors, CC-BY-SA, Imagery © CloudMade'
@@ -42,6 +43,7 @@ export const createToDoMap = (mapid, mapType, sightseeings, location, zoom = 9) 
         id: 'mapbox.hiking',
         attribution: '&copy;<a href="http://www.esri.com/">Esri</a>i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
     });
+    map = L.map(mapid).setView(location, zoom);
     const baseMaps = {
         "Streets": streets,
         "Roadmap": roads,
@@ -62,7 +64,20 @@ export const createToDoMap = (mapid, mapType, sightseeings, location, zoom = 9) 
     }
     L.control.layers(baseMaps).addTo(map);
     sightseeings?.map((s) => {
-        L.marker(s.location).addTo(map).bindPopup(`<b>${s.name}</b><br>${s.location}`);
+        const marker = L.marker(s.location);
+        markers.push(marker);
+        marker.addTo(map).bindPopup(`<b>${s.name}</b><br>${s.location}`);
     });
+};
+export const updateMap = (sightseeings) => {
+    if (map & markers.length) {
+        markers?.forEach(m => map.removeLayer(m));
+        markers = [];
+        sightseeings?.map((s) => {
+            const marker = L.marker(s.location);
+            markers.push(marker);
+            marker.addTo(map).bindPopup(`<b>${s.name}</b><br>${s.location}`);
+        });
+    }
 };
 //# sourceMappingURL=leaflet.js.map

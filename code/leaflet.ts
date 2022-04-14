@@ -36,10 +36,11 @@ export const createMap = (mapid: HTMLDivElement, fotostory: Array<FotoUploadDto>
   // L.marker([28.49820981705814, -13.857695606907182]).addTo(map).bindPopup("<b>Puerto del Rosario</b><br>2021-06-13");
 };
 
+let map: any;
+let markers: any[] = [];
 
 export const createToDoMap = (mapid: HTMLDivElement, mapType: "satellite" | "streets" | "roadmap" | "hikingmap", sightseeings: Sightseeing[], location?: [number, number], zoom: number = 9) => {
   location = location || [27.960669242389122, -15.58718600810936];
-  const map = L.map(mapid).setView(location, zoom);
 
   const streets = L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/streets-v10/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
     id: 'mapbox.streets',
@@ -60,6 +61,8 @@ export const createToDoMap = (mapid: HTMLDivElement, mapType: "satellite" | "str
     id: 'mapbox.hiking',
     attribution: '&copy;<a href="http://www.esri.com/">Esri</a>i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
   })
+
+  map = L.map(mapid).setView(location, zoom);
 
   const baseMaps = {
     "Streets": streets,
@@ -82,6 +85,21 @@ export const createToDoMap = (mapid: HTMLDivElement, mapType: "satellite" | "str
 
   //L.marker([28.173903183892257, -14.224354511395132]).addTo(map);
   sightseeings?.map((s: { name: string, location: Array<number> }) => {
-    L.marker(s.location).addTo(map).bindPopup(`<b>${s.name}</b><br>${s.location}`);
+    const marker = L.marker(s.location)
+    markers.push(marker);
+    marker.addTo(map).bindPopup(`<b>${s.name}</b><br>${s.location}`);
   });
 };
+
+export const updateMap = (sightseeings: Sightseeing[]) => {
+  if (map & markers.length) {
+    markers?.forEach(m => map.removeLayer(m));
+    markers = [];
+
+    sightseeings?.map((s: { name: string, location: Array<number> }) => {
+      const marker = L.marker(s.location)
+      markers.push(marker);
+      marker.addTo(map).bindPopup(`<b>${s.name}</b><br>${s.location}`);
+    });
+  }
+}

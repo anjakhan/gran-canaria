@@ -2,10 +2,10 @@ import { LitElement, html, TemplateResult, css } from "lit";
 import { customElement, property, query } from "lit/decorators.js";
 import { geSightseeingDocs } from "../../code/firebase";
 import { createToDoMap } from "../../code/leaflet";
+import { WcIcon } from "../../components/icons/WcIcon";
 import { WcSightseeingCard } from "../../components/sightseeing-card/WcSightseeingCard";
 import { mapStyles } from "../all-island-page/map-styles";
 import { Sightseeing, Topic } from "../all-island-page/sightseeings";
-import { WcDetailsPage } from "../details-page/WcDetailsPage";
 
 @customElement("wc-topic-page")
 export class WcTopicPage extends LitElement {
@@ -37,13 +37,14 @@ export class WcTopicPage extends LitElement {
         grid-row: 2;
         grid-column: 1;
         margin-bottom: 20px;
+        border: 1px solid var(--fuerte-background-color);
+        border-radius: 4px;
       }
     `];
   };
 
   @property({ type: Array }) sightseeings: Sightseeing[];
   @property({ type: Object }) sightseeing: Sightseeing;
-  @property({ type: Boolean }) showDetails: boolean = false;
   @property({ type: String }) topic: Topic;
 
   @query('#mapid') mapid: HTMLDivElement;
@@ -80,14 +81,7 @@ export class WcTopicPage extends LitElement {
     const td = new WcSightseeingCard(sightseeing);
     td.onclick = () => {
       this.sightseeing = sightseeing;
-      this.showDetails = true;
     }
-    return td;
-  }
-
-  renderSightseeingPage(): LitElement {
-    const td = new WcDetailsPage(this.sightseeing);
-    td.getDetailsPage(backToSightseeings => this.showDetails = !backToSightseeings);
     return td;
   }
 
@@ -96,15 +90,23 @@ export class WcTopicPage extends LitElement {
     mapContainer.setAttribute('id', 'mapid');
     mapContainer.style.height = '100%';
     mapContainer.style.width = '100%';
+    mapContainer.style.borderRadius = "4px";
 
-    if (!this.mapContainer) {
-      setTimeout(() => {
-        !this.showDetails && this.mapContainer?.appendChild(mapContainer);
-        createToDoMap(mapContainer, "streets", this.sightseeings, undefined, 10);
-      }, 100);
-    } else {
-      this.mapContainer?.appendChild(mapContainer);
-      createToDoMap(mapContainer, "streets", this.sightseeings, undefined, 10);
+    this.mapContainer?.appendChild(mapContainer);
+
+    createToDoMap(mapContainer, "streets", this.sightseeings, undefined, 10);
+
+    const layerBtn = <HTMLLinkElement>mapContainer.querySelector("a.leaflet-control-layers-toggle");
+    if (layerBtn) {
+      layerBtn.style.width = "30px";
+      layerBtn.style.height = "35px";
+      layerBtn.style.padding = "5px 7px";
+
+      const icon = new WcIcon();
+      icon.primaryColor = "black";
+      icon.icon = "layer-group";
+
+      layerBtn.appendChild(icon);
     }
   };
 

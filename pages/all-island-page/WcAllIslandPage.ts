@@ -2,6 +2,7 @@ import { LitElement, html, TemplateResult, css } from "lit";
 import { customElement, property, query } from "lit/decorators.js";
 import { createSightseeingDocument } from "../../code/firebase";
 import { createToDoMap } from "../../code/leaflet";
+import { WcIcon } from "../../components/icons/WcIcon";
 import { WcSightseeingCard } from "../../components/sightseeing-card/WcSightseeingCard";
 import { mapStyles } from "./map-styles";
 import { Orientation, Sightseeing, sightseeings, Topic, TripType } from "./sightseeings";
@@ -40,6 +41,8 @@ export class WcAllIslandPage extends LitElement {
         width: 100%;
         grid-row: 2;
         grid-column: 1;
+        border: 1px solid var(--fuerte-background-color);
+        border-radius: 4px;
       }
 
       .filter-container {
@@ -116,11 +119,24 @@ export class WcAllIslandPage extends LitElement {
       mapContainer.setAttribute('id', 'mapid');
       mapContainer.style.height = '100%';
       mapContainer.style.width = '100%';
+      mapContainer.style.borderRadius = "4px";
 
       if (!this.mapContainer) {
         setTimeout(() => {
           mapContainer && this.mapContainer?.appendChild(mapContainer);
           mapContainer && createToDoMap(mapContainer, "streets", this.filteredSightseeings, undefined, 10);
+          const layerBtn = <HTMLLinkElement>mapContainer?.querySelector("a.leaflet-control-layers-toggle");
+          if (layerBtn) {
+            layerBtn.style.width = "30px";
+            layerBtn.style.height = "30px";
+            layerBtn.style.padding = "5px 7px";
+
+            const icon = new WcIcon();
+            icon.primaryColor = "black";
+            icon.icon = "layer-group";
+
+            layerBtn.appendChild(icon);
+          }
         }, 100);
       }
     } else {
@@ -128,8 +144,22 @@ export class WcAllIslandPage extends LitElement {
       newMap.setAttribute('id', 'mapid');
       newMap.style.height = '100%';
       newMap.style.width = '100%';
+      newMap.style.borderRadius = "4px";
+      newMap.replaceWith(newMap);
       mapContainer.replaceWith(newMap);
       createToDoMap(newMap, "streets", this.filteredSightseeings, undefined, 10);
+      const layerBtn = <HTMLLinkElement>newMap?.querySelector("a.leaflet-control-layers-toggle");
+      if (layerBtn) {
+        layerBtn.style.width = "30px";
+        layerBtn.style.height = "30px";
+        layerBtn.style.padding = "5px 7px";
+
+        const icon = new WcIcon();
+        icon.primaryColor = "black";
+        icon.icon = "layer-group";
+
+        layerBtn.appendChild(icon);
+      }
     }
   }
 

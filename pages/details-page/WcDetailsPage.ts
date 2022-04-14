@@ -4,6 +4,7 @@ import { createToDoMap } from "../../code/leaflet";
 import { mapStyles } from "../all-island-page/map-styles";
 import { WcImageCard } from "../../components/image-card/WcImageCard";
 import { Sightseeing } from "../all-island-page/sightseeings";
+import { WcIcon } from "../../components/icons/WcIcon";
 
 type callbackType = (showAll: boolean) => void;
 
@@ -122,6 +123,19 @@ export class WcDetailsPage extends LitElement {
     this.mapContainer?.appendChild(mapContainer);
 
     createToDoMap(mapContainer, "hikingmap", [this.sightseeing], this.sightseeing?.location, 15);
+
+    const layerBtn = <HTMLLinkElement>mapContainer.querySelector("a.leaflet-control-layers-toggle");
+    if (layerBtn) {
+      layerBtn.style.width = "30px";
+      layerBtn.style.height = "30px";
+      layerBtn.style.padding = "5px 7px";
+
+      const icon = new WcIcon();
+      icon.primaryColor = "black";
+      icon.icon = "layer-group"
+
+      layerBtn.appendChild(icon);
+    }
   };
 
   renderImageCard(imageUrl: string): LitElement {

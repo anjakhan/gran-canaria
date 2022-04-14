@@ -9,6 +9,7 @@ import { customElement, property, query } from "lit/decorators.js";
 import { createToDoMap } from "../../code/leaflet";
 import { mapStyles } from "../all-island-page/map-styles";
 import { WcImageCard } from "../../components/image-card/WcImageCard";
+import { WcIcon } from "../../components/icons/WcIcon";
 let WcDetailsPage = class WcDetailsPage extends LitElement {
     constructor(sightseeing) {
         super();
@@ -109,6 +110,16 @@ let WcDetailsPage = class WcDetailsPage extends LitElement {
         mapContainer.style.width = '100%';
         this.mapContainer?.appendChild(mapContainer);
         createToDoMap(mapContainer, "hikingmap", [this.sightseeing], this.sightseeing?.location, 15);
+        const layerBtn = mapContainer.querySelector("a.leaflet-control-layers-toggle");
+        if (layerBtn) {
+            layerBtn.style.width = "30px";
+            layerBtn.style.height = "30px";
+            layerBtn.style.padding = "5px 7px";
+            const icon = new WcIcon();
+            icon.primaryColor = "black";
+            icon.icon = "layer-group";
+            layerBtn.appendChild(icon);
+        }
     }
     ;
     renderImageCard(imageUrl) {

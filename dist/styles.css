@@ -1,9 +1,9 @@
 :root {
-  --fuerte-background-color: #43ACF0;
+  --fuerte-background-color: midnightblue;
   --fuerte-blue: #82B8E0;
-  --fuerte-aqua: #00D3E0;
+  --fuerte-aqua: cornflowerblue;
   --fuerte-brown: #FFD370;
-  --fuerte-light: #fff3d6;
+  --fuerte-light: aliceblue;
   --fuerte-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 

@@ -1,20 +1,11 @@
-var __awaiter$5 = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 const firebase = window.firebase;
 const config$1 = {
-    apiKey: "AIzaSyBUbyQiqE7TSAS2J5iIVII1Z99tKdd0AuE",
-    authDomain: "fuerteventura-d4e75.firebaseapp.com",
-    projectId: "fuerteventura-d4e75",
-    storageBucket: "fuerteventura-d4e75.appspot.com",
-    messagingSenderId: "378393506142",
-    appId: "1:378393506142:web:4d16e60264d0388a685fcf"
+    apiKey: "AIzaSyAuvLTt0pKvS5Vy3WH7p7s9OR4E8y5VlCA",
+    authDomain: "gran-canaria-4e556.firebaseapp.com",
+    projectId: "gran-canaria-4e556",
+    storageBucket: "gran-canaria-4e556.appspot.com",
+    messagingSenderId: "805514539725",
+    appId: "1:805514539725:web:9fbe21d95fc47ba9372f84"
 };
 firebase.initializeApp(config$1);
 const checkErrorCode = (errorCode) => {
@@ -40,49 +31,48 @@ const checkErrorCode = (errorCode) => {
         errorWrapper ? errorWrapper.innerHTML = "Access to this account has been temporarily <br>disabled due to many failed login attempts." : "";
     }
 };
-function signinWithGoogle() {
-    return __awaiter$5(this, void 0, void 0, function* () {
-        const provider = new firebase.auth.GoogleAuthProvider();
-        provider.setCustomParameters({ prompt: 'select_account' });
-        try {
-            const userCredential = yield firebase.auth().signInWithPopup(provider);
-            return userCredential;
-        }
-        catch (error) {
-            const errorCode = error.code;
-            checkErrorCode(errorCode);
-            throw error;
-        }
-    });
+async function signinWithGoogle() {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    provider.setCustomParameters({ prompt: 'select_account' });
+    try {
+        const userCredential = await firebase.auth().signInWithPopup(provider);
+        return userCredential;
+    }
+    catch (error) {
+        const errorCode = error.code;
+        checkErrorCode(errorCode);
+        throw error;
+    }
 }
-function signinUser(email, password) {
-    return __awaiter$5(this, void 0, void 0, function* () {
-        try {
-            const userCredential = yield firebase.auth().signInWithEmailAndPassword(email, password);
-            return userCredential;
-        }
-        catch (error) {
-            const errorCode = error.code;
-            checkErrorCode(errorCode);
-            throw error;
-        }
-    });
+async function signinUser(email, password) {
+    try {
+        const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
+        return userCredential;
+    }
+    catch (error) {
+        const errorCode = error.code;
+        checkErrorCode(errorCode);
+        throw error;
+    }
 }
-const createTravelDocument = (traveldoc) => {
-    firestore.collection("fuerte").add({
+const createSightseeingDocument = (sightseeingdoc) => {
+    firestore.collection("sightseeings").add({
         id: '',
-        headline: traveldoc.headline,
-        story: traveldoc.story,
-        foldername: traveldoc.date + '_' + traveldoc.foldername,
-        date: traveldoc.date,
-        location: traveldoc.location,
-        popup: traveldoc.popup,
-        image: traveldoc.image
+        name: sightseeingdoc.name,
+        hash: sightseeingdoc.hash,
+        image: sightseeingdoc.image,
+        foldername: sightseeingdoc.foldername,
+        orientation: sightseeingdoc.orientation,
+        location: sightseeingdoc.location,
+        tags: sightseeingdoc.tags,
+        topic: sightseeingdoc.topic,
+        type: sightseeingdoc.type,
+        info: sightseeingdoc.info || ""
     })
         .then((docRef) => {
         console.log("Document written with ID: ", docRef.id);
-        alert('Fotostory created');
-        firestore.collection('fuerte').doc(`${docRef.id}`).set({
+        console.log('Sightseeing added');
+        firestore.collection('sightseeings').doc(`${docRef.id}`).set({
             id: docRef.id
         }, { merge: true });
     })
@@ -90,16 +80,12 @@ const createTravelDocument = (traveldoc) => {
         console.error("Error adding document: ", error);
     });
 };
-const getTravelDocs = () => {
-    const docs = firestore.collection("fuerte").get()
+const geSightseeingDocs = () => {
+    const docs = firestore.collection("sightseeings").get()
         .then((querySnapshot) => {
         return querySnapshot.docs.map((doc) => doc.data());
     });
     return docs;
-};
-const uploadImage = (file, foldername) => {
-    const storage = firebase.storage().ref(`${foldername}/${file.name}`);
-    storage.put(file);
 };
 const firestore = firebase.firestore();
 
@@ -189,7 +175,7 @@ const t={ATTRIBUTE:1,CHILD:2,PROPERTY:3,BOOLEAN_ATTRIBUTE:4,EVENT:5,ELEMENT:6},i
  * SPDX-License-Identifier: BSD-3-Clause
  */class n extends s{constructor(i){if(super(i),this.vt=A,i.type!==t.CHILD)throw Error(this.constructor.directiveName+"() can only be used in child bindings")}render(r){if(r===A)return this.Vt=void 0,this.vt=r;if(r===w)return r;if("string"!=typeof r)throw Error(this.constructor.directiveName+"() called with a non-string value");if(r===this.vt)return this.Vt;this.vt=r;const s=[r];return s.raw=s,this.Vt={_$litType$:this.constructor.resultType,strings:s,values:[]}}}n.directiveName="unsafeHTML",n.resultType=1;const o=i(n);
 
-var __decorate$d = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+var __decorate$8 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
@@ -773,6 +759,26 @@ c16.583,0,30.355-0.984,37.017-1.562V121.497z M190.931,51.013c-6.188,0.551-20.108
         <path class="fa-secondary" d="M214.86 192h150.85L260.61 8.06A16 16 0 0 0 246.71 0h-65.5a16 16 0 0 0-15.38 20.39zm-49 299.6a16 16 0 0 0 15.35 20.4h65.5a16 16 0 0 0 13.89-8.06L365.71 320H214.86z" opacity="0.4"/>
         <path class="fa-primary" d="M480 320H112l-43.2 57.6A16 16 0 0 1 56 384H16A16 16 0 0 1 .49 364.12L32 256 .49 147.88A16 16 0 0 1 16 128h40a16 16 0 0 1 12.8 6.4L112 192h368c35.35 0 96 28.65 96 64s-60.65 64-96 64z"/>
       </svg>`;
+        case "square-arrow-left":
+            return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M98.34 250.3c-3.125 3.125-3.125 8.188 0 11.31l120 120C219.9 383.2 221.9 384 224 384s4.094-.7813 5.656-2.344c3.125-3.125 3.125-8.188 0-11.31L123.3 264H344c4.406 0 8-3.576 8-7.997C352 251.6 348.4 248 344 248H123.3l106.3-106.3c3.125-3.125 3.125-8.188 0-11.31s-8.188-3.125-11.31 0L98.34 250.3zM0 96v320c0 35.35 28.65 64 64 64h320c35.35 0 64-28.65 64-64V96c0-35.35-28.65-64-64-64H64C28.65 32 0 60.65 0 96zM384 48c26.47 0 48 21.53 48 48v320c0 26.47-21.53 48-48 48H64c-26.47 0-48-21.53-48-48V96c0-26.47 21.53-48 48-48H384z"/></svg>`;
+        case "umbrella-beach":
+            return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><defs><style>.fa-secondary{opacity:.4}</style></defs><path class="fa-primary" d="M528 448H48C21.49 448 0 469.5 0 496C0 504.8 7.164 512 16 512h544c8.838 0 16-7.164 16-15.1C576 469.5 554.5 448 528 448zM247.6 185l238.5 86.87c35.75-121.4 18.62-231.6-42.63-253.9c-7.375-2.625-15.12-4.062-23.12-4.062C362.4 13.88 292.1 83.13 247.6 185zM115.4 136.8l102.1 37.35c35.13-81.62 86.25-144.4 139-173.7c-95.88-4.875-188.8 36.96-248.5 111.7C101.2 120.6 105.2 133.2 115.4 136.8zM521.5 60.51c6.25 16.25 10.75 34.62 13.13 55.25c5.75 49.87-1.375 108.1-18.88 166.9l102.6 37.37c10.12 3.75 21.25-3.375 21.5-14.12C642.3 210.1 598 118.4 521.5 60.51z"/><path class="fa-secondary" d="M396.4 239.2l-75.34 208.8H253l83.22-230.7L396.4 239.2z"/></svg>`;
+        case "house-tree":
+            return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><defs><style>.fa-secondary{opacity:.4}</style></defs><path class="fa-primary" d="M.0003 464V277.1C.0003 263.7 5.647 250.8 15.57 241.7L159.6 109.7C177.9 92.91 206.1 92.91 224.4 109.7L368.4 241.7C378.4 250.8 384 263.7 384 277.1V464C384 490.5 362.5 512 336 512H48C21.49 512 0 490.5 0 464H.0003zM168 272C154.7 272 144 282.7 144 296V344C144 357.3 154.7 368 168 368H216C229.3 368 240 357.3 240 344V296C240 282.7 229.3 272 216 272H168z"/><path class="fa-secondary" d="M566.6 137.4C575.8 146.5 578.5 160.3 573.6 172.2C568.6 184.2 556.9 192 544 192H514.6L600.1 300C608.7 309.6 610.2 322.8 604.8 333.9C599.5 344.1 588.3 352 576 352H546.6L632.1 460C640.7 469.6 642.2 482.8 636.8 493.9C631.5 504.1 620.3 512 608 512H400C410 498.6 416 482 416 464V277.1C416 254.7 406.6 233.3 390.1 218.1L282.9 119.9L393.4 9.372C405.9-3.124 426.1-3.124 438.6 9.372L566.6 137.4z"/></svg>`;
+        case "volcano":
+            return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><defs><style>.fa-secondary{opacity:.4}</style></defs><path class="fa-primary" d="M304.4 224H207.6C197.7 224 188.5 228.5 182.4 236.3l-55.63 71l13.25 16.5C149.7 336 170.2 336 180.1 323.8c10.75-13.5 26.75-21.25 44.13-21.5c17.13-1.5 33.5 7 44.75 20l31.63 36.88c9.751 11.38 29.13 11.38 39 0l45.13-52.62l-55-70.25C323.5 228.5 314.3 224 304.4 224zM352 16c-15.75 0-30 5.875-41.25 15.38C299.6 12.75 279.4 0 255.1 0C232.6 0 212.4 12.75 201.2 31.38C189.1 21.88 175.7 16 159.1 16c-35.25 0-64 28.75-64 64s28.75 64 64 64c12.88 0 24.75-3.875 34.75-10.38L223.1 192h64l29.25-58.38C327.3 140.1 339.1 144 352 144c35.25 0 64-28.75 64-64S387.3 16 352 16z"/><path class="fa-secondary" d="M480 512H32.1c-26.38 0-41.5-30.12-25.63-51.25l120.3-153.5l13.25 16.5C149.7 336 170.2 336 180.1 323.8c10.75-13.5 26.75-21.25 44.13-21.5c17.13-1.5 33.5 7 44.75 20l31.63 36.88c9.751 11.38 29.13 11.38 39 0l45.13-52.62l120.8 154.2C521.4 481.9 506.3 512 480 512z"/></svg>`;
+        case "water":
+            return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><defs><style>.fa-secondary{opacity:.4}</style></defs><path class="fa-primary" d="M37.78 156.4c25.33-4.625 44.72-13.31 58.19-21.25c19.5 11.53 51.47 24.68 96.04 24.68c44.55 0 76.49-13.12 96-24.65c19.52 11.53 51.45 24.59 96 24.59c44.58 0 76.55-13.09 96.05-24.62c13.47 7.938 32.86 16.62 58.19 21.25c17.56 3.375 34.06-8.344 37.25-25.72c3.172-17.38-8.344-34.03-25.72-37.22c-31.23-5.719-46.84-20.06-47.13-20.31c-12.22-12.19-32.31-12.12-44.91-.375c-1 .9375-25.14 23-73.73 23s-72.73-22.06-73.38-22.62c-12.22-12.25-32.3-12.12-44.89-.375c-1 .9375-25.14 23-73.73 23S119.3 73.76 118.6 73.2C106.4 60.95 86.35 61.04 73.74 72.85C73.09 73.45 57.48 87.79 26.24 93.51c-17.38 3.188-28.89 19.84-25.72 37.22C3.713 148.1 20.31 159.8 37.78 156.4zM549.8 381.7c-31.23-5.719-46.84-20.06-47.13-20.31c-12.22-12.19-32.31-12.12-44.91-.375C456.7 361.9 432.6 384 384 384s-72.73-22.06-73.38-22.62c-12.22-12.25-32.3-12.12-44.89-.375C264.7 361.9 240.6 384 192 384s-72.73-22.06-73.38-22.62c-12.22-12.25-32.28-12.16-44.89-.3438c-.6562 .5938-16.27 14.94-47.5 20.66c-17.38 3.188-28.89 19.84-25.72 37.22C3.713 436.3 20.31 448 37.78 444.6C63.1 440 82.49 431.3 95.96 423.4c19.5 11.53 51.51 24.62 96.08 24.62c44.55 0 76.45-13.06 95.96-24.59C307.5 434.9 339.5 448 384.1 448c44.58 0 76.5-13.09 95.1-24.62c13.47 7.938 32.86 16.62 58.19 21.25C555.8 448 572.3 436.3 575.5 418.9C578.7 401.5 567.2 384.9 549.8 381.7z"/><path class="fa-secondary" d="M384 303.8c-44.55 0-76.48-13.06-96-24.59c-19.52 11.53-51.46 24.65-96 24.65c-44.58 0-76.54-13.15-96.04-24.68C82.49 287.1 63.1 295.8 37.78 300.4C20.31 303.8 3.713 292.1 .5254 274.7C-2.646 257.4 8.869 240.7 26.24 237.5c31.23-5.719 46.84-20.06 47.5-20.66c12.61-11.81 32.67-11.91 44.89 .3438C119.3 217.8 143.4 239.8 192 239.8s72.73-22.06 73.73-23c12.59-11.75 32.67-11.88 44.89 .375c.6406 .5625 24.78 22.62 73.38 22.62s72.73-22.06 73.73-23c12.59-11.75 32.69-11.81 44.91 .375c.2813 .25 15.89 14.59 47.13 20.31c17.38 3.188 28.89 19.84 25.72 37.22c-3.188 17.38-19.69 29.09-37.25 25.72c-25.33-4.625-44.72-13.31-58.19-21.25C460.6 290.7 428.6 303.8 384 303.8z"/></svg>`;
+        case "bench-tree":
+            return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><defs><style>.fa-secondary{opacity:.4}</style></defs><path class="fa-primary" d="M360 352H320v-32h32V224c0-17.67-14.33-32-32-32H64C46.33 192 32 206.3 32 224v96h32v32H24C10.75 352 0 362.7 0 376v16C0 405.3 10.75 416 24 416H32v64c0 17.69 14.31 32 32 32s32-14.31 32-32v-64h192v64c0 17.69 14.31 32 32 32s32-14.31 32-32v-64h8c13.25 0 24-10.75 24-24v-16C384 362.7 373.3 352 360 352zM288 352H96v-32h192V352z"/><path class="fa-secondary" d="M640 176C640 220.2 604.2 256 560 256H544v224c0 17.69-14.31 32-32 32s-32-14.31-32-32V256h-16C419.8 256 384 220.2 384 176c0-26.8 13.29-50.38 33.52-64.89C416.7 106.2 416 101.2 416 96c0-53.02 42.98-96 96-96s96 42.98 96 96c0 5.174-.7363 10.15-1.523 15.11C626.7 125.6 640 149.2 640 176z"/></svg>`;
+        case "trees":
+            return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><defs><style>.fa-secondary{opacity:.4}</style></defs><path class="fa-primary" d="M192 192C174.3 192 160 206.3 160 223.1v256C160 497.7 174.3 512 192 512S224 497.7 224 480V223.1C224 206.3 209.7 192 192 192zM448 320c-17.67 0-32 14.33-32 31.1v128C416 497.7 430.3 512 448 512C465.7 512 480 497.7 480 480V351.1C480 334.3 465.7 320 448 320z"/><path class="fa-secondary" d="M298.4 288H329c9 0 17-5 20.88-13c3.75-8.125 2.5-17.38-3.375-24.12L268.4 160h28.88c9.127 0 17.38-5.375 20.88-13.62c3.625-8.125 1.875-17.62-4.25-24.12L203.6 4.875c-6-6.5-17.25-6.5-23.25 0L69.97 122.3c-6 6.5-7.75 16-4.125 24.12C69.34 154.6 77.59 160 86.72 160h28.88L37.46 250.9c-5.875 6.875-7.125 16-3.375 24.12C37.96 283 45.84 288 54.96 288h30.63l-79.88 90.5c-6 6.75-7.377 16.12-3.625 24.25C5.834 410.8 14.08 416 23.09 416H160V223.1C160 206.3 174.3 192 192 192s32 14.33 32 31.1V416h136.9c9 0 17.25-5.25 21-13.25c3.75-8.125 2.5-17.5-3.5-24.25L298.4 288zM634.3 378.5L554.4 288h30.63c9 0 17-5 20.88-13c3.75-8.125 2.5-17.38-3.375-24.12L524.4 160h28.88c9.125 0 17.38-5.375 20.88-13.62c3.625-8.125 1.875-17.62-4.25-24.12l-110.3-117.4c-6-6.5-17.25-6.5-23.25 0l-95.14 101.3c11.13 15.38 14 35.25 6.377 52.88c-4 9.375-10.38 17.12-18.25 22.75l41.5 48.25c14 16.25 17.13 39.25 8.002 58.62c-4.25 8.875-10.5 16.12-18.13 21.5l41.63 47.13c8.6 9.846 13.34 14.29 13.62 26.7L416 351.1C416 334.3 430.3 320 448 320s32 14.33 32 31.1V416h136.9c9.002 0 17.25-5.25 21-13.25C641.7 394.6 640.3 385.3 634.3 378.5z"/></svg>`;
+        case "person-biking-mountain":
+            return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><defs><style>.fa-secondary{opacity:.4}</style></defs><path class="fa-primary" d="M448 48C448 74.51 426.5 96 400 96C373.5 96 352 74.51 352 48C352 21.49 373.5 0 400 0C426.5 0 448 21.49 448 48zM480 159.1C497.7 159.1 512 174.3 512 191.1C512 209.7 497.7 223.1 480 223.1H416C408.7 223.1 401.7 221.5 396 216.1L355.3 184.4L295 232.9L337.8 261.4C346.7 267.3 352 277.3 352 288V416C352 433.7 337.7 448 320 448C302.3 448 288 433.7 288 416V305.1L227.5 266.8C194.7 245.1 192.5 198.9 223.2 175.2L306.3 110.9C323.8 97.45 348.1 97.58 365.4 111.2L427.2 159.1H480zM166.3 163.9L122.3 108.9C116.7 101.8 117.1 91.51 125.2 86.1L190.4 37.22C218 16.48 257.2 21.45 278.8 48.44L293.7 67.11C299.3 74.16 298 84.49 290.8 89.9L188.4 166.7C181.5 171.9 171.7 170.6 166.3 163.9V163.9z"/><path class="fa-secondary" d="M96.24 276.6C97.91 264.9 107.9 256 120 256H136C148.1 256 158.1 264.9 159.8 276.6C167.4 278.8 174.7 281.9 181.5 285.6C190.9 278.5 204.3 279.3 212.9 287.8L224.2 299.1C232.7 307.7 233.5 321.1 226.4 330.5C230.1 337.3 233.2 344.6 235.4 352.2C247.1 353.9 255.1 363.9 255.1 376V392C255.1 404.1 247.1 414.1 235.4 415.8C233.2 423.4 230.1 430.7 226.4 437.5C233.5 446.9 232.7 460.3 224.2 468.9L212.9 480.2C204.3 488.7 190.9 489.5 181.5 482.4C174.7 486.1 167.4 489.2 159.8 491.4C158.1 503.1 148.1 512 135.1 512H119.1C107.9 512 97.91 503.1 96.24 491.4C88.62 489.2 81.34 486.1 74.49 482.4C65.09 489.5 51.7 488.7 43.15 480.2L31.83 468.9C23.28 460.3 22.53 446.9 29.58 437.5C25.85 430.7 22.81 423.4 20.57 415.8C8.938 414.1 0 404.1 0 392V376C0 363.9 8.938 353.9 20.57 352.2C22.81 344.6 25.85 337.3 29.58 330.5C22.53 321.1 23.28 307.7 31.83 299.1L43.15 287.8C51.7 279.3 65.09 278.5 74.49 285.6C81.34 281.9 88.62 278.8 96.24 276.6L96.24 276.6zM128 320C92.65 320 64 348.7 64 384C64 419.3 92.65 448 128 448C163.3 448 192 419.3 192 384C192 348.7 163.3 320 128 320zM480.2 276.6C481.9 264.9 491.9 256 504 256H520C532.1 256 542.1 264.9 543.8 276.6C551.4 278.8 558.7 281.9 565.5 285.6C574.9 278.5 588.3 279.3 596.9 287.8L608.2 299.1C616.7 307.7 617.5 321.1 610.4 330.5C614.1 337.3 617.2 344.6 619.4 352.2C631.1 353.9 640 363.9 640 376V392C640 404.1 631.1 414.1 619.4 415.8C617.2 423.4 614.1 430.7 610.4 437.5C617.5 446.9 616.7 460.3 608.2 468.9L596.9 480.2C588.3 488.7 574.9 489.5 565.5 482.4C558.7 486.1 551.4 489.2 543.8 491.4C542.1 503.1 532.1 512 520 512H504C491.9 512 481.9 503.1 480.2 491.4C472.6 489.2 465.3 486.1 458.5 482.4C449.1 489.5 435.7 488.7 427.1 480.2L415.8 468.9C407.3 460.3 406.5 446.9 413.6 437.5C409.8 430.7 406.8 423.4 404.6 415.8C392.9 414.1 384 404.1 384 392V376C384 363.9 392.9 353.9 404.6 352.2C406.8 344.6 409.8 337.3 413.6 330.5C406.5 321.1 407.3 307.7 415.8 299.1L427.1 287.8C435.7 279.3 449.1 278.5 458.5 285.6C465.3 281.9 472.6 278.8 480.2 276.6L480.2 276.6zM512 320C476.7 320 448 348.7 448 384C448 419.3 476.7 448 512 448C547.3 448 576 419.3 576 384C576 348.7 547.3 320 512 320z"/></svg>`;
+        case "dungeon":
+            return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M336.6 156.5C327.3 148.1 322.6 136.5 327.1 125.3L357.6 49.18C362.7 36.27 377.8 30.36 389.7 37.63C410.9 50.63 430 66.62 446.5 85.02C455.7 95.21 452.9 110.9 441.5 118.5L373.9 163.5C363.6 170.4 349.8 168.1 340.5 159.9C339.2 158.7 337.9 157.6 336.6 156.5H336.6zM297.7 112.6C293.2 123.1 280.9 129.8 268.7 128.6C264.6 128.2 260.3 128 256 128C251.7 128 247.4 128.2 243.3 128.6C231.1 129.8 218.8 123.1 214.3 112.6L183.1 36.82C178.8 24.02 185.5 9.433 198.1 6.374C217.3 2.203 236.4 0 256 0C275.6 0 294.7 2.203 313 6.374C326.5 9.433 333.2 24.02 328 36.82L297.7 112.6zM122.3 37.63C134.2 30.36 149.3 36.27 154.4 49.18L184.9 125.3C189.4 136.5 184.7 148.1 175.4 156.5C174.1 157.6 172.8 158.7 171.5 159.9C162.2 168.1 148.4 170.4 138.1 163.5L70.52 118.5C59.13 110.9 56.32 95.21 65.46 85.02C81.99 66.62 101.1 50.63 122.3 37.63H122.3zM379.5 222.1C376.3 210.7 379.7 198.1 389.5 191.6L458.1 145.8C469.7 138.1 485.6 141.9 491.2 154.7C501.6 178.8 508.4 204.8 510.9 232C512.1 245.2 501.3 255.1 488 255.1H408C394.7 255.1 384.2 245.2 381.8 232.1C381.1 228.7 380.4 225.4 379.5 222.1V222.1zM122.5 191.6C132.3 198.1 135.7 210.7 132.5 222.1C131.6 225.4 130.9 228.7 130.2 232.1C127.8 245.2 117.3 256 104 256H24C10.75 256-.1184 245.2 1.107 232C3.636 204.8 10.43 178.8 20.82 154.7C26.36 141.9 42.26 138.1 53.91 145.8L122.5 191.6zM104 288C117.3 288 128 298.7 128 312V360C128 373.3 117.3 384 104 384H24C10.75 384 0 373.3 0 360V312C0 298.7 10.75 288 24 288H104zM488 288C501.3 288 512 298.7 512 312V360C512 373.3 501.3 384 488 384H408C394.7 384 384 373.3 384 360V312C384 298.7 394.7 288 408 288H488zM104 416C117.3 416 128 426.7 128 440V488C128 501.3 117.3 512 104 512H24C10.75 512 0 501.3 0 488V440C0 426.7 10.75 416 24 416H104zM488 416C501.3 416 512 426.7 512 440V488C512 501.3 501.3 512 488 512H408C394.7 512 384 501.3 384 488V440C384 426.7 394.7 416 408 416H488zM272 464C272 472.8 264.8 480 256 480C247.2 480 240 472.8 240 464V192C240 183.2 247.2 176 256 176C264.8 176 272 183.2 272 192V464zM208 464C208 472.8 200.8 480 192 480C183.2 480 176 472.8 176 464V224C176 215.2 183.2 208 192 208C200.8 208 208 215.2 208 224V464zM336 464C336 472.8 328.8 480 320 480C311.2 480 304 472.8 304 464V224C304 215.2 311.2 208 320 208C328.8 208 336 215.2 336 224V464z"/></svg>`;
+        case "arrow-up-right-from-square":
+            return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M272 40C272 35.58 275.6 32 280 32H440C444.4 32 448 35.58 448 40V208C448 212.4 444.4 216 440 216C435.6 216 432 212.4 432 208V59.31L173.7 317.7C170.5 320.8 165.5 320.8 162.3 317.7C159.2 314.5 159.2 309.5 162.3 306.3L420.7 48H280C275.6 48 272 44.42 272 40V40zM0 136C0 113.9 17.91 96 40 96H160C164.4 96 168 99.58 168 104C168 108.4 164.4 112 160 112H40C26.75 112 16 122.7 16 136V440C16 453.3 26.75 464 40 464H344C357.3 464 368 453.3 368 440V320C368 315.6 371.6 312 376 312C380.4 312 384 315.6 384 320V440C384 462.1 366.1 480 344 480H40C17.91 480 0 462.1 0 440V136z"/></svg>`;
         default:
             assertNever(icon);
     }
@@ -868,11 +874,20 @@ svg.color-red:hover {
 .color-blue, .color-blue:hover {
   fill: blue;
 }
+.color-darkblue, .color-darkblue:hover {
+  fill: var(--fuerte-background-color);
+}
 .color-gray, .color-gray:hover {
   fill: #555555;
 }
 .color-lightgray, .color-lightgray:hover {
   fill: #bbb;
+}
+.color-hovergray {
+  fill: #555555;
+}
+.color-hovergray:hover {
+  fill: var(--fuerte-aqua);
 }
 .color-warning, .color-warning:hover {
   fill: orange;
@@ -914,13 +929,13 @@ svg.color-head-toolbar:hover {
         return T `${o(getIcon(this.icon).replace('<svg ', ' <svg class="' + cl + '"'))}`;
     }
 };
-__decorate$d([
+__decorate$8([
     e()
 ], WcIcon.prototype, "primaryColor", void 0);
-__decorate$d([
+__decorate$8([
     e()
 ], WcIcon.prototype, "icon", void 0);
-WcIcon = __decorate$d([
+WcIcon = __decorate$8([
     n$1("wc-icon")
 ], WcIcon);
 
@@ -1114,14 +1129,14 @@ const layoutStyles = r$1 `
     height: 100vh;
     display: grid;
     grid-template-rows: 50px 1fr;
-    grid-template-columns: 200px 1fr;
+    grid-template-columns: 210px 1fr;
     background-color: var(--fuerte-light);
   }
 
   #user-content {
     grid-column: 2/3;
     grid-row: 2/3;
-    padding: 10px 250px 40px 50px;
+    padding: 10px 50px 40px 50px;
     overflow-y: scroll;
   }
 
@@ -1147,7 +1162,7 @@ const layoutStyles = r$1 `
     }
 
     #user-content {
-      padding: 50px 30px 20px;
+      padding: 50px 20px;
     }
 
     .drawer {
@@ -1160,7 +1175,7 @@ const layoutStyles = r$1 `
       flex-direction: column;
       height: auto;
       padding: 0;
-      z-index: 1;
+      z-index: 9999;
     }
   }
 `;
@@ -1173,7 +1188,7 @@ const navbarStyles = r$1 `
     left: 0;
     right: 0;
     bottom: auto;
-    z-index: 1;
+    z-index: 9999;
     height: 50px;
     background-color: var(--fuerte-background-color);
     color: white;
@@ -1270,34 +1285,39 @@ const drawerStyles = r$1 `
   }
 `;
 
-var __decorate$c = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+var __decorate$7 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+const canariaMenu = [{
+        title: 'Gran-Canaria',
+        icon: 'umbrella-beach'
+    }, {
+        title: 'Städte',
+        icon: 'house-tree'
+    }, {
+        title: 'Berge',
+        icon: 'volcano'
+    }, {
+        title: 'Höhlen',
+        icon: 'dungeon'
+    }, {
+        title: 'Wasser',
+        icon: 'water'
+    }, {
+        title: 'Parks',
+        icon: 'trees'
+    }, {
+        title: 'Erlebnisse',
+        icon: 'person-biking-mountain'
+    }];
 let WcAppDrawer = class WcAppDrawer extends h {
     constructor(selectedDrawer) {
         super();
-        this.selectedDrawer = '';
+        this.selectedDrawer = 'Gran-Canaria';
         this.drawerOpen = false;
-        this.drawers = [{
-                name: 'latest-story',
-                title: 'Fotos',
-                icon: 'camera-retro-duotone'
-            }, {
-                name: 'foto-preview',
-                title: 'Kalender',
-                icon: 'calendar-alt'
-            }, {
-                name: 'map',
-                title: 'Karte',
-                icon: 'map-duotone'
-            }, {
-                name: 'trip-details',
-                title: 'Reisedaten',
-                icon: 'plane-duotone'
-            }];
         this.selectedDrawer = selectedDrawer;
     }
     static get styles() {
@@ -1327,906 +1347,96 @@ let WcAppDrawer = class WcAppDrawer extends h {
     ;
     render() {
         return T `
-      ${config.isMobile ? T `<wc-icon @click=${this.openDrawer} class="menu-icon" primaryColor="toolbar" icon=${this.drawerOpen ? 'close' : 'bars-light'}></wc-icon>` : ''} 
-      <aside class="drawer ${!this.drawerOpen && config.isMobile ? 'hidden' : ''}">
-        ${appUser === 'admin' ? T `<div class="tab ${this.selectedDrawer === 'upload' ? "selected" : ""}" style="display: flex; align-items: center;"
-          @click=${() => this.setDrawerSelection('upload')}>Foto Upload</div>` : ''}
-        
-        ${appUser === 'admin' ? T `<div class="tab ${this.selectedDrawer === 'sightseeing' ? "selected" : ""}" style="display: flex; align-items: center;"
-          @click=${() => this.setDrawerSelection('sightseeing')}>Sightseeing</div>` : ''}
+      ${config.isMobile ? T `
+        <wc-icon 
+          @click=${this.openDrawer} 
+          class="menu-icon" 
+          primaryColor="toolbar" 
+          icon=${this.drawerOpen ? 'close' : 'bars-light'}
+        ></wc-icon>
+      ` : ''} 
 
-        ${this.drawers.map(d => T `<div class="tab ${this.selectedDrawer === d.name ? "selected" : ""}" style="display: flex; align-items: center;"
-          @click=${() => this.setDrawerSelection(d.name)}><wc-icon primaryColor=${this.selectedDrawer === d.name ? "green" : "toolbar"} icon=${d.icon}></wc-icon>${d.title}</div>`)}
+      <aside class="drawer ${!this.drawerOpen && config.isMobile ? 'hidden' : ''}">
+        ${canariaMenu.map(d => T `
+          <div 
+            class="tab ${this.selectedDrawer === d.title ? "selected" : ""}" 
+            style="display: flex; align-items: center;"
+            @click=${() => this.setDrawerSelection(d.title)}
+          >
+            <wc-icon primaryColor=${this.selectedDrawer === d.title ? "darkblue" : "toolbar"} icon=${d.icon}></wc-icon>
+            ${d.title === "Gran-Canaria" ? "Gran Canaria" : d.title}
+          </div>
+        `)}
       </aside>
     `;
     }
     ;
 };
-__decorate$c([
+__decorate$7([
     e({ type: String })
 ], WcAppDrawer.prototype, "selectedDrawer", void 0);
-WcAppDrawer = __decorate$c([
+WcAppDrawer = __decorate$7([
     n$1("wc-app-drawer")
 ], WcAppDrawer);
 
-const uploadStyles = r$1 `
-  .upload-page {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width: 100%;
-    color: #555;
-  }
-
-  .title {
-    text-align: center;
-    padding-right: 150px;
-  }
-`;
-
-class NobsBase {
-    constructor(nobs, source) {
-        if (nobs instanceof Nobs && source instanceof NobsBase) {
-            nobs._called_from_constructor_findMutations(source);
-            for (const key of Object.keys(source)) {
-                const value = source[key];
-                if (value instanceof NobsBase) {
-                    if (nobs.hasObjectReplacement(value)) {
-                        this[key] = nobs.getObjectReplacement(value);
-                    }
-                    else if (nobs._called_from_constructor_hasMutation(value)) {
-                        this[key] = new value.constructor(nobs, value);
-                    }
-                    else {
-                        this[key] = value;
-                    }
-                }
-                else if (value instanceof Map) {
-                    this[key] = nobs._called_from_constructor_cloneMap(value);
-                }
-                else if (Array.isArray(value)) {
-                    this[key] = nobs._called_from_constructor_cloneArray(value);
-                }
-                else {
-                    if (nobs.hasProperty(source, key)) {
-                        this[key] = nobs.popProperty(source, key);
-                    }
-                    else {
-                        this[key] = source[key];
-                    }
-                }
-            }
-            const props = nobs.getChangedProperties(source);
-            if (props && props.size > 0) {
-                for (const [key, value] of props) {
-                    this[key] = value;
-                }
-            }
-        }
+const L = window.L;
+let map;
+let markers = [];
+const createToDoMap = (mapid, mapType, sightseeings, location, zoom = 9) => {
+    location = location || [27.960669242389122, -15.58718600810936];
+    const streets = L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/streets-v10/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+        id: 'mapbox.streets',
+        attribution: 'Map data © OpenStreetMap contributors, CC-BY-SA, Imagery © CloudMade'
+    });
+    const roads = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        id: 'mapbox.hiking',
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    });
+    const hiking = L.tileLayer('https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png', {
+        id: 'mapbox.hiking',
+        attribution: '<a href="https://github.com/cyclosm/cyclosm-cartocss-style/releases" title="CyclOSM - Open Bicycle render">CyclOSM</a> | Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    });
+    const satellite = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+        id: 'mapbox.hiking',
+        attribution: '&copy;<a href="http://www.esri.com/">Esri</a>i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+    });
+    map = L.map(mapid).setView(location, zoom);
+    const baseMaps = {
+        "Streets": streets,
+        "Roadmap": roads,
+        "Satellite": satellite,
+        "Hiking": hiking
+    };
+    if (mapType === "hikingmap") {
+        hiking.addTo(map);
     }
-}
-class Nobs {
-    constructor() {
-        this.createdObjects = new Map();
-        this.replacedObjects = new Map();
-        this.removedObjects = new Set();
-        this.changedProperties = new Map();
-        this.replacedCollections = new Map();
-        this.mutatedObjects = new Set();
+    else if (mapType === "roadmap") {
+        roads.addTo(map);
     }
-    setProperty(item, propertyName, propertyValue) {
-        if (item && (propertyValue instanceof NobsBase || propertyValue === null) && item[propertyName] instanceof NobsBase) {
-            this.replaceObject(item[propertyName], propertyValue);
-        }
-        else {
-            let map = this.changedProperties.get(item);
-            if (!map) {
-                map = new Map();
-                this.changedProperties.set(item, map);
-            }
-            map.set(propertyName, propertyValue);
-        }
-        return this;
+    else if (mapType === "streets") {
+        streets.addTo(map);
     }
-    getChangedProperties(item) {
-        return this.changedProperties.get(item);
+    else {
+        satellite.addTo(map);
     }
-    getProperty(item, propertyName) {
-        const map = this.changedProperties.get(item);
-        if (map && map.has(propertyName)) {
-            return map.get(propertyName);
-        }
-        else {
-            return item[propertyName];
-        }
-    }
-    popProperty(item, propertyName) {
-        const map = this.changedProperties.get(item);
-        if (map && map.has(propertyName)) {
-            const r = map.get(propertyName);
-            map.delete(propertyName);
-            return r;
-        }
-        else {
-            return item[propertyName];
-        }
-    }
-    hasProperty(item, propertyName) {
-        const map = this.changedProperties.get(item);
-        return !!(map && map.has(propertyName));
-    }
-    replaceCollection(find, replace) {
-        this.replacedCollections.set(find, replace);
-        return this;
-    }
-    addToCollection(parentCollection, newObject, insertBefore = undefined, insertAfter = undefined) {
-        let ar = this.createdObjects.get(parentCollection);
-        if (!ar) {
-            ar = [];
-            this.createdObjects.set(parentCollection, ar);
-        }
-        const newItem = {
-            object: newObject,
-            insertBefore: insertBefore,
-            insertAfter: insertAfter
-        };
-        ar.push(newItem);
-        return this;
-    }
-    reOrderInsideCollection(parentCollection, object, insertBefore = undefined, insertAfter = undefined) {
-        if (object !== insertBefore && object !== insertAfter) {
-            this.removeObject(object);
-            this.addToCollection(parentCollection, object, insertBefore, insertAfter);
-        }
-        return this;
-    }
-    replaceObject(find, replace) {
-        this.replacedObjects.set(find, replace);
-        return this;
-    }
-    hasObjectReplacement(find) {
-        return this.replacedObjects.has(find);
-    }
-    getObjectReplacement(find) {
-        return this.replacedObjects.get(find);
-    }
-    removeObject(x) {
-        this.removedObjects.add(x);
-        return this;
-    }
-    _called_from_constructor_hasMutation(obj) {
-        return this.mutatedObjects.has(obj);
-    }
-    _called_from_constructor_findMutations(source) {
-        let ret = false;
-        for (const key of Object.keys(source)) {
-            const value = source[key];
-            if (this.hasProperty(source, key)) {
-                ret = true;
-            }
-            if (value instanceof NobsBase) {
-                if (this.replacedObjects.has(value) || this._called_from_constructor_findMutations(value)) {
-                    this.mutatedObjects.add(value);
-                    ret = true;
-                }
-            }
-            else if (value instanceof Map || Array.isArray(value)) {
-                if (this.replacedCollections.has(value)) {
-                    this.mutatedObjects.add(value);
-                    ret = true;
-                }
-                if (value instanceof Map) {
-                    for (const itm of value.values()) {
-                        if (this.removedObjects.has(itm) || this.replacedObjects.has(itm)) {
-                            this.mutatedObjects.add(itm);
-                            ret = true;
-                        }
-                        ret = this._called_from_constructor_findMutations(itm) || ret;
-                    }
-                }
-                else {
-                    for (const itm of value) {
-                        if (this.removedObjects.has(itm) || this.replacedObjects.has(itm)) {
-                            this.mutatedObjects.add(itm);
-                            ret = true;
-                        }
-                        ret = this._called_from_constructor_findMutations(itm) || ret;
-                    }
-                }
-                if (this.createdObjects.has(value)) {
-                    ret = true;
-                }
-            }
-        }
-        if (ret) {
-            this.mutatedObjects.add(source);
-        }
-        return ret;
-    }
-    static getId(obj) {
-        const objectId = obj["id"];
-        if (!objectId) {
-            throw new Error("Nobs: By convention, objects stored in a Map need to have an 'id' property");
-        }
-        return objectId;
-    }
-    _called_from_constructor_cloneMap(collection) {
-        const ret = new Map();
-        const replacedCollection = this.replacedCollections.get(collection);
-        if (replacedCollection && replacedCollection instanceof Map) {
-            return replacedCollection;
-        }
-        let obj;
-        const newItems = this.createdObjects.get(collection);
-        for (const [id, itm] of collection.entries()) {
-            if (!this.removedObjects.has(itm)) {
-                obj = this.replacedObjects.get(itm);
-                if (!obj && this.mutatedObjects.has(itm)) {
-                    obj = new itm.constructor(this, itm);
-                }
-                if (!obj) {
-                    obj = itm;
-                }
-                if (newItems) {
-                    for (const newItem of newItems) {
-                        if (newItem.insertBefore === obj) {
-                            ret.set(Nobs.getId(newItem.object), newItem.object);
-                        }
-                    }
-                }
-                ret.set(id, obj);
-                if (newItems) {
-                    for (const newItem of newItems) {
-                        if (newItem.insertAfter === obj) {
-                            ret.set(Nobs.getId(newItem.object), newItem.object);
-                        }
-                    }
-                }
-            }
-        }
-        if (newItems) {
-            for (const newItem of newItems) {
-                if (newItem.insertBefore === undefined && newItem.insertAfter === undefined) {
-                    ret.set(Nobs.getId(newItem.object), newItem.object);
-                }
-            }
-        }
-        return ret;
-    }
-    _called_from_constructor_cloneArray(collection) {
-        const ret = [];
-        const replacedCollection = this.replacedCollections.get(collection);
-        if (replacedCollection && Array.isArray(replacedCollection)) {
-            return replacedCollection;
-        }
-        let obj;
-        const newItems = this.createdObjects.get(collection);
-        for (const itm of collection) {
-            if (!this.removedObjects.has(itm)) {
-                obj = this.replacedObjects.get(itm);
-                if (!obj && this.mutatedObjects.has(itm)) {
-                    obj = new itm.constructor(this, itm);
-                }
-                if (!obj) {
-                    obj = itm;
-                }
-                if (newItems) {
-                    for (const newItem of newItems) {
-                        if (newItem.insertBefore === obj) {
-                            ret.push(newItem.object);
-                        }
-                    }
-                }
-                ret.push(obj);
-                if (newItems) {
-                    for (const newItem of newItems) {
-                        if (newItem.insertAfter === obj) {
-                            ret.push(newItem.object);
-                        }
-                    }
-                }
-            }
-        }
-        if (newItems) {
-            for (const newItem of newItems) {
-                if (newItem.insertBefore === undefined && newItem.insertAfter === undefined) {
-                    ret.push(newItem.object);
-                }
-            }
-        }
-        return ret;
-    }
-}
-
-class UploadNobs extends NobsBase {
-    constructor(nobs_or_dto, source) {
-        var _a, _b, _c, _d, _e, _f, _g;
-        super(nobs_or_dto, source);
-        if (!(nobs_or_dto instanceof Nobs) && !(source instanceof UploadNobs)) {
-            const model = nobs_or_dto;
-            this.id = "";
-            this.headline = (_a = model.headline) !== null && _a !== void 0 ? _a : "";
-            this.story = (_b = model.story) !== null && _b !== void 0 ? _b : [];
-            this.date = (_c = model.date) !== null && _c !== void 0 ? _c : new Date();
-            this.location = (_d = model.location) !== null && _d !== void 0 ? _d : [];
-            this.foldername = (_e = model.foldername) !== null && _e !== void 0 ? _e : "";
-            this.popup = (_f = model.popup) !== null && _f !== void 0 ? _f : "";
-            this.image = (_g = model.image) !== null && _g !== void 0 ? _g : "";
-        }
-    }
-    ;
-    toDto() {
-        return {
-            id: "",
-            headline: this.headline,
-            story: this.story,
-            date: this.date,
-            location: this.location,
-            foldername: this.foldername,
-            popup: this.popup,
-            image: this.image
-        };
-    }
-    ;
-}
-
-const fotoUploadStyles = r$1 `
-  .foto-upload-container {
-    margin-bottom: 15px;
-  }
-
-  .file-loader {
-    position: relative;
-    width: 300px;
-    height: 40px;
-    letter-spacing: 0.5px;
-    line-height: 40px;
-    font-size: 14px;
-    font-weight: 600;
-    background-color: black;
-    color: white;
-    border: none;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    margin: 10px 10px 15px;
-    box-shadow: var(--fuerte-box-shadow);
-    &:hover {
-      background-color: white;
-      color: black;
-      border: 1px solid black;
-    }
-  }
-
-  label {
-    cursor: pointer;
-    height: auto;
-    cursor: pointer;
-  }
-
-  input {
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    opacity: 0;
-    width: 100%;
-    cursor: pointer;
-  }
-
-  .preview {
-    margin: 0 10px;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    width: 300px;
-  }
-
-  img {
-    height: 60px;
-    margin: 10px;
-  }
-`;
-
-var __decorate$b = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-const fileTypes = [
-    "image/jpg",
-    "image/bmp",
-    "image/jpeg",
-    "image/png",
-    "image/tiff",
-    "image/webp",
-];
-const validFileType = (file) => fileTypes.includes(file.type);
-let WcUploadFotos = class WcUploadFotos extends h {
-    constructor(foldername, date) {
-        super();
-        this.foldername = foldername;
-        this.date = date;
-    }
-    static get styles() {
-        return [fotoUploadStyles];
-    }
-    ;
-    ;
-    updateImageDisplay(e) {
-        console.log(e.target.files);
-        const curFiles = e.target.files;
-        if (curFiles) {
-            for (const file of curFiles) {
-                if (validFileType(file)) {
-                    const image = document.createElement('img');
-                    const foldername = this.date + '_' + this.foldername;
-                    image.src = URL.createObjectURL(file);
-                    image.alt = file.name;
-                    uploadImage(file, foldername);
-                }
-            }
-            alert('files uploaded');
-        }
-    }
-    ;
-    render() {
-        return T `
-      <div class="foto-upload-container">
-        <div class="file-loader">
-          <label htmlFor='myfile'>UPLOAD FOTOS</label>
-          <input type='file' name='myfile' id='myfile' accept=".jpg, .jpeg, .png, .tiff, .bmp" className='file-input' @change=${(e) => this.updateImageDisplay(e)} multiple />
-        </div>
-        <div className="preview">
-        </div>        
-      </div>
-    `;
-    }
-    ;
-};
-__decorate$b([
-    e({ type: String })
-], WcUploadFotos.prototype, "foldername", void 0);
-__decorate$b([
-    e({ type: String })
-], WcUploadFotos.prototype, "date", void 0);
-__decorate$b([
-    o$1('.preview')
-], WcUploadFotos.prototype, "preview", void 0);
-__decorate$b([
-    o$1('.file-input')
-], WcUploadFotos.prototype, "fileInput", void 0);
-WcUploadFotos = __decorate$b([
-    n$1("wc-upload-fotos")
-], WcUploadFotos);
-
-const formStyles = r$1 `
-  form {
-    font-family: Ubuntu, 'Open Sans', 'Helvetica Neue', sans-serif;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: #555;
-    padding-right: 150px;
-    padding-top: 20px;
-  }
-
-  input {
-    font-family: Ubuntu, 'Open Sans', 'Helvetica Neue', sans-serif;
-    margin: 10px;
-    padding: 5px 10px;
-    width: 300px;
-    height: 40px;
-    outline: none;
-    border: 1px solid #555;
-    box-shadow: var(--fuerte-box-shadow);
-  }
-
-  textarea {
-    font-family: Ubuntu, 'Open Sans', 'Helvetica Neue', sans-serif;
-    margin: 10px;
-    padding: 5px 10px;
-    width: 300px;
-    height: 200px;
-    outline: none;
-    border: 1px solid #555;
-    box-shadow: var(--fuerte-box-shadow);
-  }
-
-  button {
-    font-family: Ubuntu, 'Open Sans', 'Helvetica Neue', sans-serif;
-    margin: 10px;
-    padding: 5px 10px;
-    width: 300px;
-    height: 40px;
-    background-color: var(--fuerte-background-color);
-    border: none;
-    outline: none;
-    color: white;
-    box-shadow: var(--fuerte-box-shadow);
-    font-weight: 600;
-    letter-spacing: 1.2px;
-    cursor: pointer;
-  }
-`;
-
-var __decorate$a = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __awaiter$4 = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    L.control.layers(baseMaps).addTo(map);
+    sightseeings?.map((s) => {
+        const marker = L.marker(s.location);
+        markers.push(marker);
+        marker.addTo(map).bindPopup(`<b>${s.name}</b><br>${s.location}`);
     });
 };
-let WcUploadForm = class WcUploadForm extends h {
-    static get styles() {
-        return [formStyles];
-    }
-    ;
-    setState(nobs) {
-        this.state = new UploadNobs(nobs, this.state);
-    }
-    ;
-    connectedCallback() {
-        super.connectedCallback();
-        const nobs = new Nobs();
-        nobs.setProperty(this.state, 'id', '');
-        this.setState(nobs);
-    }
-    ;
-    handleSubmit(e) {
-        return __awaiter$4(this, void 0, void 0, function* () {
-            e.preventDefault();
-            try {
-                yield createTravelDocument(this.state);
-            }
-            catch (error) {
-                console.log(error);
-            }
+const updateMap = (sightseeings) => {
+    if (map) {
+        markers?.forEach(m => map.removeLayer(m));
+        markers = [];
+        sightseeings?.map((s) => {
+            const marker = L.marker(s.location);
+            markers.push(marker);
+            marker.addTo(map).bindPopup(`<b>${s.name}</b><br>${s.location}`);
         });
     }
-    ;
-    handleChange(e) {
-        const nobs = new Nobs();
-        const name = e.target.name;
-        const value = e.target.value;
-        nobs.setProperty(this.state, name, value);
-        this.setState(nobs);
-    }
-    ;
-    handleStory(e) {
-        const nobs = new Nobs();
-        const name = e.target.name;
-        const value = e.target.value.split('_b');
-        nobs.setProperty(this.state, name, value);
-        this.setState(nobs);
-    }
-    ;
-    handleLocation(e) {
-        const nobs = new Nobs();
-        const name = e.target.name;
-        const value = e.target.value.split(',');
-        nobs.setProperty(this.state, name, value);
-        this.setState(nobs);
-    }
-    ;
-    renderFileLoader() {
-        const foldername = this.state ? this.state.foldername : '';
-        const date = this.state ? this.state.date : '';
-        return new WcUploadFotos(foldername, date);
-    }
-    ;
-    render() {
-        return T `
-      <div class="upload-form">
-        <form @submit=${this.handleSubmit}>
-          <input name="headline" type="text" placeholder="headline" @change=${this.handleChange} required>
-          <textarea name="story" placeholder="story about the day ..." @change=${this.handleStory}></textarea>
-          <input name="date" type="date" @change=${this.handleChange} required>
-          <input name="location" type="text" placeholder="location" @change=${this.handleLocation} required>
-          <input name="popup" type="text" placeholder="popup" @change=${this.handleChange} required>
-          <input name="image" type="text" placeholder="image" @change=${this.handleChange} required>
-          <input name="foldername" type="text" placeholder="folder name" @change=${this.handleChange} required>
-
-          <!-- ${this.renderFileLoader()} -->
-
-          <button type="submit">ADD FOTO STORY</button>
-        </form>
-      </div>
-    `;
-    }
-    ;
 };
-__decorate$a([
-    e({ type: Object })
-], WcUploadForm.prototype, "state", void 0);
-WcUploadForm = __decorate$a([
-    n$1("wc-upload-form")
-], WcUploadForm);
-
-var __decorate$9 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-let WcUploadPage = class WcUploadPage extends h {
-    static get styles() {
-        return [uploadStyles];
-    }
-    ;
-    render() {
-        return T `
-      <div class="upload-page">
-        <h1 class="title">Upload Foto Story</h1>
-        <wc-upload-form></wc-upload-form>
-      </div>
-    `;
-    }
-    ;
-};
-WcUploadPage = __decorate$9([
-    n$1("wc-upload-page")
-], WcUploadPage);
-
-const dialogStyles = r$1 `
-  .modal {
-    font-family: var(--printess-text-font);
-    color: #555555;
-    display: block;
-    position: fixed;
-    z-index: 100;
-    padding-top: 70px;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-  }
-
-  .modal-wrapper {
-    display: flex;
-    justify-content: center;
-    position: relative;
-    background-color: black;
-    margin: auto;
-    height: 80vh;
-    width: 67vw;
-    box-shadow: 0px 4px 10px rgba(0,0,0,0.2), 0px 4px 20px rgba(0,0,0,0.2);
-  }
-
-  .close-button {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    z-index: 10;
-  }
-
-  .prev {
-    position: absolute;
-    top: 50%;
-    left: 10px;
-  }
-
-  .next {
-    position: absolute;
-    top: 50%;
-    right: 10px;
-  }
-
-  img {
-    width: auto;
-    height: 100%;
-  }
-
-  @media (max-width: ${config.mobileDeviceWidth}px) {
-    .modal {
-      padding-top: 45px;
-    }
-
-    .modal-wrapper {
-      width: 70vmin;
-    }
-  }
-
-  wc-icon {
-    width: 20px;
-    height: 20px;
-    cursor: pointer;
-    margin: 15px 20px;
-  }
-
-  button.submit {
-    width: 100%;
-    padding: 10px;
-    margin-top: 15px;
-    color: white;
-    cursor: pointer;
-    outline: none;
-    border: none;
-    border-radius: 4px;
-    background-color: #e35fbc;
-    font-family: var(--printess-button-font);
-    font-size: 14px;
-    font-weight: 400;
-  }
-`;
-
-var __decorate$8 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-let WcBackdrop = class WcBackdrop extends h {
-    constructor() {
-        super();
-    }
-    ;
-    static get styles() {
-        return r$1 `
-      :host, :host * {
-          box-sizing: border-box;
-      }
-      :host  {
-          position: absolute;
-          left:0;
-          top:0;
-          width: 100vw;
-          height: 100vh;
-          background: rgba(0,0,0,0.5);
-          z-index: 89;
-      }
-    `;
-    }
-    ;
-    cancelMouse(e) {
-        e.preventDefault();
-        e.stopPropagation();
-    }
-    ;
-    connectedCallback() {
-        super.connectedCallback();
-        this.addEventListener("mousedown", this.cancelMouse);
-        this.addEventListener("mouseup", this.cancelMouse);
-        this.addEventListener("mousemove", this.cancelMouse);
-    }
-    ;
-    disconnectedCallback() {
-        this.removeEventListener("mousedown", this.cancelMouse);
-        this.removeEventListener("mouseup", this.cancelMouse);
-        this.removeEventListener("mousemove", this.cancelMouse);
-        super.disconnectedCallback();
-    }
-    ;
-    render() {
-        return T ``;
-    }
-    ;
-};
-WcBackdrop = __decorate$8([
-    n$1("wc-backdrop")
-], WcBackdrop);
-
-var __decorate$7 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-let WcDialogImage = class WcDialogImage extends h {
-    constructor(idx, images) {
-        super();
-        this.backdrop = new WcBackdrop();
-        this.idx = idx;
-        this.images = images;
-    }
-    static get styles() {
-        return [dialogStyles];
-    }
-    ;
-    ;
-    showDialog() {
-        document.body.appendChild(this.backdrop);
-        document.body.appendChild(this);
-    }
-    ;
-    closeDialog() {
-        document.body.removeChild(this.backdrop);
-        document.body.removeChild(this);
-    }
-    ;
-    render() {
-        return T `
-      <div class="modal">
-      
-        <div class="modal-wrapper">
-          <wc-icon class="close-button" primaryColor="island" icon="close" @click=${() => this.closeDialog()}></wc-icon>
-          <wc-icon class="prev" primaryColor="island" icon="chevron-left" @click=${() => this.idx > 0 && this.idx--}></wc-icon>
-          <img src=${this.images[this.idx]} alt="fuerte">
-          <wc-icon class="next" primaryColor="island" icon="chevron-right" @click=${() => this.idx < this.images.length - 1 && this.idx++}></wc-icon>
-        </div>
-
-      </div>
-    `;
-    }
-    ;
-};
-__decorate$7([
-    e({ attribute: false, type: Number })
-], WcDialogImage.prototype, "idx", void 0);
-__decorate$7([
-    e({ attribute: false, type: Array })
-], WcDialogImage.prototype, "images", void 0);
-WcDialogImage = __decorate$7([
-    n$1("wc-dialog-image")
-], WcDialogImage);
-
-const fotostoryStyles = r$1 `
-  .fotostory-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    color: #555;
-  }
-
-  .image-container {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    align-content: center;
-    padding: 30px 0 60px;
-  }
-
-  img {
-    width: auto;
-    height: 250px;
-    box-shadow: var(--fuerte-box-shadow);
-    margin: 20px;
-    cursor: pointer;
-  }
-
-  .lottie {
-    width: 500px;
-    height: 500px;
-  }
-
-  @media (max-width: ${config.mobileDeviceWidth}px) {
-    .title {
-      margin-bottom: 0;
-      text-align: center;
-    }
-
-    .image-container {
-      padding-top: 0px;
-    }
-
-    img {
-      width: 100%;
-      height: auto;
-      margin: 10px;
-      cursor: default;
-    }
-
-    .lottie {
-      width: 100%;
-    }
-  }
-`;
 
 var __decorate$6 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -2234,254 +1444,670 @@ var __decorate$6 = (undefined && undefined.__decorate) || function (decorators, 
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-let WcFotostory = class WcFotostory extends h {
-    constructor(fotostory) {
-        super();
-        this.fotostory = fotostory;
+let WcSightseeingCard = class WcSightseeingCard extends h {
+    constructor(sightseeing) {
+        super(),
+            this.sightseeing = sightseeing;
     }
     static get styles() {
-        return [fotostoryStyles];
-    }
-    ;
-    ;
-    connectedCallback() {
-        super.connectedCallback();
-        this.fotostory && this.getPics(this.fotostory.foldername);
-    }
-    ;
-    getPics(foldername) {
-        let urlList = [];
-        fetch(`https://api.github.com/repos/anjakhan/fuerteventura/contents/assets/${foldername}`)
-            .then(response => response.json())
-            .then(data => {
-            data.forEach((foto) => urlList.push(foto.download_url));
-        })
-            .catch(error => console.error(error));
-        setTimeout(() => this.images = urlList, 2000);
-    }
-    ;
-    renderImage(idx) {
-        const td = new WcDialogImage(idx, this.images);
-        td.showDialog();
+        return [r$1 `
+      .card-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background-color: white;
+        cursor: pointer;
+        min-width: 300px;
+      }
+      .card-container:hover {
+        box-shadow: 5px 5px 8px #ccc;
+        transform: scale(1.01);
+      }
+
+      .sightseeing-image {
+        width: 100%;
+        height: 300px;
+        margin-bottom: 10px;
+        background-repeat: no-repeat;
+        content: cover;
+        border: 1px solid #ccc;
+      }
+
+      .bullet-point {
+        margin-bottom: 10px;
+      }
+      .bullet-point-title {
+        font-weight: bold;
+      }
+
+      .map-info {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1em;
+      }
+      .map-icon {
+        width: 30px;
+        height: 30px;
+        margin-right: 10px;
+      }
+
+      @media (max-width: ${config.mobileDeviceWidth}px) {
+        .card-container {
+          width: calc(100% - 40px);
+        }
+      }
+    `];
     }
     ;
     render() {
+        const sightseeing = this.sightseeing;
         return T `
-    ${this.fotostory ? T `
-      <div class="fotostory-container">
-        <!-- <p>${this.fotostory.date}</p> -->
-        <h1 class="title">${this.fotostory.headline}</h1>
-        ${this.fotostory.story.map((story) => T `<p style="text-align: justify;">${story}</p>`)}
-        <div class="image-container">
-          ${this.images && this.images.length > 0 ? this.images.sort((a, b) => a < b ? -1 : 1).map((img, idx) => T `<img @click=${() => !config.isMobile && this.renderImage(idx)} src=${img} alt="fuerte">`) : T `<lottie-player class="lottie" src="https://assets9.lottiefiles.com/packages/lf20_mg67wxfu.json"  background="transparent"  speed="1"  loop  autoplay></lottie-player>`}
+      <div class="card-container" @click=${() => location.hash = "#" + this.sightseeing.hash}>
+        <div class="sightseeing-image" style="background: url(${sightseeing.image}); background-size: cover"></div>
+        <!-- <img src=${sightseeing.image} alt=${sightseeing.name}> -->
+
+        <h3>${sightseeing.name}</h3>
+
+        <div class="map-info">
+          <wc-icon icon="map-duotone" primaryColor="gray" class="map-icon"></wc-icon>
+          [${sightseeing.location[0].toFixed(4)}, ${sightseeing.location[1].toFixed(4)}]
+          - ${sightseeing.orientation}
         </div>
-        
-        
       </div>
-    ` : T `
-      <div style="display: flex; justify-content: center; align-items: center; margin-top: 50px;">
-        <lottie-player class="lottie" src="https://assets1.lottiefiles.com/packages/lf20_ORPnX5.json"  background="transparent"  speed="1"  loop  autoplay></lottie-player>
-      </div>`}      
     `;
     }
     ;
 };
 __decorate$6([
     e({ type: Object })
-], WcFotostory.prototype, "fotostory", void 0);
-__decorate$6([
-    e({ type: Array })
-], WcFotostory.prototype, "images", void 0);
-WcFotostory = __decorate$6([
-    n$1("wc-fotostory")
-], WcFotostory);
+], WcSightseeingCard.prototype, "sightseeing", void 0);
+WcSightseeingCard = __decorate$6([
+    n$1("wc-sightseeing-card")
+], WcSightseeingCard);
 
-const fotoPreviewStyles = r$1 `
-  .calendar-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    color: #555;
-  }
-
-  .header {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .title {
-    text-align: center;
-  }
-
-  .foto-calendar {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    box-shadow: var(--fuerte-box-shadow);
-    border-radius: 10px;
-    margin-top: 20px;
-    width: 640px;
-    padding-bottom: 20px;
-    background-color: #fff7e6;
-  }
-
-  img {
-    height: 415px;
-    border-top-right-radius: 10px;
-    border-top-left-radius: 10px;
-  }
-
-  .calendar-month {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    font-size: 22px;
-    font-weight: bold;
-    padding: 30px 50px 10px;
-    text-align: center;
-  }
-
-  .calendar-month wc-icon {
-    width: 30px;
-    height: 30px;
-  }
-
-  .table-header {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-  }
-
-  .calendar-day {
-    font-weight: bold;
-    padding: 20px 35px;
-    color: var(--fuerte-aqua);
-  }
-
-  .month {
-    display: grid;
-    grid-template-columns: repeat(7, 90px);
-    grid-template-rows: repeat(5, 50px);
-    justify-content: center;
-  }
-
-  .date-box {
-    display: flex;
-    font-weight: bold;
-    color: #555;
-    text-align: center;
-    cursor: pointer;
-    align-self: center;
-    justify-content: center;
-    align-items: center;
-    width: 90px;
-    height: 50px;
-  }
-
-  .date-text {
-    text-align: center;
-    min-width: 20px;
-    min-height: 20px;
-  }
-
-  .date-box:hover .date-text {
-    background-color: var(--fuerte-brown);
-    border-radius: 100px;
-    padding: 5px;
-    color: white;
-  }
-
-  .today {
-    background-color: var(--fuerte-aqua);
-    border-radius: 100px;
-    padding: 5px;
-    color: white;
-  }
-  
-  .date-box:hover .today {
-    background-color: var(--fuerte-aqua);
-  }
-
-  .disabled {
-    cursor: default;
-  }
-
-  .back-to-calendar {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-  }
-
-  @media (max-width: ${config.mobileDeviceWidth}px) {
-    .foto-calendar {
-      margin-top: 40px;
-      width: 100%;
-    }
-
-    img {
-      width: 100%;
-      height: auto;
-    }
-
-    .calendar-day {
-      font-size: 3vmin;
-    }
-
-    .calendar-month {
-      font-size: 4vmin;
-      padding: 20px 10% 10px;
-    }
-
-    .calendar-month wc-icon {
-      height: 5vmin;
-    }
-
-    .table-header {
-      display: grid;
-      grid-template-columns: repeat(7, 13%);
-      grid-template-rows: repeat(1, 7vmin);
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-    }
-
-    .calendar-day {
-      padding: 0px;
-      align-self: center;
-    }
-  
-    .month {
-      display: grid;
-      grid-template-columns: repeat(7, 13%);
-      grid-template-rows: repeat(5, 7vmin);
-      justify-content: center;
-      align-items: center;
-      align-content: center;
-    }
-
-    .date-box {
-      width: 100%;
-      font-size: 3vmin;
-      height: 7vmin;
-    }
-
-    .date-text {
-      padding: 0.5vmin;
-      line-height: 7vmin;
-      min-width: 7vmin;
-    }
-  }
-
-  .hidden {
-    display: none;
-  }
-`;
+const sightseeings = [{
+        name: "Las Palmas de Gran Canaria",
+        hash: "LasPalmas",
+        image: "https://firebasestorage.googleapis.com/v0/b/gran-canaria-4e556.appspot.com/o/sightseeings%2Fcities%2Flaspalmas%2FPlaya-Las-Canteras-Las-Palmas-de-Gran-Canaria.webp?alt=media&token=f774e8c7-e311-4712-9d00-26c570ca599d",
+        foldername: "cities/Las%20Palmas",
+        location: [28.124169202574212, -15.43635597886297],
+        orientation: "Norden",
+        tags: ["Catedral de Santa Ana", "Casa de Colon (Kolumbushaus)", "Museo Canario", "Mercado de Vegueta (Markt)", "Auditorio Alfredo Kraus", "Hafen mit Kreuzfahrtschiffen", "Altstadt Vegueta", "Poema del Mar (Aquarium)", "Castillo de la Luz", "Jardin Canario", "Naturpark Bandama", "Teror"],
+        topic: "Städte",
+        type: "Tagesausflug",
+        link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/las-palmas-de-gran-canaria/",
+        info: "Las Palmas bietet viele schöne Plazas mit Cafés und Restaurants, Strände zum Baden und Surfen sowie ein großes kulturelles Angebot. Im Fokus stehen hierbei vor allem die Museen und Kirchen der Stadt."
+    }, {
+        name: "Telde",
+        hash: "Telde",
+        image: "https://firebasestorage.googleapis.com/v0/b/gran-canaria-4e556.appspot.com/o/sightseeings%2Fcities%2Ftelde%2FU%CC%88berreste-des-Aqua%CC%88dukt-Acueducto-de-Ines-Chemida.webp?alt=media&token=6d34ff43-cc46-4865-9d74-69c41f9b36e6",
+        foldername: "cities/Telde",
+        location: [27.99589391862407, -15.417396130190664],
+        orientation: "Osten",
+        tags: ["Cuatro Puertas", "El Barranco de los Cernicalos"],
+        topic: "Städte",
+        type: "Stadtbesichtigung",
+        link: "https://www.hallokanarischeinseln.com/malerische-orte/gran-canaria/telde/",
+        info: "Telde ist die älteste und zweitgrößte Stadt Gran Canarias. Telde war die erste Hauptstadt der Insel und ist bekannt für sein vielfältiges kulturelles Angebot."
+    }, {
+        name: "Maspalomas",
+        hash: "Maspalomas",
+        image: "https://firebasestorage.googleapis.com/v0/b/gran-canaria-4e556.appspot.com/o/sightseeings%2Fcities%2Fmaspalomas%2FMaspalomas-Promenade-600x600.webp?alt=media&token=7faaaf8f-99ed-4155-84dc-6a50b468c22b",
+        foldername: "cities/Maspalomas",
+        location: [27.761848689915524, -15.586680204960945],
+        orientation: "Süden",
+        tags: ["Bike Tour", "Kamelreiten", "Delfin Tour", "Sanddünen von Maspalomas", "Palmitos Park", "Faro de Maspalomas", "Faro de Meloneras", "Playa de Maspalomas", "Playa del Ingles", "Yacimiento Punta Mujeres"],
+        topic: "Städte",
+        type: "Tagesausflug",
+        link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/maspalomas-gran-canaria/",
+        info: "Maspalomas bezeichnet übrigens eine ganze Region im Südzipfel der Insel. Sie erstreckt sich von Meloneras bis San Agustín und beherbergt auch den bekanntesten Ortsteil Playa del Inglés. Hier befinden sich besonders viele Hotels und Ferienwohnungen. Da die Region vor allem bei deutschsprachigen Urlaubsgästen sehr beliebt ist, gibt es mittlerweile auch viele deutsche Restaurants und Kneipen vor Ort. Ein weiterer Vorteil ist die Nähe zum Flughafen. Die Fahrtzeit mit dem Auto oder Bus liegt bei gerade einmal 20 bis 25 Minuten. Vor Ort erwartet dich dann eine große Dünen-Landschaft. Die Dünen erstrecken sich knapp 6 Kilometer an der Südküste entlang und erreichen eine Breite von bis zu 1,4 Kilometern."
+    }, {
+        name: "Sanddünen von Maspalomas",
+        hash: "Sandduenen",
+        image: "https://firebasestorage.googleapis.com/v0/b/gran-canaria-4e556.appspot.com/o/sightseeings%2Fadventure%2FSandd%C3%BCnenMaspalomas%2FGran-Canaria-Highlights-Sandduenen-Maspalomas.webp?alt=media&token=77aceae2-9434-44c2-b82f-ea12d0e0426c",
+        foldername: "adventure/SandduenenMaspalomas",
+        location: [27.745299697744375, -15.576656034595045],
+        orientation: "Süden",
+        tags: ["Maspalomas", "Bike Tour", "Kamelreiten", "Delfin Tour", "Sanddünen von Maspalomas", "Palmitos Park", "Faro de Maspalomas", "Faro de Meloneras", "Playa de Maspalomas", "Playa del Ingles", "Yacimiento Punta Mujeres"],
+        topic: "Erlebnisse",
+        type: "Wanderung",
+        link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/gran-canaria-highlights/#1-sandduenen-von-maspalomas",
+        info: "Die Dünen-Landschaft erstreckt sich auf eine Länge von ca. 6 Kilometern. Auch in der Breite ist das Dünen-Gebiet mit bis zu 1,4 Kilometern beachtlich groß. Die Sanddünen grenzen an die beiden beliebten Urlaubsviertel Playa del Inglés und Meloneras. Um die Sanddünen zu erkunden, hast du verschiedene Möglichkeiten. Besonders schön ist ein Spaziergang durch die Dünen-Landschaft. Du kannst dabei entweder am Meer entlang laufen oder die markierten Wege mitten durch die Dünen nutzen."
+    }, {
+        name: "Puerto de Mogan",
+        hash: "Mogan",
+        image: "https://firebasestorage.googleapis.com/v0/b/gran-canaria-4e556.appspot.com/o/sightseeings%2Fcities%2Fmogan%2FGran-Canaria-Puerto-de-Mogan-Blumengasse.webp?alt=media&token=e9a102b6-c7e2-46ab-8229-fdc475c40aab",
+        foldername: "cities/Mogan",
+        location: [27.791766618649017, -15.712254276823437],
+        orientation: "Süden",
+        tags: ["Blumengassen", "Hafen", "Playa de Mogan", "Aussichtspunkt", "U-Boot", "Canada de Los Gatos", "Markt am Freitag"],
+        topic: "Städte",
+        type: "Tagesausflug",
+        link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/puerto-de-mogan-gran-canaria/",
+        info: "Ein besonders schöner Ort auf Gran Canaria ist Puerto de Mogán. Er liegt im sonnenreichen Südwesten der Insel. In der Vergangenheit wurden hier bereits die meisten Sonnenstunden in ganz Europa verzeichnet. Puerto de Mogán beherbergt einen Kanal, durch den Meerwasser in den Ort hineinfließt. Durch den Kanal ist Puerto de Mogán auch als kleines Venedig bekannt. Darüber hinaus besitzt der Ort einen Jachthafen, an dem auch Ausflugsschiffe verkehren. Rund um den Hafen gibt es viele Restaurants und Cafés mit schönem Ambiente. Das Hafenviertel ist zudem für seine malerischen Blumengassen bekannt. Die Blumen ranken von Bögen und Hausfassaden. Sie verleihen den Gassen fast schon ein märchenhaftes Ambiente. Zur anderen Seite des Kanals bietet Puerto de Mogán einen kleinen Strand mit hellem Sand. Auf der Promenade, die direkt hinter dem Strand verläuft, findest du Restaurants, Cafés und Geschäfte. Einen besonders schönen Blick auf den Ort bietet zudem der Aussichtspunkt oberhalb der Häusersiedlung. Hierfür folgst du den Wegweisern, die hinter dem Hafenviertel die Gassen hinaufführen. Der Aufstieg dauert ca. 10 Minuten."
+    }, {
+        name: "Teror",
+        hash: "Teror",
+        image: "https://firebasestorage.googleapis.com/v0/b/gran-canaria-4e556.appspot.com/o/sightseeings%2Fcities%2Fteror%2FRestaurante-El-Encuentro-Plaza-del-Pino.webp?alt=media&token=be7985df-409f-4730-9cad-06bacc48cc7c",
+        foldername: "cities/Teror",
+        location: [28.060057114397562, -15.547231821794318],
+        orientation: "Norden",
+        tags: ["Valleseco", "Cruz de Tejeda"],
+        topic: "Städte",
+        type: "Stadtbesichtigung",
+        link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/teror-gran-canaria/",
+        info: "Teror wird oft auch als religiöses Zentrum von Gran Canaria bezeichnet und wurde im Jahr 1979 zum Kulturdenkmal erklärt. Hier erlebst du die Insel noch so, wie sie früher einmal gewesen sein soll. Die alten Häuser sind mittlerweile vollständig restauriert worden. Sie wurden jedoch in ihrem ursprünglichen Erscheinungsbild gut erhalten, sodass du hier nach wie vor das Ambiente vergangener Zeiten erfahren kannst. Vor allem die typisch kanarischen Balkone aus Holz ragen vielfach noch an den Hausfassaden empor. Mit etwas mehr als 12.000 Einwohnern ist Teror ein nicht allzu großer Ort. Er liegt ca. 550 Meter über dem Meeresspiegel im Landesinneren in der nördlichen Hälfte von Gran Canaria. Tagsüber kommen gerne Touristen hierher, um den historischen Charme der Altstadt zu erleben und die katholische Kirche “Basilica Nuestra Señora del Pino” zu besuchen. Hierbei handelt es sich um eine der wichtigsten Kirchen auf Gran Canaria, die im Jahr 1767 fertiggestellt wurde. Die Kirche ist von einem großen Marktplatz mit mehreren Restaurants umgeben."
+    }, {
+        name: "Agaete",
+        hash: "Agaete",
+        image: "https://firebasestorage.googleapis.com/v0/b/gran-canaria-4e556.appspot.com/o/sightseeings%2Fcities%2Fagaete%2FPlaya-de-las-Nieves-mit-Promenade-600x600.webp?alt=media&token=2a984fdd-89da-424c-a614-9fc1343e17cc",
+        foldername: "cities/Agaete",
+        location: [28.105574932647293, -15.709104541206749],
+        orientation: "Westen",
+        tags: ["Hafen von Agaete", "Playa de las Nieves", "Piscina Natural (Natur-Schwimmbad)", "Huerto de Las Flores (botanischer Garten)", "Necrópolis del Maipez (archäologisches Museum)", "Museo de La Rama", "Kirchplatz “Plaza de la Constitución”", "Playa de Faneroque", "Charco Azul", "Mirador del Balcón", "Barranco de Azuaje"],
+        topic: "Städte",
+        type: "Stadtbesichtigung",
+        link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/agaete-gran-canaria/",
+        info: "Anders als in den meisten Orten auf Gran Canaria, sind die Häuser in Agaete überwiegend weiß. Dies führt zu einem besonders hübschen Stadtbild. Bekannt ist Agaete zudem auch durch den Hafen. Am Puerto de las Nieves legt die Fähre von Fred Olsen Express ab, die Gran Canaria mit der Nachbarinsel Teneriffa verbindet. An den Hafen schließen sich zudem der Playa de las Nieves sowie die Promenade mit Restaurants und Geschäften an. Am Wochenende wird es in Agaete meist etwas voller. Denn auch viele Spanier kommen an freien Tagen gerne hierher. Falls du es eher ruhig magst, ist ein Besuch innerhalb der Woche daher empfehlenswert."
+    }, {
+        name: "Arinaga",
+        hash: "Arinaga",
+        image: "https://firebasestorage.googleapis.com/v0/b/gran-canaria-4e556.appspot.com/o/sightseeings%2Fcities%2Farinaga%2FGran-Canaria-Sehenswertes-Faro-de-Arinaga.webp?alt=media&token=5b35eac5-fe69-4f84-b7d4-c19f56bc2785",
+        foldername: "cities/Arinaga",
+        location: [27.856996554929164, -15.390960960831462],
+        orientation: "Osten",
+        tags: ["Promenade von Arinaga", "Faro de Arinaga", "Meersalz-Gewinnung “Las Salinas”", "Der Playa del Pozo"],
+        topic: "Städte",
+        type: "Stadtbesichtigung",
+        link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/arinaga-gran-canaria/",
+        info: "Arinaga zählt zur Gemeinde Agüimes und beherbergt etwas mehr als 9.000 Einwohner. Früher wurde hier einmal Kalk abgebaut, das für die ganze Insel genutzt wurde. An der Promenade kannst du heute noch einige alte Kalköfen anschauen. Zwischenzeitlich war der Ort zudem auch ein wichtiges Fischerei-Zentrum. Auch heutzutage kannst du entlang der Promenade noch viele Angler und Fischer sehen."
+    }, {
+        name: "Artenara",
+        hash: "Artenara",
+        image: "https://firebasestorage.googleapis.com/v0/b/gran-canaria-4e556.appspot.com/o/sightseeings%2Fcities%2Fartenara%2FArtenara-Jesus-Figur-Gran-Canaria.webp?alt=media&token=31889ade-44cb-45b5-a9b3-9f61de09bfae",
+        foldername: "cities/Artenara",
+        location: [28.02120708325028, -15.646416669231055],
+        orientation: "Zentrum",
+        tags: ["Mirador De La Atalaya"],
+        topic: "Städte",
+        type: "Aussichtspunkt",
+        link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/gran-canaria-ausfluege/#10-artenara",
+        info: "Bei Artenara handelt es sich um die höchstgelegene Gemeinde auf Gran Canaria. Der höchste Punkt liegt dabei auf 1.770 Metern. Das Ortszentrum befindet sich jedoch etwas tiefer. Dennoch bist du auch hier schon 1.269 Meter hoch. Ein besonderes Highlight ist hier die Christusstatue, die mit ausgebreiteten Armen über den Ort wacht. Leider haben wir vor Ort keinen Weg gefunden, um die Statue auch von Nahen zu sehen. Doch auch aus der Ferne ist sie schon beeindruckend. Eine der wichtigsten Sehenswürdigkeiten in Artenara ist zudem die Höhlen-Kapelle “La Ermita de la Cuevita”, die vermutlich aus dem Jahr 1794 stammt. Du kannst sie täglich zwischen 9:00 und 19:00 Uhr besichtigen. Ein weiteres Ausflugsziel stellt das historische Museum “Museo Etnográfico Casas Cuevas” dar. Hier kannst du sehen, wie die Höhlen-Wohnungen, die in Artenara teilweise noch existieren, von den Einheimischen bewohnt werden. Ein Stück oberhalb des Ortskerns findest du zudem einen schönen Aussichtspunkt: Den Mirador De La Atalaya. Hier gibt es einige Kunstwerke und natürlich einen schönen Blick auf die Landschaft und den Ort."
+    }, {
+        name: "Arucas",
+        hash: "Arucas",
+        image: "https://firebasestorage.googleapis.com/v0/b/gran-canaria-4e556.appspot.com/o/sightseeings%2Fcities%2Farucas%2FParroquia-de-San-Juan-Bautista-Gran-Canaria.webp?alt=media&token=cf048116-6463-4b90-92d3-271430d0444b",
+        foldername: "cities/Arucas",
+        location: [28.12049491415551, -15.521058975899761],
+        orientation: "Norden",
+        tags: ["Parroquia de San Juan Bautista de Arucas", "Jardin de la Marquesa", "Parque Municipal"],
+        topic: "Städte",
+        type: "Stadtbesichtigung",
+        link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/arucas-gran-canaria/",
+        info: "Das Highlight und Wahrzeichen der Stadt ist die neugotische Kirche “Parroquia de San Juan Bautista de Arucas”. Ihre Bauzeit lag zwischen 1909 und 1917. Rund um die Kirche gibt es hübsche Plazas und Gassen."
+    }, {
+        name: "Jardin de la Marquesa",
+        hash: "JardinMarquesa",
+        image: "https://firebasestorage.googleapis.com/v0/b/gran-canaria-4e556.appspot.com/o/sightseeings%2Fparks%2FJardinDeLaMarquesa%2FPfau-Gran-Canaria-Jardin-de-la-Marquesa-Arucas.webp?alt=media&token=1eefeae1-a55a-40e3-a3f3-16933643b35e",
+        foldername: "parks/JardinDeLaMarquesa",
+        location: [28.12387790680244, -15.528555173359345],
+        orientation: "Norden",
+        tags: ["Arucas"],
+        topic: "Parks",
+        type: "Tagesausflug",
+        link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/gran-canaria-highlights/#7-arucas",
+        info: "Jardín de la Marquesa ist ein kostenpflichtiger, botanischer Garten (6 Euro pro Person). Zu sehen gibt es über 500 verschiedene Pflanzenarten, Blumen, Palmen und einen aquarellfarbenen Springbrunnen. Im großen Teich kannst du Schildkröten schwimmen sehen. Zudem laufen im botanischen Garten mehrere Pfaue, Hühner, Hähne und Katzen frei herum."
+    }, {
+        name: "Jardin Canario",
+        hash: "JardinCanario",
+        image: "https://firebasestorage.googleapis.com/v0/b/gran-canaria-4e556.appspot.com/o/sightseeings%2Fparks%2FJardinCanario%2FAktivitaeten-auf-Gran-Canaria-Spaziergang-Jardin-Canario.webp?alt=media&token=3b8d0977-8b64-4bfc-974b-05361423062d",
+        foldername: "parks/JardinCanario",
+        location: [28.066801549015295, -15.462318198710973],
+        orientation: "Norden",
+        tags: ["Las Palmas"],
+        topic: "Parks",
+        type: "Tagesausflug",
+        link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/gran-canaria-ausfluege/#11-jardin-canario",
+        info: "Beim Jardín Canario handelt es sich um einen kostenfreien botanischen Garten, der eine Größe von ca. 27 Hektar umfasst. Hier kannst du viele der etwa 500 Pflanzenarten sehen, die auf den kanarischen Inseln heimisch sind. Der botanische Garten erstreckt sich dabei auch auf einen Hang, von dem aus du einen guten Blick über den Garten und die umliegende Landschaft hast. Seit 1952 können Besucher hier die Pflanzenvielfalt der Kanaren sowie der umliegenden Inseln anschauen. Vor allem der Kakteengarten ist für die meisten Besucher dabei ein Highlight. Schlendere am besten einfach die Wege durch den Garten entlang und lasse dich von der Vielfältigkeit der Natur faszinieren. Unterwegs findest du immer wieder auch Sitzbänke zum Ausruhen und Verweilen. Wenn du alle Bereiche des Gartens erkunden möchtest, solltest du ca. 2 bis 3 Stunden Besuchszeit einplanen. Der Jardín Canario ist täglich zwischen 9:00 und 18:00 Uhr geöffnet. In der Sommersaison (1. April bis 30. September) gelten zudem verlängerte Öffnungszeiten bis 19:00 Uhr. Um den Garten zu erreichen, gibt es zwei Eingänge. Der aus unserer Sicht bessere Zugang befindet sich unten im Tal. Hier bist du direkt im Hauptbereich des Gartens. Wenn du von oben kommst, musst du zunächst über Treppen und teils steilere Wegabschnitte hinunterlaufen. Dafür kannst du von oben aber auch die schöne Aussicht auf den Park genießen."
+    }, {
+        name: "Mirador Astronomico de la Degollada de las Yeguas",
+        hash: "MiradorAstronomico",
+        image: "https://firebasestorage.googleapis.com/v0/b/gran-canaria-4e556.appspot.com/o/sightseeings%2Fhiking%2FMiradorAstronomico%2FMirador-AstronomicoDeLaDegolladaDeLasYeguas.jpeg?alt=media&token=7bd0f28a-ec95-4ffa-905a-2f12f2599ac5",
+        foldername: "hiking/MiradorAstronomico",
+        location: [27.81938305374555, -15.579245136071071],
+        orientation: "Süden",
+        tags: ["Pamitos Park", "Maspalomas", "Parque Natural de Pilancones"],
+        topic: "Berge",
+        type: "Aussichtspunkt",
+        link: "https://www.hallokanarischeinseln.com/aussichtspunkte/gran-canaria/aussichtspunkt-mirador-de-la-degollada-de-las-yeguas/#",
+        info: "Beliebter Aussichtspunkt in einem weitläufigen Naturschutzgebiet mit Panoramablick über die Schlucht."
+    }, {
+        name: "Barranco de los Cernicalos",
+        hash: "BarrancoCernicalos",
+        image: "https://firebasestorage.googleapis.com/v0/b/gran-canaria-4e556.appspot.com/o/sightseeings%2Fwater%2FBarrancoDeLosCernicalos%2FGran-Canaria-Highlights-Wasserfall-Barranco-de-los-Cernicalos.webp?alt=media&token=6fd32424-0f8e-412e-9c3d-bd8742c14bd9",
+        foldername: "water/BarrancoDeLosCernicalos",
+        location: [27.979724110463277, -15.473992385776024],
+        orientation: "Osten",
+        tags: ["Telde"],
+        topic: "Wasser",
+        type: "Wanderung",
+        link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/gran-canaria-wasserfaelle/#1-wasserfaelle-im-barranco-de-los-cernicalos-falkenschlucht",
+        info: "Beim Barranco de los Cernícalosb handelt es sich um eine Schlucht, die von einem Bach durchzogen ist. Die Falkenschlucht, wie sie übersetzt heißt, ist auch zum Canyoning beliebt. Es gibt einen ca. 1-stündigen Wanderweg, der dich zu mehreren Wasserfällen führt. Du folgst dabei dem Bach, steigst über Baumstämme und läufst durch die grüne Natur. Das Highlight bilden vor allem die beiden größeren Wasserfälle im hinteren Teil der Schlucht. Am zweiten großen Wasserfall endet der Wanderweg offiziell. Insgesamt bist du bei dieser Wanderung ca. 2 Stunden unterwegs. Starten und parken kannst du am Picknick- und Grillplatz vor der Schlucht (Google Maps). Von dort folgst du zunächst ca. 4 bis 5 Minuten lang der asphaltierten Straße, die offiziell nur von Anwohnern befahren werden darf. Am Ende der Straße zeigt ein Wegweiser die Abzweigung zum Wanderweg in den Barranco an. Der schmale Weg führt dich an Kakteen und Felsen entlang. Besonders schön ist hier auch der am Boden wachsende Klee. Nach weiteren ca. 5 Minuten erreichst du einen Wasserkanal und einen alten Brunnen. Der Weg führt zunächst noch etwas aufwärts. Schon bald wird er jedoch flach und folgt ohne größere Steigungen dem Bach. Den ersten kleinen Wasserfall erreichst du nach ca. 20 bis 25 Gehminuten. Dahinter bleibt der Weg weiter abenteuerlich und führt mehrfach über Baumstämme und Brücken sowie durch den Bambus. Auch kleinere Wasserfälle sind unterwegs zu sehen. Neben dem Wanderweg selbst, bilden vor allem zwei Wasserfälle das Highlight. Der erste der beiden größeren Wasserfälle ist nach ca. 45 Gehminuten erreicht. Folge hierzu einfach immer dem Bach. Er führt dich automatisch zum Wasserfall, wo die Felswände eine Art Canyon bilden. Am Wasserfall kannst du zunächst verweilen, bevor du danach ein Stück dem Weg wieder zurückfolgst. Nach 4 bis 5 Minuten bietet der Rückweg die Möglichkeit, zur linken Seite aufwärtszugehen. Wenn diesem Weg nach oben folgst, erreichst du nach ca. 10 weiteren Gehminuten einen zweiten großen Wasserfall. Er besteht aus zwei Strängen und ist nochmals deutlich höher als der erste größere Wasserfall. Hier endet der offizielle Wanderweg. Schilder mit der Aufschrift “Access Forbidden Zone” bzw. “End of journey” zeigen, dass du hier nicht weitergehen sollst."
+    }, {
+        name: "Barranco de Azuaje",
+        hash: "BarrancoAzuaje",
+        image: "https://firebasestorage.googleapis.com/v0/b/gran-canaria-4e556.appspot.com/o/sightseeings%2Fwater%2FBarrancoDeAzuaje%2FHighlights-Gran-Canaria-Barranco-de-Azuaje.webp?alt=media&token=e78d89b6-86ab-4cd6-842a-4efdf2da59a4",
+        foldername: "water/BarrancoDeAzuaje",
+        location: [28.108066200705284, -15.570780899828632],
+        orientation: "Norden",
+        tags: ["Firgas", "Arucas", "Mirador Barranco de Azuaje"],
+        topic: "Wasser",
+        type: "Wanderung",
+        link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/gran-canaria-highlights/#barranco-de-azuaje",
+        info: "Ein Ort, um auf Gran Canaria ganzjährig Wasserfälle und grüne Natur zu erleben, ist der Barranco de Azuaje. Von der asphaltierten Straße führt ein teils gepflasterter Schotterweg hierher. Er endet an einem Parkplatz, von dem aus du nach kurzer Zeit eine Ruine erreichst. Hier gab es früher ein Hotel mit Spa-Bereich. Das verlassene Hotel wird von der Natur mehr und mehr zurückerobert. Zudem gibt es hier zahlreiche Graffitis. Seitlich der Ruine führt ein Wanderweg in den Barranco hinein. Es gibt einen ca. 8 Kilometer langen Rundweg, bei dem du stellenweise auch klettern musst. Entlang des Wegs sind einige kleinere Wasserfälle zu sehen."
+    }, {
+        name: "El Bufadero in La Garita",
+        hash: "ElBufadero",
+        image: "https://firebasestorage.googleapis.com/v0/b/gran-canaria-4e556.appspot.com/o/sightseeings%2Fwater%2FElBufadero%2FGran-Canaria-Wasserfall-El-Bufadero-La-Garita.webp?alt=media&token=ab7a3e0e-5c49-4a78-91a4-8caa03695f04",
+        foldername: "water/ElBufadero",
+        location: [28.002698640604798, -15.375590203695701],
+        orientation: "Osten",
+        tags: ["Telde", "Cueva de la Reina"],
+        topic: "Wasser",
+        type: "Aussichtspunkt",
+        link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/gran-canaria-wasserfaelle/#2-el-bufadero-in-la-garita",
+        info: "Der zweite Wasserfall auf Gran Canaria, der das ganze Jahr über sichtbar ist, befindet sich im Küstenort La Garita. Dabei handelt es sich jedoch nicht um einen klassischen Wasserfall, der aus einem Fluss oder Bach entspricht. Vielmehr entsteht dieser Wasserfall mit jeder Welle neu. La Garita beherbergt eine Lava-Küste, an der sich u.a. das Felsloch “El Bufadero” gebildet hat. Übersetzt bedeutet dies soviel wie “der Fauchende”. Wichtig bei diesem Wasserfall ist, dass du vorab die Gezeiten prüfst. Denn der Wasserfall bildet sich vor allem bei Flut. Bei Ebbe kann es hingegen sein, dass das Meer zu ruhig ist, um das Felsloch zu erreichen. Wann in La Garita Flut herrscht, kannst du tagesaktuell z.B. auf dieser Webseite nachsehen. Der Wasserfall entsteht durch das ins Loch hinein schwappende Meerwasser. Es wird zum einen von unten durch die Öffnung des Lochs hineingedrückt. Bei stärkerem Wellengang wird das Loch zudem auch von oben mit Wellen geflutet. In den Sekunden, in denen der Wellengang abnimmt und das Wasser zurückgeht, entsteht rund um das Loch ein Wasserfall. Da das Meerwasser zu allen Seiten an den Lava-Felsen hinabläuft, sieht es wie in runder Wasserfall aus. Das hinab fließende Wasser lässt sich sehr gut auf Fotos darstellen. Daher ist El Bufadero auch ein beliebter Ort für (Hobby-)Fotografen. Um den Wasserfall fotografisch schön festzuhalten, brauchst du heutzutage übrigens nicht mehr zwingend eine Spiegelreflexkamera. Auch mit vielen Smartphones oder Apps ist die Langzeitbelichtung eines Fotos möglich. Das Foto am Ende des Abschnitts ist z.B. mit dem iPhone 11 Pro entstanden. Da El Bufadero an der Ostküste von Gran Canaria liegt, geht hier morgens die Sonne über dem Meer auf. Zum Sonnenaufgang sind dann besonders schöne und stimmungsvolle Fotos möglich."
+    }, {
+        name: "Charco de la Paloma",
+        hash: "CharcoPaloma",
+        image: "https://firebasestorage.googleapis.com/v0/b/gran-canaria-4e556.appspot.com/o/sightseeings%2Fwater%2FCharcoDeLaPaloma%2FCharco-de-la-Paloma-ausgetrocknet-Januar-2022-Tejeda-Gran-Canaria.webp?alt=media&token=6f29f43e-6c02-4fbb-b072-662944a13b7d",
+        foldername: "water/CharcoDeLaPaloma",
+        location: [27.98699737620641, -15.607136984657476],
+        orientation: "Zentrum",
+        tags: ["Tejeda", "Mirador de Cruz de Tejeda", "Pico de las Nieves"],
+        topic: "Wasser",
+        type: "Kurze Wanderung",
+        link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/gran-canaria-wasserfaelle/#4-wasserfall-am-charco-de-la-paloma",
+        info: "Noch ein wenig mehr Glück als beim Charzu Azul musst du am Charco de la Paloma haben. Denn hier ist der Wasserfall unserer Erfahrung nach noch öfter ausgetrocknet als am Charco Azul. Dafür ist der Weg zum Wasserfall deutlich kürzer. Der Weg startet nahe dem Bergdorf Tejeda. Du kannst entweder an der Skulptur “La Cesta” (Google Maps) parken oder dem dort abzweigenden Schotterweg mit dem Auto bis zum Ende folgen. Parkmöglichkeiten sind kurz vor Ende des Wegs vorhanden. Sofern du den Schotterweg durchfährst, sind es gerade einmal 5 Gehminuten bis zum Charco de la Paloma. An der einzigen Abzweigung, auf die du triffst, folgst du dem Weg nach rechts bzw. nahezu geradeaus. Sofern du entlang der asphaltierten Straße parkst und von dort zu Fuß läufst, beträgt die Gehzeit ca. 10 Minuten."
+    }, {
+        name: "Playa de Güigüi",
+        hash: "PlayaGuigui",
+        image: "https://firebasestorage.googleapis.com/v0/b/gran-canaria-4e556.appspot.com/o/sightseeings%2Fwater%2FPlayaDeG%C3%BCig%C3%BCi%2FPlaya%20De%20Gu%CC%88i%20Gu%CC%88i.jpeg?alt=media&token=f0cc708c-d029-4b46-bf01-e13b2abeb204",
+        foldername: "water/PlayaDeGüigüi",
+        location: [27.947782985698016, -15.827706601117654],
+        orientation: "Westen",
+        tags: ["Mirador de San Nicolás", "Mirador del Balcón"],
+        topic: "Wasser",
+        type: "Wanderung",
+        link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/gran-canaria-ausfluege/#weitere-gran-canaria-ausfluege",
+        info: "Ein ruhiger Strand an der Westküste, der nur über eine mehrstündige Wanderung oder per Boot erreichbar ist."
+    }, {
+        name: "Mirador del Balcon",
+        hash: "MiradorBalcon",
+        image: "https://firebasestorage.googleapis.com/v0/b/gran-canaria-4e556.appspot.com/o/sightseeings%2Fwater%2FMiradorDelBalcon%2FMirador%20del-Balcon.jpeg?alt=media&token=225bac00-88f4-466b-9089-8d9755e91a52",
+        foldername: "water/MiradorDelBalcon",
+        location: [28.019867068923837, -15.785806419364825],
+        orientation: "Westen",
+        tags: ["La Aldea Beach"],
+        topic: "Wasser",
+        type: "Aussichtspunkt",
+        link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/gran-canaria-ausfluege/#weitere-gran-canaria-ausfluege",
+        info: "Aussichtspunkt an der Steilküste im Westen der Insel."
+    }, {
+        name: "Cenobio de Valeron",
+        hash: "CenobioValeron",
+        image: "https://firebasestorage.googleapis.com/v0/b/gran-canaria-4e556.appspot.com/o/sightseeings%2Fcaves%2FCenobioDeValeron%2FGran-Canaria-Highlights-Cenobio-de-Valeron.webp?alt=media&token=0acbf134-70dc-405b-8ca7-17751d9b383a",
+        foldername: "caves/CenobioDeValeron",
+        location: [28.138923559554726, -15.604430693167426],
+        orientation: "Norden",
+        tags: ["Charco de San Lorenzo"],
+        topic: "Höhlen",
+        type: "Kurze Wanderung",
+        link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/gran-canaria-highlights/#cenobio-de-valeron",
+        info: "Beim Cenobio de Valerón handelt es sich um einen ehemaligen Getreidespeicher. Die Ureinwohner nutzen die damals schwer zugänglichen Höhlen, um ihre Essensvorräte vor Diebstahl und dem vorzeitigen Verderben zu schützen. Auch einige Wohnhöhlen waren hier vorhanden. Heutzutage sind die Höhlen über Treppen gut zugänglich. Neben den Höhlen selbst ist auch der Ausblick vom Cenobio de Valerón lohnenswert. Die Aussicht reicht vom Atlantik über den Barranco de Calabozo auf die begrünte Berglandschaft."
+    }, {
+        name: "Cuevas de Cuatro Puertas",
+        hash: "Cuevas-de-cuatro-puertas",
+        image: "https://firebasestorage.googleapis.com/v0/b/gran-canaria-4e556.appspot.com/o/sightseeings%2Fcaves%2FCuevasDeCuatroPuertas%2FGran-Canaria-Highlights-Cuevas-de-los-Pilares-Cuatro-Puertas.webp?alt=media&token=44f40e88-88ec-4506-858a-a80ec1c837a9",
+        foldername: "caves/CuevasDeCuatroPuertas",
+        location: [27.959004097591375, -15.41838376018023],
+        orientation: "Osten",
+        tags: ["Telde"],
+        topic: "Höhlen",
+        type: "Kurze Wanderung",
+        link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/gran-canaria-highlights/#cuevas-de-cuatro-puertas",
+        info: "Die Cuevas de Cuatro Puertas befinden sich auf einem Berg, der nahe einer Wohnsiedlung liegt. Du kannst hier zunächst mit dem Auto hinauffahren, bis der Schotterweg beginnt. Am Rand gibt es Parkmöglichkeiten. Der Fußweg hinauf zu den Höhlen dauert ca. 5 Minuten. Im Rahmen eines Rundwegs kannst du verschiedene Höhlen sehen. Besonders eindrucksvoll sind die hinteren Höhlen “Los Pilares” (die Säulen). Sie sollen einst als Wohn- und Speicherhöhlen gedient haben. Diese Höhlen sind nach Süden ausgerichtet und vor Witterungseinflüssen gut geschützt. Dies machte sie besonders als Wohnhöhlen geeignet. Der Berg besteht überwiegend aus Tuffstein. Dieses leicht brüchige, vulkanische Gestein konnte von den Ureinwohnern vergleichsweise einfach mithilfe von Steinpickeln ausgehöhlt werden."
+    }, {
+        name: "La Fortaleza de Ansite",
+        hash: "La-Fortaleza-de-Ansite",
+        image: "https://firebasestorage.googleapis.com/v0/b/gran-canaria-4e556.appspot.com/o/sightseeings%2Fcaves%2FLaFortalezaDeAnsite%2FHoehle-Gran-Canaria-La-Fortaleza-de-Ansite.webp?alt=media&token=f4b889a4-f9a3-465c-a44c-c6d8940ceda5",
+        foldername: "caves/LaFortalezaDeAnsite",
+        location: [27.882736724364026, -15.529080202511091],
+        orientation: "Süden",
+        tags: ["Mirador de Fataga", "San Bartolomé de Tirajana"],
+        topic: "Höhlen",
+        type: "Kurze Wanderung",
+        link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/gran-canaria-highlights/#la-fortaleza-de-ansite",
+        info: "Eine historisch besonders wichtige Bedeutung hat der Höhlenkomplex “La Fortaleza de Ansite”. Hier sollen die Altkanarier einst Zuflucht gesucht haben, als die kastilischen Truppen im Jahr 1483 einfielen. Sie versteckten sich in den Höhlen, die damals sowohl als Wohn- wie auch als Bestattungshöhlen gedient haben sollen. Mehr über die Nutzung der Höhlen und das Leben der kanarischen Ureinwohner kannst du im nahegelegenen Museum erfahren (Centro de Interpretación yacimiento arqueológico de La Fortaleza, Eintritt 4 Euro pro Person). Um die Höhlen zu besuchen, ist kein großer Aufwand erforderlich. Es gibt eine asphaltierte Straße, die dich kurz vor den Höhlen auf einen großen Parkplatz führt. Von dort musst du nur einige Treppenstufen hinaufgehen und befindest dich bereits in der ersten, großen Höhle. Ein kurzer Rundweg führt dich dann zu weiteren Höhlen."
+    }, {
+        name: "Pico de las Nieves",
+        hash: "Pico-de-las-Nieves",
+        image: "https://firebasestorage.googleapis.com/v0/b/gran-canaria-4e556.appspot.com/o/sightseeings%2Fhiking%2FPicoDeLasNieves%2FAusblick-Pico-de-las-Nieves-Gran-Canaria-Sehenswuerdigkeiten.webp?alt=media&token=9953afcf-6bdb-4daa-8258-98f0dfedc2a0",
+        foldername: "hiking/PicoDeLasNieves",
+        location: [27.961869623650696, -15.571734190589376],
+        orientation: "Zentrum",
+        tags: ["Barranco de Guayadeque", "Ventana de Morro", "Tejeda", "Cruz de Tejeda", "Casa Cueva Canaria", "Caldera Los Marteles"],
+        topic: "Berge",
+        type: "Aussichtspunkt",
+        link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/pico-de-las-nieves-gran-canaria/",
+        info: "Der höchstgelegene Aussichtspunkt auf Gran Canaria befindet sich am Pico de las Nieves. Übersetzt bedeutet dies “Gipfel des Schnees”. Und tatsächlich kann es im Winter hier auch schneien oder zumindest Frost geben. Der Gipfel liegt auf 1.949 Metern Höhe. Vom Aussichtspunkt hast du bei klarer Sicht einen guten Ausblick auf die Berglandschaft mit ihren Gipfeln und Pinienwäldern. Zudem kannst du bei gutem Wetter auch die Nachbarinsel Teneriffa mit dem Teide Vulkan in der Ferne sehen."
+    }, {
+        name: "Roque Nublo",
+        hash: "Roque-Nublo",
+        image: "https://firebasestorage.googleapis.com/v0/b/gran-canaria-4e556.appspot.com/o/sightseeings%2Fhiking%2FRoqueNublo%2FGran-Canaria-Unternehmungen-Roque-Nublo-Wanderweg.webp?alt=media&token=5c2dc199-5781-4000-8ce2-c8466d34c0bc",
+        foldername: "hiking/RoqueNublo",
+        location: [27.96562250764534, -15.601472376022661],
+        orientation: "Zentrum",
+        tags: ["Tejeda", "Cruz de Tejeda", "Höhlen am Wegesrand", "Stausee Los Hornos"],
+        topic: "Berge",
+        type: "Wanderung",
+        link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/roque-nublo-gran-canaria/",
+        info: "Das Wahrzeichen der Berglandschaft auf Gran Canaria ist der Roque Nublo. Dies ist ein Gesteinsblock, der ca. 80 Meter in die Höhe ragt. Erreichbar ist der Roque Nublo über einen Wanderweg, der bei Touristen beliebt ist. Daher kann es je nach Tageszeit und Wochentag auch etwas voller werden. Der Wanderweg startet am Parkplatz neben der GC-600. In der Regel ist es morgens vor 10 Uhr am leersten. Zudem hast du dann oftmals gute Chancen auf eine wolkenfreie Sicht. Dies ist nicht selbstverständlich, wie der Name des Roque Nublo bereits erahnen lässt. Er bedeutet übersetzt “Fels der Wolken”. Der Wanderweg ist pro Strecke 1,5 Kilometer lang. Für den Weg solltest du ca. 45 Minuten Zeit pro Strecke einplanen. Am Roque Nublo angekommen, hast du bei klarer Sicht einen schönen Ausblick auf die Berglandschaft. Auch einige Kletterer sind meist vor Ort. Der Roque Nublo liegt auf 1.813 Höhenmetern und ist damit die drittgrößte Erhebung auf Gran Canaria. Nahe des Parkplatzes lohnt sich zudem ein kurzer Gang zur rechten Seite. Hier befindet sich der Stausee der Presa de Los Hornos."
+    }, {
+        name: "Cruz de Tejeda",
+        hash: "Cruz-de-Tejeda",
+        image: "https://firebasestorage.googleapis.com/v0/b/gran-canaria-4e556.appspot.com/o/sightseeings%2Fhiking%2FCruzDeTejeda%2FGran-Canaria-Highlights-Mirador-Cruz-de-Tejeda.webp?alt=media&token=4ae33913-e3d8-483c-8514-3562817d2215",
+        foldername: "hiking/CruzDeTejeda",
+        location: [28.0060133900189, -15.599541091878399],
+        orientation: "Zentrum",
+        tags: ["Pico de las Nieves", "Roque Nublo", "Mirador de Cruz de Tejeda"],
+        topic: "Berge",
+        type: "Kurze Wanderung",
+        link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/gran-canaria-highlights/#cruz-de-tejeda",
+        info: "Ein weiteres lohnenswertes Ausflugsziel in der Bergwelt auf Gran Canaria ist Cruz de Tejeda. Der kleine Ort bietet eine schöne Sicht auf das Bergpanorama. Vor allem zum Sonnenuntergang ist der Blick in die Berge ein echtes Highlight! Nahe dem Aussichtspunkt gibt es auch Restaurants und Cafés."
+    }, {
+        name: "Barranco de las Vacas",
+        hash: "Barranco-de-las-Vacas",
+        image: "https://firebasestorage.googleapis.com/v0/b/gran-canaria-4e556.appspot.com/o/sightseeings%2Fhiking%2FBarrancoDeLasVacas%2FGran-Canaria-Highlights-Barranco-de-las-Vacas-kanarischer-Antelope-Canyon.webp?alt=media&token=9dff334b-491a-41cf-b90d-0f1ed2f2ff57",
+        foldername: "hiking/BarrancoDeLasVacas",
+        location: [27.915143606466412, -15.475880520240665],
+        orientation: "Osten",
+        tags: ["Arinaga"],
+        topic: "Berge",
+        type: "Kurze Wanderung",
+        link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/gran-canaria-highlights/#8-barranco-de-las-vacas",
+        info: "Im Barranco de las Vacas fühlst du dich fast so, als wärst du im US-amerikanischen Antelope Canyon gelandet. Der Barranco de las Vacas ist jedoch deutlich kleiner. Von der GC-550 führt ein kurzer Wanderweg hinunter in den Barranco. Sofern du einen der wenigen Parkplätze bekommst, die sich näher am Barranco befinden, kannst du über die Leitplanke steigen und die Abkürzung nehmen. Der Weg führt dich durch einen kurzen Tunnel unter der Straße entlang. Dahinter beginnt der kleine Canyon. Nach ca. 5 Gehminuten erreichst du bereits sein Ende. Hier befindet sich auch der beliebteste Fotospot des Canyons. Auf dem großen Stein wirken Fotos des Canyon am schönsten."
+    }, {
+        name: "Barranco de Guayadeque",
+        hash: "Barranco-de-Guayadeque",
+        image: "https://firebasestorage.googleapis.com/v0/b/gran-canaria-4e556.appspot.com/o/sightseeings%2Fhiking%2FBarrancoDeGuayadeque%2FErmita-de-Guayadeque-Gran-Canaria.webp?alt=media&token=9079f863-5431-44a7-a7b5-06d06c2d2e29",
+        foldername: "hiking/BarrancoDeGuayadeque",
+        location: [27.93544900726272, -15.512968438074658],
+        orientation: "Osten",
+        tags: ["Mirador Caldera Los Marteles", "Pico de las Nieves", "Casa Cueva Canaria"],
+        topic: "Berge",
+        type: "Wanderung",
+        link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/barranco-de-guayadeque-gran-canaria/",
+        info: "In dieser grün bewachsenen Schlucht findest du einige Höhlen-Wohnungen und Höhlen-Restaurants. Die Höhlen, in denen früher einmal die Ureinwohner gelebt haben sollen, sind heutzutage zu komfortableren Höhlen-Wohnungen umgebaut worden. Es gibt einen betonierten Pfad, der dich an den Wohnungen vorbeiführt. Der Pfad geht später in einen Wanderweg über. Der Barranco de Guayadeque eignet sich gut als Ausflugsziel, um die Schönheit der Natur zu erleben, zu wandern und in eines der Höhlen-Restaurants einzukehren. Im hinteren Teil der Schlucht gibt es einen kurzen Rundwanderweg. Zudem sind auch längere Wanderungen möglich."
+    }, {
+        name: "Mirador Caldera Los Marteles",
+        hash: "Mirador-Caldera-Los-Marteles",
+        image: "https://firebasestorage.googleapis.com/v0/b/gran-canaria-4e556.appspot.com/o/sightseeings%2Fhiking%2FBarrancoDeGuayadeque%2FCaldera-los-Marteles-Vulkankessel-Gran-Canaria-600x600.webp?alt=media&token=deef156b-7762-43e1-8ad7-8777c08e0d8d",
+        foldername: "hiking/BarrancoDeGuayadeque",
+        location: [27.96096218564247, -15.5354438925099],
+        orientation: "Osten",
+        tags: ["Barranco de Guayadeque", "Pico de las Nieves"],
+        topic: "Berge",
+        type: "Aussichtspunkt",
+        link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/gran-canaria-sehenswuerdigkeiten/#4-aussichtspunkte-8220pico-de-las-nieves8221-und-8220caldera-los-marteles8221",
+        info: "Beim Mirador Caldera Los Marteles handelt es sich um einen Aussichtspunkt auf einen Vulkankessel. Der grün bewachsene Vulkankessel hat einen Durchmesser von ca. 500 Metern und ist etwa 80 Meter tief. Alternativ zur Wanderung kannst du diesen Aussichtspunkt auch mit dem Auto erreichen."
+    }, {
+        name: "Naturpark Bandama",
+        hash: "Badama",
+        image: "https://firebasestorage.googleapis.com/v0/b/gran-canaria-4e556.appspot.com/o/sightseeings%2Fhiking%2FBandama%2FGran-Canaria-Aktivitaeten-Vulkankessel-Bandama.webp?alt=media&token=82a9ba44-7e4f-4f8c-b737-8e7c62925557",
+        foldername: "hiking/Bandama",
+        location: [28.037498275886826, -15.457874006147092],
+        orientation: "Osten",
+        tags: ["Pico de Bandama", "Caldera de Bandama"],
+        topic: "Berge",
+        type: "Wanderung",
+        link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/naturpark-bandama-gran-canaria/",
+        info: "Der Naturpark Bandama ist ein Ausflugsziel, was viele Gran Canaria Urlauber nicht kennen. Daher kann man hier durchaus noch von einer Art Geheimtipp sprechen. Dich erwartet hier der größte Vulkankrater der Insel, der ganze 200 Meter tief ist. Zudem kommt er auf einen Durchmesser von ca. 1.100 Metern! Was sich geschrieben schon groß anhört, wird dir vor Ort vermutlich noch viel größer vorkommen. Denn der Vulkankessel (im Spanischen “Caldera de Bandama”) ist wirklich mächtig. Am besten kannst du das Ausmaß des Vulkankessels vom Aussichtspunkt “Pico de Bandama” sehen. Eine Serpentinenstraße führt dich mit dem Auto bequem zum Gipfel hinauf. Oben erwartet dich dann nicht nur eine tolle Aussicht auf den Vulkankrater, sondern auch auf das Umland. Hier kannst du z.B. auch Las Palmas, die Hauptstadt von Gran Canaria, gut überblicken. Zudem werden deine Augen von den schönen Aussichten auf die Berglandschaft und das Meer verwöhnt. Wir selbst waren bei bewölktem Himmel im Naturpark Bandama und können aus eigener Erfahrung sagen, dass sich ein Ausflug hierher auch dann lohnt. Auch wenn Aussichtspunkte bei Sonnenschein häufig am beeindruckendsten sind, ist die Sicht auch bei bewölktem Wetter sehr lohnenswert. Zudem eignet sich der Aussichtspunkt gut auch zum Sonnenuntergang."
+    }, {
+        name: "Charco de San Lorenzo",
+        hash: "Charco-de-San-Lorenzo",
+        image: "https://firebasestorage.googleapis.com/v0/b/gran-canaria-4e556.appspot.com/o/sightseeings%2Fwater%2FCharcoDeSanLorenzo%2FGran-Canaria-Highlights-Naturpool-Charco-de-San-Lorenzo.webp?alt=media&token=32857fa3-55cc-41be-a583-8ea52017302b",
+        foldername: "water/CharcoDeSanLorenzo",
+        location: [28.144510128560263, -15.577396922733028],
+        orientation: "Norden",
+        tags: ["Felsenstadt El Roque", "Charco de Las Palomas"],
+        topic: "Wasser",
+        type: "Baden",
+        link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/gran-canaria-highlights/#charco-de-san-lorenzo",
+        info: "Die meisten Charcos oder Piscinas Naturales, wie sie im Spanischen heißen, sind natürlich entstanden. Ins Meer geflossene Lava ist erkaltet und hat natürliche Badebecken hinterlassen. Teilweise wurden die Lavabecken mit Mauern noch vervollständigt oder zusätzlich gesichert. Interessant ist der Charco de San Lorenzo auch aufgrund der benachbarten Felsenstadt El Roque. Hier wurden weiß gestrichene Häuser auf einen Felsen direkt an der Küste gebaut. Die kleine Felsenstadt ist vom Charco aus gut zu sehen und fußläufig erreichbar. Autos können durch die kleine Felsstadt nicht fahren, da die Gassen hierfür zu eng sind. Vor oder nach dem Bad im Charco kannst du zu El Roque hinübergehen und durch die kleinen Gassen schlendern."
+    }, {
+        name: "Cueva de la Reina",
+        hash: "Cueva-de-la-Reina",
+        image: "https://firebasestorage.googleapis.com/v0/b/gran-canaria-4e556.appspot.com/o/sightseeings%2Fwater%2FCuevaDeLaReina%2FGran-Canaria-Highlights-Hoehlenpool-Cueva-de-la-Reina.webp?alt=media&token=91f604c2-6ca9-475a-92b0-6be32edbf004",
+        foldername: "water/CuevaDeLaReina",
+        location: [28.009516570122397, -15.375762991364292],
+        orientation: "Osten",
+        tags: ["El Bufadero in La Garita"],
+        topic: "Wasser",
+        type: "Kurze Wanderung",
+        link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/gran-canaria-highlights/#cueva-de-la-reina",
+        info: "Die meisten Charcos oder Piscinas Naturales, wie sie im Spanischen heißen, sind natürlich entstanden. Ins Meer geflossene Lava ist erkaltet und hat natürliche Badebecken hinterlassen. Teilweise wurden die Lavabecken mit Mauern noch vervollständigt oder zusätzlich gesichert. Besonders ausgefallen und wenig bekannt ist die Cueva de la Reina. Sie liegt im Ort La Garita. Die Wohnsiedlung oberhalb des Naturpools lässt zunächst nicht vermuten, dass sich hier ein wahres Highlight auf Gran Canaria befindet. Es handelt sich um eine Höhle, in der sich ein kleiner Naturpool befindet. Um dorthin zu kommen, musst du zunächst eine Stelle finden, um die Felsen hinabzuklettern. Möglich ist der Abstieg z.B. neben dem Felsloch zur linken Seite."
+    }, {
+        name: "Charco de Las Palomas",
+        hash: "Charco-de-Las-Palomas",
+        image: "https://firebasestorage.googleapis.com/v0/b/gran-canaria-4e556.appspot.com/o/sightseeings%2Fwater%2FCharcoDeLasPalomas%2FCharco-de-Las-Palomas-Gran-Canaria-Naturpools.webp?alt=media&token=978c1f4d-2ea4-4102-a415-279703256022",
+        foldername: "water/CharcoDeLasPalomas",
+        location: [28.154251541593343, -15.53046453549661],
+        orientation: "Norden",
+        tags: ["Arucas", "Charco de San Lorenzo"],
+        topic: "Wasser",
+        type: "Baden",
+        link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/gran-canaria-highlights/#weitere-naturpools-auf-gran-canaria",
+        info: "Die meisten Charcos oder Piscinas Naturales, wie sie im Spanischen heißen, sind natürlich entstanden. Ins Meer geflossene Lava ist erkaltet und hat natürliche Badebecken hinterlassen. Teilweise wurden die Lavabecken mit Mauern noch vervollständigt oder zusätzlich gesichert. Besonders ausgefallen und wenig bekannt ist die Cueva de la Reina. Sie liegt im Ort La Garita. Die Wohnsiedlung oberhalb des Naturpools lässt zunächst nicht vermuten, dass sich hier ein wahres Highlight auf Gran Canaria befindet. Es handelt sich um eine Höhle, in der sich ein kleiner Naturpool befindet. Um dorthin zu kommen, musst du zunächst eine Stelle finden, um die Felsen hinabzuklettern. Möglich ist der Abstieg z.B. neben dem Felsloch zur linken Seite."
+    }, {
+        name: "Bodega Los Berrazales",
+        hash: "Bodega-Los_Berrazales",
+        image: "https://firebasestorage.googleapis.com/v0/b/gran-canaria-4e556.appspot.com/o/sightseeings%2Fadventure%2FBodegaLosBerrazales%2FGran-Canaria-Sehenswuerdigkeiten-Kaffeeplantage.webp?alt=media&token=6481b039-f16c-48fc-b813-1f2d27e50662",
+        foldername: "adventure/BodegaLosBerrazales",
+        location: [28.074985878378598, -15.668812585954884],
+        orientation: "Westen",
+        tags: ["Agaete"],
+        topic: "Erlebnisse",
+        type: "Tagesausflug",
+        link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/gran-canaria-sehenswuerdigkeiten/#15-bodega-los-berrazales-8211-europas-einzige-kaffeeplantage-und-weingut",
+        info: "Europas einzige Kaffeeplantage und Weingut! In der Berglandschaft Gran Canarias existieren gute Bedingungen zum Anbau von Kaffee, Wein und Obst. Daher ist im westlichen Teil Gran Canarias die bislang einzige Kaffeeplantage Europas entstanden. Wenn du in deinem Leben noch nie eine Kaffeeplantage gesehen hast, ist ein Besuch hier besonders interessant. Die jährliche Erntemenge liegt bei ca. 1.500 Kilogramm. Der Name “Bodega” bedeutet aus dem Spanischen übersetzt übrigens auch Weinkeller. Zum Probieren werden dir neben Kaffee auch Wein bzw. ein alkoholfreies Getränk für Kinder, Käse und Brot mit Aufstrich gereicht. Je nach Saison kannst du zudem das erntefrische Obst probieren. Auf der Plantage wachsen z.B. Orangen, Mangos, Guaven und Avocados."
+    }, {
+        name: "Museo y Parque Arqueológico Cueva Pintada",
+        hash: "Cueva-Pintada",
+        image: "https://firebasestorage.googleapis.com/v0/b/gran-canaria-4e556.appspot.com/o/sightseeings%2Fcaves%2FCuevaPintada%2FMuseo%20y%20Parque-Arqueolo%CC%81gico%20Cueva%20Pintada.jpeg?alt=media&token=701a50f9-6221-4ff2-ab50-5346dc329de4",
+        foldername: "caves/CuevaPintada",
+        location: [28.14453552565854, -15.655066849810016],
+        orientation: "Norden",
+        tags: ["Agaete"],
+        topic: "Höhlen",
+        type: "Museum",
+        link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/gran-canaria-sehenswuerdigkeiten/#13-museo-y-parque-arqueologico-cueva-pintada",
+        info: "Bei der Cueva Pintada handelt es sich um eine Höhle, die im Jahr 1873 durch Zufall entdeckt wurde. Da sich in der Höhle einige Gemälde befanden, wurde sie “Cueva Pintada” getauft, was so viel wie “bemalte Höhle” bedeutet. Seit 2006 ist die Höhle nun in ihrer heutigen Form als Museum und archäologischer Park für Besucher zugänglich. Du kannst die Höhle dabei entweder auf eigene Faust oder im Rahmen einer Führung erkunden. Da die Führungen auch auf Deutsch angeboten werden, kannst du hier viel Lehrreiches erfahren. Zudem ist die Führung ohne Aufpreis im Eintrittspreis enthalten. Das Museum zeigt dir zunächst Eindrücke der kolonialen Vergangenheit Gran Canarias. Hier erwarten dich u.a. archäologische Ausgrabungen wie Keramikgefäße aus dem späten Mittelalter. Zudem kannst du vor Ort die Höhlen ansehen, die von den Ureinwohnern Gran Canarias in Tuffstein gegraben wurden. Die Höhlen sind zwischen dem 6. und 16. Jahrhundert entstanden und die Siedlung umfasste einst über 50 Häuser und Höhlen. Die Wandmalereien sind dabei ein besonderes Überbleibsel vergangener Zeiten."
+    }, {
+        name: "Parque natural de Pilancones",
+        hash: "Parque-natural-de-Pilancones",
+        image: "https://firebasestorage.googleapis.com/v0/b/gran-canaria-4e556.appspot.com/o/sightseeings%2Fhiking%2FPilancones%2FParque-natural-de-Pilancones-Gran-Canaria-Sehenswuerdigkeiten.webp?alt=media&token=3801649c-9df9-498f-ab72-e8bf7c55716b",
+        foldername: "hiking/Pilancones",
+        location: [27.87482619293565, -15.633033849050085],
+        orientation: "Süden",
+        tags: ["Mirador de Ayagaures", "Presa De Chira (Staudamm mit Rundwanderweg)"],
+        topic: "Berge",
+        type: "Wanderung",
+        link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/gran-canaria-sehenswuerdigkeiten/#10-parque-natural-de-pilancones",
+        info: "Wenn du auf Gran Canaria wandern oder Rad fahren möchtest, ist der Parque natural de Pilancones hierfür ein guter Ort. Auch um einfach die schöne Natur vom Auto aus zu genießen, eignet sich diese Region. Der Parque natural de Pilancones befindet sich nördlich von Maspalomas im Landesinneren. Du durchquerst hierbei die schöne Berg-Landschaft der Insel, die mit mehreren Schluchten durchzogen ist. Es handelt sich mit einem Alter von ca. 12 Millionen Jahren um die älteste Region von Gran Canaria. Der Naturpark ist insgesamt 5.794 Hektar groß. Er beherbergt den größten Pinienwald der Insel und zudem auch Kakteen, Distel- und Wolfsmilch-Gewächse sowie Zistrosen. Auch verschiedene Vogelarten sind hier zuhause. Entlang der GC-604 findest du u.a. auch eine mystisch wirkende, kleine Bergkirche. Wenn du mit dem Auto oder Fahrrad unterwegs bist, kannst du auch schön die verschiedenen Aussichtspunkte rund um den Naturpark anfahren."
+    }, {
+        name: "Tejeda und der Roque Bentayga",
+        hash: "Tejeda-Roque-Bentayga",
+        image: "https://firebasestorage.googleapis.com/v0/b/gran-canaria-4e556.appspot.com/o/sightseeings%2Fhiking%2FRoqueBentayga%2FTejeda-Ausblick-Ort-Roque-Bentayga.webp?alt=media&token=591d583f-1698-4dc0-882f-1e419e576f62",
+        foldername: "hiking/RoqueBentayga",
+        location: [27.989563149420515, -15.638410508725139],
+        orientation: "Zentrum",
+        tags: ["Cruz de Tejeda"],
+        topic: "Berge",
+        type: "Wanderung",
+        link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/gran-canaria-sehenswuerdigkeiten/#9-tejeda-und-der-roque-bentayga",
+        info: "Die 1.404 Meter hohe Erhebung ist vor ca. 3 Millionen Jahren bei einer vulkanischen Eruption entstanden. Die Ureinwohner Gran Canarias haben den Roque Bentayga als heiligen Ort verehrt und dort auch Höhlenwohnungen, Begräbnisstätten, Scheunen und Viehgehege gebaut. Diese wurden vor nicht allzu langer Zeit bei archäologischen Ausgrabungen entdeckt. Vom Parkplatz aus führt ein Wanderweg hinauf zum Gipfel. Hierfür solltest du ca. 1 Stunde Zeit einplanen. Oben kannst du dann auch einige der Höhlenwohnungen sehen. Am Parkplatz befindet sich zudem ein Museum, in dem einige geschichtliche Aspekte rund um den Roque Bentayga dargestellt werden. Sowohl vom Parkplatz wie auch vom Gipfel hast du eine schöne Sicht auf die umliegende Berg-Landschaft. Auf dem Weg zum Roque Bentayga kommst du am kleinen Bergdorf Tejeda vorbei. Dieser idyllisch gelegene Ort bietet dir eine hübsche, balkonartige Promenade, von der aus du eine schöne Sicht ins Tal und auf das Felsmassiv des Roque Bentayga hast. Der Ort eignet sich daher gut für einen kleinen Spaziergang und um die Aussicht zu genießen. Am terrassenförmigen Hang des Ortes bauen die Einheimischen Mandeln und Zitrusfrüchte an. Viele Einwohner leben hiervon auch. Besonders lohnenswert ist ein Besuch in Tejeda zudem im Frühling. Zu Frühlingsbeginn ist nämlich Mandelblüten-Zeit und die Hänge werden in ein rosafarbenes Blütenmeer gehüllt."
+    }, {
+        name: "Aqualand Maspalomas",
+        hash: "Aqualand-Maspalomas",
+        image: "https://firebasestorage.googleapis.com/v0/b/gran-canaria-4e556.appspot.com/o/sightseeings%2Fadventure%2FAqualandMaspalomas%2Faqualand-maspalomas.jpeg?alt=media&token=fc800b0a-fa6c-4864-9b2b-e315c49aaf29",
+        foldername: "adventure/AqualandMaspalomas",
+        location: [27.77820834764711, -15.604511372289734],
+        orientation: "Süden",
+        tags: ["Maspalomas"],
+        type: "Tagesausflug",
+        topic: "Erlebnisse",
+        link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/gran-canaria-ausfluege/#aqualand-maspalomas-und-lago-taurito-water-park",
+        info: "Da auf Gran Canaria ganzjährig milde Temperaturen herrschen, ist auch ein Ausflug in den Wasserpark eine gute Option. Die meisten Familien fahren hierzu ins Aqualand Maspalomas. Hier gibt es verschiedene Rutschen und u.a. auch ein Wellenbad. Um dich einen Tag lang auf den Rutschen zu vergnügen, bist du hier aber dennoch richtig. Das Aqualand ist täglich von 10:00 bis 17:00 Uhr geöffnet und kostet 33 Euro für Erwachsene und Kinder ab 11 Jahren. Senioren und Kinder zwischen 5 und 10 Jahren zahlen 24 Euro Eintritt. Für 3- und 4-jährige Kinder beträgt die Eintrittsgebühr 12 Euro (Stand Februar 2022). Schließfächer und Liegestühle kosten dann noch einmal extra."
+    }, {
+        name: "Lago Taurito Water Park",
+        hash: "Lago-Taurito",
+        image: "https://firebasestorage.googleapis.com/v0/b/gran-canaria-4e556.appspot.com/o/sightseeings%2Fadventure%2FLagoTauritoWaterPark%2FLago%20Taurito%20Water%20Park.jpeg?alt=media&token=bd4f7b0d-62c2-494c-99c5-dd8a99893468",
+        foldername: "adventure/LagoTauritoWaterPark",
+        location: [27.815970720988382, -15.752395674905006],
+        orientation: "Süden",
+        tags: ["Puerto de Mogan"],
+        type: "Tagesausflug",
+        topic: "Erlebnisse",
+        link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/gran-canaria-ausfluege/#aqualand-maspalomas-und-lago-taurito-water-park",
+        info: "Er befindet sich in der Nähe von Puerto de Mogán (siehe unsere Nr. 2 der Gran Canaria Ausflüge). In diesem Wasserpark haben wir selbst einmal einige Stunden verbracht und fanden das Rutschen-Angebot hier gut. Der Lago Taurito Water Park ist nicht allzu groß, aber dafür mit 15 Euro Eintrittsgebühr auch preiswerter als das Aqualand. Für Kinder zwischen 3 und 12 Jahren gilt zudem eine ermäßigte Eintrittsgebühr von 5 Euro. Rutschen und plantschen kannst du hier täglich zwischen 10:00 und 18:00 Uhr. Der Wasserpark ist von mehreren Hotels umgeben und liegt nah am Meer."
+    }, {
+        name: "Palmitos Park",
+        hash: "Palmitos-Park",
+        image: "https://firebasestorage.googleapis.com/v0/b/gran-canaria-4e556.appspot.com/o/sightseeings%2Fadventure%2FPalmitosPark%2FPalmitos-Park-Gran-Canaria-Delfinarium.webp?alt=media&token=bdb4ecc1-4027-4691-a6db-1c674b27198f",
+        foldername: "adventure/PalmitosPark",
+        location: [27.833328875088124, -15.617164213285177],
+        orientation: "Süden",
+        tags: ["Maspalomas"],
+        topic: "Erlebnisse",
+        type: "Tagesausflug",
+        link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/gran-canaria-ausfluege/#palmitos-park",
+        info: "Besonders beliebt bei Familien ist zudem der Zoo “Palmitos Park“. Hier erwarten dich u.a. verschiedene Säugetiere, Vögel, Reptilien, ein Aquarium, ein botanischer Garten und ein Orchideen-Haus. Das Highlight ist für viele Parkbesucher aber das Delfinarium. Hier werden mehrfach täglich Delfin-Shows gezeigt. Das Delfinarium ist ca. 3.000 m2 groß und fasst in insgesamt drei Becken über 4 Millionen Liter Wasser. Es beherbergt 9 Delfine und bietet Platz für etwa 1.500 Zuschauer."
+    }, {
+        name: "Cocodrilo Park",
+        hash: "Cocodrilo-Park",
+        image: "https://firebasestorage.googleapis.com/v0/b/gran-canaria-4e556.appspot.com/o/sightseeings%2Fadventure%2FCocodriloPark%2FKrokodil-Cocodrilo-Park-Gran-Canaria.webp?alt=media&token=9abf89c7-4a5d-44bf-a033-c7be87fd8892",
+        foldername: "adventure/CocodriloPark",
+        location: [27.8865199558453, -15.468482590425499],
+        orientation: "Osten",
+        tags: ["Arinaga"],
+        topic: "Erlebnisse",
+        type: "Tagesausflug",
+        link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/gran-canaria-ausfluege/#cocodrilo-park-gran-canaria",
+        info: "Eine Alternative zum Palmitos Park stellt der Cocodrilo Park Gran Canaria dar. Dieser Park rettet verwahrloste Tiere aus Privathaushalten und gibt ihnen ein neues Zuhause. Es handelt sich hierbei um eine Tier-Auffangstation. Im Park kannst du u.a. Papageien, Krokodile, Affen, Erdmännchen, Eidechsen, Waschbären, Schildkröten und Tiger sehen. Insgesamt leben über 500 Tiere im Cocodrilo Park. Ein Highlight im Park sind für viele Besucher die Affen-Fütterungen, die um 12:00 und 16:00 Uhr stattfinden. Zudem gibt es um 13:00 Uhr auch eine Krokodil-Show. Der Tierpark umfasst eine Fläche von über 22.000 Quadratmetern. Für deinen Besuch ist der Cocodrilo Park freitags, samstags und sonntags zwischen 10:30 und 16:30 Uhr geöffnet. Die Eintrittsgebühr liegt bei 9,90 Euro für Erwachsene bzw. 6,90 Euro für Kinder zwischen 3 und 12 Jahre."
+    }, {
+        name: "Sioux City Park (Wild West)",
+        hash: "Sioux-City-Park",
+        image: "https://firebasestorage.googleapis.com/v0/b/gran-canaria-4e556.appspot.com/o/sightseeings%2Fadventure%2FSiouxCityPark%2FSioux-City-Park-Wild-West-Gran-Canaria.webp?alt=media&token=13c0428b-bc24-486a-bf62-0f268d6bc3e3",
+        foldername: "adventure/SiouxCityPark",
+        location: [27.786251877366478, -15.535065789687811],
+        orientation: "Süden",
+        tags: ["Maspalomas"],
+        topic: "Erlebnisse",
+        type: "Tagesausflug",
+        link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/gran-canaria-ausfluege/#wild-west-im-sioux-city-park",
+        info: "Beim Sioux City Park handelt es sich um eine nachgebaute Wild West Stadt. Sie wurde im Jahr 1972 erbaut und sollte ursprünglich als Set für Western-Filme dienen. Im Park werden u.a. Cowboyshows mit Banküberfällen und Schießereien aufgeführt. Auch ein nachgebauter Wild West Saloon ist vorhanden. Hier kannst du im authentischen Ambiente etwas trinken. Darüberhinaus verfügt der Sioux City Park auch über einen kleinen Zoo. Hier kannst du z.B. Erdmännchen, Krokodile, Cachena-Rinder, Hühner und Emusse sehen. Der Wild West Park ist Dienstags bis Freitags zwischen 10:00 und 15:00 Uhr sowie Samstags und Sonntags zwischen 10:00 und 16:00 Uhr geöffnet. Montags ist Ruhetag."
+    }, {
+        name: "Poema del Mar (Aquarium)",
+        hash: "Poema-de-Mar",
+        image: "https://firebasestorage.googleapis.com/v0/b/gran-canaria-4e556.appspot.com/o/sightseeings%2Fadventure%2FPoemaDelMar%2FFisch-Poema-del-Mar-Aquarium-Gran-Canaria.webp?alt=media&token=e62a17c3-b7ff-4292-ad28-5b0657ae9bb4",
+        foldername: "adventure/PoemaDelMar",
+        location: [28.14459705120603, -15.428194444834382],
+        orientation: "Norden",
+        tags: ["Las Palmas"],
+        topic: "Erlebnisse",
+        type: "Tagesausflug",
+        link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/gran-canaria-ausfluege/#poema-del-mar",
+        info: "Ebenfalls ein beliebter Ausflug mit Kindern führt dich ins Aquarium “Poema del Mar” nach Las Palmas. Das Aquarium ist aufwendig gestaltet und unterteilt sich in drei Themenbereiche: Dschungel, Strand-Riff und Tiefsee. Du findest hier u.a. Schildkröten, Rochen, Tintenfische, Quallen, Krebse, Piranhas und Aale. Auch Krokodile und Frösche sind hier beispielsweise Zuhause."
+    }, {
+        name: "U-Boot Tour",
+        hash: "U-Boot-Tour",
+        image: "https://firebasestorage.googleapis.com/v0/b/gran-canaria-4e556.appspot.com/o/sightseeings%2Fadventure%2FUBoot%2FU-Boot-Puerto-de-Mogan.jpeg?alt=media&token=ada3052c-e75b-4862-a6fc-252005187aca",
+        foldername: "adventure/UBoot",
+        location: [27.815831042139582, -15.764239144005666],
+        orientation: "Süden",
+        tags: ["Puerto de Mogan"],
+        topic: "Erlebnisse",
+        type: "Tagesausflug",
+        link: "https://www.okgrancanaria.com/de/tours/u-boot-yellow-submarine/",
+        info: "Wegen Covid zur Zeit nicht Verfügbar?! Die U-Boot Fahrten finden täglich um 10:00, 11:00, 12:00, 13:00, 14:00, 15:30, 16:20 und 17:10 Uhr statt. Tickets kannst du bereits vorab online über GetYourGuide kaufen. Der Fahrtpreis beträgt 31,50 Euro pro Person bzw. 16 Euro für Kinder zwischen 2 und 12 Jahre (Stand Juni 2019)."
+    }, {
+        name: "Delfin Tour",
+        hash: "Delfin-Tour",
+        image: "https://firebasestorage.googleapis.com/v0/b/gran-canaria-4e556.appspot.com/o/sightseeings%2Fadventure%2FDelfinTour%2FGran-Canaria-Aktivitaeten-Delfine-anschauen-Bootstour.webp?alt=media&token=952662c2-3405-4399-9b19-31cd1b9c297c",
+        foldername: "adventure/DelfinTour",
+        location: [27.78223149134437, -15.712588955247108],
+        orientation: "Süden",
+        tags: ["Maspalomas"],
+        type: "Tagesausflug",
+        topic: "Erlebnisse",
+        link: "https://www.getyourguide.de/gran-canaria-l418/gran-canaria-delfin-und-whale-watching-tour-t215763/",
+        info: "Freu dich auf eine 2,5-stündige Bootstour durch die herrlichen Gewässer rund um Gran Canaria und erlebe majestätische Delfine und Wale aus nächster Nähe. Erfrische dich mit einem kühlen Getränk von der Bar an Bord. Das Boot fährt so nahe wie möglich an diese erstaunlichen Meeresbewohner heran, so dass du die Tiere in ihrem natürlichen Lebensraum sehen kannst. Beobachte die Delfine und Wale beim Spielen im Wasser und schieße tolle Erinnerungsfotos."
+    }, {
+        name: "Museo Elder de la Ciencia y la Tecnologia",
+        hash: "Museo-Tecnologia",
+        image: "https://firebasestorage.googleapis.com/v0/b/gran-canaria-4e556.appspot.com/o/sightseeings%2Fadventure%2FMuseoTechnologia%2FMuseo%20Elder%20de%20la%20Ciencia%20y%20la%20Tecnologia.jpeg?alt=media&token=a3c6d6a8-a0f1-4916-8a03-945f7ad56ebd",
+        foldername: "adventure/MuseoTechnologia",
+        location: [28.141173083982842, -15.429720771552047],
+        orientation: "Norden",
+        tags: ["Las Palmas"],
+        type: "Museum",
+        topic: "Erlebnisse",
+        link: "http://gran-canaria.gequo-travel.de/aktivitaeten/museen/museo-elder-de-la-ciencia-y-la-tecnologia",
+        info: "Unter dem Motto »Nicht berühren, nicht spüren, nicht träumen, nicht lernen verboten« erstrecken sich über drei Stockwerke mehr als 200 spannende und zum Teil interaktive Exponate und Simulationen zu Raumfahrt, Mathematik und Physik, zur Entwicklung des Menschen und zur kanarischen Vegetation."
+    }, {
+        name: "E-Scooter-Chopper",
+        hash: "E-Scooter-Chopper",
+        image: "https://firebasestorage.googleapis.com/v0/b/gran-canaria-4e556.appspot.com/o/sightseeings%2Fadventure%2FEScooterChopper%2FE-Scooter-Chopper-Tour-im-Su%CC%88den.jpeg?alt=media&token=69b5f7c6-4399-4d6c-93d4-4e73020b1c2b",
+        foldername: "adventure/EScooterChopper",
+        location: [27.75232402480098, -15.574901373678477],
+        orientation: "Süden",
+        tags: ["Maspalomas"],
+        topic: "Erlebnisse",
+        type: "Tagesausflug",
+        link: "https://www.getyourguide.de/gran-canaria-l418/maspalomas-selbstgefuhrte-e-scooter-tour-auf-zweisitzern-t235927/",
+        info: "Die Elektroroller im Harley-Stil sind eine bequeme und umweltfreundliche Möglichkeit, den Süden Gran Canarias während deines Urlaubs mühelos mit deinem Partner, deiner Familie oder deinen Freunden zu erkunden - nur ein Führerschein ist erforderlich. Es ist empfehlenswert, dein beeindruckendes Erlebnis mit einem Besuch der Meloneras-Promenade abzurunden, die als die schönste Promenade im Süden Gran Canarias gilt und einen hervorragenden Blick auf das Meer bietet."
+    }, {
+        name: "Radtour",
+        hash: "Radtour",
+        image: "https://firebasestorage.googleapis.com/v0/b/gran-canaria-4e556.appspot.com/o/sightseeings%2Fadventure%2FRadtour%2FRadtour-durch-Maspalomas.jpeg?alt=media&token=5b932f9c-d596-49e4-9105-8c91b52e45cf",
+        foldername: "adventure/Radtour",
+        location: [27.752305035430396, -15.574869187172254],
+        orientation: "Süden",
+        tags: ["Maspalomas"],
+        topic: "Erlebnisse",
+        type: "Tagesausflug",
+        link: "https://www.getyourguide.de/gran-canaria-l418/maspalomas-selbstgefuhrte-tagestour-mit-einem-stadtrad-t249167/?date_from=2022-04-18&date_to=2022-05-06",
+        info: "Begib dich auf eine selbstgeführte und personalisierte Tour durch Gran Canara mit dem Stadtrad, eine bequeme und ökologische Alternative, um den Süden der Insel zu entdecken. Du kannst dein Fahrrad für 10 Stunden oder für 1-7 Tage mieten. Als nächstes besuchst du den Botanischen Park von Maspalomas, der eine Fläche von 12.000 Quadratmetern einnimmt und mehr als 500 tropische Pflanzenarten beherbergt. Eine weitere Sehenswürdigkeit ist die Oase von Maspalomas, auch bekannt als Charca, eine kleine Lagune, die als Winterquartier für 40 Zugvogelarten dient, von denen 23 Arten hier nisten. Setze die Tour fort und besuche den alten Leuchtturm von Maspalomas, der seit 1980 in Betrieb ist und 2005 von der Regierung zum Kulturgut erklärt wurde. Um dieses beeindruckende Erlebnis abzurunden, fährst du zur Meloneras-Promenade, die als die schönste und luxuriöseste Promenade im Süden Gran Canarias gilt und einen hervorragenden Blick auf das Meer bietet. Wenn du dich für Geschichte und Archäologie interessierst, solltest du der alten archäologischen Stätte indigenen Ursprungs 'Punta de las Mujeres' einen Besuch abstatten. Die Stätte wird oft von einer friedlichen und harmlosen Kolonie von Gran Canaria-Eidechsen bevölkert, einer endemischen Art, die von vielen als Symbol der Insel angesehen wird."
+    }, {
+        name: "Beginner-Sporttauchen",
+        hash: "Beginner-Sporttauchen",
+        image: "https://media.tacdn.com/media/attractions-splice-spp-674x446/06/6a/ee/f9.jpg",
+        foldername: "adventure/Sporttauchen",
+        location: [27.78319686396897, -15.707868632534456],
+        orientation: "Süden",
+        tags: ["Puerto de Mogan", "Maspalomas"],
+        topic: "Erlebnisse",
+        type: "Tagesausflug",
+        link: "https://www.viator.com/de-DE/tours/Gran-Canaria/Beginners-Scuba-Diving-Experience-in-Gran-Canaria/d792-12120P1",
+        info: "Tauchen Sie in das klare, farbenfrohe Wasser von Gran Canaria bei diesem Taucherlebnis ein. Lernen Sie in einem Swimmingpool im Freien in einer Stunde wichtige Tauchwerkzeuge und -techniken, und setzen Sie dann Ihr neues Wissen bei einem 1-stündigen Tauchgang in Puerto Rico in die Praxis um, wobei Ihr professioneller Kursleiter an Ihrer Seite ist. Nach dem Schwimmen vorbei an fantastischen Korallenformationen und Fischen sind Sie auf dem besten Weg, die PADI-Tauchzertifizierung zu erwerben. Weitere Informationen über Anfänger Sporttauch-Erlebnis auf Gran Canaria - https://www.viator.com/de-DE/tours/Gran-Canaria/Beginners-Scuba-Diving-Experience-in-Gran-Canaria/d792-12120P1?mcid=56757"
+    }];
 
 var __decorate$5 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -2489,220 +2115,204 @@ var __decorate$5 = (undefined && undefined.__decorate) || function (decorators, 
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-var __awaiter$3 = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-let WcFotoPreview = class WcFotoPreview extends h {
+let WcAllIslandPage = class WcAllIslandPage extends h {
     constructor() {
         super(...arguments);
-        this.date = new Date();
-        this.month = 'Juli';
-        this.showStory = false;
+        this.topicFilter = "Gran-Canaria";
+        this.orientationFilter = "Insel";
+        this.triptypeFilter = "Alle";
     }
     static get styles() {
-        return [fotoPreviewStyles];
+        return [r$1 `
+      .all-island-page {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 100%;
+        color: #555;
+      }
+
+      .all-island-container {
+        display: grid;
+        grid-gap: 20px;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      }
+
+      .filter-container {
+        display: grid;
+        grid-template-columns: auto 1fr 1fr 1fr 1fr auto;
+        grid-column-gap: 10px;
+        padding: 10px 15px;
+        margin: 0 0 20px 0;
+        align-items: center;
+        background-color: var(--fuerte-aqua);
+        border-radius: 4px;
+      }
+
+      select, input, .reset-button {
+        padding: 5px 7px;
+        border: none;
+        border-radius: 4px;
+        font-size: 16px;
+        font-family: Ubuntu, "Open Sans", "Helvetica Neue", sans-serif;
+        height: 30px;
+      }
+      .reset-button {
+        background-color: var(--fuerte-background-color);
+        color: white;
+      }
+      .reset-icon {
+        width: 18px;
+        height: 20px;
+        cursor: pointer;
+      }
+
+      @media (max-width: ${config.mobileDeviceWidth}px) {
+        .filter-container {
+          grid-template-columns: 1fr;
+          grid-gap: 10px;
+        }
+      }
+    `];
     }
     ;
-    connectedCallback() {
-        super.connectedCallback();
-        this.loadFotos();
-    }
-    ;
-    loadFotos() {
-        return __awaiter$3(this, void 0, void 0, function* () {
-            const fotos = [];
+    async addSightseeingsToFirebase(sightseeings) {
+        sightseeings.forEach(async (c) => {
             try {
-                yield getTravelDocs()
-                    .then((data) => {
-                    data.forEach((doc) => fotos.push(doc));
-                })
-                    .catch((error) => console.log('no traveldocs found', error));
+                await createSightseeingDocument(c);
             }
             catch (error) {
                 console.log(error);
             }
-            this.fotos = fotos;
-            console.log(this.fotos);
         });
     }
     ;
-    renderFotostory() {
-        return new WcFotostory(this.fotostory);
+    async connectedCallback() {
+        super.connectedCallback();
+        this.filteredSightseeings = sightseeings;
+        location.hash = "#Gran-Canaria";
     }
-    ;
-    renderFotos(daySelected, monthSelected) {
-        if (this.month === 'Juni' && daySelected < 8)
-            return;
-        if (this.month === 'Juli' && daySelected > 6)
-            return;
-        const filter = this.fotos.filter((story) => new Date(story.date).getDate() === daySelected && new Date(story.date).getMonth() + 1 === monthSelected);
-        this.fotostory = filter[0];
-        this.showStory = true;
+    renderSightseeingCard(sightseeing) {
+        const td = new WcSightseeingCard(sightseeing);
+        td.onclick = () => {
+            this.sightseeing = sightseeing;
+        };
+        return td;
     }
-    ;
-    renderJuneCalendar() {
-        const array = [];
-        for (let i = 1; i <= 30; i++) {
-            array.push(i);
+    filterByCategories(name, value) {
+        this.searchInput.value = "";
+        this.filteredSightseeings = sightseeings;
+        if (name === "topic")
+            this.topicFilter = value;
+        if (name === "orientation")
+            this.orientationFilter = value;
+        if (name === "triptype")
+            this.triptypeFilter = value;
+        if (this.topicFilter !== "Gran-Canaria") {
+            this.filteredSightseeings = this.filteredSightseeings.filter(s => s.topic === this.topicFilter);
         }
-        return T `
-      <div class="date-box disabled"></div>
-      ${array.map((x, idx) => T `
-      <div class="date-box" @click=${() => this.renderFotos(idx + 1, 6)} style="cursor: ${idx < 7 ? 'default' : 'cursor'}">
-        <span class="date-text ${this.date.getDate() === idx + 1 && this.date.getMonth() === 5 ? 'today' : ''}">${idx + 1}</span>
-      </div>`)}
-      <div class="date-box disabled"></div><div class="date-box disabled"></div>
-      <div class="date-box disabled"></div><div class="date-box disabled"></div>
-    `;
-    }
-    ;
-    renderJulyCalendar() {
-        const array = [];
-        for (let i = 1; i <= 31; i++) {
-            array.push(i);
+        if (this.orientationFilter !== "Insel") {
+            this.filteredSightseeings = this.filteredSightseeings.filter(s => s.orientation === this.orientationFilter);
         }
-        return T `
-      <div class="date-box disabled"></div>
-      <div class="date-box disabled"></div>
-      <div class="date-box disabled"></div>
-      ${array.map((x, idx) => T `
-      <div class="date-box" @click=${() => this.renderFotos(idx + 1, 7)} style="cursor: ${idx > 5 ? 'default' : 'cursor'}">
-        <span class="date-text ${this.date.getDate() === idx + 1 && this.date.getMonth() === 6 ? 'today' : ''}">${idx + 1}</span>
-      </div>`)}
-      <div class="date-box disabled"></div>
-    `;
+        if (this.triptypeFilter !== "Alle") {
+            this.filteredSightseeings = this.filteredSightseeings.filter(s => s.type === this.triptypeFilter);
+        }
+        updateMap(this.filteredSightseeings);
+    }
+    searchThroughSightseeings(search) {
+        this.topicFilter = "Gran-Canaria";
+        this.orientationFilter = "Insel";
+        this.triptypeFilter = "Alle";
+        search = search.toLowerCase();
+        this.filteredSightseeings = sightseeings.filter(s => s.topic.toLowerCase().includes(search)
+            || s.info?.toLowerCase().includes(search)
+            || s.name.toLowerCase().includes(search)
+            || s.type?.toLowerCase().includes(search)
+            || s.tags.filter(t => t.toLowerCase().includes(search)).length > 0);
+        updateMap(this.filteredSightseeings);
+    }
+    resetFilter() {
+        this.filteredSightseeings = sightseeings;
+        this.topicFilter = "Gran-Canaria";
+        this.orientationFilter = "Insel";
+        this.triptypeFilter = "Alle";
+        this.searchInput.value = "";
+        updateMap(sightseeings);
     }
     render() {
-        return T `
-      <div class="calendar-container">
-        <!-- <div class="header">
-          <wc-icon primaryColor="aqua" icon="camera-retro-duotone" style="height: 35px; width: 35px; margin-right: 15px;"></wc-icon>
-          <h1 class="title"> Sonnige Grüße von der Insel</h1>
-          <wc-icon primaryColor="aqua" icon="camera-retro-duotone" style="height: 35px; width: 35px; margin-left: 15px;"></wc-icon>
-        </div> -->
-        <div class="foto-story-container ${this.showStory ? '' : 'hidden'}">
-          ${this.renderFotostory()}
-          <div class="back-to-calendar" @click=${() => this.showStory = false}>
-          <wc-icon primaryColor="gray" icon="angle-left" style="width: 25px; height: 25px; margin-right: 10px;"></wc-icon>
-            Zurück zum Kalender
-          </div>
-        </div>
-        <div class="foto-calendar ${this.showStory ? 'hidden' : ''}">
-          <img src=${this.month === 'Juni' ? "https://raw.githubusercontent.com/anjakhan/fuerteventura/main/assets/fuerteventura_1.jpeg" : "https://raw.githubusercontent.com/anjakhan/fuerteventura/main/assets/fuerteventura_2.jpeg"} alt="fuerte">
-          <div class="calendar-month">
-            <wc-icon primaryColor=${this.month === 'Juli' ? "warning" : "ocher"} icon="angle-left" style=${this.month === 'Juli' && 'cursor: pointer'} @click=${() => this.month = 'Juni'}></wc-icon>
-            ${this.month} 2021
-            <wc-icon primaryColor=${this.month === 'Juni' ? "warning" : "ocher"} icon="angle-right" style=${this.month === 'Juni' && 'cursor: pointer'} @click=${() => this.month = 'Juli'}></wc-icon>
-          </div>
-          <div class="table-header">
-            <div class="calendar-day">Mo</div>
-            <div class="calendar-day">Di</div>
-            <div class="calendar-day">Mi</div>
-            <div class="calendar-day">Do</div>
-            <div class="calendar-day">Fr</div>
-            <div class="calendar-day">Sa</div>
-            <div class="calendar-day">So</div>
-          </div>
+        return T `      
+      <div class="all-island-page">
+        <div class="filter-container">
+          <div style="color: white; text-align: center;">Filter:</div>
 
-          <div class="month june ${this.month === 'Juni' ? '' : 'hidden'}">
-            ${this.renderJuneCalendar()}
-          </div>
-          <div class="month july ${this.month === 'Juli' ? '' : 'hidden'}">
-            ${this.renderJulyCalendar()}
-          </div>
-        </div> 
+          <select name="topic" id="topic" .value=${this.topicFilter} @change=${(e) => this.filterByCategories("topic", e.target.value)}>
+            <option value="Gran-Canaria">Kategorie ...</option>
+            <option value="Städte">Städte</option>
+            <option value="Berge">Berge</option>
+            <option value="Höhlen">Höhlen</option>
+            <option value="Wasser">Wasser</option>
+            <option value="Parks">Parks</option>
+            <option value="Erlebnisse">Erlebnisse</option>
+          </select>
+
+          <select name="orientation" id="orientation" .value=${this.orientationFilter} @change=${(e) => this.filterByCategories("orientation", e.target.value)}>
+            <option value="Insel">Lage ...</option>
+            <option value="Norden">Norden</option>
+            <option value="Osten">Osten</option>
+            <option value="Süden">Süden</option>
+            <option value="Westen">Westen</option>
+            <option value="Zentrum">Zentrum</option>
+          </select>
+
+          <select name="triptype" id="triptype" .value=${this.triptypeFilter} @change=${(e) => this.filterByCategories("triptype", e.target.value)}>
+            <option value="Alle">Aufwand ...</option>
+            <option value="Tagesausflug">Tagesausflug</option>
+            <option value="Stadtbesichtigung">Stadtbesichtigung</option>
+            <option value="Wanderung">Wanderung</option>
+            <option value="Kurze Wanderung">Kurze Wanderung</option>
+            <option value="Aussichtspunkt">Aussichtspunkte</option>
+            <option value="Museum">Museum</option>
+            <option value="Baden">Baden</option>
+          </select>
+
+          <input id="searchInput" type="search" placeholder="Suche ..." @input=${(e) => this.searchThroughSightseeings(e.target.value)}>
+
+          <button class="reset-button" @click=${() => this.resetFilter()}>
+            ${config.isMobile ? "Filter zurücksetzen" : T `<wc-icon class="reset-icon" primaryColor="text" icon="filter-reset"></wc-icon>`}
+          </button>
+        </div>
+
+        ${this.filteredSightseeings.length === 0 ? T `
+          <p>Keine Sehenswürdigkeiten gefunden!</p>
+        ` : T `
+          <div class="all-island-container">${this.filteredSightseeings?.map(c => this.renderSightseeingCard(c))}</div>
+        `}
       </div>
     `;
     }
     ;
 };
 __decorate$5([
+    e({ type: Object })
+], WcAllIslandPage.prototype, "sightseeing", void 0);
+__decorate$5([
     e({ type: Array })
-], WcFotoPreview.prototype, "fotos", void 0);
-__decorate$5([
-    e({ type: Object })
-], WcFotoPreview.prototype, "fotostory", void 0);
-__decorate$5([
-    e({ type: Object })
-], WcFotoPreview.prototype, "date", void 0);
+], WcAllIslandPage.prototype, "filteredSightseeings", void 0);
 __decorate$5([
     e({ type: String })
-], WcFotoPreview.prototype, "month", void 0);
+], WcAllIslandPage.prototype, "topicFilter", void 0);
 __decorate$5([
-    e({ type: Boolean })
-], WcFotoPreview.prototype, "showStory", void 0);
-WcFotoPreview = __decorate$5([
-    n$1("wc-foto-preview")
-], WcFotoPreview);
-
-const traveldetailsStyles = r$1 `
-  .travel-details-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    color: #555;
-    padding-top: 30px;
-  }
-  
-  .title {
-    text-align: center;
-    margin-bottom: 40px;
-  }
-
-  .flight, .apartment {
-    background-color: #fff7e6;
-    box-shadow: var(--fuerte-box-shadow);
-    border-radius: 10px;
-    margin-bottom: 30px;
-  }
-
-  .apartment {
-    width: 410px;
-  }
-
-  .flight {
-    padding: 10px 30px;
-  }
-
-  .flex {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    align-content: center;
-  }
-
-  img {
-    width: 410px; 
-    border-top-right-radius: 10px; 
-    border-top-left-radius: 10px;
-  }
-
-  wc-icon {
-    width: 20px;
-    height: 20px;
-    margin: 0 10px;
-  }
-
-  @media screen and (max-width: 490px) {
-    .flight, .apartment {
-      max-width: 100%;
-    }
-
-    img {
-      max-width: 100%;
-    }
-  }
-`;
+    e({ type: String })
+], WcAllIslandPage.prototype, "orientationFilter", void 0);
+__decorate$5([
+    e({ type: String })
+], WcAllIslandPage.prototype, "triptypeFilter", void 0);
+__decorate$5([
+    o$1('#searchInput')
+], WcAllIslandPage.prototype, "searchInput", void 0);
+WcAllIslandPage = __decorate$5([
+    n$1("wc-all-island-page")
+], WcAllIslandPage);
 
 var __decorate$4 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -2710,235 +2320,75 @@ var __decorate$4 = (undefined && undefined.__decorate) || function (decorators, 
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-let WcTraveldetailsPage = class WcTraveldetailsPage extends h {
+let WcTopicPage = class WcTopicPage extends h {
+    constructor(topic) {
+        super();
+        this.topic = topic;
+    }
     static get styles() {
-        return [traveldetailsStyles];
+        return [r$1 `
+      .topic-page {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 100%;
+        color: #555;
+      }
+
+      .topic-container {
+        display: grid;
+        grid-gap: 20px;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      }
+    `];
     }
     ;
+    async getSightseeingsFromFirebase() {
+        const sightseeings = [];
+        try {
+            await geSightseeingDocs()
+                .then((data) => {
+                data.filter((d) => d.topic === this.topic).forEach((doc) => sightseeings.push(doc));
+            })
+                .catch((error) => console.log('no city docs found', error));
+        }
+        catch (error) {
+            console.log(error);
+        }
+        this.sightseeings = sightseeings;
+        updateMap(this.sightseeings);
+    }
+    ;
+    connectedCallback() {
+        super.connectedCallback();
+        location.hash = "#" + this.topic;
+        window.setTimeout(() => updateMap(sightseeings.filter(s => s.topic === this.topic)), 0);
+    }
+    renderSightseeingCard(sightseeing) {
+        const td = new WcSightseeingCard(sightseeing);
+        return td;
+    }
     render() {
         return T `
-      <div class="travel-details-container">
-        <h1 class="title">Reisedaten</h1>
-        <div class="flight">
-          <h3 class="flex">Berlin (Brandenburg) <wc-icon primaryColor="gray" icon="plane-duotone"></wc-icon> Fuerteventura</h3>
-          <p class="flex"><wc-icon primaryColor="gray" icon="calendar-alt"></wc-icon>08.06.2021</p>
-          <p class="flex"><wc-icon primaryColor="gray" icon="clock-light"></wc-icon>06:50 - 10:55 (11:55 DE)</p>
-        </div>
-        <div class="flight">
-          <h3 class="flex">Fuerteventura <wc-icon primaryColor="gray" icon="plane-duotone"></wc-icon> Berlin (Brandenburg)</h3>
-          <p class="flex"><wc-icon primaryColor="gray" icon="calendar-alt"></wc-icon>06.07.2021</p>
-          <p class="flex"><wc-icon primaryColor="gray" icon="clock-light"></wc-icon>11:30 (12:30 DE) - 17:15</p>
-        </div>
-        <div class="apartment">
-          <img src="https://raw.githubusercontent.com/anjakhan/fuerteventura/main/assets/CallePuntaPesebre.png" alt="apartment">
-          <div class="apartment-info">
-            <h3 class="flex">Casa Luciano</h3>
-            <p class="flex">Calle Punta Pesebre, 8, Jardin del Sol</p>
-            <p class="flex">Fase 1, Casa 13, Costa Calma,</p>
-            <p class="flex">Canarias 35627, Spain</p>          
-          </div>
-        </div>
+      <div class="topic-page">
+        <div class="topic-container">${sightseeings?.filter(s => s.topic === this.topic).map(c => this.renderSightseeingCard(c))}</div>
       </div>
     `;
     }
     ;
 };
-WcTraveldetailsPage = __decorate$4([
-    n$1("wc-traveldetails-page")
-], WcTraveldetailsPage);
+__decorate$4([
+    e({ type: Array })
+], WcTopicPage.prototype, "sightseeings", void 0);
+__decorate$4([
+    e({ type: String })
+], WcTopicPage.prototype, "topic", void 0);
+WcTopicPage = __decorate$4([
+    n$1("wc-topic-page")
+], WcTopicPage);
 
-const L = window.L;
-const travelledPlaces = [{
-        name: "Camino Costa Ballena",
-        location: [28.421440804718152, -13.853181596486714],
-        date: "2021-06-08"
-    }, {
-        name: "Ventura Shopping Center",
-        location: [28.05377973446309, -14.323536843021353],
-        date: "2021-06-09"
-    }, {
-        name: "La Guirra Beach",
-        location: [28.384905315405938, -13.863943972471807],
-        date: "2021-06-11"
-    }, {
-        name: "Punta del Bajo",
-        location: [28.392091960114943, -13.853954683945577],
-        date: "2021-06-11"
-    }, {
-        name: "Cuevas de Ajuy",
-        location: [28.403508295007967, -14.15554652495963],
-        date: "2021-06-12"
-    }, {
-        name: "Barranco de las Peñitas",
-        location: [28.388711737434996, -14.10026879269423],
-        date: "2021-06-12"
-    }, {
-        name: "Gran Tarajal",
-        location: [28.211533376782686, -14.021162616671948],
-        date: "2021-06-15"
-    }, {
-        name: "Aeródromo Abandonado",
-        location: [28.08815093604716, -14.491244940249455],
-        date: "2021-06-18"
-    }, {
-        name: "Faro de Punta Jandía",
-        location: [28.065974396783957, -14.507462812109857],
-        date: "2021-06-18"
-    }, {
-        name: "El Puertito",
-        location: [28.07315393494029, -14.50021239147925],
-        date: "2021-06-18"
-    }, {
-        name: "Casa Winter",
-        location: [28.102345138975522, -14.37578766980999],
-        date: "2021-06-18"
-    }, {
-        name: "Playa de Cofete",
-        location: [28.11044360840116, -14.387941738698748],
-        date: "2021-06-18"
-    }, {
-        name: "Playa de Tebeto",
-        location: [28.59043711382251, -14.034491306410063],
-        date: "2021-06-19"
-    }, {
-        name: "Museo del Queso Majorero & Windmill at Cactus Garden",
-        location: [28.431295609244707, -14.012616205774854],
-        date: "2021-06-19"
-    }, {
-        name: "Centro de Interpretacion de los Molinos",
-        location: [28.352985591513775, -14.03526101434743],
-        date: "2021-06-19"
-    }, {
-        name: "El Cotillo",
-        location: [28.679841817744123, -14.01047660295504],
-        date: "2021-06-27"
-    }, {
-        name: "Faro del Tostón",
-        location: [28.715918564960514, -14.013894141895339],
-        date: "2021-06-27"
-    }, {
-        name: "Majanicho (Popcornstrand)",
-        location: [28.738853756396498, -13.937284246969872],
-        date: "2021-06-27"
-    }, {
-        name: "Faro de La Entallada",
-        location: [28.230186008337327, -13.948505129072634],
-        date: "2021-06-29"
-    }, {
-        name: "Playa de los Molinos",
-        location: [28.543041483673917, -14.06324981603934],
-        date: "2021-07-02"
-    }, {
-        name: "The Crunch",
-        location: [28.159049607129603, -14.228790129156828],
-        date: "2021-07-04"
-    }];
-const createMap = (mapid, fotostory) => {
-    const zoom = config.isMobile ? 9 : 10;
-    const map = L.map(mapid).setView([28.378412972969333, -14.115175194361001], zoom);
-    const date = new Date().getDate();
-    const month = new Date().getMonth() + 1;
-    L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-        attribution: '&copy;<a href="http://www.esri.com/">Esri</a>i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
-        maxZoom: 18,
-    }).addTo(map);
-    fotostory && fotostory.map((story) => {
-        const marker = L.marker([parseFloat(story.location[0]), parseFloat(story.location[1])]).addTo(map).bindPopup(`<b>${story.popup}</b><br>${story.date}`);
-        new Date(story.date).getDate() === date - 1 && new Date(story.date).getMonth() + 1 === month && marker.openPopup();
-    });
-    travelledPlaces.map(p => {
-        L.marker(p.location).addTo(map).bindPopup(`<b>${p.name}</b><br>${p.date}`);
-    });
-};
-const sightseeings = [{
-        name: "Playa de La Señora",
-        location: [28.05506304878142, -14.385447896561574]
-    }, {
-        name: "Puerto Morro Jable",
-        location: [28.04925525097606, -14.358251774389876]
-    }, {
-        name: "Pozo Negro von Klippen aus",
-        location: [28.32364665275606, -13.8956818333923]
-    }, {
-        name: "Playa de Garcey",
-        location: [28.34465358106306, -14.178945913729404]
-    }, {
-        name: "Playa de la Solapa",
-        location: [28.364255577905794, -14.165528766748274]
-    }, {
-        name: "Playa de los Mozos",
-        location: [28.494250744508356, -14.089520973244307]
-    }, {
-        name: "Playa de Jarubio",
-        location: [28.571466079367408, -14.047987991584325]
-    }, {
-        name: "Piedra Playa",
-        location: [28.665503322445627, -14.012452738522926]
-    }, {
-        name: "Playa & Cueva de Playa en Tarajalejo & Tuineje mirador terraza",
-        location: [28.19059836096522, -14.111664362247657]
-    }, {
-        name: "Montaña de Tindaya",
-        location: [28.583962147073578, -13.96742533840112]
-    }];
-const createToDoMap = (mapid) => {
-    const zoom = config.isMobile ? 9 : 10;
-    const map = L.map(mapid).setView([28.378412972969333, -14.115175194361001], zoom);
-    L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-        attribution: '&copy;<a href="http://www.esri.com/">Esri</a>i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
-        maxZoom: 18,
-    }).addTo(map);
-    sightseeings.map((s) => {
-        L.marker(s.location).addTo(map).bindPopup(`<b>${s.name}</b><br>${s.location}`);
-    });
-};
-
-const mapStyles$1 = r$1 `
-  /* .leaflet-map-pane {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-  } */
-
-  img {
-    position: absolute;
-  }
-  /* .leaflet-control-container {
-    position: fixed;
-    bottom: 10px;
-    right: 20px;
-    padding: 10px 20px;
-    z-index: 10;
-    font-size: 10px;
-    color: white;
-  }
-
-  .leaflet-control-container a {
-    color: var(--fuerte-aqua);
-  }
-
-  .leaflet-control-zoom-out, .leaflet-control-zoom-in {
-    position: fixed;
-    background-color: white;
-    border-radius: 4px;
-    color: #555;
-    padding: 5px 7px;
-    top: 70;
-    right: 30;
-    text-decoration: none;
-  }
-
-  .leaflet-control-zoom-out a, .leaflet-control-zoom-in a {
-    color: #555;
-  }
-
-  .leaflet-control-zoom-in {
-    right: 55px;
-  } */
-
-  /* required styles */
+const mapStyles = r$1 `
+/* required styles */
 
 .leaflet-pane,
 .leaflet-tile,
@@ -2977,7 +2427,6 @@ const mapStyles$1 = r$1 `
 .leaflet-safari .leaflet-tile-container {
 	width: 1600px;
 	height: 1600px;
-	-webkit-transform-origin: 0 0;
 	}
 .leaflet-marker-icon,
 .leaflet-marker-shadow {
@@ -3072,7 +2521,686 @@ const mapStyles$1 = r$1 `
 	pointer-events: none;
 	}
 .leaflet-top {
-	top: 60;
+	top: 0;
+	}
+.leaflet-right {
+	right: 0;
+	}
+.leaflet-bottom {
+	bottom: 0;
+	}
+.leaflet-left {
+	left: 0;
+	}
+.leaflet-control {
+	float: left;
+	clear: both;
+	}
+.leaflet-right .leaflet-control {
+	float: right;
+	}
+.leaflet-top .leaflet-control {
+	margin-top: 10px;
+	}
+.leaflet-bottom .leaflet-control {
+	margin-bottom: 10px;
+	}
+.leaflet-left .leaflet-control {
+	margin-left: 10px;
+	}
+.leaflet-right .leaflet-control {
+	margin-right: 10px;
+	}
+
+
+/* zoom and fade animations */
+
+.leaflet-fade-anim .leaflet-tile {
+	will-change: opacity;
+	}
+.leaflet-fade-anim .leaflet-popup {
+	opacity: 0;
+	-webkit-transition: opacity 0.2s linear;
+	   -moz-transition: opacity 0.2s linear;
+	        transition: opacity 0.2s linear;
+	}
+.leaflet-fade-anim .leaflet-map-pane .leaflet-popup {
+	opacity: 1;
+	}
+.leaflet-zoom-animated {
+	-webkit-transform-origin: 0 0;
+	    -ms-transform-origin: 0 0;
+	        transform-origin: 0 0;
+	}
+.leaflet-zoom-anim .leaflet-zoom-animated {
+	will-change: transform;
+	}
+.leaflet-zoom-anim .leaflet-zoom-animated {
+	-webkit-transition: -webkit-transform 0.25s cubic-bezier(0,0,0.25,1);
+	   -moz-transition:    -moz-transform 0.25s cubic-bezier(0,0,0.25,1);
+	        transition:         transform 0.25s cubic-bezier(0,0,0.25,1);
+	}
+.leaflet-zoom-anim .leaflet-tile,
+.leaflet-pan-anim .leaflet-tile {
+	-webkit-transition: none;
+	   -moz-transition: none;
+	        transition: none;
+	}
+
+.leaflet-zoom-anim .leaflet-zoom-hide {
+	visibility: hidden;
+	}
+
+
+/* cursors */
+
+.leaflet-interactive {
+	cursor: pointer;
+	}
+.leaflet-grab {
+	cursor: -webkit-grab;
+	cursor:    -moz-grab;
+	cursor:         grab;
+	}
+.leaflet-crosshair,
+.leaflet-crosshair .leaflet-interactive {
+	cursor: crosshair;
+	}
+.leaflet-popup-pane,
+.leaflet-control {
+	cursor: auto;
+	}
+.leaflet-dragging .leaflet-grab,
+.leaflet-dragging .leaflet-grab .leaflet-interactive,
+.leaflet-dragging .leaflet-marker-draggable {
+	cursor: move;
+	cursor: -webkit-grabbing;
+	cursor:    -moz-grabbing;
+	cursor:         grabbing;
+	}
+
+/* marker & overlays interactivity */
+.leaflet-marker-icon,
+.leaflet-marker-shadow,
+.leaflet-image-layer,
+.leaflet-pane > svg path,
+.leaflet-tile-container {
+	pointer-events: none;
+	}
+
+.leaflet-marker-icon.leaflet-interactive,
+.leaflet-image-layer.leaflet-interactive,
+.leaflet-pane > svg path.leaflet-interactive,
+svg.leaflet-image-layer.leaflet-interactive path {
+	pointer-events: visiblePainted; /* IE 9-10 doesn't have auto */
+	pointer-events: auto;
+	}
+
+/* visual tweaks */
+
+.leaflet-container {
+	background: #ddd;
+	outline: 0;
+	}
+.leaflet-container a {
+	color: #0078A8;
+	}
+.leaflet-container a.leaflet-active {
+	outline: 2px solid orange;
+	}
+.leaflet-zoom-box {
+	border: 2px dotted #38f;
+	background: rgba(255,255,255,0.5);
+	}
+
+
+/* general typography */
+.leaflet-container {
+	font: 12px/1.5 "Helvetica Neue", Arial, Helvetica, sans-serif;
+	}
+
+
+/* general toolbar styles */
+
+.leaflet-bar {
+	box-shadow: 0 1px 5px rgba(0,0,0,0.65);
+	border-radius: 4px;
+	}
+.leaflet-bar a,
+.leaflet-bar a:hover {
+	background-color: #fff;
+	border-bottom: 1px solid #ccc;
+	width: 26px;
+	height: 26px;
+	line-height: 26px;
+	display: block;
+	text-align: center;
+	text-decoration: none;
+	color: black;
+	}
+.leaflet-bar a,
+.leaflet-control-layers-toggle {
+	background-position: 50% 50%;
+	background-repeat: no-repeat;
+	display: block;
+	}
+.leaflet-bar a:hover {
+	background-color: #f4f4f4;
+	}
+.leaflet-bar a:first-child {
+	border-top-left-radius: 4px;
+	border-top-right-radius: 4px;
+	}
+.leaflet-bar a:last-child {
+	border-bottom-left-radius: 4px;
+	border-bottom-right-radius: 4px;
+	border-bottom: none;
+	}
+.leaflet-bar a.leaflet-disabled {
+	cursor: default;
+	background-color: #f4f4f4;
+	color: #bbb;
+	}
+
+.leaflet-touch .leaflet-bar a {
+	width: 30px;
+	height: 30px;
+	line-height: 30px;
+	}
+.leaflet-touch .leaflet-bar a:first-child {
+	border-top-left-radius: 2px;
+	border-top-right-radius: 2px;
+	}
+.leaflet-touch .leaflet-bar a:last-child {
+	border-bottom-left-radius: 2px;
+	border-bottom-right-radius: 2px;
+	}
+
+/* zoom control */
+
+.leaflet-control-zoom-in,
+.leaflet-control-zoom-out {
+	font: bold 18px 'Lucida Console', Monaco, monospace;
+	text-indent: 1px;
+	}
+
+.leaflet-touch .leaflet-control-zoom-in, .leaflet-touch .leaflet-control-zoom-out  {
+	font-size: 22px;
+	}
+
+
+/* layers control */
+
+.leaflet-control-layers {
+	box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+	background: #fff;
+	border-radius: 5px;
+	}
+.leaflet-control-layers-toggle {
+	background-image: url(images/layers.png);
+	width: 36px;
+	height: 36px;
+	}
+.leaflet-retina .leaflet-control-layers-toggle {
+	background-image: url(images/layers-2x.png);
+	background-size: 26px 26px;
+	}
+.leaflet-touch .leaflet-control-layers-toggle {
+	width: 44px;
+	height: 44px;
+	}
+.leaflet-control-layers .leaflet-control-layers-list,
+.leaflet-control-layers-expanded .leaflet-control-layers-toggle {
+	display: none;
+	}
+.leaflet-control-layers-expanded .leaflet-control-layers-list {
+	display: block;
+	position: relative;
+	}
+.leaflet-control-layers-expanded {
+	padding: 6px 10px 6px 6px;
+	color: #333;
+	background: #fff;
+	}
+.leaflet-control-layers-scrollbar {
+	overflow-y: scroll;
+	overflow-x: hidden;
+	padding-right: 5px;
+	}
+.leaflet-control-layers-selector {
+	margin-top: 2px;
+	position: relative;
+	top: 1px;
+	}
+.leaflet-control-layers label {
+	display: block;
+	}
+.leaflet-control-layers-separator {
+	height: 0;
+	border-top: 1px solid #ddd;
+	margin: 5px -10px 5px -6px;
+	}
+
+/* Default icon URLs */
+.leaflet-default-icon-path {
+	background-image: url(images/marker-icon.png);
+	}
+
+
+/* attribution and scale controls */
+
+.leaflet-container .leaflet-control-attribution {
+	background: #fff;
+	background: rgba(255, 255, 255, 0.7);
+	margin: 0;
+	}
+.leaflet-control-attribution,
+.leaflet-control-scale-line {
+	padding: 0 5px;
+	color: #333;
+	}
+.leaflet-control-attribution a {
+	text-decoration: none;
+	}
+.leaflet-control-attribution a:hover {
+	text-decoration: underline;
+	}
+.leaflet-container .leaflet-control-attribution,
+.leaflet-container .leaflet-control-scale {
+	font-size: 11px;
+	}
+.leaflet-left .leaflet-control-scale {
+	margin-left: 5px;
+	}
+.leaflet-bottom .leaflet-control-scale {
+	margin-bottom: 5px;
+	}
+.leaflet-control-scale-line {
+	border: 2px solid #777;
+	border-top: none;
+	line-height: 1.1;
+	padding: 2px 5px 1px;
+	font-size: 11px;
+	white-space: nowrap;
+	overflow: hidden;
+	-moz-box-sizing: border-box;
+	     box-sizing: border-box;
+
+	background: #fff;
+	background: rgba(255, 255, 255, 0.5);
+	}
+.leaflet-control-scale-line:not(:first-child) {
+	border-top: 2px solid #777;
+	border-bottom: none;
+	margin-top: -2px;
+	}
+.leaflet-control-scale-line:not(:first-child):not(:last-child) {
+	border-bottom: 2px solid #777;
+	}
+
+.leaflet-touch .leaflet-control-attribution,
+.leaflet-touch .leaflet-control-layers,
+.leaflet-touch .leaflet-bar {
+	box-shadow: none;
+	}
+.leaflet-touch .leaflet-control-layers,
+.leaflet-touch .leaflet-bar {
+	border: 2px solid rgba(0,0,0,0.2);
+	background-clip: padding-box;
+	}
+
+
+/* popup */
+
+.leaflet-popup {
+	position: absolute;
+	text-align: center;
+	margin-bottom: 20px;
+	}
+.leaflet-popup-content-wrapper {
+	padding: 1px;
+	text-align: left;
+	border-radius: 12px;
+	}
+.leaflet-popup-content {
+	margin: 13px 19px;
+	line-height: 1.4;
+	}
+.leaflet-popup-content p {
+	margin: 18px 0;
+	}
+.leaflet-popup-tip-container {
+	width: 40px;
+	height: 20px;
+	position: absolute;
+	left: 50%;
+	margin-left: -20px;
+	overflow: hidden;
+	pointer-events: none;
+	}
+.leaflet-popup-tip {
+	width: 17px;
+	height: 17px;
+	padding: 1px;
+
+	margin: -10px auto 0;
+
+	-webkit-transform: rotate(45deg);
+	   -moz-transform: rotate(45deg);
+	    -ms-transform: rotate(45deg);
+	        transform: rotate(45deg);
+	}
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+	background: white;
+	color: #333;
+	box-shadow: 0 3px 14px rgba(0,0,0,0.4);
+	}
+.leaflet-container a.leaflet-popup-close-button {
+	position: absolute;
+	top: 0;
+	right: 0;
+	padding: 4px 4px 0 0;
+	border: none;
+	text-align: center;
+	width: 18px;
+	height: 14px;
+	font: 16px/14px Tahoma, Verdana, sans-serif;
+	color: #c3c3c3;
+	text-decoration: none;
+	font-weight: bold;
+	background: transparent;
+	}
+.leaflet-container a.leaflet-popup-close-button:hover {
+	color: #999;
+	}
+.leaflet-popup-scrolled {
+	overflow: auto;
+	border-bottom: 1px solid #ddd;
+	border-top: 1px solid #ddd;
+	}
+.leaflet-oldie .leaflet-popup-tip {
+	width: 24px;
+	margin: 0 auto;
+
+	-ms-filter: "progid:DXImageTransform.Microsoft.Matrix(M11=0.70710678, M12=0.70710678, M21=-0.70710678, M22=0.70710678)";
+	filter: progid:DXImageTransform.Microsoft.Matrix(M11=0.70710678, M12=0.70710678, M21=-0.70710678, M22=0.70710678);
+	}
+.leaflet-oldie .leaflet-popup-tip-container {
+	margin-top: -1px;
+	}
+
+.leaflet-oldie .leaflet-control-zoom,
+.leaflet-oldie .leaflet-control-layers,
+.leaflet-oldie .leaflet-popup-content-wrapper,
+.leaflet-oldie .leaflet-popup-tip {
+	border: 1px solid #999;
+	}
+
+
+/* div icon */
+
+.leaflet-div-icon {
+	background: #fff;
+	border: 1px solid #666;
+	}
+
+
+/* Tooltip */
+/* Base styles for the element that has a tooltip */
+.leaflet-tooltip {
+	position: absolute;
+	padding: 6px;
+	background-color: #fff;
+	border: 1px solid #fff;
+	border-radius: 3px;
+	color: #222;
+	white-space: nowrap;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	pointer-events: none;
+	box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+	}
+.leaflet-tooltip.leaflet-clickable {
+	cursor: pointer;
+	pointer-events: auto;
+	}
+.leaflet-tooltip-top:before,
+.leaflet-tooltip-bottom:before,
+.leaflet-tooltip-left:before,
+.leaflet-tooltip-right:before {
+	position: absolute;
+	pointer-events: none;
+	border: 6px solid transparent;
+	background: transparent;
+	content: "";
+	}
+
+/* Directions */
+
+.leaflet-tooltip-bottom {
+	margin-top: 6px;
+}
+.leaflet-tooltip-top {
+	margin-top: -6px;
+}
+.leaflet-tooltip-bottom:before,
+.leaflet-tooltip-top:before {
+	left: 50%;
+	margin-left: -6px;
+	}
+.leaflet-tooltip-top:before {
+	bottom: 0;
+	margin-bottom: -12px;
+	border-top-color: #fff;
+	}
+.leaflet-tooltip-bottom:before {
+	top: 0;
+	margin-top: -12px;
+	margin-left: -6px;
+	border-bottom-color: #fff;
+	}
+.leaflet-tooltip-left {
+	margin-left: -6px;
+}
+.leaflet-tooltip-right {
+	margin-left: 6px;
+}
+.leaflet-tooltip-left:before,
+.leaflet-tooltip-right:before {
+	top: 50%;
+	margin-top: -6px;
+	}
+.leaflet-tooltip-left:before {
+	right: 0;
+	margin-right: -12px;
+	border-left-color: #fff;
+	}
+.leaflet-tooltip-right:before {
+	left: 0;
+	margin-left: -12px;
+	border-right-color: #fff;
+	}
+  /* .leaflet-map-pane {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  } */
+
+  img {
+    position: absolute;
+  }
+  /* .leaflet-control-container {
+    position: fixed;
+    bottom: 10px;
+    right: 20px;
+    padding: 10px 20px;
+    z-index: 10;
+    font-size: 10px;
+    color: white;
+  }
+
+  .leaflet-control-container a {
+    color: var(--fuerte-aqua);
+  }
+
+  .leaflet-control-zoom-out, .leaflet-control-zoom-in {
+    position: fixed;
+    background-color: white;
+    border-radius: 4px;
+    color: #555;
+    padding: 5px 7px;
+    top: 70;
+    right: 30;
+    text-decoration: none;
+  }
+
+  .leaflet-control-zoom-out a, .leaflet-control-zoom-in a {
+    color: #555;
+  }
+
+  .leaflet-control-zoom-in {
+    right: 55px;
+  } */
+
+  /* required styles */
+
+.leaflet-pane,
+.leaflet-tile,
+.leaflet-marker-icon,
+.leaflet-marker-shadow,
+.leaflet-tile-container,
+.leaflet-pane > svg,
+.leaflet-pane > canvas,
+.leaflet-zoom-box,
+.leaflet-image-layer,
+.leaflet-layer {
+	position: absolute;
+	left: 0;
+	top: 0;
+	}
+.leaflet-container {
+	overflow: hidden;
+	}
+.leaflet-tile,
+.leaflet-marker-icon,
+.leaflet-marker-shadow {
+	-webkit-user-select: none;
+	   -moz-user-select: none;
+	        user-select: none;
+	  -webkit-user-drag: none;
+	}
+/* Prevents IE11 from highlighting tiles in blue */
+.leaflet-tile::selection {
+	background: transparent;
+}
+/* Safari renders non-retina tile on retina better with this, but Chrome is worse */
+.leaflet-safari .leaflet-tile {
+	image-rendering: -webkit-optimize-contrast;
+	}
+/* hack that prevents hw layers "stretching" when loading new tiles */
+.leaflet-safari .leaflet-tile-container {
+	width: 1600px;
+	height: 1600px;
+	}
+.leaflet-marker-icon,
+.leaflet-marker-shadow {
+	display: block;
+	}
+/* .leaflet-container svg: reset svg max-width decleration shipped in Joomla! (joomla.org) 3.x */
+/* .leaflet-container img: map is broken in FF if you have max-width: 100% on tiles */
+.leaflet-container .leaflet-overlay-pane svg,
+.leaflet-container .leaflet-marker-pane img,
+.leaflet-container .leaflet-shadow-pane img,
+.leaflet-container .leaflet-tile-pane img,
+.leaflet-container img.leaflet-image-layer,
+.leaflet-container .leaflet-tile {
+	max-width: none !important;
+	max-height: none !important;
+	}
+
+.leaflet-container.leaflet-touch-zoom {
+	-ms-touch-action: pan-x pan-y;
+	touch-action: pan-x pan-y;
+	}
+.leaflet-container.leaflet-touch-drag {
+	-ms-touch-action: pinch-zoom;
+	/* Fallback for FF which doesn't support pinch-zoom */
+	touch-action: none;
+	touch-action: pinch-zoom;
+}
+.leaflet-container.leaflet-touch-drag.leaflet-touch-zoom {
+	-ms-touch-action: none;
+	touch-action: none;
+}
+.leaflet-container {
+	-webkit-tap-highlight-color: transparent;
+}
+.leaflet-container a {
+	-webkit-tap-highlight-color: rgba(51, 181, 229, 0.4);
+}
+.leaflet-tile {
+	filter: inherit;
+	visibility: hidden;
+	}
+.leaflet-tile-loaded {
+	visibility: inherit;
+	}
+.leaflet-zoom-box {
+	width: 0;
+	height: 0;
+	-moz-box-sizing: border-box;
+	     box-sizing: border-box;
+	z-index: 800;
+	}
+/* workaround for https://bugzilla.mozilla.org/show_bug.cgi?id=888319 */
+.leaflet-overlay-pane svg {
+	-moz-user-select: none;
+	}
+
+.leaflet-pane         { z-index: 400; }
+
+.leaflet-tile-pane    { z-index: 200; }
+.leaflet-overlay-pane { z-index: 400; }
+.leaflet-shadow-pane  { z-index: 500; }
+.leaflet-marker-pane  { z-index: 600; }
+.leaflet-tooltip-pane   { z-index: 650; }
+.leaflet-popup-pane   { z-index: 700; }
+
+.leaflet-map-pane canvas { z-index: 100; }
+.leaflet-map-pane svg    { z-index: 200; }
+
+.leaflet-vml-shape {
+	width: 1px;
+	height: 1px;
+	}
+.lvml {
+	behavior: url(#default#VML);
+	display: inline-block;
+	position: absolute;
+	}
+
+
+/* control positioning */
+
+.leaflet-control {
+	position: relative;
+	z-index: 800;
+	pointer-events: visiblePainted; /* IE 9-10 doesn't have auto */
+	pointer-events: auto;
+	}
+.leaflet-top,
+.leaflet-bottom {
+	position: absolute;
+	z-index: 1000;
+	pointer-events: none;
+	}
+.leaflet-top {
+	top: 10;
 	}
 .leaflet-right {
 	right: 0;
@@ -3470,10 +3598,6 @@ svg.leaflet-image-layer.leaflet-interactive path {
 	border-bottom: 1px solid #ddd;
 	border-top: 1px solid #ddd;
 	}
-
-.leaflet-oldie .leaflet-popup-content-wrapper {
-	-ms-zoom: 1;
-	}
 .leaflet-oldie .leaflet-popup-tip {
 	width: 24px;
 	margin: 0 auto;
@@ -3577,26 +3701,13 @@ svg.leaflet-image-layer.leaflet-interactive path {
 	left: 0;
 	margin-left: -12px;
 	border-right-color: #fff;
-	}
+}
 
-  #mapid {
-    position: fixed;
-    top: 0;
-    left: 200;
-  }
-
-  @media (max-width: ${config.mobileDeviceWidth}px) {
-    #mapid {
-      height: 100vh!important;
-			left: 0;
-    }
-.leaflet-left {
+#mapid {
+	position: absolute;
+	top: 0;
 	left: 0;
-	}
-.leaflet-top {
-	top: 60;
-	}
-  }
+}
 `;
 
 var __decorate$3 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
@@ -3605,775 +3716,64 @@ var __decorate$3 = (undefined && undefined.__decorate) || function (decorators, 
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-var __awaiter$2 = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-let WcFuerteMapPage = class WcFuerteMapPage extends h {
+let WcImageCard = class WcImageCard extends h {
+    constructor(imageUrl, sightseeing) {
+        super(),
+            this.imageUrl = imageUrl;
+        this.sightseeing = sightseeing;
+    }
     static get styles() {
-        return [mapStyles$1];
-    }
-    ;
-    connectedCallback() {
-        super.connectedCallback();
-        this.loadFotos();
-    }
-    ;
-    loadFotos() {
-        return __awaiter$2(this, void 0, void 0, function* () {
-            const fotos = [];
-            try {
-                yield getTravelDocs()
-                    .then((data) => {
-                    data.forEach((doc) => fotos.push(doc));
-                })
-                    .catch((error) => console.log('no traveldocs found', error));
-            }
-            catch (error) {
-                console.log(error);
-            }
-            this.fotos = fotos;
-            console.log(this.fotos);
-        });
-    }
-    ;
-    renderMap() {
-        var _a;
-        const mapContainer = document.createElement('div');
-        mapContainer.setAttribute('id', 'mapid');
-        mapContainer.style.height = '100vh';
-        mapContainer.style.width = '100vw';
-        (_a = this.shadowRoot) === null || _a === void 0 ? void 0 : _a.append(mapContainer);
-        createMap(mapContainer, this.fotos);
+        return [r$1 `
+      .card-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background-color: white;
+        min-width: 300px;
+        border: 1px solid #ccc;
+      }
+
+      .sightseeing-image {
+        width: 100%;
+        height: 300px;
+        margin-bottom: 10px;
+        background-repeat: no-repeat;
+        content: cover;
+        border: 1px solid #ccc;
+      }
+
+      @media (max-width: ${config.mobileDeviceWidth}px) {
+        .card-container {
+          width: calc(100% - 40px);
+        }
+      }
+    `];
     }
     ;
     render() {
         return T `
-        ${this.renderMap()}
+      <div class="card-container">
+        <div class="sightseeing-image" style="background: url(${this.imageUrl}); background-size: cover"></div>
+
+        <p>${this.imageUrl?.split(this.sightseeing + "/")[1].split(".")[0].split("-600")[0].replaceAll("-", " ").replaceAll("%C3%BC", "ü").replaceAll("%C3%B6", "ö").replaceAll("%20", " ")}</p>
+      </div>
     `;
     }
     ;
 };
 __decorate$3([
-    e({ type: Array })
-], WcFuerteMapPage.prototype, "fotos", void 0);
+    e({ type: String })
+], WcImageCard.prototype, "imageUrl", void 0);
 __decorate$3([
-    o$1('#mapid')
-], WcFuerteMapPage.prototype, "mapid", void 0);
-WcFuerteMapPage = __decorate$3([
-    n$1("wc-fuerte-map-page")
-], WcFuerteMapPage);
-
-const mapStyles = r$1 `
-  /* .leaflet-map-pane {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-  } */
-
-  img {
-    position: absolute;
-  }
-  /* .leaflet-control-container {
-    position: fixed;
-    bottom: 10px;
-    right: 20px;
-    padding: 10px 20px;
-    z-index: 10;
-    font-size: 10px;
-    color: white;
-  }
-
-  .leaflet-control-container a {
-    color: var(--fuerte-aqua);
-  }
-
-  .leaflet-control-zoom-out, .leaflet-control-zoom-in {
-    position: fixed;
-    background-color: white;
-    border-radius: 4px;
-    color: #555;
-    padding: 5px 7px;
-    top: 70;
-    right: 30;
-    text-decoration: none;
-  }
-
-  .leaflet-control-zoom-out a, .leaflet-control-zoom-in a {
-    color: #555;
-  }
-
-  .leaflet-control-zoom-in {
-    right: 55px;
-  } */
-
-  /* required styles */
-
-.leaflet-pane,
-.leaflet-tile,
-.leaflet-marker-icon,
-.leaflet-marker-shadow,
-.leaflet-tile-container,
-.leaflet-pane > svg,
-.leaflet-pane > canvas,
-.leaflet-zoom-box,
-.leaflet-image-layer,
-.leaflet-layer {
-	position: absolute;
-	left: 0;
-	top: 0;
-	}
-.leaflet-container {
-	overflow: hidden;
-	}
-.leaflet-tile,
-.leaflet-marker-icon,
-.leaflet-marker-shadow {
-	-webkit-user-select: none;
-	   -moz-user-select: none;
-	        user-select: none;
-	  -webkit-user-drag: none;
-	}
-/* Prevents IE11 from highlighting tiles in blue */
-.leaflet-tile::selection {
-	background: transparent;
-}
-/* Safari renders non-retina tile on retina better with this, but Chrome is worse */
-.leaflet-safari .leaflet-tile {
-	image-rendering: -webkit-optimize-contrast;
-	}
-/* hack that prevents hw layers "stretching" when loading new tiles */
-.leaflet-safari .leaflet-tile-container {
-	width: 1600px;
-	height: 1600px;
-	-webkit-transform-origin: 0 0;
-	}
-.leaflet-marker-icon,
-.leaflet-marker-shadow {
-	display: block;
-	}
-/* .leaflet-container svg: reset svg max-width decleration shipped in Joomla! (joomla.org) 3.x */
-/* .leaflet-container img: map is broken in FF if you have max-width: 100% on tiles */
-.leaflet-container .leaflet-overlay-pane svg,
-.leaflet-container .leaflet-marker-pane img,
-.leaflet-container .leaflet-shadow-pane img,
-.leaflet-container .leaflet-tile-pane img,
-.leaflet-container img.leaflet-image-layer,
-.leaflet-container .leaflet-tile {
-	max-width: none !important;
-	max-height: none !important;
-	}
-
-.leaflet-container.leaflet-touch-zoom {
-	-ms-touch-action: pan-x pan-y;
-	touch-action: pan-x pan-y;
-	}
-.leaflet-container.leaflet-touch-drag {
-	-ms-touch-action: pinch-zoom;
-	/* Fallback for FF which doesn't support pinch-zoom */
-	touch-action: none;
-	touch-action: pinch-zoom;
-}
-.leaflet-container.leaflet-touch-drag.leaflet-touch-zoom {
-	-ms-touch-action: none;
-	touch-action: none;
-}
-.leaflet-container {
-	-webkit-tap-highlight-color: transparent;
-}
-.leaflet-container a {
-	-webkit-tap-highlight-color: rgba(51, 181, 229, 0.4);
-}
-.leaflet-tile {
-	filter: inherit;
-	visibility: hidden;
-	}
-.leaflet-tile-loaded {
-	visibility: inherit;
-	}
-.leaflet-zoom-box {
-	width: 0;
-	height: 0;
-	-moz-box-sizing: border-box;
-	     box-sizing: border-box;
-	z-index: 800;
-	}
-/* workaround for https://bugzilla.mozilla.org/show_bug.cgi?id=888319 */
-.leaflet-overlay-pane svg {
-	-moz-user-select: none;
-	}
-
-.leaflet-pane         { z-index: 400; }
-
-.leaflet-tile-pane    { z-index: 200; }
-.leaflet-overlay-pane { z-index: 400; }
-.leaflet-shadow-pane  { z-index: 500; }
-.leaflet-marker-pane  { z-index: 600; }
-.leaflet-tooltip-pane   { z-index: 650; }
-.leaflet-popup-pane   { z-index: 700; }
-
-.leaflet-map-pane canvas { z-index: 100; }
-.leaflet-map-pane svg    { z-index: 200; }
-
-.leaflet-vml-shape {
-	width: 1px;
-	height: 1px;
-	}
-.lvml {
-	behavior: url(#default#VML);
-	display: inline-block;
-	position: absolute;
-	}
-
-
-/* control positioning */
-
-.leaflet-control {
-	position: relative;
-	z-index: 800;
-	pointer-events: visiblePainted; /* IE 9-10 doesn't have auto */
-	pointer-events: auto;
-	}
-.leaflet-top,
-.leaflet-bottom {
-	position: absolute;
-	z-index: 1000;
-	pointer-events: none;
-	}
-.leaflet-top {
-	top: 60;
-	}
-.leaflet-right {
-	right: 0;
-	}
-.leaflet-bottom {
-	bottom: 0;
-	}
-.leaflet-left {
-	left: 10;
-	}
-.leaflet-control {
-	float: right;
-	clear: both;
-	}
-.leaflet-right .leaflet-control {
-	float: right;
-	}
-.leaflet-top .leaflet-control {
-	margin-top: 10px;
-	}
-.leaflet-bottom .leaflet-control {
-	margin-bottom: 10px;
-	}
-.leaflet-left .leaflet-control {
-	margin-left: 10px;
-	}
-.leaflet-right .leaflet-control {
-	margin-right: 10px;
-	}
-
-
-/* zoom and fade animations */
-
-.leaflet-fade-anim .leaflet-tile {
-	will-change: opacity;
-	}
-.leaflet-fade-anim .leaflet-popup {
-	opacity: 0;
-	-webkit-transition: opacity 0.2s linear;
-	   -moz-transition: opacity 0.2s linear;
-	        transition: opacity 0.2s linear;
-	}
-.leaflet-fade-anim .leaflet-map-pane .leaflet-popup {
-	opacity: 1;
-	}
-.leaflet-zoom-animated {
-	-webkit-transform-origin: 0 0;
-	    -ms-transform-origin: 0 0;
-	        transform-origin: 0 0;
-	}
-.leaflet-zoom-anim .leaflet-zoom-animated {
-	will-change: transform;
-	}
-.leaflet-zoom-anim .leaflet-zoom-animated {
-	-webkit-transition: -webkit-transform 0.25s cubic-bezier(0,0,0.25,1);
-	   -moz-transition:    -moz-transform 0.25s cubic-bezier(0,0,0.25,1);
-	        transition:         transform 0.25s cubic-bezier(0,0,0.25,1);
-	}
-.leaflet-zoom-anim .leaflet-tile,
-.leaflet-pan-anim .leaflet-tile {
-	-webkit-transition: none;
-	   -moz-transition: none;
-	        transition: none;
-	}
-
-.leaflet-zoom-anim .leaflet-zoom-hide {
-	visibility: hidden;
-	}
-
-
-/* cursors */
-
-.leaflet-interactive {
-	cursor: pointer;
-	}
-.leaflet-grab {
-	cursor: -webkit-grab;
-	cursor:    -moz-grab;
-	cursor:         grab;
-	}
-.leaflet-crosshair,
-.leaflet-crosshair .leaflet-interactive {
-	cursor: crosshair;
-	}
-.leaflet-popup-pane,
-.leaflet-control {
-	cursor: auto;
-	}
-.leaflet-dragging .leaflet-grab,
-.leaflet-dragging .leaflet-grab .leaflet-interactive,
-.leaflet-dragging .leaflet-marker-draggable {
-	cursor: move;
-	cursor: -webkit-grabbing;
-	cursor:    -moz-grabbing;
-	cursor:         grabbing;
-	}
-
-/* marker & overlays interactivity */
-.leaflet-marker-icon,
-.leaflet-marker-shadow,
-.leaflet-image-layer,
-.leaflet-pane > svg path,
-.leaflet-tile-container {
-	pointer-events: none;
-	}
-
-.leaflet-marker-icon.leaflet-interactive,
-.leaflet-image-layer.leaflet-interactive,
-.leaflet-pane > svg path.leaflet-interactive,
-svg.leaflet-image-layer.leaflet-interactive path {
-	pointer-events: visiblePainted; /* IE 9-10 doesn't have auto */
-	pointer-events: auto;
-	}
-
-/* visual tweaks */
-
-.leaflet-container {
-	background: #ddd;
-	outline: 0;
-	}
-.leaflet-container a {
-	color: #0078A8;
-	}
-.leaflet-container a.leaflet-active {
-	outline: 2px solid orange;
-	}
-.leaflet-zoom-box {
-	border: 2px dotted #38f;
-	background: rgba(255,255,255,0.5);
-	}
-
-
-/* general typography */
-.leaflet-container {
-	font: 12px/1.5 "Helvetica Neue", Arial, Helvetica, sans-serif;
-	}
-
-
-/* general toolbar styles */
-
-.leaflet-bar {
-	box-shadow: 0 1px 5px rgba(0,0,0,0.65);
-	border-radius: 4px;
-	}
-.leaflet-bar a,
-.leaflet-bar a:hover {
-	background-color: #fff;
-	border-bottom: 1px solid #ccc;
-	width: 26px;
-	height: 26px;
-	line-height: 26px;
-	display: block;
-	text-align: center;
-	text-decoration: none;
-	color: black;
-	}
-.leaflet-bar a,
-.leaflet-control-layers-toggle {
-	background-position: 50% 50%;
-	background-repeat: no-repeat;
-	display: block;
-	}
-.leaflet-bar a:hover {
-	background-color: #f4f4f4;
-	}
-.leaflet-bar a:first-child {
-	border-top-left-radius: 4px;
-	border-top-right-radius: 4px;
-	}
-.leaflet-bar a:last-child {
-	border-bottom-left-radius: 4px;
-	border-bottom-right-radius: 4px;
-	border-bottom: none;
-	}
-.leaflet-bar a.leaflet-disabled {
-	cursor: default;
-	background-color: #f4f4f4;
-	color: #bbb;
-	}
-
-.leaflet-touch .leaflet-bar a {
-	width: 30px;
-	height: 30px;
-	line-height: 30px;
-	}
-.leaflet-touch .leaflet-bar a:first-child {
-	border-top-left-radius: 2px;
-	border-top-right-radius: 2px;
-	}
-.leaflet-touch .leaflet-bar a:last-child {
-	border-bottom-left-radius: 2px;
-	border-bottom-right-radius: 2px;
-	}
-
-/* zoom control */
-
-.leaflet-control-zoom-in,
-.leaflet-control-zoom-out {
-	font: bold 18px 'Lucida Console', Monaco, monospace;
-	text-indent: 1px;
-	}
-
-.leaflet-touch .leaflet-control-zoom-in, .leaflet-touch .leaflet-control-zoom-out  {
-	font-size: 22px;
-	}
-
-
-/* layers control */
-
-.leaflet-control-layers {
-	box-shadow: 0 1px 5px rgba(0,0,0,0.4);
-	background: #fff;
-	border-radius: 5px;
-	}
-.leaflet-control-layers-toggle {
-	background-image: url(images/layers.png);
-	width: 36px;
-	height: 36px;
-	}
-.leaflet-retina .leaflet-control-layers-toggle {
-	background-image: url(images/layers-2x.png);
-	background-size: 26px 26px;
-	}
-.leaflet-touch .leaflet-control-layers-toggle {
-	width: 44px;
-	height: 44px;
-	}
-.leaflet-control-layers .leaflet-control-layers-list,
-.leaflet-control-layers-expanded .leaflet-control-layers-toggle {
-	display: none;
-	}
-.leaflet-control-layers-expanded .leaflet-control-layers-list {
-	display: block;
-	position: relative;
-	}
-.leaflet-control-layers-expanded {
-	padding: 6px 10px 6px 6px;
-	color: #333;
-	background: #fff;
-	}
-.leaflet-control-layers-scrollbar {
-	overflow-y: scroll;
-	overflow-x: hidden;
-	padding-right: 5px;
-	}
-.leaflet-control-layers-selector {
-	margin-top: 2px;
-	position: relative;
-	top: 1px;
-	}
-.leaflet-control-layers label {
-	display: block;
-	}
-.leaflet-control-layers-separator {
-	height: 0;
-	border-top: 1px solid #ddd;
-	margin: 5px -10px 5px -6px;
-	}
-
-/* Default icon URLs */
-.leaflet-default-icon-path {
-	background-image: url(images/marker-icon.png);
-	}
-
-
-/* attribution and scale controls */
-
-.leaflet-container .leaflet-control-attribution {
-	background: #fff;
-	background: rgba(255, 255, 255, 0.7);
-	margin: 0;
-	}
-.leaflet-control-attribution,
-.leaflet-control-scale-line {
-	padding: 0 5px;
-	color: #333;
-	}
-.leaflet-control-attribution a {
-	text-decoration: none;
-	}
-.leaflet-control-attribution a:hover {
-	text-decoration: underline;
-	}
-.leaflet-container .leaflet-control-attribution,
-.leaflet-container .leaflet-control-scale {
-	font-size: 11px;
-	}
-.leaflet-left .leaflet-control-scale {
-	margin-left: 5px;
-	}
-.leaflet-bottom .leaflet-control-scale {
-	margin-bottom: 5px;
-	}
-.leaflet-control-scale-line {
-	border: 2px solid #777;
-	border-top: none;
-	line-height: 1.1;
-	padding: 2px 5px 1px;
-	font-size: 11px;
-	white-space: nowrap;
-	overflow: hidden;
-	-moz-box-sizing: border-box;
-	     box-sizing: border-box;
-
-	background: #fff;
-	background: rgba(255, 255, 255, 0.5);
-	}
-.leaflet-control-scale-line:not(:first-child) {
-	border-top: 2px solid #777;
-	border-bottom: none;
-	margin-top: -2px;
-	}
-.leaflet-control-scale-line:not(:first-child):not(:last-child) {
-	border-bottom: 2px solid #777;
-	}
-
-.leaflet-touch .leaflet-control-attribution,
-.leaflet-touch .leaflet-control-layers,
-.leaflet-touch .leaflet-bar {
-	box-shadow: none;
-	}
-.leaflet-touch .leaflet-control-layers,
-.leaflet-touch .leaflet-bar {
-	border: 2px solid rgba(0,0,0,0.2);
-	background-clip: padding-box;
-	}
-
-
-/* popup */
-
-.leaflet-popup {
-	position: absolute;
-	text-align: center;
-	margin-bottom: 20px;
-	}
-.leaflet-popup-content-wrapper {
-	padding: 1px;
-	text-align: left;
-	border-radius: 12px;
-	}
-.leaflet-popup-content {
-	margin: 13px 19px;
-	line-height: 1.4;
-	}
-.leaflet-popup-content p {
-	margin: 18px 0;
-	}
-.leaflet-popup-tip-container {
-	width: 40px;
-	height: 20px;
-	position: absolute;
-	left: 50%;
-	margin-left: -20px;
-	overflow: hidden;
-	pointer-events: none;
-	}
-.leaflet-popup-tip {
-	width: 17px;
-	height: 17px;
-	padding: 1px;
-
-	margin: -10px auto 0;
-
-	-webkit-transform: rotate(45deg);
-	   -moz-transform: rotate(45deg);
-	    -ms-transform: rotate(45deg);
-	        transform: rotate(45deg);
-	}
-.leaflet-popup-content-wrapper,
-.leaflet-popup-tip {
-	background: white;
-	color: #333;
-	box-shadow: 0 3px 14px rgba(0,0,0,0.4);
-	}
-.leaflet-container a.leaflet-popup-close-button {
-	position: absolute;
-	top: 0;
-	right: 0;
-	padding: 4px 4px 0 0;
-	border: none;
-	text-align: center;
-	width: 18px;
-	height: 14px;
-	font: 16px/14px Tahoma, Verdana, sans-serif;
-	color: #c3c3c3;
-	text-decoration: none;
-	font-weight: bold;
-	background: transparent;
-	}
-.leaflet-container a.leaflet-popup-close-button:hover {
-	color: #999;
-	}
-.leaflet-popup-scrolled {
-	overflow: auto;
-	border-bottom: 1px solid #ddd;
-	border-top: 1px solid #ddd;
-	}
-
-.leaflet-oldie .leaflet-popup-content-wrapper {
-	-ms-zoom: 1;
-	}
-.leaflet-oldie .leaflet-popup-tip {
-	width: 24px;
-	margin: 0 auto;
-
-	-ms-filter: "progid:DXImageTransform.Microsoft.Matrix(M11=0.70710678, M12=0.70710678, M21=-0.70710678, M22=0.70710678)";
-	filter: progid:DXImageTransform.Microsoft.Matrix(M11=0.70710678, M12=0.70710678, M21=-0.70710678, M22=0.70710678);
-	}
-.leaflet-oldie .leaflet-popup-tip-container {
-	margin-top: -1px;
-	}
-
-.leaflet-oldie .leaflet-control-zoom,
-.leaflet-oldie .leaflet-control-layers,
-.leaflet-oldie .leaflet-popup-content-wrapper,
-.leaflet-oldie .leaflet-popup-tip {
-	border: 1px solid #999;
-	}
-
-
-/* div icon */
-
-.leaflet-div-icon {
-	background: #fff;
-	border: 1px solid #666;
-	}
-
-
-/* Tooltip */
-/* Base styles for the element that has a tooltip */
-.leaflet-tooltip {
-	position: absolute;
-	padding: 6px;
-	background-color: #fff;
-	border: 1px solid #fff;
-	border-radius: 3px;
-	color: #222;
-	white-space: nowrap;
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-	pointer-events: none;
-	box-shadow: 0 1px 3px rgba(0,0,0,0.4);
-	}
-.leaflet-tooltip.leaflet-clickable {
-	cursor: pointer;
-	pointer-events: auto;
-	}
-.leaflet-tooltip-top:before,
-.leaflet-tooltip-bottom:before,
-.leaflet-tooltip-left:before,
-.leaflet-tooltip-right:before {
-	position: absolute;
-	pointer-events: none;
-	border: 6px solid transparent;
-	background: transparent;
-	content: "";
-	}
-
-/* Directions */
-
-.leaflet-tooltip-bottom {
-	margin-top: 6px;
-}
-.leaflet-tooltip-top {
-	margin-top: -6px;
-}
-.leaflet-tooltip-bottom:before,
-.leaflet-tooltip-top:before {
-	left: 50%;
-	margin-left: -6px;
-	}
-.leaflet-tooltip-top:before {
-	bottom: 0;
-	margin-bottom: -12px;
-	border-top-color: #fff;
-	}
-.leaflet-tooltip-bottom:before {
-	top: 0;
-	margin-top: -12px;
-	margin-left: -6px;
-	border-bottom-color: #fff;
-	}
-.leaflet-tooltip-left {
-	margin-left: -6px;
-}
-.leaflet-tooltip-right {
-	margin-left: 6px;
-}
-.leaflet-tooltip-left:before,
-.leaflet-tooltip-right:before {
-	top: 50%;
-	margin-top: -6px;
-	}
-.leaflet-tooltip-left:before {
-	right: 0;
-	margin-right: -12px;
-	border-left-color: #fff;
-	}
-.leaflet-tooltip-right:before {
-	left: 0;
-	margin-left: -12px;
-	border-right-color: #fff;
-	}
-
-  #mapid {
-    position: fixed;
-    top: 0;
-    left: 200;
-  }
-
-  @media (max-width: ${config.mobileDeviceWidth}px) {
-    #mapid {
-      height: 100vh!important;
-			left: 0;
-    }
-.leaflet-left {
-	left: 0;
-	}
-.leaflet-top {
-	top: 60;
-	}
-  }
-`;
+    e({ type: String })
+], WcImageCard.prototype, "sightseeing", void 0);
+WcImageCard = __decorate$3([
+    n$1("wc-image-card")
+], WcImageCard);
 
 var __decorate$2 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -4381,88 +3781,198 @@ var __decorate$2 = (undefined && undefined.__decorate) || function (decorators, 
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-let WcSightseeingPage = class WcSightseeingPage extends h {
+let WcDetailsPage = class WcDetailsPage extends h {
+    constructor(sightseeing) {
+        super();
+        this.sightseeing = sightseeing;
+    }
     static get styles() {
-        return [mapStyles];
+        return [mapStyles, r$1 `
+      .details-page {
+        display: grid;
+        grid-template-columns: 40% auto;
+        grid-template-rows: auto auto 1fr;
+        grid-gap: 20px;
+        width: 100%;
+        color: #555;
+      }
+
+      .title {
+        position: relative;
+        text-align: center;
+        padding-right: 150px;
+        grid-row: 1;
+        grid-column: 1 / 3;
+      }
+
+      .map-container {
+        position: relative;
+        height: 300px;
+        width: 100%;
+        grid-row: 2;
+        grid-column: 1;
+        border: 1px solid #ccc;
+      }
+
+      .details-container {
+        grid-row: 2;
+        grid-column: 2;
+        text-align: justify;
+      }
+      .details-container > span {
+        font-weight: bold;
+      }
+
+      .cards-container {
+        grid-row: 3;
+        grid-column: 1 / 3;
+        display: grid;
+        grid-gap: 20px;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      }
+
+      .back-icon {
+        position: absolute;
+        width: 40px;
+        height: 100%;
+        margin-right: 10px;
+        cursor: pointer;
+      }
+
+      .link-icon {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 40px;
+        height: 100%;
+        margin-right: 10px;
+        cursor: pointer;
+      }
+
+      .map-icon {
+        width: 30px;
+        height: 30px;
+        margin: 0px 10px;
+      }
+
+      @media (max-width: ${config.mobileDeviceWidth}px) {
+        .details-page {
+          display: flex;
+          flex-direction: column;
+        }
+        .title {
+          padding-right: 0;
+        }
+      }
+    `];
     }
     ;
     connectedCallback() {
         super.connectedCallback();
+        this.sightseeing && this.getPics(this.sightseeing.foldername);
+        this.renderMap();
+    }
+    getPics(foldername) {
+        let urlList = [];
+        fetch(`https://api.github.com/repos/anjakhan/gran-canaria/contents/assets/sightseeings/${foldername}?ref=main`)
+            .then(response => response.json())
+            .then(data => {
+            data.forEach((foto) => urlList.push(foto.download_url));
+        })
+            .catch(error => console.error(error));
+        setTimeout(() => this.images = urlList, 1000);
+    }
+    ;
+    getDetailsPage(callback) {
+        this.callback = callback;
+    }
+    ;
+    goBackToSightseeings() {
+        location.hash = "#" + this.sightseeing.topic;
+        if (this.callback) {
+            this.callback(true);
+        }
     }
     ;
     renderMap() {
-        var _a;
         const mapContainer = document.createElement('div');
         mapContainer.setAttribute('id', 'mapid');
-        mapContainer.style.height = '100vh';
-        mapContainer.style.width = '100vw';
-        (_a = this.shadowRoot) === null || _a === void 0 ? void 0 : _a.append(mapContainer);
-        createToDoMap(mapContainer);
+        mapContainer.style.height = '100%';
+        mapContainer.style.width = '100%';
+        this.mapContainer?.appendChild(mapContainer);
+        createToDoMap(mapContainer, "hikingmap", [this.sightseeing], this.sightseeing?.location, 15);
+        const layerBtn = mapContainer.querySelector("a.leaflet-control-layers-toggle");
+        if (layerBtn) {
+            layerBtn.style.width = "30px";
+            layerBtn.style.height = "30px";
+            layerBtn.style.padding = "5px 7px";
+            const icon = new WcIcon();
+            icon.primaryColor = "black";
+            icon.icon = "layer-group";
+            layerBtn.appendChild(icon);
+        }
     }
     ;
+    renderImageCard(imageUrl) {
+        const td = new WcImageCard(imageUrl, this.sightseeing.foldername);
+        return td;
+    }
     render() {
+        const sightseeing = this.sightseeing;
         return T `
-        ${this.renderMap()}
+      <div class="details-page">
+        <h1 class="title">
+          <wc-icon icon="square-arrow-left" primaryColor="hovergray" class="back-icon" @click=${this.goBackToSightseeings}></wc-icon>
+          ${sightseeing.name}
+          ${sightseeing.link ? T `
+            <wc-icon icon="arrow-up-right-from-square" primaryColor="hovergray" class="link-icon" @click=${() => window.open(sightseeing.link, "_blank")}></wc-icon></span>
+          ` : ''}
+        </h1>
+
+        <div class="map-container">${this.renderMap()}</div>
+
+        <div class="details-container">
+          <span>Name:</span> ${sightseeing.name}
+          <br><br>
+          <div style="display: flex; flex-direction: row; align-items: center;">
+            <span style="font-weight: bold;">Standort: </span>
+            <wc-icon icon="map-duotone" primaryColor="gray" class="map-icon"></wc-icon>
+            [${sightseeing.location[0].toFixed(4)}, ${sightseeing.location[1].toFixed(4)}]
+            - ${sightseeing.orientation}
+          </div>
+          <br>
+          ${sightseeing.tags.length === 0 ? '' : T `
+            <span>In der Nähe:</span> ${sightseeing.tags.join(", ")}
+          `}
+          <br><br>
+          ${sightseeing.info ? T `<span>Wissenswertes:</span> ${sightseeing.info || ""}` : ''}
+        </div>
+
+        <div class="cards-container">
+          ${this.images?.map(c => this.renderImageCard(c))}
+        </div>
+        
+        
+      </div>
     `;
     }
     ;
 };
 __decorate$2([
+    e({ type: Object })
+], WcDetailsPage.prototype, "sightseeing", void 0);
+__decorate$2([
+    e({ type: Array })
+], WcDetailsPage.prototype, "images", void 0);
+__decorate$2([
     o$1('#mapid')
-], WcSightseeingPage.prototype, "mapid", void 0);
-WcSightseeingPage = __decorate$2([
-    n$1("wc-sightseeing-page")
-], WcSightseeingPage);
-
-const fotosFoldersStyles = r$1 `
-  .folder-container {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    margin-top: 30px;
-    justify-content: center;
-  }
-
-  .folder {
-    margin: 10px;
-    border-radius: 4px;
-    box-shadow: var(--fuerte-box-shadow);
-    cursor: pointer;
-  }
-
-  img {
-    width: auto;
-    height: 200px;
-    border-top-left-radius: 4px;
-    border-top-right-radius: 4px;
-  }
-
-  .subtitle {
-    font-family: var(--fuerte-text-font);
-    background-color: var(--fuerte-brown);
-    padding: 7px 10px;
-    word-wrap: break-word;
-    font-size: 12px;
-    border-bottom-left-radius: 4px;
-    border-bottom-right-radius: 4px;
-    text-align: center;
-  }
-
-  .back-to-fotos {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-  }
-
-  @media (max-width: ${config.mobileDeviceWidth}px) {
-    img {
-      width: auto;
-      height: 100px;
-    }
-  }
-`;
+], WcDetailsPage.prototype, "mapid", void 0);
+__decorate$2([
+    o$1('.map-container')
+], WcDetailsPage.prototype, "mapContainer", void 0);
+WcDetailsPage = __decorate$2([
+    n$1("wc-details-page")
+], WcDetailsPage);
 
 var __decorate$1 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -4470,88 +3980,78 @@ var __decorate$1 = (undefined && undefined.__decorate) || function (decorators, 
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-var __awaiter$1 = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-let WcFotosFolders = class WcFotosFolders extends h {
-    constructor() {
-        super(...arguments);
-        this.showFotostory = false;
+let WcMapComponent = class WcMapComponent extends h {
+    constructor(mapType, sightseeings, location, zoom) {
+        super();
+        this.mapType = "streets";
+        this.sightseeings = [];
+        this.zoom = 10;
+        this.mapType = mapType;
+        this.sightseeings = sightseeings;
+        this.location = location;
+        this.zoom = zoom;
     }
     static get styles() {
-        return [fotosFoldersStyles];
+        return [mapStyles, r$1 `
+      .container { 
+        height: 100%; 
+        width: 100% 
+      }
+
+      #mapid {
+        width: 100%;
+        height: 100%;
+        border-radius: 4px;
+      }
+    `];
     }
     ;
+    renderMap() {
+        window.setTimeout(() => {
+            if (this.map) {
+                createToDoMap(this.map, "streets", this.sightseeings, undefined, 10);
+                const layerBtn = this.map?.querySelector("a.leaflet-control-layers-toggle");
+                if (layerBtn) {
+                    layerBtn.style.width = "30px";
+                    layerBtn.style.height = "30px";
+                    layerBtn.style.padding = "5px 7px";
+                    const icon = new WcIcon();
+                    icon.primaryColor = "black";
+                    icon.icon = "layer-group";
+                    layerBtn.appendChild(icon);
+                }
+            }
+        }, 0);
+    }
     connectedCallback() {
         super.connectedCallback();
-        this.loadFotos();
+        this.renderMap();
     }
-    ;
-    loadFotos() {
-        return __awaiter$1(this, void 0, void 0, function* () {
-            const fotos = [];
-            try {
-                yield getTravelDocs()
-                    .then((data) => {
-                    data.forEach((doc) => fotos.push(doc));
-                })
-                    .catch((error) => console.log('no traveldocs found', error));
-            }
-            catch (error) {
-                console.log(error);
-            }
-            this.fotos = fotos;
-        });
-    }
-    ;
-    renderFotostory(fotostory) {
-        this.fotostory = fotostory;
-        this.showFotostory = true;
-    }
-    ;
     render() {
         return T `
-      ${this.showFotostory ? T `
-        <p style="display: flex; flex-direction: row; align-items: center; justify-content: center; padding-top: 30px; color: #555">
-          <wc-icon @click=${() => this.showFotostory = false} primaryColor="gray" icon="angle-left" style="cursor: pointer; width: 25px; height: 25px; margin-right: 10px;"></wc-icon>
-          ${this.fotostory.date}
-        </p>
-        ${new WcFotostory(this.fotostory)}
-        <div class="back-to-fotos" @click=${() => this.showFotostory = false}>
-          <wc-icon primaryColor="gray" icon="angle-left" style="width: 25px; height: 25px; margin-right: 10px;"></wc-icon>
-          Zurück zu Fotos
-        </div>
-        ` : T `
-        <div class="folder-container">
-        ${this.fotos.sort((b, a) => new Date(a.date).getTime() - new Date(b.date).getTime()).map(f => T `
-          <div class="folder" @click=${() => this.renderFotostory(f)}>
-            <img src="https://raw.githubusercontent.com/anjakhan/fuerteventura/main/assets/${f.foldername}/${f.image}" alt="folder">
-            <div class="subtitle">${config.isMobile ? f.date : f.foldername}</div>
-          </div>
-        `)}
-      </div>`}
+      <div class="container" id="mapid"></div>
     `;
     }
     ;
 };
 __decorate$1([
+    e({ type: String })
+], WcMapComponent.prototype, "mapType", void 0);
+__decorate$1([
     e({ type: Array })
-], WcFotosFolders.prototype, "fotos", void 0);
+], WcMapComponent.prototype, "sightseeings", void 0);
 __decorate$1([
-    e({ type: Object })
-], WcFotosFolders.prototype, "fotostory", void 0);
+    e({ type: Array })
+], WcMapComponent.prototype, "location", void 0);
 __decorate$1([
-    e({ type: Boolean })
-], WcFotosFolders.prototype, "showFotostory", void 0);
-WcFotosFolders = __decorate$1([
-    n$1("wc-fotos-folders")
-], WcFotosFolders);
+    e({ type: Number })
+], WcMapComponent.prototype, "zoom", void 0);
+__decorate$1([
+    o$1('#mapid')
+], WcMapComponent.prototype, "map", void 0);
+WcMapComponent = __decorate$1([
+    n$1("wc-map-component")
+], WcMapComponent);
 
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -4562,31 +4062,64 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 let WcAppLayout = class WcAppLayout extends h {
     constructor() {
         super(...arguments);
-        this.selectedDrawer = 'latest-story';
+        this.selectedDrawer = 'Gran-Canaria';
+        this.showTitleAndMap = true;
+        this._handleHashChange = () => {
+            this.selectedDrawer = this.setSelectedDrawer();
+            this.requestUpdate();
+        };
     }
     static get styles() {
-        return [layoutStyles, navbarStyles];
-    }
-    ;
-    render() {
-        return T `
-        <div class="account-layout">
-            <header>
-                <wc-icon primaryColor="island" icon="island" class="island"></wc-icon><h3>Fuerteventura</h3><div style="min-width: 60px;"></div>
-                <div class="user-icon" style="position: fixed; right: 40px; top; 0px; z-index: 99;">
-                    <wc-icon @mousedown=${(e) => this.userClick(e)} primaryColor="island" icon="user-solid" style="width: 30px; height: 25px; cursor: pointer;"></wc-icon>
-                </div>
-            </header>
+        return [layoutStyles, navbarStyles, r$1 `
+            .title {
+                text-align: center;
+                padding-right: 150px;
+                color: #555;
+            }
 
-            <div class="drawer">${this.renderDrawer()}</div>  
-            
-            <div id="user-content">
-                ${this.getUserContent()}
-            </div>
-        </div>
-        `;
+            .map-container {
+                position: relative;
+                height: 450px;
+                width: 100%;
+                grid-row: 2;
+                grid-column: 1;
+                border: 1px solid var(--fuerte-background-color);
+                border-radius: 4px;
+                margin-bottom: 20px;
+            }
+
+            @media (max-width: ${config.mobileDeviceWidth}px) {
+                .title {
+                    padding-right: 0;
+                }
+            }
+        `];
     }
     ;
+    connectedCallback() {
+        super.connectedCallback();
+        window.addEventListener('hashchange', this._handleHashChange);
+        this.selectedDrawer = this.setSelectedDrawer();
+    }
+    setSelectedDrawer() {
+        const hash = location.hash;
+        this.showTitleAndMap = true;
+        const idx = canariaMenu.findIndex(pd => pd.title === hash.slice(1));
+        const ss = sightseeings.findIndex(ss => ss.hash === hash.slice(1));
+        if (hash === '#' || hash === '') {
+            return 'Gran-Canaria';
+        }
+        else if (idx > -1) {
+            return hash.slice(1);
+        }
+        else if (ss > -1) {
+            this.showTitleAndMap = false;
+            return hash.slice(1);
+        }
+        else {
+            return this.selectedDrawer;
+        }
+    }
     renderDrawer() {
         const td = new WcAppDrawer(this.selectedDrawer);
         td.getDrawerSelection(selectedDrawer => {
@@ -4596,13 +4129,19 @@ let WcAppLayout = class WcAppLayout extends h {
     }
     ;
     getUserContent() {
+        const sightseeing = sightseeings.filter(s => s.hash === this.selectedDrawer)[0];
         switch (this.selectedDrawer) {
-            case ('latest-story'): return new WcFotosFolders();
-            case ('trip-details'): return new WcTraveldetailsPage();
-            case ('foto-preview'): return new WcFotoPreview();
-            case ('upload'): return new WcUploadPage();
-            case ('map'): return new WcFuerteMapPage();
-            case ('sightseeing'): return new WcSightseeingPage();
+            case ('Gran-Canaria'): return new WcAllIslandPage();
+            case ('Städte'): return new WcTopicPage('Städte');
+            case ('Berge'): return new WcTopicPage('Berge');
+            case ('Wasser'): return new WcTopicPage('Wasser');
+            case ('Parks'): return new WcTopicPage('Parks');
+            case ('Erlebnisse'): return new WcTopicPage('Erlebnisse');
+            case ('Höhlen'): return new WcTopicPage('Höhlen');
+            case (sightseeing?.hash):
+                this.selectedDrawer = sightseeing.topic;
+                return new WcDetailsPage(sightseeing);
+            default: this.selectedDrawer;
         }
     }
     ;
@@ -4621,10 +4160,44 @@ let WcAppLayout = class WcAppLayout extends h {
         logoutFunc();
     }
     ;
+    renderMap() {
+        const td = new WcMapComponent("streets", sightseeings, undefined, 10);
+        return td;
+    }
+    render() {
+        return T `
+        <div class="account-layout">
+            <header>
+                <wc-icon primaryColor="island" icon="island" class="island"></wc-icon><h3>Gran Canaria</h3><div style="min-width: 60px;"></div>
+                <div class="user-icon" style="position: fixed; right: 40px; top; 0px; z-index: 99;">
+                    <wc-icon @mousedown=${(e) => this.userClick(e)} primaryColor="island" icon="user-solid" style="width: 30px; height: 25px; cursor: pointer;"></wc-icon>
+                </div>
+            </header>
+
+            <div class="drawer">${this.renderDrawer()}</div>  
+            
+            <div id="user-content">
+                ${this.showTitleAndMap ? T `
+                    <h1 class="title">${this.selectedDrawer === "Gran-Canaria" ? "Sehenswürdigkeiten" : this.selectedDrawer === "Berge" ? "Berglandschaften auf Gran Canaria" : this.selectedDrawer + " auf Gran Canaria"}</h1>
+                    
+                    <div class="map-container">
+                        ${this.renderMap()}
+                    </div>
+                ` : ''}
+                
+                ${this.getUserContent()}
+            </div>
+        </div>
+        `;
+    }
+    ;
 };
 __decorate([
     e({ type: String })
 ], WcAppLayout.prototype, "selectedDrawer", void 0);
+__decorate([
+    e({ type: Boolean })
+], WcAppLayout.prototype, "showTitleAndMap", void 0);
 WcAppLayout = __decorate([
     n$1("wc-app-layout")
 ], WcAppLayout);
@@ -5665,16 +5238,6 @@ const masterStyles = r$1 `
 }
 `;
 
-var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var _a, _b, _c;
 const wcAppLayout = new WcAppLayout();
 let appUser = 'user';
 function setDisplay(id, value) {
@@ -5683,41 +5246,38 @@ function setDisplay(id, value) {
         node.style.display = value;
     }
 }
-(_a = document.getElementById("createAccountCtrl")) === null || _a === void 0 ? void 0 : _a.addEventListener("click", () => __awaiter(void 0, void 0, void 0, function* () {
-    var _d, _e;
-    const email = (_d = document.getElementById("emailCtrl")) === null || _d === void 0 ? void 0 : _d.value;
-    const pwd = (_e = document.getElementById("passwordCtrl")) === null || _e === void 0 ? void 0 : _e.value;
-    yield signinUser(email, pwd);
-}));
-(_b = document.getElementById("google-signin")) === null || _b === void 0 ? void 0 : _b.addEventListener("click", () => __awaiter(void 0, void 0, void 0, function* () {
-    yield signinWithGoogle();
-}));
-firebase.auth().onAuthStateChanged(function (user) {
-    return __awaiter(this, void 0, void 0, function* () {
-        if (user) {
-            user.email === 'trulli90@gmail.com' ? appUser = 'admin' : appUser = 'user';
-            setDisplay("userAccount", "");
-            setDisplay("loginPage", "none");
-            const controlHost = document.getElementById('userAccount');
-            controlHost === null || controlHost === void 0 ? void 0 : controlHost.append(wcAppLayout);
-            const head = document.getElementsByTagName('head')[0];
-            const s = document.createElement('style');
-            s.setAttribute('type', 'text/css');
-            s.appendChild(document.createTextNode(masterStyles.toString()));
-            head.appendChild(s);
-        }
-        else {
-            setDisplay("loginPage", "");
-        }
-    });
+document.getElementById("createAccountCtrl")?.addEventListener("click", async () => {
+    const email = document.getElementById("emailCtrl")?.value;
+    const pwd = document.getElementById("passwordCtrl")?.value;
+    await signinUser(email, pwd);
+});
+document.getElementById("google-signin")?.addEventListener("click", async () => {
+    await signinWithGoogle();
+});
+firebase.auth().onAuthStateChanged(async function (user) {
+    if (user) {
+        user.email === 'trulli90@gmail.com' ? appUser = 'admin' : appUser = 'user';
+        setDisplay("userAccount", "");
+        setDisplay("loginPage", "none");
+        const controlHost = document.getElementById('userAccount');
+        controlHost?.append(wcAppLayout);
+        const head = document.getElementsByTagName('head')[0];
+        const s = document.createElement('style');
+        s.setAttribute('type', 'text/css');
+        s.appendChild(document.createTextNode(masterStyles.toString()));
+        head.appendChild(s);
+    }
+    else {
+        setDisplay("loginPage", "");
+    }
 });
 const logoutFunc = () => {
-    (() => __awaiter(void 0, void 0, void 0, function* () {
-        yield firebase.auth().signOut();
+    (async () => {
+        await firebase.auth().signOut();
         window.location.reload();
-    }))();
+    })();
 };
-(_c = document.getElementById("eye")) === null || _c === void 0 ? void 0 : _c.addEventListener("click", () => {
+document.getElementById("eye")?.addEventListener("click", () => {
     const eye = document.getElementById("eye");
     const input = document.getElementById("passwordCtrl");
     if (input.type === "password") {

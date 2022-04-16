@@ -39,7 +39,7 @@ export const layoutStyles = css `
     }
 
     #user-content {
-      padding: 50px 30px 20px;
+      padding: 50px 20px;
     }
 
     .drawer {
@@ -52,7 +52,7 @@ export const layoutStyles = css `
       flex-direction: column;
       height: auto;
       padding: 0;
-      z-index: 1;
+      z-index: 9999;
     }
   }
 `;
@@ -65,7 +65,7 @@ export const navbarStyles = css `
     left: 0;
     right: 0;
     bottom: auto;
-    z-index: 1;
+    z-index: 9999;
     height: 50px;
     background-color: var(--fuerte-background-color);
     color: white;

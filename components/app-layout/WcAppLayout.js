@@ -16,6 +16,7 @@ import { WcDetailsPage } from "../../pages/details-page/WcDetailsPage";
 import { sightseeings } from "../../pages/all-island-page/sightseeings";
 import { WcMapComponent } from "../map-component/WcMapComponent";
 import "../icons/WcIcon";
+import { config } from "../../config";
 let WcAppLayout = class WcAppLayout extends LitElement {
     constructor() {
         super(...arguments);
@@ -43,6 +44,12 @@ let WcAppLayout = class WcAppLayout extends LitElement {
                 border: 1px solid var(--fuerte-background-color);
                 border-radius: 4px;
                 margin-bottom: 20px;
+            }
+
+            @media (max-width: ${config.mobileDeviceWidth}px) {
+                .title {
+                    padding-right: 0;
+                }
             }
         `];
     }

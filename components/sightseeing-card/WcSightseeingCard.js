@@ -6,6 +6,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 import { LitElement, html, css } from "lit";
 import { customElement, property } from "lit/decorators.js";
+import { config } from "../../config";
 let WcSightseeingCard = class WcSightseeingCard extends LitElement {
     constructor(sightseeing) {
         super(),
@@ -57,6 +58,12 @@ let WcSightseeingCard = class WcSightseeingCard extends LitElement {
         width: 30px;
         height: 30px;
         margin-right: 10px;
+      }
+
+      @media (max-width: ${config.mobileDeviceWidth}px) {
+        .card-container {
+          width: calc(100% - 40px);
+        }
       }
     `];
     }

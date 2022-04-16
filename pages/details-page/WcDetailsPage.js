@@ -10,6 +10,7 @@ import { createToDoMap } from "../../code/leaflet";
 import { mapStyles } from "../../components/map-component/map-styles";
 import { WcImageCard } from "../../components/image-card/WcImageCard";
 import { WcIcon } from "../../components/icons/WcIcon";
+import { config } from "../../config";
 let WcDetailsPage = class WcDetailsPage extends LitElement {
     constructor(sightseeing) {
         super();
@@ -82,6 +83,16 @@ let WcDetailsPage = class WcDetailsPage extends LitElement {
         width: 30px;
         height: 30px;
         margin: 0px 10px;
+      }
+
+      @media (max-width: ${config.mobileDeviceWidth}px) {
+        .details-page {
+          display: flex;
+          flex-direction: column;
+        }
+        .title {
+          padding-right: 0;
+        }
       }
     `];
     }

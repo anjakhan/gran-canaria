@@ -9,6 +9,7 @@ import { customElement, property, query } from "lit/decorators.js";
 import { createSightseeingDocument } from "../../code/firebase";
 import { updateMap } from "../../code/leaflet";
 import { WcSightseeingCard } from "../../components/sightseeing-card/WcSightseeingCard";
+import { config } from "../../config";
 import { sightseeings } from "./sightseeings";
 let WcAllIslandPage = class WcAllIslandPage extends LitElement {
     constructor() {
@@ -54,11 +55,19 @@ let WcAllIslandPage = class WcAllIslandPage extends LitElement {
       }
       .reset-button {
         background-color: var(--fuerte-background-color);
+        color: white;
       }
       .reset-icon {
         width: 18px;
         height: 20px;
         cursor: pointer;
+      }
+
+      @media (max-width: ${config.mobileDeviceWidth}px) {
+        .filter-container {
+          grid-template-columns: 1fr;
+          grid-gap: 10px;
+        }
       }
     `];
     }
@@ -130,7 +139,7 @@ let WcAllIslandPage = class WcAllIslandPage extends LitElement {
         return html `      
       <div class="all-island-page">
         <div class="filter-container">
-          <div style="color: white;">Filter:</div>
+          <div style="color: white; text-align: center;">Filter:</div>
 
           <select name="topic" id="topic" .value=${this.topicFilter} @change=${(e) => this.filterByCategories("topic", e.target.value)}>
             <option value="Gran-Canaria">Kategorie ...</option>
@@ -165,7 +174,7 @@ let WcAllIslandPage = class WcAllIslandPage extends LitElement {
           <input id="searchInput" type="search" placeholder="Suche ..." @input=${(e) => this.searchThroughSightseeings(e.target.value)}>
 
           <button class="reset-button" @click=${() => this.resetFilter()}>
-            <wc-icon class="reset-icon" primaryColor="text" icon="filter-reset"></wc-icon>
+            ${config.isMobile ? "Filter zurücksetzen" : html `<wc-icon class="reset-icon" primaryColor="text" icon="filter-reset"></wc-icon>`}
           </button>
         </div>
 

@@ -13,6 +13,7 @@ import { sightseeings, Topic } from "../../pages/all-island-page/sightseeings";
 import { WcMapComponent } from "../map-component/WcMapComponent";
 
 import "../icons/WcIcon";
+import { config } from "../../config";
 
 @customElement("wc-app-layout")
 export class WcAppLayout extends LitElement {
@@ -33,6 +34,12 @@ export class WcAppLayout extends LitElement {
                 border: 1px solid var(--fuerte-background-color);
                 border-radius: 4px;
                 margin-bottom: 20px;
+            }
+
+            @media (max-width: ${config.mobileDeviceWidth}px) {
+                .title {
+                    padding-right: 0;
+                }
             }
         `];
     };

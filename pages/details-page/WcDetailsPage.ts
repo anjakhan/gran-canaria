@@ -5,6 +5,7 @@ import { mapStyles } from "../../components/map-component/map-styles";
 import { WcImageCard } from "../../components/image-card/WcImageCard";
 import { Sightseeing } from "../all-island-page/sightseeings";
 import { WcIcon } from "../../components/icons/WcIcon";
+import { config } from "../../config";
 
 type callbackType = (showAll: boolean) => void;
 
@@ -77,6 +78,16 @@ export class WcDetailsPage extends LitElement {
         width: 30px;
         height: 30px;
         margin: 0px 10px;
+      }
+
+      @media (max-width: ${config.mobileDeviceWidth}px) {
+        .details-page {
+          display: flex;
+          flex-direction: column;
+        }
+        .title {
+          padding-right: 0;
+        }
       }
     `];
   };

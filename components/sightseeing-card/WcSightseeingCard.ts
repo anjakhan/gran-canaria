@@ -1,5 +1,6 @@
 import { LitElement, html, TemplateResult, css } from "lit";
 import { customElement, property } from "lit/decorators.js";
+import { config } from "../../config";
 import { Sightseeing } from "../../pages/all-island-page/sightseeings";
 
 
@@ -51,6 +52,12 @@ export class WcSightseeingCard extends LitElement {
         width: 30px;
         height: 30px;
         margin-right: 10px;
+      }
+
+      @media (max-width: ${config.mobileDeviceWidth}px) {
+        .card-container {
+          width: calc(100% - 40px);
+        }
       }
     `];
   };

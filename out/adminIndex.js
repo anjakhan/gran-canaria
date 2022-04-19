@@ -1380,6 +1380,7 @@ WcAppDrawer = __decorate$7([
 ], WcAppDrawer);
 
 const L = window.L;
+const website = window.location.origin + "/#";
 let map;
 let markers = [];
 const createToDoMap = (mapid, mapType, sightseeings, location, zoom = 9) => {
@@ -1423,7 +1424,15 @@ const createToDoMap = (mapid, mapType, sightseeings, location, zoom = 9) => {
     sightseeings?.map((s) => {
         const marker = L.marker(s.location);
         markers.push(marker);
-        marker.addTo(map).bindPopup(`<b>${s.name}</b><br>${s.location}`);
+        marker.addTo(map).bindPopup(`
+      <a 
+        style="text-decoration: none; display: flex; flex-direction: column; width: 220px; align-items: center; justify-content: center; text-align: center;" 
+        href=${website + s.hash}
+      >
+        <img src=${s.image} style="width: 200px; height: auto; position: relative; margin-bottom: 10px; border: 1px solid var(--fuerte-background-color)">
+        <b id=${s.hash}>${s.name}<br>
+        <span>${s.location[0].toFixed(4)} ${s.location[1].toFixed(4)}</span>
+      </a>`);
     });
 };
 const updateMap = (sightseeings) => {
@@ -1433,7 +1442,16 @@ const updateMap = (sightseeings) => {
         sightseeings?.map((s) => {
             const marker = L.marker(s.location);
             markers.push(marker);
-            marker.addTo(map).bindPopup(`<b>${s.name}</b><br>${s.location}`);
+            marker.addTo(map).bindPopup(`
+        <a 
+          style="text-decoration: none; display: flex; flex-direction: column; width: 220px; align-items: center; justify-content: center; text-align: center;" 
+          href=${website + s.hash}
+        >
+          <img src=${s.image} style="width: 200px; height: auto; position: relative; margin-bottom: 10px; border: 1px solid var(--fuerte-background-color)">
+          <b id=${s.hash}>${s.name}<br>
+          <span>${s.location[0].toFixed(4)} ${s.location[1].toFixed(4)}</span>
+        </a>
+      `);
         });
     }
 };
@@ -1789,7 +1807,7 @@ const sightseeings = [{
         image: "https://firebasestorage.googleapis.com/v0/b/gran-canaria-4e556.appspot.com/o/sightseeings%2Fcaves%2FLaFortalezaDeAnsite%2FHoehle-Gran-Canaria-La-Fortaleza-de-Ansite.webp?alt=media&token=f4b889a4-f9a3-465c-a44c-c6d8940ceda5",
         foldername: "caves/LaFortalezaDeAnsite",
         location: [27.882736724364026, -15.529080202511091],
-        orientation: "Süden",
+        orientation: "Zentrum",
         tags: ["Mirador de Fataga", "San Bartolomé de Tirajana"],
         topic: "Höhlen",
         type: "Kurze Wanderung",
@@ -1849,7 +1867,7 @@ const sightseeings = [{
         image: "https://firebasestorage.googleapis.com/v0/b/gran-canaria-4e556.appspot.com/o/sightseeings%2Fhiking%2FBarrancoDeGuayadeque%2FErmita-de-Guayadeque-Gran-Canaria.webp?alt=media&token=9079f863-5431-44a7-a7b5-06d06c2d2e29",
         foldername: "hiking/BarrancoDeGuayadeque",
         location: [27.93544900726272, -15.512968438074658],
-        orientation: "Osten",
+        orientation: "Zentrum",
         tags: ["Mirador Caldera Los Marteles", "Pico de las Nieves", "Casa Cueva Canaria"],
         topic: "Berge",
         type: "Wanderung",
@@ -1861,7 +1879,7 @@ const sightseeings = [{
         image: "https://firebasestorage.googleapis.com/v0/b/gran-canaria-4e556.appspot.com/o/sightseeings%2Fhiking%2FBarrancoDeGuayadeque%2FCaldera-los-Marteles-Vulkankessel-Gran-Canaria-600x600.webp?alt=media&token=deef156b-7762-43e1-8ad7-8777c08e0d8d",
         foldername: "hiking/BarrancoDeGuayadeque",
         location: [27.96096218564247, -15.5354438925099],
-        orientation: "Osten",
+        orientation: "Zentrum",
         tags: ["Barranco de Guayadeque", "Pico de las Nieves"],
         topic: "Berge",
         type: "Aussichtspunkt",
@@ -1945,7 +1963,7 @@ const sightseeings = [{
         image: "https://firebasestorage.googleapis.com/v0/b/gran-canaria-4e556.appspot.com/o/sightseeings%2Fhiking%2FPilancones%2FParque-natural-de-Pilancones-Gran-Canaria-Sehenswuerdigkeiten.webp?alt=media&token=3801649c-9df9-498f-ab72-e8bf7c55716b",
         foldername: "hiking/Pilancones",
         location: [27.87482619293565, -15.633033849050085],
-        orientation: "Süden",
+        orientation: "Zentrum",
         tags: ["Mirador de Ayagaures", "Presa De Chira (Staudamm mit Rundwanderweg)"],
         topic: "Berge",
         type: "Wanderung",

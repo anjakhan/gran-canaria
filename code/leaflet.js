@@ -1,7 +1,6 @@
 import { config } from '../config';
 export const L = window.L;
-const debug = window.location.hostname === 'localhost' || window.location.href.indexOf('debug=1') > 0 || window.printessDebug === true;
-const website = debug ? "http://localhost:8000/#" : "https://travel-gran-canaria.netlify.app/#";
+const website = window.location.origin + "/#";
 const travelledPlaces = [{
         name: "Camino Costa Ballena",
         location: [28.421440804718152, -13.853181596486714],

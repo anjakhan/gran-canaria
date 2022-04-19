@@ -4,8 +4,8 @@ import { FotoUploadDto } from './nobs/UploadNobs';
 
 export const L = (<any>window).L;
 
-const debug = window.location.hostname === 'localhost' || window.location.href.indexOf('debug=1') > 0 || (<any>window).printessDebug === true;
-const website = debug ? "http://localhost:8000/#" : "https://travel-gran-canaria.netlify.app/#";
+//const debug = window.location.hostname === 'localhost' || window.location.href.indexOf('debug=1') > 0 || (<any>window).printessDebug === true;
+const website = window.location.origin + "/#";
 
 const travelledPlaces: Array<{ name: string, location: Array<number>, date: string, topic: string }> = [{
   name: "Camino Costa Ballena",

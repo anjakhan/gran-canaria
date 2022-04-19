@@ -4,6 +4,9 @@ import { FotoUploadDto } from './nobs/UploadNobs';
 
 export const L = (<any>window).L;
 
+const debug = window.location.hostname === 'localhost' || window.location.href.indexOf('debug=1') > 0 || (<any>window).printessDebug === true;
+const website = debug ? "http://localhost:8000/#" : "https://travel-gran-canaria.netlify.app/#";
+
 const travelledPlaces: Array<{ name: string, location: Array<number>, date: string, topic: string }> = [{
   name: "Camino Costa Ballena",
   location: [28.421440804718152, -13.853181596486714],
@@ -84,10 +87,18 @@ export const createToDoMap = (mapid: HTMLDivElement, mapType: "satellite" | "str
   L.control.layers(baseMaps).addTo(map);
 
   //L.marker([28.173903183892257, -14.224354511395132]).addTo(map);
-  sightseeings?.map((s: { name: string, location: Array<number> }) => {
+  sightseeings?.map((s: Sightseeing) => {
     const marker = L.marker(s.location)
     markers.push(marker);
-    marker.addTo(map).bindPopup(`<b>${s.name}</b><br>${s.location}`);
+    marker.addTo(map).bindPopup(`
+      <a 
+        style="text-decoration: none; display: flex; flex-direction: column; width: 220px; align-items: center; justify-content: center; text-align: center;" 
+        href=${website + s.hash}
+      >
+        <img src=${s.image} style="width: 200px; height: auto; position: relative; margin-bottom: 10px; border: 1px solid var(--fuerte-background-color)">
+        <b id=${s.hash}>${s.name}<br>
+        <span>${s.location[0].toFixed(4)} ${s.location[1].toFixed(4)}</span>
+      </a>`);
   });
 };
 
@@ -96,10 +107,19 @@ export const updateMap = (sightseeings: Sightseeing[]) => {
     markers?.forEach(m => map.removeLayer(m));
     markers = [];
 
-    sightseeings?.map((s: { name: string, location: Array<number> }) => {
+    sightseeings?.map((s: Sightseeing) => {
       const marker = L.marker(s.location)
       markers.push(marker);
-      marker.addTo(map).bindPopup(`<b>${s.name}</b><br>${s.location}`);
+      marker.addTo(map).bindPopup(`
+        <a 
+          style="text-decoration: none; display: flex; flex-direction: column; width: 220px; align-items: center; justify-content: center; text-align: center;" 
+          href=${website + s.hash}
+        >
+          <img src=${s.image} style="width: 200px; height: auto; position: relative; margin-bottom: 10px; border: 1px solid var(--fuerte-background-color)">
+          <b id=${s.hash}>${s.name}<br>
+          <span>${s.location[0].toFixed(4)} ${s.location[1].toFixed(4)}</span>
+        </a>
+      `);
     });
   }
 }

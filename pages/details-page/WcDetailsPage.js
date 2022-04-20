@@ -30,7 +30,6 @@ let WcDetailsPage = class WcDetailsPage extends LitElement {
       .title {
         position: relative;
         text-align: center;
-        padding-right: 150px;
         grid-row: 1;
         grid-column: 1 / 3;
       }
@@ -91,7 +90,20 @@ let WcDetailsPage = class WcDetailsPage extends LitElement {
           flex-direction: column;
         }
         .title {
-          padding-right: 0;
+          font-size: 18px;
+          padding: 0px 20px;
+          width: calc(100% - 40px);
+          margin-top: 30px;
+        }
+
+        .back-icon {
+          width: 20px;
+          left: 0;
+        }
+        .link-icon {
+          width: 20px;
+          margin-left: 10px;
+          margin-right: 0px;
         }
       }
     `];
@@ -173,10 +185,12 @@ let WcDetailsPage = class WcDetailsPage extends LitElement {
           </div>
           <br>
           ${sightseeing.tags.length === 0 ? '' : html `
-            <span>In der Nähe:</span> ${sightseeing.tags.join(", ")}
+            <span>Umgebung:</span> ${sightseeing.tags.join(", ")}
           `}
           <br><br>
           ${sightseeing.info ? html `<span>Wissenswertes:</span> ${sightseeing.info || ""}` : ''}
+          <br><br>
+          <a href=${sightseeing.link} target="_blank" style="text-decoration: none; color: var(--fuerte-background-color)">Mehr zu ${sightseeing.name} ...</a>
         </div>
 
         <div class="cards-container">

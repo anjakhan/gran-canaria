@@ -48,7 +48,11 @@ let WcAppLayout = class WcAppLayout extends LitElement {
 
             @media (max-width: ${config.mobileDeviceWidth}px) {
                 .title {
-                    padding-right: 0;
+                    font-size: 18px;
+                    padding: 0;
+                    width: 100%;
+                    margin-top: 30px;
+                    margin-bottom: 20px;
                 }
             }
         `];

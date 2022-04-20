@@ -135,6 +135,33 @@ let WcAllIslandPage = class WcAllIslandPage extends LitElement {
         this.searchInput.value = "";
         updateMap(sightseeings);
     }
+    sortSightseeings(a, b, sortBy) {
+        switch (sortBy) {
+            case 'name': {
+                if (a.name < b.name) {
+                    return -1;
+                }
+                else if (a.name > b.name) {
+                    return 1;
+                }
+                else {
+                    return 0;
+                }
+            }
+            case 'topic': {
+                if (a.topic < b.topic) {
+                    return 1;
+                }
+                else if (a.topic > b.topic) {
+                    return -1;
+                }
+                else {
+                    return 0;
+                }
+            }
+            default: return 0;
+        }
+    }
     render() {
         return html `      
       <div class="all-island-page">
@@ -181,7 +208,14 @@ let WcAllIslandPage = class WcAllIslandPage extends LitElement {
         ${this.filteredSightseeings.length === 0 ? html `
           <p>Keine Sehenswürdigkeiten gefunden!</p>
         ` : html `
-          <div class="all-island-container">${this.filteredSightseeings?.map(c => this.renderSightseeingCard(c))}</div>
+          <div class="all-island-container">
+            ${this.filteredSightseeings?.filter(fs => fs.topic === "Städte").sort((a, b) => this.sortSightseeings(a, b, "name")).map(c => this.renderSightseeingCard(c))}
+            ${this.filteredSightseeings?.filter(fs => fs.topic === "Berge").sort((a, b) => this.sortSightseeings(a, b, "name")).map(c => this.renderSightseeingCard(c))}
+            ${this.filteredSightseeings?.filter(fs => fs.topic === "Höhlen").sort((a, b) => this.sortSightseeings(a, b, "name")).map(c => this.renderSightseeingCard(c))}
+            ${this.filteredSightseeings?.filter(fs => fs.topic === "Wasser").sort((a, b) => this.sortSightseeings(a, b, "name")).map(c => this.renderSightseeingCard(c))}
+            ${this.filteredSightseeings?.filter(fs => fs.topic === "Parks").sort((a, b) => this.sortSightseeings(a, b, "name")).map(c => this.renderSightseeingCard(c))}
+            ${this.filteredSightseeings?.filter(fs => fs.topic === "Erlebnisse").sort((a, b) => this.sortSightseeings(a, b, "name")).map(c => this.renderSightseeingCard(c))}
+          </div>
         `}
       </div>
     `;

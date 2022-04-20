@@ -554,7 +554,7 @@ export const masterStyles = css`
     --printess-path-editor-disabled-path-color: #bbbbbb;
     /**** Z-INDEX *****/
     --printess-z-index-ui-hint: 9987;
-    --printess-z-index-context-menu: 9990;
+    --printess-z-index-context-menu: 999990;
     --printess-z-index-box-drag: 9985;
     --printess-z-index-box-selection: 9980;
     --printess-z-index-click-action-boxes: 9975;

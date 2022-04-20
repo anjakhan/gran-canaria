@@ -4945,7 +4945,7 @@ const masterStyles = r$1 `
     --printess-path-editor-disabled-path-color: #bbbbbb;
     /**** Z-INDEX *****/
     --printess-z-index-ui-hint: 9987;
-    --printess-z-index-context-menu: 9990;
+    --printess-z-index-context-menu: 999990;
     --printess-z-index-box-drag: 9985;
     --printess-z-index-box-selection: 9980;
     --printess-z-index-click-action-boxes: 9975;
@@ -5453,21 +5453,15 @@ document.getElementById("google-signin")?.addEventListener("click", async () => 
     await signinWithGoogle();
 });
 firebase.auth().onAuthStateChanged(async function (user) {
-    if (user) {
-        user.email === 'trulli90@gmail.com' ? appUser = 'admin' : appUser = 'user';
-        setDisplay("userAccount", "");
-        setDisplay("loginPage", "none");
-        const controlHost = document.getElementById('userAccount');
-        controlHost?.append(wcAppLayout);
-        const head = document.getElementsByTagName('head')[0];
-        const s = document.createElement('style');
-        s.setAttribute('type', 'text/css');
-        s.appendChild(document.createTextNode(masterStyles.toString()));
-        head.appendChild(s);
-    }
-    else {
-        setDisplay("loginPage", "");
-    }
+    setDisplay("userAccount", "");
+    setDisplay("loginPage", "none");
+    const controlHost = document.getElementById('userAccount');
+    controlHost?.append(wcAppLayout);
+    const head = document.getElementsByTagName('head')[0];
+    const s = document.createElement('style');
+    s.setAttribute('type', 'text/css');
+    s.appendChild(document.createTextNode(masterStyles.toString()));
+    head.appendChild(s);
 });
 const logoutFunc = () => {
     (async () => {

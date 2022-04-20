@@ -24,20 +24,17 @@ document.getElementById("google-signin")?.addEventListener("click", async () => 
 });
 
 firebase.auth().onAuthStateChanged(async function (user: any) {
-  if (user) {
-    user.email === 'trulli90@gmail.com' ? appUser = 'admin' : appUser = 'user';
-    setDisplay("userAccount", ""); // show user account
-    setDisplay("loginPage", "none"); const controlHost = document.getElementById('userAccount');
-    controlHost?.append(wcAppLayout);
 
-    const head = document.getElementsByTagName('head')[0];
-    const s = document.createElement('style');
-    s.setAttribute('type', 'text/css');
-    s.appendChild(document.createTextNode(masterStyles.toString()));
-    head.appendChild(s);
-  } else {
-    setDisplay("loginPage", "");
-  }
+  setDisplay("userAccount", ""); // show user account
+  setDisplay("loginPage", "none"); const controlHost = document.getElementById('userAccount');
+  controlHost?.append(wcAppLayout);
+
+  const head = document.getElementsByTagName('head')[0];
+  const s = document.createElement('style');
+  s.setAttribute('type', 'text/css');
+  s.appendChild(document.createTextNode(masterStyles.toString()));
+  head.appendChild(s);
+
 });
 
 export const logoutFunc = () => {

@@ -166,7 +166,6 @@ export class WcAllIslandPage extends LitElement {
       }
       default: return 0;
     }
-
   }
 
   render(): TemplateResult {

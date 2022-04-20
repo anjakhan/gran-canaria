@@ -61,10 +61,20 @@ export class WcTopicPage extends LitElement {
     return td;
   }
 
+  sortSightseeings(a: Sightseeing, b: Sightseeing): number {
+    if (a.name < b.name) {
+      return -1;
+    } else if (a.name > b.name) {
+      return 1;
+    } else {
+      return 0;
+    }
+  }
+
   render(): TemplateResult {
     return html`
       <div class="topic-page">
-        <div class="topic-container">${sightseeings?.filter(s => s.topic === this.topic).map(c => this.renderSightseeingCard(c))}</div>
+        <div class="topic-container">${sightseeings?.filter(s => s.topic === this.topic).sort((a: Sightseeing, b: Sightseeing) => this.sortSightseeings(a, b)).map(c => this.renderSightseeingCard(c))}</div>
       </div>
     `;
   };

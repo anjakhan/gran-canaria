@@ -544,9 +544,9 @@ svg.color-head-toolbar:hover {
         grid-gap: 20px;
         grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
       }
-    `]}async getSightseeingsFromFirebase(){const e=[];try{await firestore.collection("sightseeings").get().then((e=>e.docs.map((e=>e.data())))).then((t=>{t.filter((e=>e.topic===this.topic)).forEach((t=>e.push(t)))})).catch((e=>console.log("no city docs found",e)))}catch(e){console.log(e)}this.sightseeings=e,updateMap(this.sightseeings)}connectedCallback(){super.connectedCallback(),location.hash="#"+this.topic,window.setTimeout((()=>updateMap(sightseeings.filter((e=>e.topic===this.topic)))),0)}renderSightseeingCard(e){return new WcSightseeingCard(e)}render(){return T`
+    `]}async getSightseeingsFromFirebase(){const e=[];try{await firestore.collection("sightseeings").get().then((e=>e.docs.map((e=>e.data())))).then((t=>{t.filter((e=>e.topic===this.topic)).forEach((t=>e.push(t)))})).catch((e=>console.log("no city docs found",e)))}catch(e){console.log(e)}this.sightseeings=e,updateMap(this.sightseeings)}connectedCallback(){super.connectedCallback(),location.hash="#"+this.topic,window.setTimeout((()=>updateMap(sightseeings.filter((e=>e.topic===this.topic)))),0)}renderSightseeingCard(e){return new WcSightseeingCard(e)}sortSightseeings(e,t){return e.name<t.name?-1:e.name>t.name?1:0}render(){return T`
       <div class="topic-page">
-        <div class="topic-container">${sightseeings?.filter((e=>e.topic===this.topic)).map((e=>this.renderSightseeingCard(e)))}</div>
+        <div class="topic-container">${sightseeings?.filter((e=>e.topic===this.topic)).sort(((e,t)=>this.sortSightseeings(e,t))).map((e=>this.renderSightseeingCard(e)))}</div>
       </div>
     `}};__decorate$4([e({type:Array})],WcTopicPage.prototype,"sightseeings",void 0),__decorate$4([e({type:String})],WcTopicPage.prototype,"topic",void 0),WcTopicPage=__decorate$4([n$1("wc-topic-page")],WcTopicPage);const mapStyles=r$1`
 /* required styles */

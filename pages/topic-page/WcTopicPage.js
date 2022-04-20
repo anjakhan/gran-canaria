@@ -58,10 +58,21 @@ let WcTopicPage = class WcTopicPage extends LitElement {
         const td = new WcSightseeingCard(sightseeing);
         return td;
     }
+    sortSightseeings(a, b) {
+        if (a.name < b.name) {
+            return -1;
+        }
+        else if (a.name > b.name) {
+            return 1;
+        }
+        else {
+            return 0;
+        }
+    }
     render() {
         return html `
       <div class="topic-page">
-        <div class="topic-container">${sightseeings?.filter(s => s.topic === this.topic).map(c => this.renderSightseeingCard(c))}</div>
+        <div class="topic-container">${sightseeings?.filter(s => s.topic === this.topic).sort((a, b) => this.sortSightseeings(a, b)).map(c => this.renderSightseeingCard(c))}</div>
       </div>
     `;
     }

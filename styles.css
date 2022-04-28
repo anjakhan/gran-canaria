@@ -5,6 +5,12 @@
   --fuerte-brown: #FFD370;
   --fuerte-light: aliceblue;
   --fuerte-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  --gran-canaria-cities: black;
+  --gran-canaria-mountains: rgb(1, 88, 1);
+  --gran-canaria-caves: rgb(236, 106, 0);
+  --gran-canaria-water: blue;
+  --gran-canaria-parks: rgb(117, 30, 30);
+  --gran-canaria-adventure: #0028ff;
 }
 
 * {

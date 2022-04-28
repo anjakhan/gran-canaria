@@ -17,6 +17,7 @@ let WcAllIslandPage = class WcAllIslandPage extends LitElement {
         this.topicFilter = "Gran-Canaria";
         this.orientationFilter = "Insel";
         this.triptypeFilter = "Alle";
+        this.statusFilter = "alle";
     }
     static get styles() {
         return [css `
@@ -36,7 +37,7 @@ let WcAllIslandPage = class WcAllIslandPage extends LitElement {
 
       .filter-container {
         display: grid;
-        grid-template-columns: auto 1fr 1fr 1fr 1fr auto;
+        grid-template-columns: auto 1fr 1fr 1fr 1fr 1fr auto;
         grid-column-gap: 10px;
         padding: 10px 15px;
         margin: 0 0 20px 0;
@@ -104,6 +105,8 @@ let WcAllIslandPage = class WcAllIslandPage extends LitElement {
             this.orientationFilter = value;
         if (name === "triptype")
             this.triptypeFilter = value;
+        if (name === "status")
+            this.statusFilter = value;
         if (this.topicFilter !== "Gran-Canaria") {
             this.filteredSightseeings = this.filteredSightseeings.filter(s => s.topic === this.topicFilter);
         }
@@ -113,12 +116,16 @@ let WcAllIslandPage = class WcAllIslandPage extends LitElement {
         if (this.triptypeFilter !== "Alle") {
             this.filteredSightseeings = this.filteredSightseeings.filter(s => s.type === this.triptypeFilter);
         }
+        if (this.statusFilter !== "alle") {
+            this.filteredSightseeings = this.filteredSightseeings.filter(s => s.status === this.statusFilter);
+        }
         updateMap(this.filteredSightseeings);
     }
     searchThroughSightseeings(search) {
         this.topicFilter = "Gran-Canaria";
         this.orientationFilter = "Insel";
         this.triptypeFilter = "Alle";
+        this.statusFilter = "alle";
         search = search.toLowerCase();
         this.filteredSightseeings = sightseeings.filter(s => s.topic.toLowerCase().includes(search)
             || s.info?.toLowerCase().includes(search)
@@ -132,6 +139,7 @@ let WcAllIslandPage = class WcAllIslandPage extends LitElement {
         this.topicFilter = "Gran-Canaria";
         this.orientationFilter = "Insel";
         this.triptypeFilter = "Alle";
+        this.statusFilter = "alle";
         this.searchInput.value = "";
         updateMap(sightseeings);
     }
@@ -198,6 +206,12 @@ let WcAllIslandPage = class WcAllIslandPage extends LitElement {
             <option value="Baden">Baden</option>
           </select>
 
+          <select name="status" id="status" .value=${this.statusFilter} @change=${(e) => this.filterByCategories("status", e.target.value)}>
+            <option value="alle">Status ...</option>
+            <option value="gesehen">gesehen</option>
+            <option value="nicht gesehen">nicht gesehen</option>
+          </select>
+
           <input id="searchInput" type="search" placeholder="Suche ..." @input=${(e) => this.searchThroughSightseeings(e.target.value)}>
 
           <button class="reset-button" @click=${() => this.resetFilter()}>
@@ -237,6 +251,9 @@ __decorate([
 __decorate([
     property({ type: String })
 ], WcAllIslandPage.prototype, "triptypeFilter", void 0);
+__decorate([
+    property({ type: String })
+], WcAllIslandPage.prototype, "statusFilter", void 0);
 __decorate([
     query('#searchInput')
 ], WcAllIslandPage.prototype, "searchInput", void 0);

@@ -14,7 +14,8 @@ export type Sightseeing = {
   topic: Topic,
   type: TripType,
   link: string,
-  info: string
+  info: string,
+  status: "gesehen" | "nicht gesehen"
 }
 
 // use tag for later search options and for linking to other sightseeings with same name
@@ -30,7 +31,8 @@ export const sightseeings: Sightseeing[] = [{
   type: "Tagesausflug",
   link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/las-palmas-de-gran-canaria/",
   info: `Las Palmas bietet viele schöne Plazas mit Cafés und Restaurants, Strände zum Baden und Surfen sowie ein großes kulturelles Angebot. 
-        Im Fokus stehen hierbei vor allem die Museen und Kirchen der Stadt.`
+        Im Fokus stehen hierbei vor allem die Museen und Kirchen der Stadt.`,
+  status: "nicht gesehen"
 }, {
   name: "Telde",
   hash: "Telde",
@@ -42,7 +44,8 @@ export const sightseeings: Sightseeing[] = [{
   topic: "Städte",
   type: "Stadtbesichtigung",
   link: "https://www.hallokanarischeinseln.com/malerische-orte/gran-canaria/telde/",
-  info: `Telde ist die älteste und zweitgrößte Stadt Gran Canarias. Telde war die erste Hauptstadt der Insel und ist bekannt für sein vielfältiges kulturelles Angebot.`
+  info: `Telde ist die älteste und zweitgrößte Stadt Gran Canarias. Telde war die erste Hauptstadt der Insel und ist bekannt für sein vielfältiges kulturelles Angebot.`,
+  status: "nicht gesehen"
 }, {
   name: "Maspalomas",
   hash: "Maspalomas",
@@ -56,7 +59,8 @@ export const sightseeings: Sightseeing[] = [{
   link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/maspalomas-gran-canaria/",
   info: `Maspalomas erstreckt sich von Meloneras bis San Agustín und beherbergt auch den bekanntesten Ortsteil Playa del Inglés. 
         Hier befinden sich besonders viele Hotels und Ferienwohnungen. 
-        Da die Region vor allem bei deutschsprachigen Urlaubsgästen sehr beliebt ist, gibt es mittlerweile auch viele deutsche Restaurants und Kneipen vor Ort. `
+        Da die Region vor allem bei deutschsprachigen Urlaubsgästen sehr beliebt ist, gibt es mittlerweile auch viele deutsche Restaurants und Kneipen vor Ort. `,
+  status: "gesehen"
 }, {
   name: "Sanddünen von Maspalomas",
   hash: "Sandduenen",
@@ -68,7 +72,8 @@ export const sightseeings: Sightseeing[] = [{
   topic: "Erlebnisse",
   type: "Wanderung",
   link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/gran-canaria-highlights/#1-sandduenen-von-maspalomas",
-  info: "Die Dünen-Landschaft erstreckt sich auf eine Länge von ca. 6 Kilometern. Auch in der Breite ist das Dünen-Gebiet mit bis zu 1,4 Kilometern beachtlich groß."
+  info: "Die Dünen-Landschaft erstreckt sich auf eine Länge von ca. 6 Kilometern. Auch in der Breite ist das Dünen-Gebiet mit bis zu 1,4 Kilometern beachtlich groß.",
+  status: "gesehen"
 }, {
   name: "Puerto de Mogan",
   hash: "Mogan",
@@ -83,7 +88,8 @@ export const sightseeings: Sightseeing[] = [{
   info: `Ein besonders schöner Ort auf Gran Canaria ist Puerto de Mogán. Er liegt im sonnenreichen Südwesten der Insel. 
         In der Vergangenheit wurden hier bereits die meisten Sonnenstunden in ganz Europa verzeichnet. 
         Puerto de Mogán beherbergt einen Kanal, durch den Meerwasser in den Ort hineinfließt. 
-        Durch den Kanal ist Puerto de Mogán auch als kleines Venedig bekannt.`
+        Durch den Kanal ist Puerto de Mogán auch als kleines Venedig bekannt.`,
+  status: "gesehen"
 }, {
   name: "Teror",
   hash: "Teror",
@@ -97,7 +103,8 @@ export const sightseeings: Sightseeing[] = [{
   link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/teror-gran-canaria/",
   info: `Teror wird oft auch als religiöses Zentrum von Gran Canaria bezeichnet und wurde im Jahr 1979 zum Kulturdenkmal erklärt. 
         Hier erlebst du die Insel noch so, wie sie früher einmal gewesen sein soll. Die alten Häuser sind mittlerweile vollständig restauriert worden. 
-        Sie wurden jedoch in ihrem ursprünglichen Erscheinungsbild gut erhalten, sodass du hier nach wie vor das Ambiente vergangener Zeiten erfahren kannst.`
+        Sie wurden jedoch in ihrem ursprünglichen Erscheinungsbild gut erhalten, sodass du hier nach wie vor das Ambiente vergangener Zeiten erfahren kannst.`,
+  status: "nicht gesehen"
 }, {
   name: "Agaete",
   hash: "Agaete",
@@ -111,7 +118,8 @@ export const sightseeings: Sightseeing[] = [{
   link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/agaete-gran-canaria/",
   info: `Anders als in den meisten Orten auf Gran Canaria, sind die Häuser in Agaete überwiegend weiß. 
         Dies führt zu einem besonders hübschen Stadtbild. Bekannt ist Agaete zudem auch durch den Hafen. 
-        Am Puerto de las Nieves legt die Fähre von Fred Olsen Express ab, die Gran Canaria mit der Nachbarinsel Teneriffa verbindet.`
+        Am Puerto de las Nieves legt die Fähre von Fred Olsen Express ab, die Gran Canaria mit der Nachbarinsel Teneriffa verbindet.`,
+  status: "nicht gesehen"
 }, {
   name: "Arinaga",
   hash: "Arinaga",
@@ -125,7 +133,8 @@ export const sightseeings: Sightseeing[] = [{
   link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/arinaga-gran-canaria/",
   info: `Arinaga zählt zur Gemeinde Agüimes und beherbergt etwas mehr als 9.000 Einwohner. Früher wurde hier einmal Kalk abgebaut, das für die ganze Insel genutzt wurde. 
         An der Promenade kannst du heute noch einige alte Kalköfen anschauen. Zwischenzeitlich war der Ort zudem auch ein wichtiges Fischerei-Zentrum. 
-        Auch heutzutage kannst du entlang der Promenade noch viele Angler und Fischer sehen.`
+        Auch heutzutage kannst du entlang der Promenade noch viele Angler und Fischer sehen.`,
+  status: "nicht gesehen"
 }, {
   name: "Artenara",
   hash: "Artenara",
@@ -139,7 +148,8 @@ export const sightseeings: Sightseeing[] = [{
   link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/gran-canaria-ausfluege/#10-artenara",
   info: `Bei Artenara handelt es sich um die höchstgelegene Gemeinde auf Gran Canaria. Der höchste Punkt liegt dabei auf 1.770 Metern. 
         Das Ortszentrum befindet sich jedoch etwas tiefer. Dennoch bist du auch hier schon 1.269 Meter hoch. 
-        Ein besonderes Highlight ist hier die Christusstatue, die mit ausgebreiteten Armen über den Ort wacht.`
+        Ein besonderes Highlight ist hier die Christusstatue, die mit ausgebreiteten Armen über den Ort wacht.`,
+  status: "nicht gesehen"
 }, {
   name: "Arucas",
   hash: "Arucas",
@@ -151,7 +161,8 @@ export const sightseeings: Sightseeing[] = [{
   topic: "Städte",
   type: "Stadtbesichtigung",
   link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/arucas-gran-canaria/",
-  info: "Das Highlight und Wahrzeichen der Stadt ist die neugotische Kirche “Parroquia de San Juan Bautista de Arucas”. Ihre Bauzeit lag zwischen 1909 und 1917. Rund um die Kirche gibt es hübsche Plazas und Gassen."
+  info: "Das Highlight und Wahrzeichen der Stadt ist die neugotische Kirche “Parroquia de San Juan Bautista de Arucas”. Ihre Bauzeit lag zwischen 1909 und 1917. Rund um die Kirche gibt es hübsche Plazas und Gassen.",
+  status: "nicht gesehen"
 }, {
   name: "Jardin de la Marquesa",
   hash: "JardinMarquesa",
@@ -165,7 +176,8 @@ export const sightseeings: Sightseeing[] = [{
   link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/gran-canaria-highlights/#7-arucas",
   info: `Jardín de la Marquesa ist ein kostenpflichtiger, botanischer Garten. 
         Zu sehen gibt es über 500 verschiedene Pflanzenarten, Blumen, Palmen und einen aquarellfarbenen Springbrunnen. 
-        Im großen Teich kannst du Schildkröten schwimmen sehen. Zudem laufen im botanischen Garten mehrere Pfaue, Hühner, Hähne und Katzen frei herum.`
+        Im großen Teich kannst du Schildkröten schwimmen sehen. Zudem laufen im botanischen Garten mehrere Pfaue, Hühner, Hähne und Katzen frei herum.`,
+  status: "nicht gesehen"
 }, {
   name: "Jardin Canario",
   hash: "JardinCanario",
@@ -181,7 +193,8 @@ export const sightseeings: Sightseeing[] = [{
         Hier kannst du viele der etwa 500 Pflanzenarten sehen, die auf den kanarischen Inseln heimisch sind. 
         Der botanische Garten erstreckt sich dabei auch auf einen Hang, von dem aus du einen guten Blick über den Garten und die umliegende Landschaft hast. 
         Seit 1952 können Besucher hier die Pflanzenvielfalt der Kanaren sowie der umliegenden Inseln anschauen. 
-        Vor allem der Kakteengarten ist für die meisten Besucher dabei ein Highlight.`
+        Vor allem der Kakteengarten ist für die meisten Besucher dabei ein Highlight.`,
+  status: "nicht gesehen"
 }, {
   name: "Mirador Astronomico de la Degollada de las Yeguas",
   hash: "MiradorAstronomico",
@@ -193,7 +206,8 @@ export const sightseeings: Sightseeing[] = [{
   topic: "Berge",
   type: "Aussichtspunkt",
   link: "https://www.hallokanarischeinseln.com/aussichtspunkte/gran-canaria/aussichtspunkt-mirador-de-la-degollada-de-las-yeguas/#",
-  info: "Beliebter Aussichtspunkt in einem weitläufigen Naturschutzgebiet mit Panoramablick über die Schlucht."
+  info: "Beliebter Aussichtspunkt in einem weitläufigen Naturschutzgebiet mit Panoramablick über die Schlucht.",
+  status: "nicht gesehen"
 }, {
   name: "Barranco de los Cernicalos",
   hash: "BarrancoCernicalos",
@@ -208,7 +222,8 @@ export const sightseeings: Sightseeing[] = [{
   info: `Beim Barranco de los Cernícalosb handelt es sich um eine Schlucht, die von einem Bach durchzogen ist. 
         Die Falkenschlucht, wie sie übersetzt heißt, ist auch zum Canyoning beliebt. Es gibt einen ca. 1-stündigen Wanderweg, der dich zu mehreren Wasserfällen führt. 
         Du folgst dabei dem Bach, steigst über Baumstämme und läufst durch die grüne Natur. 
-        Das Highlight bilden vor allem die beiden größeren Wasserfälle im hinteren Teil der Schlucht.`
+        Das Highlight bilden vor allem die beiden größeren Wasserfälle im hinteren Teil der Schlucht.`,
+  status: "nicht gesehen"
 }, {
   name: "Barranco de Azuaje",
   hash: "BarrancoAzuaje",
@@ -223,7 +238,8 @@ export const sightseeings: Sightseeing[] = [{
   info: `Ein Ort, um auf Gran Canaria ganzjährig Wasserfälle und grüne Natur zu erleben, ist der Barranco de Azuaje. 
         Von der asphaltierten Straße führt ein teils gepflasterter Schotterweg hierher. 
         Er endet an einem Parkplatz, von dem aus du nach kurzer Zeit eine Ruine erreichst.
-        Es gibt einen ca. 8 Kilometer langen Rundweg, bei dem du stellenweise auch klettern musst. Entlang des Wegs sind einige kleinere Wasserfälle zu sehen.`
+        Es gibt einen ca. 8 Kilometer langen Rundweg, bei dem du stellenweise auch klettern musst. Entlang des Wegs sind einige kleinere Wasserfälle zu sehen.`,
+  status: "nicht gesehen"
 }, {
   name: "El Bufadero in La Garita",
   hash: "ElBufadero",
@@ -238,7 +254,8 @@ export const sightseeings: Sightseeing[] = [{
   info: `Der zweite Wasserfall auf Gran Canaria, der das ganze Jahr über sichtbar ist, befindet sich im Küstenort La Garita. 
         Dabei handelt es sich jedoch nicht um einen klassischen Wasserfall, der aus einem Fluss oder Bach entspricht. 
         Vielmehr entsteht dieser Wasserfall mit jeder Welle neu. La Garita beherbergt eine Lava-Küste, an der sich u.a. das Felsloch “El Bufadero” gebildet hat. 
-        Übersetzt bedeutet dies soviel wie “der Fauchende”. Da El Bufadero an der Ostküste von Gran Canaria liegt, geht hier morgens die Sonne über dem Meer auf.`
+        Übersetzt bedeutet dies soviel wie “der Fauchende”. Da El Bufadero an der Ostküste von Gran Canaria liegt, geht hier morgens die Sonne über dem Meer auf.`,
+  status: "nicht gesehen"
 }, {
   name: "Charco de la Paloma",
   hash: "CharcoPaloma",
@@ -252,7 +269,8 @@ export const sightseeings: Sightseeing[] = [{
   link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/gran-canaria-wasserfaelle/#4-wasserfall-am-charco-de-la-paloma",
   info: `Noch ein wenig mehr Glück als beim Charzu Azul musst du am Charco de la Paloma haben. 
         Denn hier ist der Wasserfall noch öfter ausgetrocknet als am Charco Azul. 
-        Dafür ist der Weg zum Wasserfall deutlich kürzer. Der Weg startet nahe dem Bergdorf Tejeda.`
+        Dafür ist der Weg zum Wasserfall deutlich kürzer. Der Weg startet nahe dem Bergdorf Tejeda.`,
+  status: "nicht gesehen"
 }, {
   name: "Playa de Güigüi",
   hash: "PlayaGuigui",
@@ -264,7 +282,8 @@ export const sightseeings: Sightseeing[] = [{
   topic: "Wasser",
   type: "Wanderung",
   link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/gran-canaria-ausfluege/#weitere-gran-canaria-ausfluege",
-  info: "Ein ruhiger Strand an der Westküste, der nur über eine mehrstündige Wanderung oder per Boot erreichbar ist."
+  info: "Ein ruhiger Strand an der Westküste, der nur über eine mehrstündige Wanderung oder per Boot erreichbar ist.",
+  status: "nicht gesehen"
 }, {
   name: "Mirador del Balcon",
   hash: "MiradorBalcon",
@@ -276,7 +295,8 @@ export const sightseeings: Sightseeing[] = [{
   topic: "Wasser",
   type: "Aussichtspunkt",
   link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/gran-canaria-ausfluege/#weitere-gran-canaria-ausfluege",
-  info: "Aussichtspunkt an der Steilküste im Westen der Insel."
+  info: "Aussichtspunkt an der Steilküste im Westen der Insel.",
+  status: "gesehen"
 }, {
   name: "Cenobio de Valeron",
   hash: "CenobioValeron",
@@ -292,7 +312,8 @@ export const sightseeings: Sightseeing[] = [{
         Die Ureinwohner nutzen die damals schwer zugänglichen Höhlen, um ihre Essensvorräte vor Diebstahl und dem vorzeitigen Verderben zu schützen. 
         Auch einige Wohnhöhlen waren hier vorhanden. Heutzutage sind die Höhlen über Treppen gut zugänglich. 
         Neben den Höhlen selbst ist auch der Ausblick vom Cenobio de Valerón lohnenswert. 
-        Die Aussicht reicht vom Atlantik über den Barranco de Calabozo auf die begrünte Berglandschaft.`
+        Die Aussicht reicht vom Atlantik über den Barranco de Calabozo auf die begrünte Berglandschaft.`,
+  status: "nicht gesehen"
 }, {
   name: "Cuevas de Cuatro Puertas",
   hash: "Cuevas-de-cuatro-puertas",
@@ -307,7 +328,8 @@ export const sightseeings: Sightseeing[] = [{
   info: `Die Cuevas de Cuatro Puertas befinden sich auf einem Berg, der nahe einer Wohnsiedlung liegt. 
         Du kannst hier zunächst mit dem Auto hinauffahren, bis der Schotterweg beginnt. Am Rand gibt es Parkmöglichkeiten. 
         Der Fußweg hinauf zu den Höhlen dauert ca. 5 Minuten. Im Rahmen eines Rundwegs kannst du verschiedene Höhlen sehen. 
-        Besonders eindrucksvoll sind die hinteren Höhlen “Los Pilares” (die Säulen). Sie sollen einst als Wohn- und Speicherhöhlen gedient haben.`
+        Besonders eindrucksvoll sind die hinteren Höhlen “Los Pilares” (die Säulen). Sie sollen einst als Wohn- und Speicherhöhlen gedient haben.`,
+  status: "nicht gesehen"
 }, {
   name: "La Fortaleza de Ansite",
   hash: "La-Fortaleza-de-Ansite",
@@ -323,7 +345,8 @@ export const sightseeings: Sightseeing[] = [{
         Hier sollen die Altkanarier einst Zuflucht gesucht haben, als die kastilischen Truppen im Jahr 1483 einfielen. 
         Sie versteckten sich in den Höhlen, die damals sowohl als Wohn- wie auch als Bestattungshöhlen gedient haben sollen. 
         Mehr über die Nutzung der Höhlen und das Leben der kanarischen Ureinwohner kannst du im nahegelegenen Museum erfahren 
-        (Centro de Interpretación yacimiento arqueológico de La Fortaleza).`
+        (Centro de Interpretación yacimiento arqueológico de La Fortaleza).`,
+  status: "nicht gesehen"
 }, {
   name: "Pico de las Nieves",
   hash: "Pico-de-las-Nieves",
@@ -338,7 +361,8 @@ export const sightseeings: Sightseeing[] = [{
   info: `Der höchstgelegene Aussichtspunkt auf Gran Canaria befindet sich am Pico de las Nieves. Übersetzt bedeutet dies “Gipfel des Schnees”. 
         Und tatsächlich kann es im Winter hier auch schneien oder zumindest Frost geben. Der Gipfel liegt auf 1.949 Metern Höhe. 
         Vom Aussichtspunkt hast du bei klarer Sicht einen guten Ausblick auf die Berglandschaft mit ihren Gipfeln und Pinienwäldern. 
-        Zudem kannst du bei gutem Wetter auch die Nachbarinsel Teneriffa mit dem Teide Vulkan in der Ferne sehen.`
+        Zudem kannst du bei gutem Wetter auch die Nachbarinsel Teneriffa mit dem Teide Vulkan in der Ferne sehen.`,
+  status: "nicht gesehen"
 }, {
   name: "Roque Nublo",
   hash: "Roque-Nublo",
@@ -354,7 +378,8 @@ export const sightseeings: Sightseeing[] = [{
         Erreichbar ist der Roque Nublo über einen Wanderweg, der bei Touristen beliebt ist. Daher kann es je nach Tageszeit und Wochentag auch etwas voller werden. 
         Der Wanderweg startet am Parkplatz neben der GC-600. In der Regel ist es morgens vor 10 Uhr am leersten. 
         Zudem hast du dann oftmals gute Chancen auf eine wolkenfreie Sicht. 
-        Der Roque Nublo liegt auf 1.813 Höhenmetern und ist damit die drittgrößte Erhebung auf Gran Canaria.`
+        Der Roque Nublo liegt auf 1.813 Höhenmetern und ist damit die drittgrößte Erhebung auf Gran Canaria.`,
+  status: "nicht gesehen"
 }, {
   name: "Cruz de Tejeda",
   hash: "Cruz-de-Tejeda",
@@ -367,7 +392,8 @@ export const sightseeings: Sightseeing[] = [{
   type: "Kurze Wanderung",
   link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/gran-canaria-highlights/#cruz-de-tejeda",
   info: `Ein weiteres lohnenswertes Ausflugsziel in der Bergwelt auf Gran Canaria ist Cruz de Tejeda. Der kleine Ort bietet eine schöne Sicht auf das Bergpanorama. 
-        Vor allem zum Sonnenuntergang ist der Blick in die Berge ein echtes Highlight! Nahe dem Aussichtspunkt gibt es auch Restaurants und Cafés.`
+        Vor allem zum Sonnenuntergang ist der Blick in die Berge ein echtes Highlight! Nahe dem Aussichtspunkt gibt es auch Restaurants und Cafés.`,
+  status: "nicht gesehen"
 }, {
   name: "Barranco de las Vacas",
   hash: "Barranco-de-las-Vacas",
@@ -379,7 +405,8 @@ export const sightseeings: Sightseeing[] = [{
   topic: "Berge",
   type: "Kurze Wanderung",
   link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/gran-canaria-highlights/#8-barranco-de-las-vacas",
-  info: `Im Barranco de las Vacas fühlst du dich fast so, als wärst du im US-amerikanischen Antelope Canyon gelandet. Der Barranco de las Vacas ist jedoch deutlich kleiner. Von der GC-550 führt ein kurzer Wanderweg hinunter in den Barranco.`
+  info: `Im Barranco de las Vacas fühlst du dich fast so, als wärst du im US-amerikanischen Antelope Canyon gelandet. Der Barranco de las Vacas ist jedoch deutlich kleiner. Von der GC-550 führt ein kurzer Wanderweg hinunter in den Barranco.`,
+  status: "nicht gesehen"
 }, {
   name: "Barranco de Guayadeque",
   hash: "Barranco-de-Guayadeque",
@@ -394,7 +421,8 @@ export const sightseeings: Sightseeing[] = [{
   info: `In dieser grün bewachsenen Schlucht findest du einige Höhlen-Wohnungen und Höhlen-Restaurants. 
         Die Höhlen, in denen früher einmal die Ureinwohner gelebt haben sollen, sind heutzutage zu komfortableren Höhlen-Wohnungen umgebaut worden. 
         Der Barranco de Guayadeque eignet sich gut als Ausflugsziel, um die Schönheit der Natur zu erleben, zu wandern und in eines der Höhlen-Restaurants einzukehren. 
-        Im hinteren Teil der Schlucht gibt es einen kurzen Rundwanderweg. Zudem sind auch längere Wanderungen möglich.`
+        Im hinteren Teil der Schlucht gibt es einen kurzen Rundwanderweg. Zudem sind auch längere Wanderungen möglich.`,
+  status: "nicht gesehen"
 }, {
   name: "Mirador Caldera Los Marteles",
   hash: "Mirador-Caldera-Los-Marteles",
@@ -408,7 +436,8 @@ export const sightseeings: Sightseeing[] = [{
   link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/gran-canaria-sehenswuerdigkeiten/#4-aussichtspunkte-8220pico-de-las-nieves8221-und-8220caldera-los-marteles8221",
   info: `Beim Mirador Caldera Los Marteles handelt es sich um einen Aussichtspunkt auf einen Vulkankessel. 
         Der grün bewachsene Vulkankessel hat einen Durchmesser von ca. 500 Metern und ist etwa 80 Meter tief. 
-        Alternativ zur Wanderung kannst du diesen Aussichtspunkt auch mit dem Auto erreichen.`
+        Alternativ zur Wanderung kannst du diesen Aussichtspunkt auch mit dem Auto erreichen.`,
+  status: "nicht gesehen"
 }, {
   name: "Naturpark Bandama",
   hash: "Badama",
@@ -425,7 +454,8 @@ export const sightseeings: Sightseeing[] = [{
         Am besten kannst du das Ausmaß des Vulkankessels vom Aussichtspunkt “Pico de Bandama” sehen. Eine Serpentinenstraße führt dich mit dem Auto bequem zum Gipfel hinauf. 
         Oben erwartet dich dann nicht nur eine tolle Aussicht auf den Vulkankrater, sondern auch auf das Umland. 
         Hier kannst du z.B. auch Las Palmas, die Hauptstadt von Gran Canaria, gut überblicken. 
-        Zudem werden deine Augen von den schönen Aussichten auf die Berglandschaft und das Meer verwöhnt.`
+        Zudem werden deine Augen von den schönen Aussichten auf die Berglandschaft und das Meer verwöhnt.`,
+  status: "nicht gesehen"
 }, {
   name: "Charco de San Lorenzo",
   hash: "Charco-de-San-Lorenzo",
@@ -442,7 +472,8 @@ export const sightseeings: Sightseeing[] = [{
         Interessant ist der Charco de San Lorenzo auch aufgrund der benachbarten Felsenstadt El Roque. 
         Hier wurden weiß gestrichene Häuser auf einen Felsen direkt an der Küste gebaut. 
         Die kleine Felsenstadt ist vom Charco aus gut zu sehen und fußläufig erreichbar. 
-        Autos können durch die kleine Felsstadt nicht fahren, da die Gassen hierfür zu eng sind.`
+        Autos können durch die kleine Felsstadt nicht fahren, da die Gassen hierfür zu eng sind.`,
+  status: "nicht gesehen"
 }, {
   name: "Cueva de la Reina",
   hash: "Cueva-de-la-Reina",
@@ -458,7 +489,8 @@ export const sightseeings: Sightseeing[] = [{
         Ins Meer geflossene Lava ist erkaltet und hat natürliche Badebecken hinterlassen. 
         Besonders ausgefallen und wenig bekannt ist die Cueva de la Reina. Sie liegt im Ort La Garita. 
         Die Wohnsiedlung oberhalb des Naturpools lässt zunächst nicht vermuten, dass sich hier ein wahres Highlight auf Gran Canaria befindet. 
-        Es handelt sich um eine Höhle, in der sich ein kleiner Naturpool befindet.`
+        Es handelt sich um eine Höhle, in der sich ein kleiner Naturpool befindet.`,
+  status: "nicht gesehen"
 }, {
   name: "Charco de Las Palomas",
   hash: "Charco-de-Las-Palomas",
@@ -473,7 +505,8 @@ export const sightseeings: Sightseeing[] = [{
   info: `Die meisten Charcos oder Piscinas Naturales, wie sie im Spanischen heißen, sind natürlich entstanden. 
         Ins Meer geflossene Lava ist erkaltet und hat natürliche Badebecken hinterlassen. 
         Teilweise wurden die Lavabecken mit Mauern noch vervollständigt oder zusätzlich gesichert. 
-        Dieser Pool ist auch für kleine Kinder gut geeignet, da das Wasser in einigen der Naturpools flach ist.`
+        Dieser Pool ist auch für kleine Kinder gut geeignet, da das Wasser in einigen der Naturpools flach ist.`,
+  status: "nicht gesehen"
 }, {
   name: "Bodega Los Berrazales",
   hash: "Bodega-Los_Berrazales",
@@ -489,7 +522,8 @@ export const sightseeings: Sightseeing[] = [{
         Daher ist im westlichen Teil Gran Canarias die bislang einzige Kaffeeplantage Europas entstanden. 
         Die jährliche Erntemenge liegt bei ca. 1.500 Kilogramm. Der Name “Bodega” bedeutet aus dem Spanischen übersetzt übrigens auch Weinkeller. 
         Zum Probieren werden dir neben Kaffee auch Wein bzw. ein alkoholfreies Getränk für Kinder, Käse und Brot mit Aufstrich gereicht. 
-        Je nach Saison kannst du zudem das erntefrische Obst probieren. Auf der Plantage wachsen z.B. Orangen, Mangos, Guaven und Avocados.`
+        Je nach Saison kannst du zudem das erntefrische Obst probieren. Auf der Plantage wachsen z.B. Orangen, Mangos, Guaven und Avocados.`,
+  status: "nicht gesehen"
 }, {
   name: "Museo y Parque Arqueológico Cueva Pintada",
   hash: "Cueva-Pintada",
@@ -504,7 +538,8 @@ export const sightseeings: Sightseeing[] = [{
   info: `Bei der Cueva Pintada handelt es sich um eine Höhle, die im Jahr 1873 durch Zufall entdeckt wurde. 
         Da sich in der Höhle einige Gemälde befanden, wurde sie “Cueva Pintada” getauft, was so viel wie “bemalte Höhle” bedeutet. 
         Seit 2006 ist die Höhle nun in ihrer heutigen Form als Museum und archäologischer Park für Besucher zugänglich. 
-        Du kannst die Höhle dabei entweder auf eigene Faust oder im Rahmen einer Führung erkunden.`
+        Du kannst die Höhle dabei entweder auf eigene Faust oder im Rahmen einer Führung erkunden.`,
+  status: "nicht gesehen"
 }, {
   name: "Parque natural de Pilancones",
   hash: "Parque-natural-de-Pilancones",
@@ -522,7 +557,8 @@ export const sightseeings: Sightseeing[] = [{
         Es handelt sich mit einem Alter von ca. 12 Millionen Jahren um die älteste Region von Gran Canaria. 
         Der Naturpark ist insgesamt 5.794 Hektar groß. Er beherbergt den größten Pinienwald der Insel und zudem auch Kakteen, Distel- und Wolfsmilch-Gewächse sowie Zistrosen. 
         Auch verschiedene Vogelarten sind hier zuhause. Entlang der GC-604 findest du u.a. auch eine mystisch wirkende, kleine Bergkirche. 
-        Wenn du mit dem Auto oder Fahrrad unterwegs bist, kannst du auch schön die verschiedenen Aussichtspunkte rund um den Naturpark anfahren.`
+        Wenn du mit dem Auto oder Fahrrad unterwegs bist, kannst du auch schön die verschiedenen Aussichtspunkte rund um den Naturpark anfahren.`,
+  status: "nicht gesehen"
 }, {
   name: "Tejeda und der Roque Bentayga",
   hash: "Tejeda-Roque-Bentayga",
@@ -537,7 +573,8 @@ export const sightseeings: Sightseeing[] = [{
   info: `Die 1.404 Meter hohe Erhebung ist vor ca. 3 Millionen Jahren bei einer vulkanischen Eruption entstanden. 
         Die Ureinwohner Gran Canarias haben den Roque Bentayga als heiligen Ort verehrt und dort auch Höhlenwohnungen, Begräbnisstätten, Scheunen und Viehgehege gebaut. 
         Diese wurden vor nicht allzu langer Zeit bei archäologischen Ausgrabungen entdeckt. Vom Parkplatz aus führt ein Wanderweg hinauf zum Gipfel. 
-        Hierfür solltest du ca. 1 Stunde Zeit einplanen. Oben kannst du dann auch einige der Höhlenwohnungen sehen.`
+        Hierfür solltest du ca. 1 Stunde Zeit einplanen. Oben kannst du dann auch einige der Höhlenwohnungen sehen.`,
+  status: "nicht gesehen"
 }, {
   name: "Aqualand Maspalomas",
   hash: "Aqualand-Maspalomas",
@@ -554,7 +591,8 @@ export const sightseeings: Sightseeing[] = [{
         Um dich einen Tag lang auf den Rutschen zu vergnügen, bist du hier aber dennoch richtig. 
         Das Aqualand ist täglich von 10:00 bis 17:00 Uhr geöffnet und kostet 33 Euro für Erwachsene und Kinder ab 11 Jahren. 
         Senioren und Kinder zwischen 5 und 10 Jahren zahlen 24 Euro Eintritt. Für 3- und 4-jährige Kinder beträgt die Eintrittsgebühr 12 Euro (Stand Februar 2022). 
-        Schließfächer und Liegestühle kosten dann noch einmal extra.`
+        Schließfächer und Liegestühle kosten dann noch einmal extra.`,
+  status: "nicht gesehen"
 }, {
   name: "Lago Taurito Water Park",
   hash: "Lago-Taurito",
@@ -570,7 +608,8 @@ export const sightseeings: Sightseeing[] = [{
         Der Lago Taurito Water Park ist nicht allzu groß, aber dafür mit 15 Euro Eintrittsgebühr auch preiswerter als das Aqualand. 
         Für Kinder zwischen 3 und 12 Jahren gilt zudem eine ermäßigte Eintrittsgebühr von 5 Euro. 
         Rutschen und plantschen kannst du hier täglich zwischen 10:00 und 18:00 Uhr. 
-        Der Wasserpark ist von mehreren Hotels umgeben und liegt nah am Meer.`
+        Der Wasserpark ist von mehreren Hotels umgeben und liegt nah am Meer.`,
+  status: "nicht gesehen"
 }, {
   name: "Palmitos Park",
   hash: "Palmitos-Park",
@@ -585,7 +624,8 @@ export const sightseeings: Sightseeing[] = [{
   info: `Hier erwarten dich u.a. verschiedene Säugetiere, Vögel, Reptilien, ein Aquarium, ein botanischer Garten und ein Orchideen-Haus. 
         Das Highlight ist für viele Parkbesucher aber das Delfinarium. Hier werden mehrfach täglich Delfin-Shows gezeigt. 
         Das Delfinarium ist ca. 3.000 m2 groß und fasst in insgesamt drei Becken über 4 Millionen Liter Wasser. 
-        Es beherbergt 9 Delfine und bietet Platz für etwa 1.500 Zuschauer.`
+        Es beherbergt 9 Delfine und bietet Platz für etwa 1.500 Zuschauer.`,
+  status: "gesehen"
 }, {
   name: "Cocodrilo Park",
   hash: "Cocodrilo-Park",
@@ -604,7 +644,8 @@ export const sightseeings: Sightseeing[] = [{
         Insgesamt leben über 500 Tiere im Cocodrilo Park. Ein Highlight im Park sind für viele Besucher die Affen-Fütterungen, die um 12:00 und 16:00 Uhr stattfinden. 
         Zudem gibt es um 13:00 Uhr auch eine Krokodil-Show. Der Tierpark umfasst eine Fläche von über 22.000 Quadratmetern. 
         Für deinen Besuch ist der Cocodrilo Park freitags, samstags und sonntags zwischen 10:30 und 16:30 Uhr geöffnet. 
-        Die Eintrittsgebühr liegt bei 9,90 Euro für Erwachsene bzw. 6,90 Euro für Kinder zwischen 3 und 12 Jahre.`
+        Die Eintrittsgebühr liegt bei 9,90 Euro für Erwachsene bzw. 6,90 Euro für Kinder zwischen 3 und 12 Jahre.`,
+  status: "nicht gesehen"
 }, {
   name: "Sioux City Park (Wild West)",
   hash: "Sioux-City-Park",
@@ -622,7 +663,8 @@ export const sightseeings: Sightseeing[] = [{
         Auch ein nachgebauter Wild West Saloon ist vorhanden. Hier kannst du im authentischen Ambiente etwas trinken. 
         Darüberhinaus verfügt der Sioux City Park auch über einen kleinen Zoo. 
         Hier kannst du z.B. Erdmännchen, Krokodile, Cachena-Rinder, Hühner und Emusse sehen. 
-        Der Wild West Park ist Dienstags bis Freitags zwischen 10:00 und 15:00 Uhr sowie Samstags und Sonntags zwischen 10:00 und 16:00 Uhr geöffnet. Montags ist Ruhetag.`
+        Der Wild West Park ist Dienstags bis Freitags zwischen 10:00 und 15:00 Uhr sowie Samstags und Sonntags zwischen 10:00 und 16:00 Uhr geöffnet. Montags ist Ruhetag.`,
+  status: "nicht gesehen"
 }, {
   name: "Poema del Mar (Aquarium)",
   hash: "Poema-de-Mar",
@@ -636,7 +678,8 @@ export const sightseeings: Sightseeing[] = [{
   link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/gran-canaria-ausfluege/#poema-del-mar",
   info: `Ebenfalls ein beliebter Ausflug mit Kindern führt dich ins Aquarium “Poema del Mar” nach Las Palmas. 
         Das Aquarium ist aufwendig gestaltet und unterteilt sich in drei Themenbereiche: Dschungel, Strand-Riff und Tiefsee. 
-        Du findest hier u.a. Schildkröten, Rochen, Tintenfische, Quallen, Krebse, Piranhas und Aale. Auch Krokodile und Frösche sind hier beispielsweise Zuhause.`
+        Du findest hier u.a. Schildkröten, Rochen, Tintenfische, Quallen, Krebse, Piranhas und Aale. Auch Krokodile und Frösche sind hier beispielsweise Zuhause.`,
+  status: "nicht gesehen"
 }, {
   name: "U-Boot Tour",
   hash: "U-Boot-Tour",
@@ -649,7 +692,8 @@ export const sightseeings: Sightseeing[] = [{
   type: "Tagesausflug",
   link: "https://www.okgrancanaria.com/de/tours/u-boot-yellow-submarine/",
   info: `Wegen Covid zur Zeit nicht Verfügbar?! Die U-Boot Fahrten finden täglich um 10:00, 11:00, 12:00, 13:00, 14:00, 15:30, 16:20 und 17:10 Uhr statt. 
-        Tickets kannst du bereits vorab online über GetYourGuide kaufen.`
+        Tickets kannst du bereits vorab online über GetYourGuide kaufen.`,
+  status: "nicht gesehen"
 }, {
   name: "Delfin Tour",
   hash: "Delfin-Tour",
@@ -664,7 +708,8 @@ export const sightseeings: Sightseeing[] = [{
   info: `Freu dich auf eine 2,5-stündige Bootstour durch die herrlichen Gewässer rund um Gran Canaria und erlebe majestätische Delfine und Wale aus nächster Nähe. 
         Erfrische dich mit einem kühlen Getränk von der Bar an Bord. 
         Das Boot fährt so nahe wie möglich an diese erstaunlichen Meeresbewohner heran, so dass du die Tiere in ihrem natürlichen Lebensraum sehen kannst. 
-        Beobachte die Delfine und Wale beim Spielen im Wasser und schieße tolle Erinnerungsfotos.`
+        Beobachte die Delfine und Wale beim Spielen im Wasser und schieße tolle Erinnerungsfotos.`,
+  status: "nicht gesehen"
 }, {
   name: "Museo Elder de la Ciencia y la Tecnologia",
   hash: "Museo-Tecnologia",
@@ -677,7 +722,8 @@ export const sightseeings: Sightseeing[] = [{
   topic: "Erlebnisse",
   link: "http://gran-canaria.gequo-travel.de/aktivitaeten/museen/museo-elder-de-la-ciencia-y-la-tecnologia",
   info: `Unter dem Motto »Nicht berühren, nicht spüren, nicht träumen, nicht lernen verboten« erstrecken sich über drei Stockwerke mehr als 200 spannende und 
-        zum Teil interaktive Exponate und Simulationen zu Raumfahrt, Mathematik und Physik, zur Entwicklung des Menschen und zur kanarischen Vegetation.`
+        zum Teil interaktive Exponate und Simulationen zu Raumfahrt, Mathematik und Physik, zur Entwicklung des Menschen und zur kanarischen Vegetation.`,
+  status: "nicht gesehen"
 }, {
   name: "E-Scooter-Chopper",
   hash: "E-Scooter-Chopper",
@@ -691,7 +737,8 @@ export const sightseeings: Sightseeing[] = [{
   link: "https://www.getyourguide.de/gran-canaria-l418/maspalomas-selbstgefuhrte-e-scooter-tour-auf-zweisitzern-t235927/",
   info: `Die Elektroroller im Harley-Stil sind eine bequeme und umweltfreundliche Möglichkeit, den Süden Gran Canarias während deines Urlaubs mühelos mit deinem Partner, 
         deiner Familie oder deinen Freunden zu erkunden - nur ein Führerschein ist erforderlich. Es ist empfehlenswert, dein beeindruckendes Erlebnis mit einem Besuch der 
-        Meloneras-Promenade abzurunden, die als die schönste Promenade im Süden Gran Canarias gilt und einen hervorragenden Blick auf das Meer bietet.`
+        Meloneras-Promenade abzurunden, die als die schönste Promenade im Süden Gran Canarias gilt und einen hervorragenden Blick auf das Meer bietet.`,
+  status: "nicht gesehen"
 }, {
   name: "Radtour",
   hash: "Radtour",
@@ -704,7 +751,8 @@ export const sightseeings: Sightseeing[] = [{
   type: "Tagesausflug",
   link: "https://www.getyourguide.de/gran-canaria-l418/maspalomas-selbstgefuhrte-tagestour-mit-einem-stadtrad-t249167/?date_from=2022-04-18&date_to=2022-05-06",
   info: `Begib dich auf eine selbstgeführte und personalisierte Tour durch Gran Canara mit dem Stadtrad, eine bequeme und ökologische Alternative, 
-        um den Süden der Insel zu entdecken. Du kannst dein Fahrrad für 10 Stunden oder für 1-7 Tage mieten.`
+        um den Süden der Insel zu entdecken. Du kannst dein Fahrrad für 10 Stunden oder für 1-7 Tage mieten.`,
+  status: "gesehen"
 }, {
   name: "Beginner-Sporttauchen",
   hash: "Beginner-Sporttauchen",
@@ -721,7 +769,8 @@ export const sightseeings: Sightseeing[] = [{
         und setzen Sie dann Ihr neues Wissen bei einem 1-stündigen Tauchgang in Puerto Rico in die Praxis um, 
         wobei Ihr professioneller Kursleiter an Ihrer Seite ist. Nach dem Schwimmen vorbei an fantastischen Korallenformationen und 
         Fischen sind Sie auf dem besten Weg, die PADI-Tauchzertifizierung zu erwerben. Weitere Informationen über Anfänger Sporttauch-Erlebnis auf Gran Canaria - 
-        https://www.viator.com/de-DE/tours/Gran-Canaria/Beginners-Scuba-Diving-Experience-in-Gran-Canaria/d792-12120P1?mcid=56757`
+        https://www.viator.com/de-DE/tours/Gran-Canaria/Beginners-Scuba-Diving-Experience-in-Gran-Canaria/d792-12120P1?mcid=56757`,
+  status: "nicht gesehen"
 }]
 
 /* const moreCities: Sightseeing[] = [{

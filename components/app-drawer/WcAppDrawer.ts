@@ -31,7 +31,7 @@ export const canariaMenu: CanariaMenu = [{
   icon: 'trees'
 }, {
   title: 'Erlebnisse',
-  icon: 'person-biking-mountain'
+  icon: 'dolphin'
 }];
 
 @customElement("wc-app-drawer")

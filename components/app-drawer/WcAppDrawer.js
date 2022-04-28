@@ -29,7 +29,7 @@ export const canariaMenu = [{
         icon: 'trees'
     }, {
         title: 'Erlebnisse',
-        icon: 'person-biking-mountain'
+        icon: 'dolphin'
     }];
 let WcAppDrawer = class WcAppDrawer extends LitElement {
     constructor(selectedDrawer) {

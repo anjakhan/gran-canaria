@@ -779,6 +779,8 @@ c16.583,0,30.355-0.984,37.017-1.562V121.497z M190.931,51.013c-6.188,0.551-20.108
             return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M336.6 156.5C327.3 148.1 322.6 136.5 327.1 125.3L357.6 49.18C362.7 36.27 377.8 30.36 389.7 37.63C410.9 50.63 430 66.62 446.5 85.02C455.7 95.21 452.9 110.9 441.5 118.5L373.9 163.5C363.6 170.4 349.8 168.1 340.5 159.9C339.2 158.7 337.9 157.6 336.6 156.5H336.6zM297.7 112.6C293.2 123.1 280.9 129.8 268.7 128.6C264.6 128.2 260.3 128 256 128C251.7 128 247.4 128.2 243.3 128.6C231.1 129.8 218.8 123.1 214.3 112.6L183.1 36.82C178.8 24.02 185.5 9.433 198.1 6.374C217.3 2.203 236.4 0 256 0C275.6 0 294.7 2.203 313 6.374C326.5 9.433 333.2 24.02 328 36.82L297.7 112.6zM122.3 37.63C134.2 30.36 149.3 36.27 154.4 49.18L184.9 125.3C189.4 136.5 184.7 148.1 175.4 156.5C174.1 157.6 172.8 158.7 171.5 159.9C162.2 168.1 148.4 170.4 138.1 163.5L70.52 118.5C59.13 110.9 56.32 95.21 65.46 85.02C81.99 66.62 101.1 50.63 122.3 37.63H122.3zM379.5 222.1C376.3 210.7 379.7 198.1 389.5 191.6L458.1 145.8C469.7 138.1 485.6 141.9 491.2 154.7C501.6 178.8 508.4 204.8 510.9 232C512.1 245.2 501.3 255.1 488 255.1H408C394.7 255.1 384.2 245.2 381.8 232.1C381.1 228.7 380.4 225.4 379.5 222.1V222.1zM122.5 191.6C132.3 198.1 135.7 210.7 132.5 222.1C131.6 225.4 130.9 228.7 130.2 232.1C127.8 245.2 117.3 256 104 256H24C10.75 256-.1184 245.2 1.107 232C3.636 204.8 10.43 178.8 20.82 154.7C26.36 141.9 42.26 138.1 53.91 145.8L122.5 191.6zM104 288C117.3 288 128 298.7 128 312V360C128 373.3 117.3 384 104 384H24C10.75 384 0 373.3 0 360V312C0 298.7 10.75 288 24 288H104zM488 288C501.3 288 512 298.7 512 312V360C512 373.3 501.3 384 488 384H408C394.7 384 384 373.3 384 360V312C384 298.7 394.7 288 408 288H488zM104 416C117.3 416 128 426.7 128 440V488C128 501.3 117.3 512 104 512H24C10.75 512 0 501.3 0 488V440C0 426.7 10.75 416 24 416H104zM488 416C501.3 416 512 426.7 512 440V488C512 501.3 501.3 512 488 512H408C394.7 512 384 501.3 384 488V440C384 426.7 394.7 416 408 416H488zM272 464C272 472.8 264.8 480 256 480C247.2 480 240 472.8 240 464V192C240 183.2 247.2 176 256 176C264.8 176 272 183.2 272 192V464zM208 464C208 472.8 200.8 480 192 480C183.2 480 176 472.8 176 464V224C176 215.2 183.2 208 192 208C200.8 208 208 215.2 208 224V464zM336 464C336 472.8 328.8 480 320 480C311.2 480 304 472.8 304 464V224C304 215.2 311.2 208 320 208C328.8 208 336 215.2 336 224V464z"/></svg>`;
         case "arrow-up-right-from-square":
             return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M272 40C272 35.58 275.6 32 280 32H440C444.4 32 448 35.58 448 40V208C448 212.4 444.4 216 440 216C435.6 216 432 212.4 432 208V59.31L173.7 317.7C170.5 320.8 165.5 320.8 162.3 317.7C159.2 314.5 159.2 309.5 162.3 306.3L420.7 48H280C275.6 48 272 44.42 272 40V40zM0 136C0 113.9 17.91 96 40 96H160C164.4 96 168 99.58 168 104C168 108.4 164.4 112 160 112H40C26.75 112 16 122.7 16 136V440C16 453.3 26.75 464 40 464H344C357.3 464 368 453.3 368 440V320C368 315.6 371.6 312 376 312C380.4 312 384 315.6 384 320V440C384 462.1 366.1 480 344 480H40C17.91 480 0 462.1 0 440V136z"/></svg>`;
+        case "dolphin":
+            return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><defs><style>.fa-secondary{opacity:.4}</style></defs><path class="fa-primary" d="M128 148.3C129.8 136.9 139.3 128 151.3 128c13.25 0 24 10.74 24 24c0 13.25-10.75 24-24 24C139.3 176 129.8 167.1 128 155.7V148.3z"/><path class="fa-secondary" d="M438.4 129.5l-13.9-11.92c9.016-24.25 26.23-54.14 52.31-89.89c5.311-7.328 3.281-15.04-.4336-19.82c-4.619-5.98-11.83-8.907-20.34-7.575c-51.75 8.117-93.62 24.63-123.9 40.08c-35.5-25.72-77.93-40.4-122.1-40.4L176 0C96.47 0 32 64.47 32 144c0 18.38 3.771 35.8 10.05 51.97L14.25 214.5C5.348 220.4 0 230.4 0 241.1V256c0 17.68 14.33 32 32 32L192.9 288l102.8 61.7C306.4 356.1 320 348.4 320 335.1V288h2.902c.834 0 1.59 .21 2.412 .249C326.2 288.2 327.1 288 328 288C358.9 288 384 313.1 384 344s-25.07 56-56 56h-62.22l-13.07-21.31C248.3 372 240.8 368 232.7 368H171.1c-9.561 0-15.27 10.66-9.965 18.61l35.55 53.38l-35.53 53.36C156.7 501.3 162.4 512 172 512H232.7c8.064 0 15.58-4.033 19.99-10.69L265.8 480H320c105.9 0 192.4-86.08 192-191.1C512 202.3 460.3 148.3 438.4 129.5zM151.3 176C139.3 176 129.8 167.1 128 155.7V148.3C129.8 136.9 139.3 128 151.3 128c13.25 0 24 10.74 24 24C175.3 165.3 164.5 176 151.3 176z"/></svg>`;
         default:
             assertNever(icon);
     }
@@ -1311,7 +1313,7 @@ const canariaMenu = [{
         icon: 'trees'
     }, {
         title: 'Erlebnisse',
-        icon: 'person-biking-mountain'
+        icon: 'dolphin'
     }];
 let WcAppDrawer = class WcAppDrawer extends h {
     constructor(selectedDrawer) {
@@ -1422,7 +1424,32 @@ const createToDoMap = (mapid, mapType, sightseeings, location, zoom = 9) => {
     }
     L.control.layers(baseMaps).addTo(map);
     sightseeings?.map((s) => {
-        const marker = L.marker(s.location);
+        let icon = cities;
+        switch (s.topic) {
+            case "Berge":
+                icon = mountains;
+                break;
+            case "Erlebnisse":
+                icon = adventure;
+                break;
+            case "Höhlen":
+                icon = caves;
+                break;
+            case "Parks":
+                icon = parks;
+                break;
+            case "Städte":
+                icon = cities;
+                break;
+            case "Wasser":
+                icon = water;
+                break;
+            case "Gran-Canaria":
+                icon = cities;
+                break;
+            default: assertNever(s.topic);
+        }
+        const marker = L.marker(s.location, { icon: icon });
         markers.push(marker);
         marker.addTo(map).bindPopup(`
       <a 
@@ -1440,7 +1467,32 @@ const updateMap = (sightseeings) => {
         markers?.forEach(m => map.removeLayer(m));
         markers = [];
         sightseeings?.map((s) => {
-            const marker = L.marker(s.location);
+            let icon = cities;
+            switch (s.topic) {
+                case "Berge":
+                    icon = mountains;
+                    break;
+                case "Erlebnisse":
+                    icon = adventure;
+                    break;
+                case "Höhlen":
+                    icon = caves;
+                    break;
+                case "Parks":
+                    icon = parks;
+                    break;
+                case "Städte":
+                    icon = cities;
+                    break;
+                case "Wasser":
+                    icon = water;
+                    break;
+                case "Gran-Canaria":
+                    icon = cities;
+                    break;
+                default: assertNever(s.topic);
+            }
+            const marker = L.marker(s.location, { icon: icon });
             markers.push(marker);
             marker.addTo(map).bindPopup(`
         <a 
@@ -1455,6 +1507,36 @@ const updateMap = (sightseeings) => {
         });
     }
 };
+const cities = L.divIcon({
+    html: `<svg style="fill: var(--gran-canaria-cities)" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><defs><style>.fa-secondary{opacity:.4}</style></defs><path class="fa-primary" d="M.0003 464V277.1C.0003 263.7 5.647 250.8 15.57 241.7L159.6 109.7C177.9 92.91 206.1 92.91 224.4 109.7L368.4 241.7C378.4 250.8 384 263.7 384 277.1V464C384 490.5 362.5 512 336 512H48C21.49 512 0 490.5 0 464H.0003zM168 272C154.7 272 144 282.7 144 296V344C144 357.3 154.7 368 168 368H216C229.3 368 240 357.3 240 344V296C240 282.7 229.3 272 216 272H168z"/><path class="fa-secondary" d="M566.6 137.4C575.8 146.5 578.5 160.3 573.6 172.2C568.6 184.2 556.9 192 544 192H514.6L600.1 300C608.7 309.6 610.2 322.8 604.8 333.9C599.5 344.1 588.3 352 576 352H546.6L632.1 460C640.7 469.6 642.2 482.8 636.8 493.9C631.5 504.1 620.3 512 608 512H400C410 498.6 416 482 416 464V277.1C416 254.7 406.6 233.3 390.1 218.1L282.9 119.9L393.4 9.372C405.9-3.124 426.1-3.124 438.6 9.372L566.6 137.4z"/></svg>`,
+    className: "dungeon",
+    iconSize: [24, 40],
+});
+const mountains = L.divIcon({
+    html: `<svg style="fill: var(--gran-canaria-mountains)" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><defs><style>.fa-secondary{opacity:.4}</style></defs><path class="fa-primary" d="M304.4 224H207.6C197.7 224 188.5 228.5 182.4 236.3l-55.63 71l13.25 16.5C149.7 336 170.2 336 180.1 323.8c10.75-13.5 26.75-21.25 44.13-21.5c17.13-1.5 33.5 7 44.75 20l31.63 36.88c9.751 11.38 29.13 11.38 39 0l45.13-52.62l-55-70.25C323.5 228.5 314.3 224 304.4 224zM352 16c-15.75 0-30 5.875-41.25 15.38C299.6 12.75 279.4 0 255.1 0C232.6 0 212.4 12.75 201.2 31.38C189.1 21.88 175.7 16 159.1 16c-35.25 0-64 28.75-64 64s28.75 64 64 64c12.88 0 24.75-3.875 34.75-10.38L223.1 192h64l29.25-58.38C327.3 140.1 339.1 144 352 144c35.25 0 64-28.75 64-64S387.3 16 352 16z"/><path class="fa-secondary" d="M480 512H32.1c-26.38 0-41.5-30.12-25.63-51.25l120.3-153.5l13.25 16.5C149.7 336 170.2 336 180.1 323.8c10.75-13.5 26.75-21.25 44.13-21.5c17.13-1.5 33.5 7 44.75 20l31.63 36.88c9.751 11.38 29.13 11.38 39 0l45.13-52.62l120.8 154.2C521.4 481.9 506.3 512 480 512z"/></svg>`,
+    className: "dungeon",
+    iconSize: [24, 40],
+});
+const caves = L.divIcon({
+    html: `<svg style="fill: var(--gran-canaria-caves)" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M336.6 156.5C327.3 148.1 322.6 136.5 327.1 125.3L357.6 49.18C362.7 36.27 377.8 30.36 389.7 37.63C410.9 50.63 430 66.62 446.5 85.02C455.7 95.21 452.9 110.9 441.5 118.5L373.9 163.5C363.6 170.4 349.8 168.1 340.5 159.9C339.2 158.7 337.9 157.6 336.6 156.5H336.6zM297.7 112.6C293.2 123.1 280.9 129.8 268.7 128.6C264.6 128.2 260.3 128 256 128C251.7 128 247.4 128.2 243.3 128.6C231.1 129.8 218.8 123.1 214.3 112.6L183.1 36.82C178.8 24.02 185.5 9.433 198.1 6.374C217.3 2.203 236.4 0 256 0C275.6 0 294.7 2.203 313 6.374C326.5 9.433 333.2 24.02 328 36.82L297.7 112.6zM122.3 37.63C134.2 30.36 149.3 36.27 154.4 49.18L184.9 125.3C189.4 136.5 184.7 148.1 175.4 156.5C174.1 157.6 172.8 158.7 171.5 159.9C162.2 168.1 148.4 170.4 138.1 163.5L70.52 118.5C59.13 110.9 56.32 95.21 65.46 85.02C81.99 66.62 101.1 50.63 122.3 37.63H122.3zM379.5 222.1C376.3 210.7 379.7 198.1 389.5 191.6L458.1 145.8C469.7 138.1 485.6 141.9 491.2 154.7C501.6 178.8 508.4 204.8 510.9 232C512.1 245.2 501.3 255.1 488 255.1H408C394.7 255.1 384.2 245.2 381.8 232.1C381.1 228.7 380.4 225.4 379.5 222.1V222.1zM122.5 191.6C132.3 198.1 135.7 210.7 132.5 222.1C131.6 225.4 130.9 228.7 130.2 232.1C127.8 245.2 117.3 256 104 256H24C10.75 256-.1184 245.2 1.107 232C3.636 204.8 10.43 178.8 20.82 154.7C26.36 141.9 42.26 138.1 53.91 145.8L122.5 191.6zM104 288C117.3 288 128 298.7 128 312V360C128 373.3 117.3 384 104 384H24C10.75 384 0 373.3 0 360V312C0 298.7 10.75 288 24 288H104zM488 288C501.3 288 512 298.7 512 312V360C512 373.3 501.3 384 488 384H408C394.7 384 384 373.3 384 360V312C384 298.7 394.7 288 408 288H488zM104 416C117.3 416 128 426.7 128 440V488C128 501.3 117.3 512 104 512H24C10.75 512 0 501.3 0 488V440C0 426.7 10.75 416 24 416H104zM488 416C501.3 416 512 426.7 512 440V488C512 501.3 501.3 512 488 512H408C394.7 512 384 501.3 384 488V440C384 426.7 394.7 416 408 416H488zM272 464C272 472.8 264.8 480 256 480C247.2 480 240 472.8 240 464V192C240 183.2 247.2 176 256 176C264.8 176 272 183.2 272 192V464zM208 464C208 472.8 200.8 480 192 480C183.2 480 176 472.8 176 464V224C176 215.2 183.2 208 192 208C200.8 208 208 215.2 208 224V464zM336 464C336 472.8 328.8 480 320 480C311.2 480 304 472.8 304 464V224C304 215.2 311.2 208 320 208C328.8 208 336 215.2 336 224V464z"/></svg>`,
+    className: "dungeon",
+    iconSize: [24, 40],
+});
+const water = L.divIcon({
+    html: `<svg style="fill: var(--gran-canaria-water)" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><defs><style>.fa-secondary{opacity:.4}</style></defs><path class="fa-primary" d="M37.78 156.4c25.33-4.625 44.72-13.31 58.19-21.25c19.5 11.53 51.47 24.68 96.04 24.68c44.55 0 76.49-13.12 96-24.65c19.52 11.53 51.45 24.59 96 24.59c44.58 0 76.55-13.09 96.05-24.62c13.47 7.938 32.86 16.62 58.19 21.25c17.56 3.375 34.06-8.344 37.25-25.72c3.172-17.38-8.344-34.03-25.72-37.22c-31.23-5.719-46.84-20.06-47.13-20.31c-12.22-12.19-32.31-12.12-44.91-.375c-1 .9375-25.14 23-73.73 23s-72.73-22.06-73.38-22.62c-12.22-12.25-32.3-12.12-44.89-.375c-1 .9375-25.14 23-73.73 23S119.3 73.76 118.6 73.2C106.4 60.95 86.35 61.04 73.74 72.85C73.09 73.45 57.48 87.79 26.24 93.51c-17.38 3.188-28.89 19.84-25.72 37.22C3.713 148.1 20.31 159.8 37.78 156.4zM549.8 381.7c-31.23-5.719-46.84-20.06-47.13-20.31c-12.22-12.19-32.31-12.12-44.91-.375C456.7 361.9 432.6 384 384 384s-72.73-22.06-73.38-22.62c-12.22-12.25-32.3-12.12-44.89-.375C264.7 361.9 240.6 384 192 384s-72.73-22.06-73.38-22.62c-12.22-12.25-32.28-12.16-44.89-.3438c-.6562 .5938-16.27 14.94-47.5 20.66c-17.38 3.188-28.89 19.84-25.72 37.22C3.713 436.3 20.31 448 37.78 444.6C63.1 440 82.49 431.3 95.96 423.4c19.5 11.53 51.51 24.62 96.08 24.62c44.55 0 76.45-13.06 95.96-24.59C307.5 434.9 339.5 448 384.1 448c44.58 0 76.5-13.09 95.1-24.62c13.47 7.938 32.86 16.62 58.19 21.25C555.8 448 572.3 436.3 575.5 418.9C578.7 401.5 567.2 384.9 549.8 381.7z"/><path class="fa-secondary" d="M384 303.8c-44.55 0-76.48-13.06-96-24.59c-19.52 11.53-51.46 24.65-96 24.65c-44.58 0-76.54-13.15-96.04-24.68C82.49 287.1 63.1 295.8 37.78 300.4C20.31 303.8 3.713 292.1 .5254 274.7C-2.646 257.4 8.869 240.7 26.24 237.5c31.23-5.719 46.84-20.06 47.5-20.66c12.61-11.81 32.67-11.91 44.89 .3438C119.3 217.8 143.4 239.8 192 239.8s72.73-22.06 73.73-23c12.59-11.75 32.67-11.88 44.89 .375c.6406 .5625 24.78 22.62 73.38 22.62s72.73-22.06 73.73-23c12.59-11.75 32.69-11.81 44.91 .375c.2813 .25 15.89 14.59 47.13 20.31c17.38 3.188 28.89 19.84 25.72 37.22c-3.188 17.38-19.69 29.09-37.25 25.72c-25.33-4.625-44.72-13.31-58.19-21.25C460.6 290.7 428.6 303.8 384 303.8z"/></svg>`,
+    className: "dungeon",
+    iconSize: [24, 40],
+});
+const parks = L.divIcon({
+    html: `<svg style="fill: var(--gran-canaria-parks)" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><defs><style>.fa-secondary{opacity:.4}</style></defs><path class="fa-primary" d="M192 192C174.3 192 160 206.3 160 223.1v256C160 497.7 174.3 512 192 512S224 497.7 224 480V223.1C224 206.3 209.7 192 192 192zM448 320c-17.67 0-32 14.33-32 31.1v128C416 497.7 430.3 512 448 512C465.7 512 480 497.7 480 480V351.1C480 334.3 465.7 320 448 320z"/><path class="fa-secondary" d="M298.4 288H329c9 0 17-5 20.88-13c3.75-8.125 2.5-17.38-3.375-24.12L268.4 160h28.88c9.127 0 17.38-5.375 20.88-13.62c3.625-8.125 1.875-17.62-4.25-24.12L203.6 4.875c-6-6.5-17.25-6.5-23.25 0L69.97 122.3c-6 6.5-7.75 16-4.125 24.12C69.34 154.6 77.59 160 86.72 160h28.88L37.46 250.9c-5.875 6.875-7.125 16-3.375 24.12C37.96 283 45.84 288 54.96 288h30.63l-79.88 90.5c-6 6.75-7.377 16.12-3.625 24.25C5.834 410.8 14.08 416 23.09 416H160V223.1C160 206.3 174.3 192 192 192s32 14.33 32 31.1V416h136.9c9 0 17.25-5.25 21-13.25c3.75-8.125 2.5-17.5-3.5-24.25L298.4 288zM634.3 378.5L554.4 288h30.63c9 0 17-5 20.88-13c3.75-8.125 2.5-17.38-3.375-24.12L524.4 160h28.88c9.125 0 17.38-5.375 20.88-13.62c3.625-8.125 1.875-17.62-4.25-24.12l-110.3-117.4c-6-6.5-17.25-6.5-23.25 0l-95.14 101.3c11.13 15.38 14 35.25 6.377 52.88c-4 9.375-10.38 17.12-18.25 22.75l41.5 48.25c14 16.25 17.13 39.25 8.002 58.62c-4.25 8.875-10.5 16.12-18.13 21.5l41.63 47.13c8.6 9.846 13.34 14.29 13.62 26.7L416 351.1C416 334.3 430.3 320 448 320s32 14.33 32 31.1V416h136.9c9.002 0 17.25-5.25 21-13.25C641.7 394.6 640.3 385.3 634.3 378.5z"/></svg>`,
+    className: "dungeon",
+    iconSize: [24, 40],
+});
+const adventure = L.divIcon({
+    html: `<svg style="fill: var(--gran-canaria-adventure)" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><defs><style>.fa-secondary{opacity:.4}</style></defs><path class="fa-primary" d="M128 148.3C129.8 136.9 139.3 128 151.3 128c13.25 0 24 10.74 24 24c0 13.25-10.75 24-24 24C139.3 176 129.8 167.1 128 155.7V148.3z"/><path class="fa-secondary" d="M438.4 129.5l-13.9-11.92c9.016-24.25 26.23-54.14 52.31-89.89c5.311-7.328 3.281-15.04-.4336-19.82c-4.619-5.98-11.83-8.907-20.34-7.575c-51.75 8.117-93.62 24.63-123.9 40.08c-35.5-25.72-77.93-40.4-122.1-40.4L176 0C96.47 0 32 64.47 32 144c0 18.38 3.771 35.8 10.05 51.97L14.25 214.5C5.348 220.4 0 230.4 0 241.1V256c0 17.68 14.33 32 32 32L192.9 288l102.8 61.7C306.4 356.1 320 348.4 320 335.1V288h2.902c.834 0 1.59 .21 2.412 .249C326.2 288.2 327.1 288 328 288C358.9 288 384 313.1 384 344s-25.07 56-56 56h-62.22l-13.07-21.31C248.3 372 240.8 368 232.7 368H171.1c-9.561 0-15.27 10.66-9.965 18.61l35.55 53.38l-35.53 53.36C156.7 501.3 162.4 512 172 512H232.7c8.064 0 15.58-4.033 19.99-10.69L265.8 480H320c105.9 0 192.4-86.08 192-191.1C512 202.3 460.3 148.3 438.4 129.5zM151.3 176C139.3 176 129.8 167.1 128 155.7V148.3C129.8 136.9 139.3 128 151.3 128c13.25 0 24 10.74 24 24C175.3 165.3 164.5 176 151.3 176z"/></svg>`,
+    className: "dungeon",
+    iconSize: [24, 40],
+});
 
 var __decorate$6 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -1561,7 +1643,8 @@ const sightseeings = [{
         type: "Tagesausflug",
         link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/las-palmas-de-gran-canaria/",
         info: `Las Palmas bietet viele schöne Plazas mit Cafés und Restaurants, Strände zum Baden und Surfen sowie ein großes kulturelles Angebot. 
-        Im Fokus stehen hierbei vor allem die Museen und Kirchen der Stadt.`
+        Im Fokus stehen hierbei vor allem die Museen und Kirchen der Stadt.`,
+        status: "nicht gesehen"
     }, {
         name: "Telde",
         hash: "Telde",
@@ -1573,7 +1656,8 @@ const sightseeings = [{
         topic: "Städte",
         type: "Stadtbesichtigung",
         link: "https://www.hallokanarischeinseln.com/malerische-orte/gran-canaria/telde/",
-        info: `Telde ist die älteste und zweitgrößte Stadt Gran Canarias. Telde war die erste Hauptstadt der Insel und ist bekannt für sein vielfältiges kulturelles Angebot.`
+        info: `Telde ist die älteste und zweitgrößte Stadt Gran Canarias. Telde war die erste Hauptstadt der Insel und ist bekannt für sein vielfältiges kulturelles Angebot.`,
+        status: "nicht gesehen"
     }, {
         name: "Maspalomas",
         hash: "Maspalomas",
@@ -1587,7 +1671,8 @@ const sightseeings = [{
         link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/maspalomas-gran-canaria/",
         info: `Maspalomas erstreckt sich von Meloneras bis San Agustín und beherbergt auch den bekanntesten Ortsteil Playa del Inglés. 
         Hier befinden sich besonders viele Hotels und Ferienwohnungen. 
-        Da die Region vor allem bei deutschsprachigen Urlaubsgästen sehr beliebt ist, gibt es mittlerweile auch viele deutsche Restaurants und Kneipen vor Ort. `
+        Da die Region vor allem bei deutschsprachigen Urlaubsgästen sehr beliebt ist, gibt es mittlerweile auch viele deutsche Restaurants und Kneipen vor Ort. `,
+        status: "gesehen"
     }, {
         name: "Sanddünen von Maspalomas",
         hash: "Sandduenen",
@@ -1599,7 +1684,8 @@ const sightseeings = [{
         topic: "Erlebnisse",
         type: "Wanderung",
         link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/gran-canaria-highlights/#1-sandduenen-von-maspalomas",
-        info: "Die Dünen-Landschaft erstreckt sich auf eine Länge von ca. 6 Kilometern. Auch in der Breite ist das Dünen-Gebiet mit bis zu 1,4 Kilometern beachtlich groß."
+        info: "Die Dünen-Landschaft erstreckt sich auf eine Länge von ca. 6 Kilometern. Auch in der Breite ist das Dünen-Gebiet mit bis zu 1,4 Kilometern beachtlich groß.",
+        status: "gesehen"
     }, {
         name: "Puerto de Mogan",
         hash: "Mogan",
@@ -1614,7 +1700,8 @@ const sightseeings = [{
         info: `Ein besonders schöner Ort auf Gran Canaria ist Puerto de Mogán. Er liegt im sonnenreichen Südwesten der Insel. 
         In der Vergangenheit wurden hier bereits die meisten Sonnenstunden in ganz Europa verzeichnet. 
         Puerto de Mogán beherbergt einen Kanal, durch den Meerwasser in den Ort hineinfließt. 
-        Durch den Kanal ist Puerto de Mogán auch als kleines Venedig bekannt.`
+        Durch den Kanal ist Puerto de Mogán auch als kleines Venedig bekannt.`,
+        status: "gesehen"
     }, {
         name: "Teror",
         hash: "Teror",
@@ -1628,7 +1715,8 @@ const sightseeings = [{
         link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/teror-gran-canaria/",
         info: `Teror wird oft auch als religiöses Zentrum von Gran Canaria bezeichnet und wurde im Jahr 1979 zum Kulturdenkmal erklärt. 
         Hier erlebst du die Insel noch so, wie sie früher einmal gewesen sein soll. Die alten Häuser sind mittlerweile vollständig restauriert worden. 
-        Sie wurden jedoch in ihrem ursprünglichen Erscheinungsbild gut erhalten, sodass du hier nach wie vor das Ambiente vergangener Zeiten erfahren kannst.`
+        Sie wurden jedoch in ihrem ursprünglichen Erscheinungsbild gut erhalten, sodass du hier nach wie vor das Ambiente vergangener Zeiten erfahren kannst.`,
+        status: "nicht gesehen"
     }, {
         name: "Agaete",
         hash: "Agaete",
@@ -1642,7 +1730,8 @@ const sightseeings = [{
         link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/agaete-gran-canaria/",
         info: `Anders als in den meisten Orten auf Gran Canaria, sind die Häuser in Agaete überwiegend weiß. 
         Dies führt zu einem besonders hübschen Stadtbild. Bekannt ist Agaete zudem auch durch den Hafen. 
-        Am Puerto de las Nieves legt die Fähre von Fred Olsen Express ab, die Gran Canaria mit der Nachbarinsel Teneriffa verbindet.`
+        Am Puerto de las Nieves legt die Fähre von Fred Olsen Express ab, die Gran Canaria mit der Nachbarinsel Teneriffa verbindet.`,
+        status: "nicht gesehen"
     }, {
         name: "Arinaga",
         hash: "Arinaga",
@@ -1656,7 +1745,8 @@ const sightseeings = [{
         link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/arinaga-gran-canaria/",
         info: `Arinaga zählt zur Gemeinde Agüimes und beherbergt etwas mehr als 9.000 Einwohner. Früher wurde hier einmal Kalk abgebaut, das für die ganze Insel genutzt wurde. 
         An der Promenade kannst du heute noch einige alte Kalköfen anschauen. Zwischenzeitlich war der Ort zudem auch ein wichtiges Fischerei-Zentrum. 
-        Auch heutzutage kannst du entlang der Promenade noch viele Angler und Fischer sehen.`
+        Auch heutzutage kannst du entlang der Promenade noch viele Angler und Fischer sehen.`,
+        status: "nicht gesehen"
     }, {
         name: "Artenara",
         hash: "Artenara",
@@ -1670,7 +1760,8 @@ const sightseeings = [{
         link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/gran-canaria-ausfluege/#10-artenara",
         info: `Bei Artenara handelt es sich um die höchstgelegene Gemeinde auf Gran Canaria. Der höchste Punkt liegt dabei auf 1.770 Metern. 
         Das Ortszentrum befindet sich jedoch etwas tiefer. Dennoch bist du auch hier schon 1.269 Meter hoch. 
-        Ein besonderes Highlight ist hier die Christusstatue, die mit ausgebreiteten Armen über den Ort wacht.`
+        Ein besonderes Highlight ist hier die Christusstatue, die mit ausgebreiteten Armen über den Ort wacht.`,
+        status: "nicht gesehen"
     }, {
         name: "Arucas",
         hash: "Arucas",
@@ -1682,7 +1773,8 @@ const sightseeings = [{
         topic: "Städte",
         type: "Stadtbesichtigung",
         link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/arucas-gran-canaria/",
-        info: "Das Highlight und Wahrzeichen der Stadt ist die neugotische Kirche “Parroquia de San Juan Bautista de Arucas”. Ihre Bauzeit lag zwischen 1909 und 1917. Rund um die Kirche gibt es hübsche Plazas und Gassen."
+        info: "Das Highlight und Wahrzeichen der Stadt ist die neugotische Kirche “Parroquia de San Juan Bautista de Arucas”. Ihre Bauzeit lag zwischen 1909 und 1917. Rund um die Kirche gibt es hübsche Plazas und Gassen.",
+        status: "nicht gesehen"
     }, {
         name: "Jardin de la Marquesa",
         hash: "JardinMarquesa",
@@ -1696,7 +1788,8 @@ const sightseeings = [{
         link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/gran-canaria-highlights/#7-arucas",
         info: `Jardín de la Marquesa ist ein kostenpflichtiger, botanischer Garten. 
         Zu sehen gibt es über 500 verschiedene Pflanzenarten, Blumen, Palmen und einen aquarellfarbenen Springbrunnen. 
-        Im großen Teich kannst du Schildkröten schwimmen sehen. Zudem laufen im botanischen Garten mehrere Pfaue, Hühner, Hähne und Katzen frei herum.`
+        Im großen Teich kannst du Schildkröten schwimmen sehen. Zudem laufen im botanischen Garten mehrere Pfaue, Hühner, Hähne und Katzen frei herum.`,
+        status: "nicht gesehen"
     }, {
         name: "Jardin Canario",
         hash: "JardinCanario",
@@ -1712,7 +1805,8 @@ const sightseeings = [{
         Hier kannst du viele der etwa 500 Pflanzenarten sehen, die auf den kanarischen Inseln heimisch sind. 
         Der botanische Garten erstreckt sich dabei auch auf einen Hang, von dem aus du einen guten Blick über den Garten und die umliegende Landschaft hast. 
         Seit 1952 können Besucher hier die Pflanzenvielfalt der Kanaren sowie der umliegenden Inseln anschauen. 
-        Vor allem der Kakteengarten ist für die meisten Besucher dabei ein Highlight.`
+        Vor allem der Kakteengarten ist für die meisten Besucher dabei ein Highlight.`,
+        status: "nicht gesehen"
     }, {
         name: "Mirador Astronomico de la Degollada de las Yeguas",
         hash: "MiradorAstronomico",
@@ -1724,7 +1818,8 @@ const sightseeings = [{
         topic: "Berge",
         type: "Aussichtspunkt",
         link: "https://www.hallokanarischeinseln.com/aussichtspunkte/gran-canaria/aussichtspunkt-mirador-de-la-degollada-de-las-yeguas/#",
-        info: "Beliebter Aussichtspunkt in einem weitläufigen Naturschutzgebiet mit Panoramablick über die Schlucht."
+        info: "Beliebter Aussichtspunkt in einem weitläufigen Naturschutzgebiet mit Panoramablick über die Schlucht.",
+        status: "nicht gesehen"
     }, {
         name: "Barranco de los Cernicalos",
         hash: "BarrancoCernicalos",
@@ -1739,7 +1834,8 @@ const sightseeings = [{
         info: `Beim Barranco de los Cernícalosb handelt es sich um eine Schlucht, die von einem Bach durchzogen ist. 
         Die Falkenschlucht, wie sie übersetzt heißt, ist auch zum Canyoning beliebt. Es gibt einen ca. 1-stündigen Wanderweg, der dich zu mehreren Wasserfällen führt. 
         Du folgst dabei dem Bach, steigst über Baumstämme und läufst durch die grüne Natur. 
-        Das Highlight bilden vor allem die beiden größeren Wasserfälle im hinteren Teil der Schlucht.`
+        Das Highlight bilden vor allem die beiden größeren Wasserfälle im hinteren Teil der Schlucht.`,
+        status: "nicht gesehen"
     }, {
         name: "Barranco de Azuaje",
         hash: "BarrancoAzuaje",
@@ -1754,7 +1850,8 @@ const sightseeings = [{
         info: `Ein Ort, um auf Gran Canaria ganzjährig Wasserfälle und grüne Natur zu erleben, ist der Barranco de Azuaje. 
         Von der asphaltierten Straße führt ein teils gepflasterter Schotterweg hierher. 
         Er endet an einem Parkplatz, von dem aus du nach kurzer Zeit eine Ruine erreichst.
-        Es gibt einen ca. 8 Kilometer langen Rundweg, bei dem du stellenweise auch klettern musst. Entlang des Wegs sind einige kleinere Wasserfälle zu sehen.`
+        Es gibt einen ca. 8 Kilometer langen Rundweg, bei dem du stellenweise auch klettern musst. Entlang des Wegs sind einige kleinere Wasserfälle zu sehen.`,
+        status: "nicht gesehen"
     }, {
         name: "El Bufadero in La Garita",
         hash: "ElBufadero",
@@ -1769,7 +1866,8 @@ const sightseeings = [{
         info: `Der zweite Wasserfall auf Gran Canaria, der das ganze Jahr über sichtbar ist, befindet sich im Küstenort La Garita. 
         Dabei handelt es sich jedoch nicht um einen klassischen Wasserfall, der aus einem Fluss oder Bach entspricht. 
         Vielmehr entsteht dieser Wasserfall mit jeder Welle neu. La Garita beherbergt eine Lava-Küste, an der sich u.a. das Felsloch “El Bufadero” gebildet hat. 
-        Übersetzt bedeutet dies soviel wie “der Fauchende”. Da El Bufadero an der Ostküste von Gran Canaria liegt, geht hier morgens die Sonne über dem Meer auf.`
+        Übersetzt bedeutet dies soviel wie “der Fauchende”. Da El Bufadero an der Ostküste von Gran Canaria liegt, geht hier morgens die Sonne über dem Meer auf.`,
+        status: "nicht gesehen"
     }, {
         name: "Charco de la Paloma",
         hash: "CharcoPaloma",
@@ -1783,7 +1881,8 @@ const sightseeings = [{
         link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/gran-canaria-wasserfaelle/#4-wasserfall-am-charco-de-la-paloma",
         info: `Noch ein wenig mehr Glück als beim Charzu Azul musst du am Charco de la Paloma haben. 
         Denn hier ist der Wasserfall noch öfter ausgetrocknet als am Charco Azul. 
-        Dafür ist der Weg zum Wasserfall deutlich kürzer. Der Weg startet nahe dem Bergdorf Tejeda.`
+        Dafür ist der Weg zum Wasserfall deutlich kürzer. Der Weg startet nahe dem Bergdorf Tejeda.`,
+        status: "nicht gesehen"
     }, {
         name: "Playa de Güigüi",
         hash: "PlayaGuigui",
@@ -1795,7 +1894,8 @@ const sightseeings = [{
         topic: "Wasser",
         type: "Wanderung",
         link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/gran-canaria-ausfluege/#weitere-gran-canaria-ausfluege",
-        info: "Ein ruhiger Strand an der Westküste, der nur über eine mehrstündige Wanderung oder per Boot erreichbar ist."
+        info: "Ein ruhiger Strand an der Westküste, der nur über eine mehrstündige Wanderung oder per Boot erreichbar ist.",
+        status: "nicht gesehen"
     }, {
         name: "Mirador del Balcon",
         hash: "MiradorBalcon",
@@ -1807,7 +1907,8 @@ const sightseeings = [{
         topic: "Wasser",
         type: "Aussichtspunkt",
         link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/gran-canaria-ausfluege/#weitere-gran-canaria-ausfluege",
-        info: "Aussichtspunkt an der Steilküste im Westen der Insel."
+        info: "Aussichtspunkt an der Steilküste im Westen der Insel.",
+        status: "gesehen"
     }, {
         name: "Cenobio de Valeron",
         hash: "CenobioValeron",
@@ -1823,7 +1924,8 @@ const sightseeings = [{
         Die Ureinwohner nutzen die damals schwer zugänglichen Höhlen, um ihre Essensvorräte vor Diebstahl und dem vorzeitigen Verderben zu schützen. 
         Auch einige Wohnhöhlen waren hier vorhanden. Heutzutage sind die Höhlen über Treppen gut zugänglich. 
         Neben den Höhlen selbst ist auch der Ausblick vom Cenobio de Valerón lohnenswert. 
-        Die Aussicht reicht vom Atlantik über den Barranco de Calabozo auf die begrünte Berglandschaft.`
+        Die Aussicht reicht vom Atlantik über den Barranco de Calabozo auf die begrünte Berglandschaft.`,
+        status: "nicht gesehen"
     }, {
         name: "Cuevas de Cuatro Puertas",
         hash: "Cuevas-de-cuatro-puertas",
@@ -1838,7 +1940,8 @@ const sightseeings = [{
         info: `Die Cuevas de Cuatro Puertas befinden sich auf einem Berg, der nahe einer Wohnsiedlung liegt. 
         Du kannst hier zunächst mit dem Auto hinauffahren, bis der Schotterweg beginnt. Am Rand gibt es Parkmöglichkeiten. 
         Der Fußweg hinauf zu den Höhlen dauert ca. 5 Minuten. Im Rahmen eines Rundwegs kannst du verschiedene Höhlen sehen. 
-        Besonders eindrucksvoll sind die hinteren Höhlen “Los Pilares” (die Säulen). Sie sollen einst als Wohn- und Speicherhöhlen gedient haben.`
+        Besonders eindrucksvoll sind die hinteren Höhlen “Los Pilares” (die Säulen). Sie sollen einst als Wohn- und Speicherhöhlen gedient haben.`,
+        status: "nicht gesehen"
     }, {
         name: "La Fortaleza de Ansite",
         hash: "La-Fortaleza-de-Ansite",
@@ -1854,7 +1957,8 @@ const sightseeings = [{
         Hier sollen die Altkanarier einst Zuflucht gesucht haben, als die kastilischen Truppen im Jahr 1483 einfielen. 
         Sie versteckten sich in den Höhlen, die damals sowohl als Wohn- wie auch als Bestattungshöhlen gedient haben sollen. 
         Mehr über die Nutzung der Höhlen und das Leben der kanarischen Ureinwohner kannst du im nahegelegenen Museum erfahren 
-        (Centro de Interpretación yacimiento arqueológico de La Fortaleza).`
+        (Centro de Interpretación yacimiento arqueológico de La Fortaleza).`,
+        status: "nicht gesehen"
     }, {
         name: "Pico de las Nieves",
         hash: "Pico-de-las-Nieves",
@@ -1869,7 +1973,8 @@ const sightseeings = [{
         info: `Der höchstgelegene Aussichtspunkt auf Gran Canaria befindet sich am Pico de las Nieves. Übersetzt bedeutet dies “Gipfel des Schnees”. 
         Und tatsächlich kann es im Winter hier auch schneien oder zumindest Frost geben. Der Gipfel liegt auf 1.949 Metern Höhe. 
         Vom Aussichtspunkt hast du bei klarer Sicht einen guten Ausblick auf die Berglandschaft mit ihren Gipfeln und Pinienwäldern. 
-        Zudem kannst du bei gutem Wetter auch die Nachbarinsel Teneriffa mit dem Teide Vulkan in der Ferne sehen.`
+        Zudem kannst du bei gutem Wetter auch die Nachbarinsel Teneriffa mit dem Teide Vulkan in der Ferne sehen.`,
+        status: "nicht gesehen"
     }, {
         name: "Roque Nublo",
         hash: "Roque-Nublo",
@@ -1885,7 +1990,8 @@ const sightseeings = [{
         Erreichbar ist der Roque Nublo über einen Wanderweg, der bei Touristen beliebt ist. Daher kann es je nach Tageszeit und Wochentag auch etwas voller werden. 
         Der Wanderweg startet am Parkplatz neben der GC-600. In der Regel ist es morgens vor 10 Uhr am leersten. 
         Zudem hast du dann oftmals gute Chancen auf eine wolkenfreie Sicht. 
-        Der Roque Nublo liegt auf 1.813 Höhenmetern und ist damit die drittgrößte Erhebung auf Gran Canaria.`
+        Der Roque Nublo liegt auf 1.813 Höhenmetern und ist damit die drittgrößte Erhebung auf Gran Canaria.`,
+        status: "nicht gesehen"
     }, {
         name: "Cruz de Tejeda",
         hash: "Cruz-de-Tejeda",
@@ -1898,7 +2004,8 @@ const sightseeings = [{
         type: "Kurze Wanderung",
         link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/gran-canaria-highlights/#cruz-de-tejeda",
         info: `Ein weiteres lohnenswertes Ausflugsziel in der Bergwelt auf Gran Canaria ist Cruz de Tejeda. Der kleine Ort bietet eine schöne Sicht auf das Bergpanorama. 
-        Vor allem zum Sonnenuntergang ist der Blick in die Berge ein echtes Highlight! Nahe dem Aussichtspunkt gibt es auch Restaurants und Cafés.`
+        Vor allem zum Sonnenuntergang ist der Blick in die Berge ein echtes Highlight! Nahe dem Aussichtspunkt gibt es auch Restaurants und Cafés.`,
+        status: "nicht gesehen"
     }, {
         name: "Barranco de las Vacas",
         hash: "Barranco-de-las-Vacas",
@@ -1910,7 +2017,8 @@ const sightseeings = [{
         topic: "Berge",
         type: "Kurze Wanderung",
         link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/gran-canaria-highlights/#8-barranco-de-las-vacas",
-        info: `Im Barranco de las Vacas fühlst du dich fast so, als wärst du im US-amerikanischen Antelope Canyon gelandet. Der Barranco de las Vacas ist jedoch deutlich kleiner. Von der GC-550 führt ein kurzer Wanderweg hinunter in den Barranco.`
+        info: `Im Barranco de las Vacas fühlst du dich fast so, als wärst du im US-amerikanischen Antelope Canyon gelandet. Der Barranco de las Vacas ist jedoch deutlich kleiner. Von der GC-550 führt ein kurzer Wanderweg hinunter in den Barranco.`,
+        status: "nicht gesehen"
     }, {
         name: "Barranco de Guayadeque",
         hash: "Barranco-de-Guayadeque",
@@ -1925,7 +2033,8 @@ const sightseeings = [{
         info: `In dieser grün bewachsenen Schlucht findest du einige Höhlen-Wohnungen und Höhlen-Restaurants. 
         Die Höhlen, in denen früher einmal die Ureinwohner gelebt haben sollen, sind heutzutage zu komfortableren Höhlen-Wohnungen umgebaut worden. 
         Der Barranco de Guayadeque eignet sich gut als Ausflugsziel, um die Schönheit der Natur zu erleben, zu wandern und in eines der Höhlen-Restaurants einzukehren. 
-        Im hinteren Teil der Schlucht gibt es einen kurzen Rundwanderweg. Zudem sind auch längere Wanderungen möglich.`
+        Im hinteren Teil der Schlucht gibt es einen kurzen Rundwanderweg. Zudem sind auch längere Wanderungen möglich.`,
+        status: "nicht gesehen"
     }, {
         name: "Mirador Caldera Los Marteles",
         hash: "Mirador-Caldera-Los-Marteles",
@@ -1939,7 +2048,8 @@ const sightseeings = [{
         link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/gran-canaria-sehenswuerdigkeiten/#4-aussichtspunkte-8220pico-de-las-nieves8221-und-8220caldera-los-marteles8221",
         info: `Beim Mirador Caldera Los Marteles handelt es sich um einen Aussichtspunkt auf einen Vulkankessel. 
         Der grün bewachsene Vulkankessel hat einen Durchmesser von ca. 500 Metern und ist etwa 80 Meter tief. 
-        Alternativ zur Wanderung kannst du diesen Aussichtspunkt auch mit dem Auto erreichen.`
+        Alternativ zur Wanderung kannst du diesen Aussichtspunkt auch mit dem Auto erreichen.`,
+        status: "nicht gesehen"
     }, {
         name: "Naturpark Bandama",
         hash: "Badama",
@@ -1956,7 +2066,8 @@ const sightseeings = [{
         Am besten kannst du das Ausmaß des Vulkankessels vom Aussichtspunkt “Pico de Bandama” sehen. Eine Serpentinenstraße führt dich mit dem Auto bequem zum Gipfel hinauf. 
         Oben erwartet dich dann nicht nur eine tolle Aussicht auf den Vulkankrater, sondern auch auf das Umland. 
         Hier kannst du z.B. auch Las Palmas, die Hauptstadt von Gran Canaria, gut überblicken. 
-        Zudem werden deine Augen von den schönen Aussichten auf die Berglandschaft und das Meer verwöhnt.`
+        Zudem werden deine Augen von den schönen Aussichten auf die Berglandschaft und das Meer verwöhnt.`,
+        status: "nicht gesehen"
     }, {
         name: "Charco de San Lorenzo",
         hash: "Charco-de-San-Lorenzo",
@@ -1973,7 +2084,8 @@ const sightseeings = [{
         Interessant ist der Charco de San Lorenzo auch aufgrund der benachbarten Felsenstadt El Roque. 
         Hier wurden weiß gestrichene Häuser auf einen Felsen direkt an der Küste gebaut. 
         Die kleine Felsenstadt ist vom Charco aus gut zu sehen und fußläufig erreichbar. 
-        Autos können durch die kleine Felsstadt nicht fahren, da die Gassen hierfür zu eng sind.`
+        Autos können durch die kleine Felsstadt nicht fahren, da die Gassen hierfür zu eng sind.`,
+        status: "nicht gesehen"
     }, {
         name: "Cueva de la Reina",
         hash: "Cueva-de-la-Reina",
@@ -1989,7 +2101,8 @@ const sightseeings = [{
         Ins Meer geflossene Lava ist erkaltet und hat natürliche Badebecken hinterlassen. 
         Besonders ausgefallen und wenig bekannt ist die Cueva de la Reina. Sie liegt im Ort La Garita. 
         Die Wohnsiedlung oberhalb des Naturpools lässt zunächst nicht vermuten, dass sich hier ein wahres Highlight auf Gran Canaria befindet. 
-        Es handelt sich um eine Höhle, in der sich ein kleiner Naturpool befindet.`
+        Es handelt sich um eine Höhle, in der sich ein kleiner Naturpool befindet.`,
+        status: "nicht gesehen"
     }, {
         name: "Charco de Las Palomas",
         hash: "Charco-de-Las-Palomas",
@@ -2004,7 +2117,8 @@ const sightseeings = [{
         info: `Die meisten Charcos oder Piscinas Naturales, wie sie im Spanischen heißen, sind natürlich entstanden. 
         Ins Meer geflossene Lava ist erkaltet und hat natürliche Badebecken hinterlassen. 
         Teilweise wurden die Lavabecken mit Mauern noch vervollständigt oder zusätzlich gesichert. 
-        Dieser Pool ist auch für kleine Kinder gut geeignet, da das Wasser in einigen der Naturpools flach ist.`
+        Dieser Pool ist auch für kleine Kinder gut geeignet, da das Wasser in einigen der Naturpools flach ist.`,
+        status: "nicht gesehen"
     }, {
         name: "Bodega Los Berrazales",
         hash: "Bodega-Los_Berrazales",
@@ -2020,7 +2134,8 @@ const sightseeings = [{
         Daher ist im westlichen Teil Gran Canarias die bislang einzige Kaffeeplantage Europas entstanden. 
         Die jährliche Erntemenge liegt bei ca. 1.500 Kilogramm. Der Name “Bodega” bedeutet aus dem Spanischen übersetzt übrigens auch Weinkeller. 
         Zum Probieren werden dir neben Kaffee auch Wein bzw. ein alkoholfreies Getränk für Kinder, Käse und Brot mit Aufstrich gereicht. 
-        Je nach Saison kannst du zudem das erntefrische Obst probieren. Auf der Plantage wachsen z.B. Orangen, Mangos, Guaven und Avocados.`
+        Je nach Saison kannst du zudem das erntefrische Obst probieren. Auf der Plantage wachsen z.B. Orangen, Mangos, Guaven und Avocados.`,
+        status: "nicht gesehen"
     }, {
         name: "Museo y Parque Arqueológico Cueva Pintada",
         hash: "Cueva-Pintada",
@@ -2035,7 +2150,8 @@ const sightseeings = [{
         info: `Bei der Cueva Pintada handelt es sich um eine Höhle, die im Jahr 1873 durch Zufall entdeckt wurde. 
         Da sich in der Höhle einige Gemälde befanden, wurde sie “Cueva Pintada” getauft, was so viel wie “bemalte Höhle” bedeutet. 
         Seit 2006 ist die Höhle nun in ihrer heutigen Form als Museum und archäologischer Park für Besucher zugänglich. 
-        Du kannst die Höhle dabei entweder auf eigene Faust oder im Rahmen einer Führung erkunden.`
+        Du kannst die Höhle dabei entweder auf eigene Faust oder im Rahmen einer Führung erkunden.`,
+        status: "nicht gesehen"
     }, {
         name: "Parque natural de Pilancones",
         hash: "Parque-natural-de-Pilancones",
@@ -2053,7 +2169,8 @@ const sightseeings = [{
         Es handelt sich mit einem Alter von ca. 12 Millionen Jahren um die älteste Region von Gran Canaria. 
         Der Naturpark ist insgesamt 5.794 Hektar groß. Er beherbergt den größten Pinienwald der Insel und zudem auch Kakteen, Distel- und Wolfsmilch-Gewächse sowie Zistrosen. 
         Auch verschiedene Vogelarten sind hier zuhause. Entlang der GC-604 findest du u.a. auch eine mystisch wirkende, kleine Bergkirche. 
-        Wenn du mit dem Auto oder Fahrrad unterwegs bist, kannst du auch schön die verschiedenen Aussichtspunkte rund um den Naturpark anfahren.`
+        Wenn du mit dem Auto oder Fahrrad unterwegs bist, kannst du auch schön die verschiedenen Aussichtspunkte rund um den Naturpark anfahren.`,
+        status: "nicht gesehen"
     }, {
         name: "Tejeda und der Roque Bentayga",
         hash: "Tejeda-Roque-Bentayga",
@@ -2068,7 +2185,8 @@ const sightseeings = [{
         info: `Die 1.404 Meter hohe Erhebung ist vor ca. 3 Millionen Jahren bei einer vulkanischen Eruption entstanden. 
         Die Ureinwohner Gran Canarias haben den Roque Bentayga als heiligen Ort verehrt und dort auch Höhlenwohnungen, Begräbnisstätten, Scheunen und Viehgehege gebaut. 
         Diese wurden vor nicht allzu langer Zeit bei archäologischen Ausgrabungen entdeckt. Vom Parkplatz aus führt ein Wanderweg hinauf zum Gipfel. 
-        Hierfür solltest du ca. 1 Stunde Zeit einplanen. Oben kannst du dann auch einige der Höhlenwohnungen sehen.`
+        Hierfür solltest du ca. 1 Stunde Zeit einplanen. Oben kannst du dann auch einige der Höhlenwohnungen sehen.`,
+        status: "nicht gesehen"
     }, {
         name: "Aqualand Maspalomas",
         hash: "Aqualand-Maspalomas",
@@ -2085,7 +2203,8 @@ const sightseeings = [{
         Um dich einen Tag lang auf den Rutschen zu vergnügen, bist du hier aber dennoch richtig. 
         Das Aqualand ist täglich von 10:00 bis 17:00 Uhr geöffnet und kostet 33 Euro für Erwachsene und Kinder ab 11 Jahren. 
         Senioren und Kinder zwischen 5 und 10 Jahren zahlen 24 Euro Eintritt. Für 3- und 4-jährige Kinder beträgt die Eintrittsgebühr 12 Euro (Stand Februar 2022). 
-        Schließfächer und Liegestühle kosten dann noch einmal extra.`
+        Schließfächer und Liegestühle kosten dann noch einmal extra.`,
+        status: "nicht gesehen"
     }, {
         name: "Lago Taurito Water Park",
         hash: "Lago-Taurito",
@@ -2101,7 +2220,8 @@ const sightseeings = [{
         Der Lago Taurito Water Park ist nicht allzu groß, aber dafür mit 15 Euro Eintrittsgebühr auch preiswerter als das Aqualand. 
         Für Kinder zwischen 3 und 12 Jahren gilt zudem eine ermäßigte Eintrittsgebühr von 5 Euro. 
         Rutschen und plantschen kannst du hier täglich zwischen 10:00 und 18:00 Uhr. 
-        Der Wasserpark ist von mehreren Hotels umgeben und liegt nah am Meer.`
+        Der Wasserpark ist von mehreren Hotels umgeben und liegt nah am Meer.`,
+        status: "nicht gesehen"
     }, {
         name: "Palmitos Park",
         hash: "Palmitos-Park",
@@ -2116,7 +2236,8 @@ const sightseeings = [{
         info: `Hier erwarten dich u.a. verschiedene Säugetiere, Vögel, Reptilien, ein Aquarium, ein botanischer Garten und ein Orchideen-Haus. 
         Das Highlight ist für viele Parkbesucher aber das Delfinarium. Hier werden mehrfach täglich Delfin-Shows gezeigt. 
         Das Delfinarium ist ca. 3.000 m2 groß und fasst in insgesamt drei Becken über 4 Millionen Liter Wasser. 
-        Es beherbergt 9 Delfine und bietet Platz für etwa 1.500 Zuschauer.`
+        Es beherbergt 9 Delfine und bietet Platz für etwa 1.500 Zuschauer.`,
+        status: "gesehen"
     }, {
         name: "Cocodrilo Park",
         hash: "Cocodrilo-Park",
@@ -2135,7 +2256,8 @@ const sightseeings = [{
         Insgesamt leben über 500 Tiere im Cocodrilo Park. Ein Highlight im Park sind für viele Besucher die Affen-Fütterungen, die um 12:00 und 16:00 Uhr stattfinden. 
         Zudem gibt es um 13:00 Uhr auch eine Krokodil-Show. Der Tierpark umfasst eine Fläche von über 22.000 Quadratmetern. 
         Für deinen Besuch ist der Cocodrilo Park freitags, samstags und sonntags zwischen 10:30 und 16:30 Uhr geöffnet. 
-        Die Eintrittsgebühr liegt bei 9,90 Euro für Erwachsene bzw. 6,90 Euro für Kinder zwischen 3 und 12 Jahre.`
+        Die Eintrittsgebühr liegt bei 9,90 Euro für Erwachsene bzw. 6,90 Euro für Kinder zwischen 3 und 12 Jahre.`,
+        status: "nicht gesehen"
     }, {
         name: "Sioux City Park (Wild West)",
         hash: "Sioux-City-Park",
@@ -2153,7 +2275,8 @@ const sightseeings = [{
         Auch ein nachgebauter Wild West Saloon ist vorhanden. Hier kannst du im authentischen Ambiente etwas trinken. 
         Darüberhinaus verfügt der Sioux City Park auch über einen kleinen Zoo. 
         Hier kannst du z.B. Erdmännchen, Krokodile, Cachena-Rinder, Hühner und Emusse sehen. 
-        Der Wild West Park ist Dienstags bis Freitags zwischen 10:00 und 15:00 Uhr sowie Samstags und Sonntags zwischen 10:00 und 16:00 Uhr geöffnet. Montags ist Ruhetag.`
+        Der Wild West Park ist Dienstags bis Freitags zwischen 10:00 und 15:00 Uhr sowie Samstags und Sonntags zwischen 10:00 und 16:00 Uhr geöffnet. Montags ist Ruhetag.`,
+        status: "nicht gesehen"
     }, {
         name: "Poema del Mar (Aquarium)",
         hash: "Poema-de-Mar",
@@ -2167,7 +2290,8 @@ const sightseeings = [{
         link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/gran-canaria-ausfluege/#poema-del-mar",
         info: `Ebenfalls ein beliebter Ausflug mit Kindern führt dich ins Aquarium “Poema del Mar” nach Las Palmas. 
         Das Aquarium ist aufwendig gestaltet und unterteilt sich in drei Themenbereiche: Dschungel, Strand-Riff und Tiefsee. 
-        Du findest hier u.a. Schildkröten, Rochen, Tintenfische, Quallen, Krebse, Piranhas und Aale. Auch Krokodile und Frösche sind hier beispielsweise Zuhause.`
+        Du findest hier u.a. Schildkröten, Rochen, Tintenfische, Quallen, Krebse, Piranhas und Aale. Auch Krokodile und Frösche sind hier beispielsweise Zuhause.`,
+        status: "nicht gesehen"
     }, {
         name: "U-Boot Tour",
         hash: "U-Boot-Tour",
@@ -2180,7 +2304,8 @@ const sightseeings = [{
         type: "Tagesausflug",
         link: "https://www.okgrancanaria.com/de/tours/u-boot-yellow-submarine/",
         info: `Wegen Covid zur Zeit nicht Verfügbar?! Die U-Boot Fahrten finden täglich um 10:00, 11:00, 12:00, 13:00, 14:00, 15:30, 16:20 und 17:10 Uhr statt. 
-        Tickets kannst du bereits vorab online über GetYourGuide kaufen.`
+        Tickets kannst du bereits vorab online über GetYourGuide kaufen.`,
+        status: "nicht gesehen"
     }, {
         name: "Delfin Tour",
         hash: "Delfin-Tour",
@@ -2195,7 +2320,8 @@ const sightseeings = [{
         info: `Freu dich auf eine 2,5-stündige Bootstour durch die herrlichen Gewässer rund um Gran Canaria und erlebe majestätische Delfine und Wale aus nächster Nähe. 
         Erfrische dich mit einem kühlen Getränk von der Bar an Bord. 
         Das Boot fährt so nahe wie möglich an diese erstaunlichen Meeresbewohner heran, so dass du die Tiere in ihrem natürlichen Lebensraum sehen kannst. 
-        Beobachte die Delfine und Wale beim Spielen im Wasser und schieße tolle Erinnerungsfotos.`
+        Beobachte die Delfine und Wale beim Spielen im Wasser und schieße tolle Erinnerungsfotos.`,
+        status: "nicht gesehen"
     }, {
         name: "Museo Elder de la Ciencia y la Tecnologia",
         hash: "Museo-Tecnologia",
@@ -2208,7 +2334,8 @@ const sightseeings = [{
         topic: "Erlebnisse",
         link: "http://gran-canaria.gequo-travel.de/aktivitaeten/museen/museo-elder-de-la-ciencia-y-la-tecnologia",
         info: `Unter dem Motto »Nicht berühren, nicht spüren, nicht träumen, nicht lernen verboten« erstrecken sich über drei Stockwerke mehr als 200 spannende und 
-        zum Teil interaktive Exponate und Simulationen zu Raumfahrt, Mathematik und Physik, zur Entwicklung des Menschen und zur kanarischen Vegetation.`
+        zum Teil interaktive Exponate und Simulationen zu Raumfahrt, Mathematik und Physik, zur Entwicklung des Menschen und zur kanarischen Vegetation.`,
+        status: "nicht gesehen"
     }, {
         name: "E-Scooter-Chopper",
         hash: "E-Scooter-Chopper",
@@ -2222,7 +2349,8 @@ const sightseeings = [{
         link: "https://www.getyourguide.de/gran-canaria-l418/maspalomas-selbstgefuhrte-e-scooter-tour-auf-zweisitzern-t235927/",
         info: `Die Elektroroller im Harley-Stil sind eine bequeme und umweltfreundliche Möglichkeit, den Süden Gran Canarias während deines Urlaubs mühelos mit deinem Partner, 
         deiner Familie oder deinen Freunden zu erkunden - nur ein Führerschein ist erforderlich. Es ist empfehlenswert, dein beeindruckendes Erlebnis mit einem Besuch der 
-        Meloneras-Promenade abzurunden, die als die schönste Promenade im Süden Gran Canarias gilt und einen hervorragenden Blick auf das Meer bietet.`
+        Meloneras-Promenade abzurunden, die als die schönste Promenade im Süden Gran Canarias gilt und einen hervorragenden Blick auf das Meer bietet.`,
+        status: "nicht gesehen"
     }, {
         name: "Radtour",
         hash: "Radtour",
@@ -2235,7 +2363,8 @@ const sightseeings = [{
         type: "Tagesausflug",
         link: "https://www.getyourguide.de/gran-canaria-l418/maspalomas-selbstgefuhrte-tagestour-mit-einem-stadtrad-t249167/?date_from=2022-04-18&date_to=2022-05-06",
         info: `Begib dich auf eine selbstgeführte und personalisierte Tour durch Gran Canara mit dem Stadtrad, eine bequeme und ökologische Alternative, 
-        um den Süden der Insel zu entdecken. Du kannst dein Fahrrad für 10 Stunden oder für 1-7 Tage mieten.`
+        um den Süden der Insel zu entdecken. Du kannst dein Fahrrad für 10 Stunden oder für 1-7 Tage mieten.`,
+        status: "gesehen"
     }, {
         name: "Beginner-Sporttauchen",
         hash: "Beginner-Sporttauchen",
@@ -2252,7 +2381,8 @@ const sightseeings = [{
         und setzen Sie dann Ihr neues Wissen bei einem 1-stündigen Tauchgang in Puerto Rico in die Praxis um, 
         wobei Ihr professioneller Kursleiter an Ihrer Seite ist. Nach dem Schwimmen vorbei an fantastischen Korallenformationen und 
         Fischen sind Sie auf dem besten Weg, die PADI-Tauchzertifizierung zu erwerben. Weitere Informationen über Anfänger Sporttauch-Erlebnis auf Gran Canaria - 
-        https://www.viator.com/de-DE/tours/Gran-Canaria/Beginners-Scuba-Diving-Experience-in-Gran-Canaria/d792-12120P1?mcid=56757`
+        https://www.viator.com/de-DE/tours/Gran-Canaria/Beginners-Scuba-Diving-Experience-in-Gran-Canaria/d792-12120P1?mcid=56757`,
+        status: "nicht gesehen"
     }];
 
 var __decorate$5 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
@@ -2267,6 +2397,7 @@ let WcAllIslandPage = class WcAllIslandPage extends h {
         this.topicFilter = "Gran-Canaria";
         this.orientationFilter = "Insel";
         this.triptypeFilter = "Alle";
+        this.statusFilter = "alle";
     }
     static get styles() {
         return [r$1 `
@@ -2286,7 +2417,7 @@ let WcAllIslandPage = class WcAllIslandPage extends h {
 
       .filter-container {
         display: grid;
-        grid-template-columns: auto 1fr 1fr 1fr 1fr auto;
+        grid-template-columns: auto 1fr 1fr 1fr 1fr 1fr auto;
         grid-column-gap: 10px;
         padding: 10px 15px;
         margin: 0 0 20px 0;
@@ -2354,6 +2485,8 @@ let WcAllIslandPage = class WcAllIslandPage extends h {
             this.orientationFilter = value;
         if (name === "triptype")
             this.triptypeFilter = value;
+        if (name === "status")
+            this.statusFilter = value;
         if (this.topicFilter !== "Gran-Canaria") {
             this.filteredSightseeings = this.filteredSightseeings.filter(s => s.topic === this.topicFilter);
         }
@@ -2363,12 +2496,16 @@ let WcAllIslandPage = class WcAllIslandPage extends h {
         if (this.triptypeFilter !== "Alle") {
             this.filteredSightseeings = this.filteredSightseeings.filter(s => s.type === this.triptypeFilter);
         }
+        if (this.statusFilter !== "alle") {
+            this.filteredSightseeings = this.filteredSightseeings.filter(s => s.status === this.statusFilter);
+        }
         updateMap(this.filteredSightseeings);
     }
     searchThroughSightseeings(search) {
         this.topicFilter = "Gran-Canaria";
         this.orientationFilter = "Insel";
         this.triptypeFilter = "Alle";
+        this.statusFilter = "alle";
         search = search.toLowerCase();
         this.filteredSightseeings = sightseeings.filter(s => s.topic.toLowerCase().includes(search)
             || s.info?.toLowerCase().includes(search)
@@ -2382,6 +2519,7 @@ let WcAllIslandPage = class WcAllIslandPage extends h {
         this.topicFilter = "Gran-Canaria";
         this.orientationFilter = "Insel";
         this.triptypeFilter = "Alle";
+        this.statusFilter = "alle";
         this.searchInput.value = "";
         updateMap(sightseeings);
     }
@@ -2448,6 +2586,12 @@ let WcAllIslandPage = class WcAllIslandPage extends h {
             <option value="Baden">Baden</option>
           </select>
 
+          <select name="status" id="status" .value=${this.statusFilter} @change=${(e) => this.filterByCategories("status", e.target.value)}>
+            <option value="alle">Status ...</option>
+            <option value="gesehen">gesehen</option>
+            <option value="nicht gesehen">nicht gesehen</option>
+          </select>
+
           <input id="searchInput" type="search" placeholder="Suche ..." @input=${(e) => this.searchThroughSightseeings(e.target.value)}>
 
           <button class="reset-button" @click=${() => this.resetFilter()}>
@@ -2487,6 +2631,9 @@ __decorate$5([
 __decorate$5([
     e({ type: String })
 ], WcAllIslandPage.prototype, "triptypeFilter", void 0);
+__decorate$5([
+    e({ type: String })
+], WcAllIslandPage.prototype, "statusFilter", void 0);
 __decorate$5([
     o$1('#searchInput')
 ], WcAllIslandPage.prototype, "searchInput", void 0);

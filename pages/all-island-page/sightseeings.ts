@@ -362,7 +362,7 @@ export const sightseeings: Sightseeing[] = [{
         Und tatsächlich kann es im Winter hier auch schneien oder zumindest Frost geben. Der Gipfel liegt auf 1.949 Metern Höhe. 
         Vom Aussichtspunkt hast du bei klarer Sicht einen guten Ausblick auf die Berglandschaft mit ihren Gipfeln und Pinienwäldern. 
         Zudem kannst du bei gutem Wetter auch die Nachbarinsel Teneriffa mit dem Teide Vulkan in der Ferne sehen.`,
-  status: "nicht gesehen"
+  status: "gesehen"
 }, {
   name: "Roque Nublo",
   hash: "Roque-Nublo",
@@ -437,7 +437,7 @@ export const sightseeings: Sightseeing[] = [{
   info: `Beim Mirador Caldera Los Marteles handelt es sich um einen Aussichtspunkt auf einen Vulkankessel. 
         Der grün bewachsene Vulkankessel hat einen Durchmesser von ca. 500 Metern und ist etwa 80 Meter tief. 
         Alternativ zur Wanderung kannst du diesen Aussichtspunkt auch mit dem Auto erreichen.`,
-  status: "nicht gesehen"
+  status: "gesehen"
 }, {
   name: "Naturpark Bandama",
   hash: "Badama",

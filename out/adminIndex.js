@@ -1720,7 +1720,7 @@ const sightseeings = [{
     }, {
         name: "Firgas",
         hash: "Firgas",
-        image: "https://firebasestorage.googleapis.com/v0/b/gran-canaria-4e556.appspot.com/o/sightseeings%2Fcities%2Ffirgas%2FPaseo-De-Canarias.jpeg?alt=media&token=1f97cada-7366-46a9-b7cd-b948f4f80d81",
+        image: "https://firebasestorage.googleapis.com/v0/b/gran-canaria-4e556.appspot.com/o/sightseeings%2Fcities%2Ffirgas%2FFirgas-Villa-de-Agua.jpeg?alt=media&token=299067c5-0597-45f3-a272-028d5ea42f89",
         foldername: "cities/Firgas",
         location: [28.10689628952579, -15.563455315828332],
         orientation: "Norden",

@@ -45,7 +45,7 @@ export const sightseeings: Sightseeing[] = [{
   type: "Stadtbesichtigung",
   link: "https://www.hallokanarischeinseln.com/malerische-orte/gran-canaria/telde/",
   info: `Telde ist die älteste und zweitgrößte Stadt Gran Canarias. Telde war die erste Hauptstadt der Insel und ist bekannt für sein vielfältiges kulturelles Angebot.`,
-  status: "nicht gesehen"
+  status: "gesehen"
 }, {
   name: "Maspalomas",
   hash: "Maspalomas",
@@ -104,7 +104,20 @@ export const sightseeings: Sightseeing[] = [{
   info: `Teror wird oft auch als religiöses Zentrum von Gran Canaria bezeichnet und wurde im Jahr 1979 zum Kulturdenkmal erklärt. 
         Hier erlebst du die Insel noch so, wie sie früher einmal gewesen sein soll. Die alten Häuser sind mittlerweile vollständig restauriert worden. 
         Sie wurden jedoch in ihrem ursprünglichen Erscheinungsbild gut erhalten, sodass du hier nach wie vor das Ambiente vergangener Zeiten erfahren kannst.`,
-  status: "nicht gesehen"
+  status: "gesehen"
+}, {
+  name: "Firgas",
+  hash: "Firgas",
+  image: "https://firebasestorage.googleapis.com/v0/b/gran-canaria-4e556.appspot.com/o/sightseeings%2Fcities%2Ffirgas%2FPaseo-De-Canarias.jpeg?alt=media&token=1f97cada-7366-46a9-b7cd-b948f4f80d81",
+  foldername: "cities/Firgas",
+  location: [28.10689628952579, -15.563455315828332],
+  orientation: "Norden",
+  tags: ["Arucas", "Teror", "Charco de Las Palomas"],
+  topic: "Städte",
+  type: "Stadtbesichtigung",
+  link: "https://www.grancanaria.com/turismo/de/wege-durch-die-insel/nordroute/firgas/",
+  info: `Der Paseo de Gran Canaria und Paseo de Canarias im Ortszentrum trugen ursprünglich die Bezeichnung Calle Real del Centro. Sie bilden Fußgängerzonen, deren natürliches Gefälle genutzt wurde, um einen schönen, 30 Meter langen Wasserfall aus dem örtlichen Stein anzulegen, der in einem Denkmal endet. An einer Seite des Paseo wurden die 22 Wappen der Gemeinden von Gran Canaria einschließlich des Inselwappens angebracht.`,
+  status: "gesehen"
 }, {
   name: "Agaete",
   hash: "Agaete",
@@ -255,7 +268,7 @@ export const sightseeings: Sightseeing[] = [{
         Dabei handelt es sich jedoch nicht um einen klassischen Wasserfall, der aus einem Fluss oder Bach entspricht. 
         Vielmehr entsteht dieser Wasserfall mit jeder Welle neu. La Garita beherbergt eine Lava-Küste, an der sich u.a. das Felsloch “El Bufadero” gebildet hat. 
         Übersetzt bedeutet dies soviel wie “der Fauchende”. Da El Bufadero an der Ostküste von Gran Canaria liegt, geht hier morgens die Sonne über dem Meer auf.`,
-  status: "nicht gesehen"
+  status: "gesehen"
 }, {
   name: "Charco de la Paloma",
   hash: "CharcoPaloma",
@@ -329,7 +342,7 @@ export const sightseeings: Sightseeing[] = [{
         Du kannst hier zunächst mit dem Auto hinauffahren, bis der Schotterweg beginnt. Am Rand gibt es Parkmöglichkeiten. 
         Der Fußweg hinauf zu den Höhlen dauert ca. 5 Minuten. Im Rahmen eines Rundwegs kannst du verschiedene Höhlen sehen. 
         Besonders eindrucksvoll sind die hinteren Höhlen “Los Pilares” (die Säulen). Sie sollen einst als Wohn- und Speicherhöhlen gedient haben.`,
-  status: "nicht gesehen"
+  status: "gesehen"
 }, {
   name: "La Fortaleza de Ansite",
   hash: "La-Fortaleza-de-Ansite",
@@ -506,7 +519,7 @@ export const sightseeings: Sightseeing[] = [{
         Ins Meer geflossene Lava ist erkaltet und hat natürliche Badebecken hinterlassen. 
         Teilweise wurden die Lavabecken mit Mauern noch vervollständigt oder zusätzlich gesichert. 
         Dieser Pool ist auch für kleine Kinder gut geeignet, da das Wasser in einigen der Naturpools flach ist.`,
-  status: "nicht gesehen"
+  status: "gesehen"
 }, {
   name: "Bodega Los Berrazales",
   hash: "Bodega-Los_Berrazales",

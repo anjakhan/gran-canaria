@@ -207,7 +207,7 @@ export const sightseeings: Sightseeing[] = [{
   type: "Aussichtspunkt",
   link: "https://www.hallokanarischeinseln.com/aussichtspunkte/gran-canaria/aussichtspunkt-mirador-de-la-degollada-de-las-yeguas/#",
   info: "Beliebter Aussichtspunkt in einem weitläufigen Naturschutzgebiet mit Panoramablick über die Schlucht.",
-  status: "nicht gesehen"
+  status: "gesehen"
 }, {
   name: "Barranco de los Cernicalos",
   hash: "BarrancoCernicalos",
@@ -346,7 +346,7 @@ export const sightseeings: Sightseeing[] = [{
         Sie versteckten sich in den Höhlen, die damals sowohl als Wohn- wie auch als Bestattungshöhlen gedient haben sollen. 
         Mehr über die Nutzung der Höhlen und das Leben der kanarischen Ureinwohner kannst du im nahegelegenen Museum erfahren 
         (Centro de Interpretación yacimiento arqueológico de La Fortaleza).`,
-  status: "nicht gesehen"
+  status: "gesehen"
 }, {
   name: "Pico de las Nieves",
   hash: "Pico-de-las-Nieves",

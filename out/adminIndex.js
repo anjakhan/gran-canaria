@@ -1644,7 +1644,7 @@ const sightseeings = [{
         link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/las-palmas-de-gran-canaria/",
         info: `Las Palmas bietet viele schöne Plazas mit Cafés und Restaurants, Strände zum Baden und Surfen sowie ein großes kulturelles Angebot. 
         Im Fokus stehen hierbei vor allem die Museen und Kirchen der Stadt.`,
-        status: "nicht gesehen"
+        status: "gesehen"
     }, {
         name: "Telde",
         hash: "Telde",
@@ -1799,7 +1799,7 @@ const sightseeings = [{
         topic: "Parks",
         type: "Tagesausflug",
         link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/gran-canaria-highlights/#7-arucas",
-        info: `Jardín de la Marquesa ist ein kostenpflichtiger, botanischer Garten. 
+        info: `Jardin de la Marquesa ist ein kostenpflichtiger, botanischer Garten. 
         Zu sehen gibt es über 500 verschiedene Pflanzenarten, Blumen, Palmen und einen aquarellfarbenen Springbrunnen. 
         Im großen Teich kannst du Schildkröten schwimmen sehen. Zudem laufen im botanischen Garten mehrere Pfaue, Hühner, Hähne und Katzen frei herum.`,
         status: "nicht gesehen"
@@ -1814,7 +1814,7 @@ const sightseeings = [{
         topic: "Parks",
         type: "Tagesausflug",
         link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/gran-canaria-ausfluege/#11-jardin-canario",
-        info: `Beim Jardín Canario handelt es sich um einen kostenfreien botanischen Garten, der eine Größe von ca. 27 Hektar umfasst. 
+        info: `Beim Jardin Canario handelt es sich um einen kostenfreien botanischen Garten, der eine Größe von ca. 27 Hektar umfasst. 
         Hier kannst du viele der etwa 500 Pflanzenarten sehen, die auf den kanarischen Inseln heimisch sind. 
         Der botanische Garten erstreckt sich dabei auch auf einen Hang, von dem aus du einen guten Blick über den Garten und die umliegende Landschaft hast. 
         Seit 1952 können Besucher hier die Pflanzenvielfalt der Kanaren sowie der umliegenden Inseln anschauen. 
@@ -2018,7 +2018,7 @@ const sightseeings = [{
         link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/gran-canaria-highlights/#cruz-de-tejeda",
         info: `Ein weiteres lohnenswertes Ausflugsziel in der Bergwelt auf Gran Canaria ist Cruz de Tejeda. Der kleine Ort bietet eine schöne Sicht auf das Bergpanorama. 
         Vor allem zum Sonnenuntergang ist der Blick in die Berge ein echtes Highlight! Nahe dem Aussichtspunkt gibt es auch Restaurants und Cafés.`,
-        status: "nicht gesehen"
+        status: "gesehen"
     }, {
         name: "Barranco de las Vacas",
         hash: "Barranco-de-las-Vacas",
@@ -2304,7 +2304,7 @@ const sightseeings = [{
         info: `Ebenfalls ein beliebter Ausflug mit Kindern führt dich ins Aquarium “Poema del Mar” nach Las Palmas. 
         Das Aquarium ist aufwendig gestaltet und unterteilt sich in drei Themenbereiche: Dschungel, Strand-Riff und Tiefsee. 
         Du findest hier u.a. Schildkröten, Rochen, Tintenfische, Quallen, Krebse, Piranhas und Aale. Auch Krokodile und Frösche sind hier beispielsweise Zuhause.`,
-        status: "nicht gesehen"
+        status: "gesehen"
     }, {
         name: "U-Boot Tour",
         hash: "U-Boot-Tour",

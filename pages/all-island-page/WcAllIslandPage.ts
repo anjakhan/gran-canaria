@@ -67,7 +67,7 @@ export class WcAllIslandPage extends LitElement {
   @property({ type: String }) topicFilter: Topic = "Gran-Canaria";
   @property({ type: String }) orientationFilter: Orientation = "Insel";
   @property({ type: String }) triptypeFilter: TripType = "Alle";
-  @property({ type: String }) statusFilter: "alle" | "gesehen" | "nicht gesehen" = "alle";
+  @property({ type: String }) statusFilter: "alle" | "gesehen" | "nicht gesehen" | "todo" = "alle";
 
   @query('#searchInput') searchInput: HTMLInputElement;
 
@@ -98,14 +98,14 @@ export class WcAllIslandPage extends LitElement {
     return td;
   }
 
-  filterByCategories(name: "topic" | "orientation" | "triptype" | "status", value: Topic | Orientation | TripType | "alle" | "gesehen" | "nicht gesehen"): void {
+  filterByCategories(name: "topic" | "orientation" | "triptype" | "status", value: Topic | Orientation | TripType | "alle" | "gesehen" | "nicht gesehen" | "todo"): void {
     this.searchInput.value = "";
     this.filteredSightseeings = sightseeings;
 
     if (name === "topic") this.topicFilter = <Topic>value;
     if (name === "orientation") this.orientationFilter = <Orientation>value;
     if (name === "triptype") this.triptypeFilter = <TripType>value;
-    if (name === "status") this.statusFilter = <"alle" | "gesehen" | "nicht gesehen">value;
+    if (name === "status") this.statusFilter = <"alle" | "gesehen" | "nicht gesehen" | "todo">value;
 
     if (this.topicFilter !== "Gran-Canaria") {
       this.filteredSightseeings = this.filteredSightseeings.filter(s => s.topic === this.topicFilter);
@@ -213,6 +213,7 @@ export class WcAllIslandPage extends LitElement {
 
           <select name="status" id="status" .value=${this.statusFilter} @change=${(e: { target: HTMLSelectElement }) => this.filterByCategories("status", <TripType>e.target.value)}>
             <option value="alle">Status ...</option>
+            <option value="todo">todo</option>
             <option value="gesehen">gesehen</option>
             <option value="nicht gesehen">nicht gesehen</option>
           </select>

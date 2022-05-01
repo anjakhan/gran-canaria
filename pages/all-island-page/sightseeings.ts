@@ -15,7 +15,7 @@ export type Sightseeing = {
   type: TripType,
   link: string,
   info: string,
-  status: "gesehen" | "nicht gesehen"
+  status: "gesehen" | "nicht gesehen" | "todo"
 }
 
 // use tag for later search options and for linking to other sightseeings with same name
@@ -207,7 +207,7 @@ export const sightseeings: Sightseeing[] = [{
         Der botanische Garten erstreckt sich dabei auch auf einen Hang, von dem aus du einen guten Blick über den Garten und die umliegende Landschaft hast. 
         Seit 1952 können Besucher hier die Pflanzenvielfalt der Kanaren sowie der umliegenden Inseln anschauen. 
         Vor allem der Kakteengarten ist für die meisten Besucher dabei ein Highlight.`,
-  status: "nicht gesehen"
+  status: "todo"
 }, {
   name: "Mirador Astronomico de la Degollada de las Yeguas",
   hash: "MiradorAstronomico",
@@ -326,7 +326,7 @@ export const sightseeings: Sightseeing[] = [{
         Auch einige Wohnhöhlen waren hier vorhanden. Heutzutage sind die Höhlen über Treppen gut zugänglich. 
         Neben den Höhlen selbst ist auch der Ausblick vom Cenobio de Valerón lohnenswert. 
         Die Aussicht reicht vom Atlantik über den Barranco de Calabozo auf die begrünte Berglandschaft.`,
-  status: "nicht gesehen"
+  status: "todo"
 }, {
   name: "Cuevas de Cuatro Puertas",
   hash: "Cuevas-de-cuatro-puertas",
@@ -419,7 +419,7 @@ export const sightseeings: Sightseeing[] = [{
   type: "Kurze Wanderung",
   link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/gran-canaria-highlights/#8-barranco-de-las-vacas",
   info: `Im Barranco de las Vacas fühlst du dich fast so, als wärst du im US-amerikanischen Antelope Canyon gelandet. Der Barranco de las Vacas ist jedoch deutlich kleiner. Von der GC-550 führt ein kurzer Wanderweg hinunter in den Barranco.`,
-  status: "nicht gesehen"
+  status: "todo"
 }, {
   name: "Barranco de Guayadeque",
   hash: "Barranco-de-Guayadeque",
@@ -435,7 +435,7 @@ export const sightseeings: Sightseeing[] = [{
         Die Höhlen, in denen früher einmal die Ureinwohner gelebt haben sollen, sind heutzutage zu komfortableren Höhlen-Wohnungen umgebaut worden. 
         Der Barranco de Guayadeque eignet sich gut als Ausflugsziel, um die Schönheit der Natur zu erleben, zu wandern und in eines der Höhlen-Restaurants einzukehren. 
         Im hinteren Teil der Schlucht gibt es einen kurzen Rundwanderweg. Zudem sind auch längere Wanderungen möglich.`,
-  status: "nicht gesehen"
+  status: "todo"
 }, {
   name: "Mirador Caldera Los Marteles",
   hash: "Mirador-Caldera-Los-Marteles",
@@ -468,7 +468,7 @@ export const sightseeings: Sightseeing[] = [{
         Oben erwartet dich dann nicht nur eine tolle Aussicht auf den Vulkankrater, sondern auch auf das Umland. 
         Hier kannst du z.B. auch Las Palmas, die Hauptstadt von Gran Canaria, gut überblicken. 
         Zudem werden deine Augen von den schönen Aussichten auf die Berglandschaft und das Meer verwöhnt.`,
-  status: "nicht gesehen"
+  status: "todo"
 }, {
   name: "Charco de San Lorenzo",
   hash: "Charco-de-San-Lorenzo",
@@ -503,7 +503,7 @@ export const sightseeings: Sightseeing[] = [{
         Besonders ausgefallen und wenig bekannt ist die Cueva de la Reina. Sie liegt im Ort La Garita. 
         Die Wohnsiedlung oberhalb des Naturpools lässt zunächst nicht vermuten, dass sich hier ein wahres Highlight auf Gran Canaria befindet. 
         Es handelt sich um eine Höhle, in der sich ein kleiner Naturpool befindet.`,
-  status: "nicht gesehen"
+  status: "todo"
 }, {
   name: "Charco de Las Palomas",
   hash: "Charco-de-Las-Palomas",
@@ -536,7 +536,7 @@ export const sightseeings: Sightseeing[] = [{
         Die jährliche Erntemenge liegt bei ca. 1.500 Kilogramm. Der Name “Bodega” bedeutet aus dem Spanischen übersetzt übrigens auch Weinkeller. 
         Zum Probieren werden dir neben Kaffee auch Wein bzw. ein alkoholfreies Getränk für Kinder, Käse und Brot mit Aufstrich gereicht. 
         Je nach Saison kannst du zudem das erntefrische Obst probieren. Auf der Plantage wachsen z.B. Orangen, Mangos, Guaven und Avocados.`,
-  status: "nicht gesehen"
+  status: "todo"
 }, {
   name: "Museo y Parque Arqueológico Cueva Pintada",
   hash: "Cueva-Pintada",
@@ -658,7 +658,7 @@ export const sightseeings: Sightseeing[] = [{
         Zudem gibt es um 13:00 Uhr auch eine Krokodil-Show. Der Tierpark umfasst eine Fläche von über 22.000 Quadratmetern. 
         Für deinen Besuch ist der Cocodrilo Park freitags, samstags und sonntags zwischen 10:30 und 16:30 Uhr geöffnet. 
         Die Eintrittsgebühr liegt bei 9,90 Euro für Erwachsene bzw. 6,90 Euro für Kinder zwischen 3 und 12 Jahre.`,
-  status: "nicht gesehen"
+  status: "todo"
 }, {
   name: "Sioux City Park (Wild West)",
   hash: "Sioux-City-Park",
@@ -722,7 +722,7 @@ export const sightseeings: Sightseeing[] = [{
         Erfrische dich mit einem kühlen Getränk von der Bar an Bord. 
         Das Boot fährt so nahe wie möglich an diese erstaunlichen Meeresbewohner heran, so dass du die Tiere in ihrem natürlichen Lebensraum sehen kannst. 
         Beobachte die Delfine und Wale beim Spielen im Wasser und schieße tolle Erinnerungsfotos.`,
-  status: "nicht gesehen"
+  status: "todo"
 }, {
   name: "Museo Elder de la Ciencia y la Tecnologia",
   hash: "Museo-Tecnologia",
@@ -751,7 +751,7 @@ export const sightseeings: Sightseeing[] = [{
   info: `Die Elektroroller im Harley-Stil sind eine bequeme und umweltfreundliche Möglichkeit, den Süden Gran Canarias während deines Urlaubs mühelos mit deinem Partner, 
         deiner Familie oder deinen Freunden zu erkunden - nur ein Führerschein ist erforderlich. Es ist empfehlenswert, dein beeindruckendes Erlebnis mit einem Besuch der 
         Meloneras-Promenade abzurunden, die als die schönste Promenade im Süden Gran Canarias gilt und einen hervorragenden Blick auf das Meer bietet.`,
-  status: "nicht gesehen"
+  status: "todo"
 }, {
   name: "Radtour",
   hash: "Radtour",

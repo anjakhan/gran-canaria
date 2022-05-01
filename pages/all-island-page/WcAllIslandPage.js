@@ -208,6 +208,7 @@ let WcAllIslandPage = class WcAllIslandPage extends LitElement {
 
           <select name="status" id="status" .value=${this.statusFilter} @change=${(e) => this.filterByCategories("status", e.target.value)}>
             <option value="alle">Status ...</option>
+            <option value="todo">todo</option>
             <option value="gesehen">gesehen</option>
             <option value="nicht gesehen">nicht gesehen</option>
           </select>

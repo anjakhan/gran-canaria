@@ -1759,7 +1759,7 @@ const sightseeings = [{
         info: `Arinaga zählt zur Gemeinde Agüimes und beherbergt etwas mehr als 9.000 Einwohner. Früher wurde hier einmal Kalk abgebaut, das für die ganze Insel genutzt wurde. 
         An der Promenade kannst du heute noch einige alte Kalköfen anschauen. Zwischenzeitlich war der Ort zudem auch ein wichtiges Fischerei-Zentrum. 
         Auch heutzutage kannst du entlang der Promenade noch viele Angler und Fischer sehen.`,
-        status: "nicht gesehen"
+        status: "gesehen"
     }, {
         name: "Artenara",
         hash: "Artenara",
@@ -1938,7 +1938,7 @@ const sightseeings = [{
         Auch einige Wohnhöhlen waren hier vorhanden. Heutzutage sind die Höhlen über Treppen gut zugänglich. 
         Neben den Höhlen selbst ist auch der Ausblick vom Cenobio de Valerón lohnenswert. 
         Die Aussicht reicht vom Atlantik über den Barranco de Calabozo auf die begrünte Berglandschaft.`,
-        status: "nicht gesehen"
+        status: "gesehen"
     }, {
         name: "Cuevas de Cuatro Puertas",
         hash: "Cuevas-de-cuatro-puertas",
@@ -2031,7 +2031,7 @@ const sightseeings = [{
         type: "Kurze Wanderung",
         link: "https://www.unaufschiebbar.de/reiseziele/europa/kanarische-inseln/gran-canaria-highlights/#8-barranco-de-las-vacas",
         info: `Im Barranco de las Vacas fühlst du dich fast so, als wärst du im US-amerikanischen Antelope Canyon gelandet. Der Barranco de las Vacas ist jedoch deutlich kleiner. Von der GC-550 führt ein kurzer Wanderweg hinunter in den Barranco.`,
-        status: "nicht gesehen"
+        status: "gesehen"
     }, {
         name: "Barranco de Guayadeque",
         hash: "Barranco-de-Guayadeque",
@@ -2047,7 +2047,7 @@ const sightseeings = [{
         Die Höhlen, in denen früher einmal die Ureinwohner gelebt haben sollen, sind heutzutage zu komfortableren Höhlen-Wohnungen umgebaut worden. 
         Der Barranco de Guayadeque eignet sich gut als Ausflugsziel, um die Schönheit der Natur zu erleben, zu wandern und in eines der Höhlen-Restaurants einzukehren. 
         Im hinteren Teil der Schlucht gibt es einen kurzen Rundwanderweg. Zudem sind auch längere Wanderungen möglich.`,
-        status: "nicht gesehen"
+        status: "gesehen"
     }, {
         name: "Mirador Caldera Los Marteles",
         hash: "Mirador-Caldera-Los-Marteles",
@@ -2080,7 +2080,7 @@ const sightseeings = [{
         Oben erwartet dich dann nicht nur eine tolle Aussicht auf den Vulkankrater, sondern auch auf das Umland. 
         Hier kannst du z.B. auch Las Palmas, die Hauptstadt von Gran Canaria, gut überblicken. 
         Zudem werden deine Augen von den schönen Aussichten auf die Berglandschaft und das Meer verwöhnt.`,
-        status: "nicht gesehen"
+        status: "gesehen"
     }, {
         name: "Charco de San Lorenzo",
         hash: "Charco-de-San-Lorenzo",
@@ -2148,7 +2148,7 @@ const sightseeings = [{
         Die jährliche Erntemenge liegt bei ca. 1.500 Kilogramm. Der Name “Bodega” bedeutet aus dem Spanischen übersetzt übrigens auch Weinkeller. 
         Zum Probieren werden dir neben Kaffee auch Wein bzw. ein alkoholfreies Getränk für Kinder, Käse und Brot mit Aufstrich gereicht. 
         Je nach Saison kannst du zudem das erntefrische Obst probieren. Auf der Plantage wachsen z.B. Orangen, Mangos, Guaven und Avocados.`,
-        status: "nicht gesehen"
+        status: "gesehen"
     }, {
         name: "Museo y Parque Arqueológico Cueva Pintada",
         hash: "Cueva-Pintada",
@@ -2334,7 +2334,7 @@ const sightseeings = [{
         Erfrische dich mit einem kühlen Getränk von der Bar an Bord. 
         Das Boot fährt so nahe wie möglich an diese erstaunlichen Meeresbewohner heran, so dass du die Tiere in ihrem natürlichen Lebensraum sehen kannst. 
         Beobachte die Delfine und Wale beim Spielen im Wasser und schieße tolle Erinnerungsfotos.`,
-        status: "nicht gesehen"
+        status: "gesehen"
     }, {
         name: "Museo Elder de la Ciencia y la Tecnologia",
         hash: "Museo-Tecnologia",
@@ -2363,7 +2363,7 @@ const sightseeings = [{
         info: `Die Elektroroller im Harley-Stil sind eine bequeme und umweltfreundliche Möglichkeit, den Süden Gran Canarias während deines Urlaubs mühelos mit deinem Partner, 
         deiner Familie oder deinen Freunden zu erkunden - nur ein Führerschein ist erforderlich. Es ist empfehlenswert, dein beeindruckendes Erlebnis mit einem Besuch der 
         Meloneras-Promenade abzurunden, die als die schönste Promenade im Süden Gran Canarias gilt und einen hervorragenden Blick auf das Meer bietet.`,
-        status: "nicht gesehen"
+        status: "gesehen"
     }, {
         name: "Radtour",
         hash: "Radtour",
@@ -2601,6 +2601,7 @@ let WcAllIslandPage = class WcAllIslandPage extends h {
 
           <select name="status" id="status" .value=${this.statusFilter} @change=${(e) => this.filterByCategories("status", e.target.value)}>
             <option value="alle">Status ...</option>
+            <option value="todo">todo</option>
             <option value="gesehen">gesehen</option>
             <option value="nicht gesehen">nicht gesehen</option>
           </select>
